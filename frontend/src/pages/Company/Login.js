@@ -28,7 +28,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function CompanySignUp() {
+export default function CompanyLogin() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -55,53 +55,11 @@ export default function CompanySignUp() {
             <LockOutlinedIcon />
           </Avatar> */}
           <Typography component="h1" variant="h5">
-            Sign up
+           Login
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
               
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="Company name"
-                  required
-                  fullWidth
-                  id="companyName"
-                  label="Company Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="cityname"
-                  label="City Name"
-                  name="CityName"
-                  autoComplete="family-name"
-                />
-              </Grid> 
               <Grid item xs={12}>
                 <TextField
                   required
@@ -136,12 +94,12 @@ export default function CompanySignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Login
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="#" variant="body2">
-                  Already have an account? Sign in
+                  Don't have an account? Sign up
                 </Link>
               </Grid>
             </Grid>
