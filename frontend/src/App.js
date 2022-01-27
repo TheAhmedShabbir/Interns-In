@@ -1,19 +1,18 @@
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Login from "./pages/Login";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React, { Component } from 'react';
+import Login from "./pages/User/Login";
+import SignUp from "./pages/User/SignUp";
 import './App.css';
 
 export default function App() {
   return (
     <Router>
-      {/* <AppBar /> */}
       <div className="App">
-        <Switch>
-          <Route exact path="/Login">
-            <Login />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/Login" element={<Login />}></Route>
+          <Route path="/SignUp" element={<SignUp />}></Route>
+        </Routes>
       </div>
-    </Router>
+      </Router>
   );
 }
