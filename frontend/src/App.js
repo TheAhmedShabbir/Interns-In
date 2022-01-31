@@ -1,10 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React, { Component } from 'react';
-import Login from "./pages/Login";
+import Signin from "./pages/Signin";
 import SignUp from "./pages/User/SignUp";
+import AdminProfile from "./pages/Admin/AdminProfile";
 import './App.css';
-import CompanySignUp from "./pages/Company/SignUp";
-import CompanyLogin from "./pages/Company/Login";
 
 export default function App() {
   return (
@@ -12,8 +11,10 @@ export default function App() {
       <div className="App">
         <Routes>
           
-          <Route path="/Login" element={<Login />}></Route>
+          <Route path="/Signin" element={<Signin />}></Route>
           <Route path="/SignUp" element={<SignUp />}></Route>
+          <Route path="/AdminProfile" element={<AdminProfile />}></Route>
+
         </Routes>
       </div>
       </Router>
