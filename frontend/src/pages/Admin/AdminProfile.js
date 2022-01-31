@@ -1,13 +1,13 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import { Button } from "@mui/material";
 
 export default function AdminProfile() {
-
   return (
     <div>
-      <h1 style={{ textAlign: "center", color: "#3f51b5" }}>Profile</h1>
+      <h1 style={{ textAlign: "center", marginTop: "80px" }}>Admin Profile</h1>
       <div style={{ borderRadius: "25px" }}>
         <div
           style={{
@@ -17,45 +17,79 @@ export default function AdminProfile() {
             minHeight: "60vh",
           }}
         >
-          <Card xs={{ minWidth: 500, padding: "20px" }}>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="h2"
-              style={{ textAlign: "center" }}
-            ></Typography>
-            <CardContent>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              "& > :not(style)": {
+                m: 1,
+                width: 450,
+                height: 400,
+              },
+            }}
+          >
+            <Paper
+              elevation={3}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
               <div>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="p"
-                      color="primary"
-                      style={{ textAlign: "center" }}
-                    >
-                      Name
-                    </Typography>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="p"
-                      color="primary"
-                      style={{ textAlign: "center" }}
-                    >
-                      Password
-                    </Typography>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="p"
-                      color="primary"
-                      style={{ textAlign: "center" }}
-                    >
-                      Email
-                    </Typography>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    alignContent: "center",
+                    paddingLeft: "20px",
+                    paddingRight: "20px",
+                  }}
+                >
+                  <h2>Name</h2>
+                  <Button>Edit</Button>
+                </div>
+                <Typography>Ahmed Shabbir</Typography>
               </div>
-            </CardContent>
-          </Card>
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    alignContent: "center",
+                    paddingLeft: "20px",
+                    paddingRight: "20px",
+                  }}
+                >
+                  <h2>Password</h2>
+                  <Button>Edit</Button>
+                </div>
+                <Typography>**********</Typography>
+              </div>
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    alignContent: "center",
+                    paddingLeft: "20px",
+                    paddingRight: "20px",
+                  }}
+                >
+                  <h2>Email</h2>
+                  <Button>Edit</Button>
+                </div>
+                <Typography>abc@gmail.com</Typography>
+              </div>
+              <div></div>
+            </Paper>
+          </Box>
         </div>
       </div>
     </div>

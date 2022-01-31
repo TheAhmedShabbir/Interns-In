@@ -1,8 +1,8 @@
 import React from 'react';
-import Generalheader from '../Components/General/header';
+import Generalheader from '../Components/Common/header';
 
 
-export default function Homepage() {
+export default function Mainpage() {
   return <div>
     <Generalheader/>
     <div>

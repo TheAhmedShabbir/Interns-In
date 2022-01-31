@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Signin from "./pages/Signin";
 import SignUp from "./pages/User/SignUp";
 import AdminProfile from "./pages/Admin/AdminProfile";
+import Mainpage from "./pages/Mainpage";
 import './App.css';
 
 export default function App() {
@@ -10,7 +11,7 @@ export default function App() {
     <Router>
       <div className="App">
         <Routes>
-          
+          <Route path="/Mainpage" element={<Mainpage />}></Route>
           <Route path="/Signin" element={<Signin />}></Route>
           <Route path="/SignUp" element={<SignUp />}></Route>
           <Route path="/AdminProfile" element={<AdminProfile />}></Route>
