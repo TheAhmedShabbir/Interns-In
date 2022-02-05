@@ -7,6 +7,8 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import UserProfile from "./pages/User/UserProfile";
 import CompanyProfile from "./pages/Company/CompanyProfile";
 import Mainpage from "./pages/Mainpage";
+import UserHomepage from "./pages/User/UserHomepage";
+import ViewApplicants from "./pages/Company/ViewApplicants";
 import "./App.css";
 
 export default function App() {
@@ -21,6 +23,8 @@ export default function App() {
           <Route path="/AdminDashboard" element={<AdminDashboard />}></Route>
           <Route path="/UserProfile" element={<UserProfile />}></Route>
           <Route path="/CompanyProfile" element={<CompanyProfile />}></Route>
+          <Route path="/UserHomePage" element={<UserHomepage />}></Route>
+          <Route path="/ViewApplicants" element={<ViewApplicants />}></Route>
         </Routes>
       </div>
     </Router>
