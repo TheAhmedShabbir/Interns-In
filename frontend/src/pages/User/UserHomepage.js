@@ -1,5 +1,7 @@
 import React from "react";
 import { Button, Checkbox, TextField } from "@mui/material";
+import { FormControlLabel } from "@mui/material";
+
 export default function UserHomepage() {
   return (
     <div>
@@ -78,13 +80,13 @@ export default function UserHomepage() {
             }}
           >
             <div>
-              <TextField></TextField>
+              <TextField fullWidth defaultValue="search jobs" />
             </div>
             <div>
-              <Checkbox> Full Time</Checkbox>
-              <Checkbox> Part Time</Checkbox>
-              <Checkbox> Internship</Checkbox>
-              <Button>Search</Button>
+              <FormControlLabel control={<Checkbox />} label="Full Time" />
+              <FormControlLabel control={<Checkbox />} label="Part Time" />
+              <FormControlLabel control={<Checkbox />} label="Internship" />
+              <Button variant="outlined">Search</Button>
             </div>
           </div>
           <div
