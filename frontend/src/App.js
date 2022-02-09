@@ -10,6 +10,7 @@ import Mainpage from "./pages/Mainpage";
 import UserHomepage from "./pages/User/UserHomepage";
 import ViewApplicants from "./pages/Company/ViewApplicants";
 import CompanyHomePage from "./pages/Company/CompanyHomePage";
+import Forums from "./pages/Forums";
 import "./App.css";
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/UserHomePage" element={<UserHomepage />}></Route>
           <Route path="/ViewApplicants" element={<ViewApplicants />}></Route>
           <Route path="/CompanyHomePage" element={<CompanyHomePage />}></Route>
+          <Route path="/Forums" element={<Forums />}></Route>
         </Routes>
       </div>
     </Router>
