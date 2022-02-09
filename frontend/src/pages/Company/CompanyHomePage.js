@@ -12,9 +12,26 @@ export default function CompanyHomePage() {
     const [startDate, setStartDate] = useState(null);
   return <div>
       <CompanyHeader />
-      <div style={{display : 'flex', flexDirection : 'row', justifyContent : 'space-evenly', width : '100%', paddingTop : '50px'}}>
-      <div style={{display : 'flex', flexDirection : 'column', width : '300px', minHeight : '500px', maxHeight : '1000px', border : '2px solid blue'}}>
-          
+      <div style={{display : 'flex', flexDirection : 'row', justifyContent : 'space-evenly', width : '100%', height : '1000px' ,paddingTop : '50px'}}>
+      <div style={{display : 'flex', flexDirection : 'column', alignItems : 'center' ,width : '300px', minHeight : '500px', maxHeight : '1000px', border : '2px solid blue'}}>
+          <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', width : '250px', height: '200px', paddingTop : '50px'}}>
+            <Button>Username</Button>
+          </div>
+          <div  style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', width : '250px', height: '400px', backgroundColor : 'gray', paddingTop : '50px'}}>
+            <h4>Previous Posts</h4>
+            <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', backgroundColor : 'white' , margin : '10px'}}>
+              <h5>Previous post 1</h5>
+            </div>
+            <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', backgroundColor : 'white' , margin : '10px'}}>
+              <h5>Previous post 2</h5>
+            </div>
+            <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', backgroundColor : 'white' , margin : '10px'}}>
+              <h5>Previous post 3</h5>
+            </div>
+            <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', backgroundColor : 'white' , margin : '10px'}}>
+              <h5>Previous post 4</h5>
+            </div>
+          </div>
       </div>
       <div style={{display : 'flex', flexDirection : 'column',alignItems : 'center',width : '800px', minHeight : '500px', maxHeight : '1000px' ,border : '2px solid blue'}}>
           <h3>Add A New Post</h3>
