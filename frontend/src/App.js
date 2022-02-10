@@ -11,6 +11,7 @@ import UserHomepage from "./pages/User/UserHomepage";
 import ViewApplicants from "./pages/Company/ViewApplicants";
 import CompanyHomePage from "./pages/Company/CompanyHomePage";
 import Forums from "./pages/Forums";
+import Notifications from "./pages/Notifications";
 import "./App.css";
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/ViewApplicants" element={<ViewApplicants />}></Route>
           <Route path="/CompanyHomePage" element={<CompanyHomePage />}></Route>
           <Route path="/Forums" element={<Forums />}></Route>
+          <Route path="/Notifications" element={<Notifications />}></Route>
         </Routes>
       </div>
     </Router>
