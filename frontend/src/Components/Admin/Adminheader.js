@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 // import MenuIcon from '@mui/icons-material/Menu';
 import {Link} from 'react-router-dom';
 
-export default function CompanyHeader() {
+export default function AdminHeader() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
