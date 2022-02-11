@@ -61,7 +61,7 @@ export default function Homepage() {
                 label="City"
               />
             </div>
-            <Button style={{ margin: "10px" }} variant="contained">
+            <Button style={{ marginTop: "25px" }} variant="contained">
               Search
             </Button>
           </div>

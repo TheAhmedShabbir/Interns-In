@@ -1,20 +1,16 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
+import AdminHeader from "../../Components/Admin/Adminheader";
 
 export default function AdminDashboard() {
   return (
     <div>
-      <h1
-        style={{ textAlign: "center", marginTop: "50px", marginBottom: "40px" }}
-      >
-        Admin Dashboard
-      </h1>
+      <AdminHeader />
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-evenly",
-          backgroundColor: "grey",
           padding: "50px",
           margin: "10px",
           borderRadius: "10px",
@@ -23,7 +19,7 @@ export default function AdminDashboard() {
         <div
           style={{
             borderRadius: "10px",
-            backgroundColor: "blue",
+            border: "2px solid blue",
             padding: "15px",
           }}
         >
@@ -33,7 +29,7 @@ export default function AdminDashboard() {
         <div
           style={{
             borderRadius: "10px",
-            backgroundColor: "blue",
+            border: "2px solid blue",
             padding: "15px",
           }}
         >
@@ -43,7 +39,7 @@ export default function AdminDashboard() {
         <div
           style={{
             borderRadius: "10px",
-            backgroundColor: "blue",
+            border: "2px solid blue",
             padding: "15px",
           }}
         >
@@ -53,7 +49,7 @@ export default function AdminDashboard() {
         <div
           style={{
             borderRadius: "10px",
-            backgroundColor: "blue",
+            border: "2px solid blue",
             padding: "15px",
           }}
         >
@@ -66,7 +62,7 @@ export default function AdminDashboard() {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-evenly",
-          backgroundColor: "grey",
+          flexWrap: "wrap",
           padding: "50px",
           margin: "10px",
           borderRadius: "10px",
@@ -75,22 +71,24 @@ export default function AdminDashboard() {
         <div
           style={{
             borderRadius: "10px",
-            backgroundColor: "blue",
-            height: "250px",
-            width: "250px",
+            border: "2px solid blue",
+            height: "400px",
+            width: "400px",
+            margin: "10px",
           }}
         >
-          <h2>graph 1</h2>
+          <h2>Users Joining</h2>
         </div>
         <div
           style={{
             borderRadius: "10px",
-            backgroundColor: "blue",
-            height: "250px",
-            width: "250px",
+            border: "2px solid blue",
+            height: "400px",
+            width: "400px",
+            margin: "10px",
           }}
         >
-          <h2>graph 2</h2>
+          <h2>Companies Joining</h2>
         </div>
       </div>
     </div>
