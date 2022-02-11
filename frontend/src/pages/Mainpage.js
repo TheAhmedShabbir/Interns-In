@@ -83,39 +83,48 @@ export default function Homepage() {
           justifyContent: "space-evenly",
           paddingTop: "150px",
           paddingBottom: "150px",
+          alignItems: "center",
         }}
       >
         <p style={{ fontSize: "35px" }}>
           <b>Find the Right job/internship for you.</b>
         </p>
-        <Button>Choose field</Button>
+        <Button size="large" variant="contained">
+          Choose field
+        </Button>
       </div>
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-evenly",
-          padding: "150px",
           backgroundColor: "#548CCB",
+          padding: "40px",
           color: "white",
+          height: "400px",
         }}
       >
-        <h1>Who Is Interns-In For?</h1>
-        <p>Anyone looking to start a professional carrer</p>
+        <Typography style={{ fontSize: "40px", marginBottom: "30px" }}>
+          <b>Who Is Interns-In For?</b>
+        </Typography>
+        <p>Anyone looking to start a professional career</p>
       </div>
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-evenly",
-          paddingTop: "150px",
-          paddingBottom: "150px",
+          alignItems: "center",
+          padding: "40px",
+          height: "400px",
         }}
       >
         <p style={{ fontSize: "35px" }}>
           <b>Post Your Jobs For Millions of People to See</b>
         </p>
-        <Button>Post Now</Button>
+        <Button size="large" variant="contained">
+          Post Now
+        </Button>
       </div>
       <div
         style={{
