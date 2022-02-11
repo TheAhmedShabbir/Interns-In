@@ -2,6 +2,7 @@ import { Button } from '@mui/material';
 import React from 'react';
 import Generalheader from '../Components/Common/header';
 import TextField from '@mui/material/TextField';
+import img from '../assets/images/mainpage_img.jpg';
 
 export default function Homepage() {
   return <div>
@@ -48,7 +49,7 @@ export default function Homepage() {
 
       </div>
       <div>
-      <img src={"../assets/images/mainpage_img.jpg"} alt="img"/>
+      <img style={{height : '600px', width : '900px' }} src={img} alt="img"/>
       </div>
     </div>
     <div style = {{display : "flex",
