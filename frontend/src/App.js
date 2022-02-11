@@ -19,15 +19,15 @@ export default function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Mainpage />}></Route>
+          {/* <Route path="/" element={<Mainpage />}></Route>
           <Route path="/Signin" element={<Signin />}></Route>
           <Route path="/SignUp" element={<SignUp />}></Route>
           <Route path="/AdminProfile" element={<AdminProfile />}></Route>
           <Route path="/AdminDashboard" element={<AdminDashboard />}></Route>
           <Route path="/UserProfile" element={<UserProfile />}></Route>
           <Route path="/CompanyProfile" element={<CompanyProfile />}></Route>
-          <Route path="/UserHomePage" element={<UserHomepage />}></Route>
-          <Route path="/ViewApplicants" element={<ViewApplicants />}></Route>
+          <Route path="/UserHomePage" element={<UserHomepage />}></Route> */}
+          <Route path="/" element={<ViewApplicants />}></Route>
           <Route path="/CompanyHomePage" element={<CompanyHomePage />}></Route>
           <Route path="/Forums" element={<Forums />}></Route>
           <Route path="/Notifications" element={<Notifications />}></Route>

@@ -1,26 +1,30 @@
 import { Button, Typography } from "@mui/material";
 import React from "react";
+import CompanyHeader from "../../Components/Company/CompanyHeader";
+import Userpfp from "../../assets/images/Userpfp.jpg";
+
+
 
 export default function Homepage() {
   return (
     <div>
-      <h1>This is View Applicants Page</h1>
+     <CompanyHeader/>
       <div
         style={{
           maxWidth: "1100px",
-          backgroundColor: "blue",
+          backgroundColor: "#548CCB",
           padding: "20px",
           borderRadius: "10px",
           marginLeft: "auto",
           marginRight: "auto",
-          marginTop: "10px",
+          marginTop: "30px",
           marginBottom: "10px",
         }}
       >
-        <h2>View Applicants</h2>
+        <h2 style={{color : 'white'}}>View Applicants</h2>
         <div
           style={{
-            backgroundColor: "gray",
+            backgroundColor: "white",
             display: "flex",
             flexDirection: "row",
             padding: "15px",
@@ -58,7 +62,7 @@ export default function Homepage() {
         </div>
         <div
           style={{
-            backgroundColor: "gray",
+            backgroundColor: "white",
             display: "flex",
             flexDirection: "row",
             padding: "15px",
@@ -84,7 +88,7 @@ export default function Homepage() {
                 marginRight: "10px",
               }}
             >
-              Image
+              {/* <img src = {Userpfp} alt = "img"/> */}
             </div>
             <Typography style={{ marginLeft: "15px" }}>User 456</Typography>
           </div>
@@ -96,7 +100,7 @@ export default function Homepage() {
         </div>
         <div
           style={{
-            backgroundColor: "gray",
+            backgroundColor: "white",
             display: "flex",
             flexDirection: "row",
             padding: "15px",
