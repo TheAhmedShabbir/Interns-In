@@ -22,6 +22,9 @@ export default function Homepage() {
         }}
       >
         <h2 style={{color : 'white'}}>View Applicants</h2>
+        <div>
+          <Button style = {{color : 'white'}}>Vew Shortlisted Candidates</Button>
+        </div>
         <div
           style={{
             backgroundColor: "white",
@@ -41,17 +44,18 @@ export default function Homepage() {
               alignItems: "center",
             }}
           >
-            <div
+            <img
               style={{
                 height: "100px",
                 width: "100px",
-                backgroundColor: "red",
+                // backgroundColor: "red",
                 borderRadius: "50px",
                 marginRight: "10px",
               }}
-            >
-              Image
-            </div>
+            
+              src = {Userpfp}
+              alt = "img"
+            />
             <Typography style={{ marginLeft: "15px" }}>User 123</Typography>
           </div>
           <div>
@@ -79,17 +83,19 @@ export default function Homepage() {
               alignItems: "center",
             }}
           >
-            <div
+             <img
               style={{
                 height: "100px",
                 width: "100px",
-                backgroundColor: "red",
+                // backgroundColor: "red",
                 borderRadius: "50px",
                 marginRight: "10px",
+                
               }}
-            >
-              {/* <img src = {Userpfp} alt = "img"/> */}
-            </div>
+            
+              src = {Userpfp}
+              alt = "img"
+            />
             <Typography style={{ marginLeft: "15px" }}>User 456</Typography>
           </div>
           <div>
@@ -117,17 +123,18 @@ export default function Homepage() {
               alignItems: "center",
             }}
           >
-            <div
+             <img
               style={{
                 height: "100px",
                 width: "100px",
-                backgroundColor: "red",
+                // backgroundColor: "red",
                 borderRadius: "50px",
                 marginRight: "10px",
               }}
-            >
-              Image
-            </div>
+            
+              src = {Userpfp}
+              alt = "img"
+            />
             <Typography style={{ marginLeft: "15px" }}>User 789</Typography>
           </div>
           <div>

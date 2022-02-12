@@ -22,22 +22,22 @@ export default function CompanyHeader() {
           >
             <MenuIcon />
           </IconButton> */}
-          <Typography>
+          <Typography style = {{fontSize : '30px'}}>
               Interns-In
           </Typography>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             
           </Typography>
-          <Link to="/CompanyHomePage">
+          <Link to="/CompanyHomePage" style={{color : 'white', textDecoration : 'none'}}>
           <Button color="inherit">Home</Button>
           </Link>
-          <Link to="/Notifications">
+          <Link to="/Notifications" style={{color : 'white', textDecoration : 'none'}}>
           <Button color="inherit">Notifications</Button>
           </Link>
-          <Link to="/Forums">
+          <Link to="/Forums" style={{color : 'white', textDecoration : 'none'}}>
           <Button color="inherit">Forums</Button>
           </Link>
-          <Link to="/CompanyProfile">
+          <Link to="/CompanyProfile" style={{color : 'white', textDecoration : 'none'}}>
           <Button color="inherit">Me</Button>
           </Link>
           

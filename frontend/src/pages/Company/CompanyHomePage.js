@@ -7,33 +7,75 @@ import Checkbox from '@mui/material/Checkbox';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button } from '@mui/material';
+import Userpfp from "../../assets/images/Userpfp.jpg";
 
 export default function CompanyHomePage() {
     const [startDate, setStartDate] = useState(null);
   return <div>
       <CompanyHeader />
-      <div style={{display : 'flex', flexDirection : 'row', justifyContent : 'space-evenly', width : '100%', height : '1000px' ,paddingTop : '50px'}}>
-      <div style={{display : 'flex', flexDirection : 'column', alignItems : 'center' ,width : '300px', minHeight : '500px', maxHeight : '1000px', border : '2px solid blue'}}>
-          <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', width : '250px', height: '200px', paddingTop : '50px'}}>
+      <div style={{display : 'flex', flexDirection : 'row', justifyContent : 'space-evenly', width : '100%', height : '1100px' ,paddingTop : '50px' , backgroundColor : '#D5DBDB'}}>
+      
+      
+      <div style={{display : 'flex', flexDirection : 'column', alignItems : 'center' ,width : '300px', minHeight : '500px', maxHeight : '1050px', border : '2px solid #548CCB', backgroundColor : 'white'}}>
+          <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', width : '250px', height: '200px', alignItems : 'center' , backgroundColor : 'white'}}>
+            <img
+              style={{
+                height: "200px",
+                width: "200px",
+                // backgroundColor: "red",
+                borderRadius: "100px",
+                border : '2px solid #548CCB',
+                // marginRight: "10px",
+              }}
+            
+              src = {Userpfp}
+              alt = "img"
+            />
             <Button>Username</Button>
           </div>
-          <div  style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', width : '250px', height: '400px', backgroundColor : 'gray', paddingTop : '50px'}}>
-            <h4>Previous Posts</h4>
-            <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', backgroundColor : 'white' , margin : '10px'}}>
-              <h5>Previous post 1</h5>
+
+
+          <div  style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', width : '250px', height: '330px', backgroundColor : '#548CCB', marginTop : '50px', borderRadius : '20px'}}>
+            <h4>Active Posts</h4>
+
+            <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', backgroundColor : 'white' , margin : '10px', borderRadius : '10px'}}>
+              <h5>Active post 1</h5>
+              <Button>View Applicants</Button>
             </div>
-            <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', backgroundColor : 'white' , margin : '10px'}}>
-              <h5>Previous post 2</h5>
+            <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', backgroundColor : 'white' , margin : '10px', borderRadius : '10px'}}>
+              <h5>Active post 2</h5>
+              <Button >View Applicants</Button>
             </div>
-            <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', backgroundColor : 'white' , margin : '10px'}}>
-              <h5>Previous post 3</h5>
-            </div>
-            <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', backgroundColor : 'white' , margin : '10px'}}>
-              <h5>Previous post 4</h5>
+            <div>
+              <Button style = {{color : 'white'}}>View All</Button>
             </div>
           </div>
+
+
+           <div  style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', width : '250px', height: '440px', backgroundColor : '#548CCB', marginTop : '20px', borderRadius : '20px'}}>
+            <h4>Previous Posts</h4>
+
+            <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', backgroundColor : 'white' , margin : '10px', borderRadius : '10px'}}>
+              <h5>Previous post 1</h5>
+              <Button >View Applicants</Button>
+            </div>
+            <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', backgroundColor : 'white' , margin : '10px', borderRadius : '10px'}}>
+              <h5>Previous post 2</h5>
+              <Button >View Applicants</Button>
+            </div>
+            <div style={{display : 'flex', flexDirection : 'column', justifyContent : 'space-evenly', backgroundColor : 'white' , margin : '10px', borderRadius : '10px'}}>
+              <h5>Previous post 3</h5>
+              <Button >View Applicants</Button>
+            </div>
+            <div>
+              <Button style = {{color : 'white'}}>View All</Button>
+            </div>
+            
+          </div>
       </div>
-      <div style={{display : 'flex', flexDirection : 'column',alignItems : 'center',width : '800px', minHeight : '500px', maxHeight : '1000px' ,border : '2px solid blue'}}>
+
+
+      <div style={{display : 'flex', flexDirection : 'column',alignItems : 'center',width : '800px', height: '650px',border : '2px solid #548CCB', backgroundColor : 'white'}}>
           <h3>Add A New Post</h3>
           <div style={{display : 'flex', flexDirection : 'column', width : '600px', height : '600px', }}>
               <TextField

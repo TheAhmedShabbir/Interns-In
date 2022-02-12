@@ -23,16 +23,16 @@ export default function Generalheader() {
           >
             <MenuIcon />
           </IconButton> */}
-          <Typography>
+          <Typography style = {{fontSize : '30px'}}>
               Interns-In
           </Typography>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             
           </Typography>
-          <Link to="/Signin">
+          <Link to="/Signin" style={{color : 'white', textDecoration : 'none'}}>
           <Button color="inherit" >Login</Button>
           </Link>
-          <Link to="/SignUp">
+          <Link to="/SignUp" style={{color : 'white', textDecoration : 'none'}}>
           <Button color="inherit">Sign Up</Button>
           </Link>
         </Toolbar>
