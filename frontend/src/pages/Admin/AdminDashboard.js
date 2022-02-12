@@ -13,7 +13,6 @@ export default function AdminDashboard() {
           justifyContent: "space-evenly",
           padding: "50px",
           margin: "10px",
-          borderRadius: "10px",
         }}
       >
         <div

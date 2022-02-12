@@ -4,7 +4,7 @@ import Generalheader from "../Components/Common/header";
 import TextField from "@mui/material/TextField";
 import img from "../assets/images/mainpage_img.jpg";
 
-export default function Homepage() {
+export default function Mainpage() {
   return (
     <div>
       <Generalheader />

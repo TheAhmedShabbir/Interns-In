@@ -1,12 +1,12 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 // import IconButton from '@mui/material/IconButton';
 // import MenuIcon from '@mui/icons-material/Menu';
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function UserHeader() {
   return (
@@ -22,25 +22,25 @@ export default function UserHeader() {
           >
             <MenuIcon />
           </IconButton> */}
-          <Typography>
-              Interns-In
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            
-          </Typography>
-          <Link to="/CompanyHomePage">
-          <Button color="inherit">Home</Button>
+          <Typography>Interns-In</Typography>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+          ></Typography>
+          <Link to="/UserHomePage">
+            <Button color="inherit">Home</Button>
           </Link>
           <Link to="/Notifications">
-          <Button color="inherit">Notifications</Button>
+            <Button color="inherit">Notifications</Button>
           </Link>
           <Link to="/Forums">
-          <Button color="inherit">Forums</Button>
+            <Button color="inherit">Forums</Button>
           </Link>
-          <Link to="/CompanyProfile">
-          <Button color="inherit">Me</Button>
+          <Link to="/UserProfile">
+            <Button color="inherit">Me</Button>
           </Link>
-          
+
           <Button color="inherit">Logout</Button>
         </Toolbar>
       </AppBar>

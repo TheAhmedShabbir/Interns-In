@@ -1,11 +1,12 @@
 import React from "react";
 import { Button, Checkbox, TextField } from "@mui/material";
 import { FormControlLabel } from "@mui/material";
+import UserHeader from "../../Components/User/Userheader";
 
 export default function UserHomepage() {
   return (
     <div>
-      <h1>This is User Homepage</h1>
+      <UserHeader />
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div style={{ padding: "15px" }}>
           <div

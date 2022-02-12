@@ -3,11 +3,12 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
+import UserHeader from "../../Components/User/Userheader";
 
 export default function UserProfile() {
   return (
     <div>
-      <h1 style={{ textAlign: "center", marginTop: "80px" }}>User Profile</h1>
+      <UserHeader />
       <div
         style={{
           display: "flex",

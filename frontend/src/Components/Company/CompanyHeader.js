@@ -1,12 +1,12 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 // import IconButton from '@mui/material/IconButton';
 // import MenuIcon from '@mui/icons-material/Menu';
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function CompanyHeader() {
   return (
@@ -22,26 +22,36 @@ export default function CompanyHeader() {
           >
             <MenuIcon />
           </IconButton> */}
-          <Typography style = {{fontSize : '30px'}}>
-              Interns-In
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            
-          </Typography>
-          <Link to="/CompanyHomePage" style={{color : 'white', textDecoration : 'none'}}>
-          <Button color="inherit">Home</Button>
+          <Typography style={{ fontSize: "30px" }}>Interns-In</Typography>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+          ></Typography>
+          <Link
+            to="/CompanyHomePage"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            <Button color="inherit">Home</Button>
           </Link>
-          <Link to="/Notifications" style={{color : 'white', textDecoration : 'none'}}>
-          <Button color="inherit">Notifications</Button>
+          <Link
+            to="/Notifications"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            <Button color="inherit">Notifications</Button>
           </Link>
-          <Link to="/Forums" style={{color : 'white', textDecoration : 'none'}}>
-          <Button color="inherit">Forums</Button>
+          <Link to="/Forums" style={{ color: "white", textDecoration: "none" }}>
+            <Button color="inherit">Forums</Button>
           </Link>
-          <Link to="/CompanyProfile" style={{color : 'white', textDecoration : 'none'}}>
-          <Button color="inherit">Me</Button>
+          <Link
+            to="/CompanyProfile"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            <Button color="inherit">Me</Button>
           </Link>
-          
-          <Button color="inherit">Logout</Button>
+          <Link to="/" style={{ color: "white", textDecoration: "none" }}>
+            <Button color="inherit">Logout</Button>
+          </Link>
         </Toolbar>
       </AppBar>
     </Box>
