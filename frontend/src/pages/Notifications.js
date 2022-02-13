@@ -1,28 +1,26 @@
 import { Button, TextField, Typography } from "@mui/material";
 import React from "react";
 import UserHeader from "../Components/User/Userheader";
-
-
+import img from "../assets/images/Userpfp.jpg";
 
 export default function Notifications() {
   return (
-    <div>
-      <UserHeader/>
+    <div style={{ backgroundColor: "#f3f2ef" }}>
+      <UserHeader />
       <div
         style={{
           display: "flex",
-          marginTop : "30px",
+          marginTop: "30px",
           flexDirection: "column",
           alignItems: "center",
-          backgroundColor: "gray",
-          width: "1100px",
+          width: "900px",
           marginLeft: "auto",
           marginRight: "auto",
           borderRadius: "10px",
           padding: "15px",
         }}
       >
-        <h2>My Notifications</h2>
+        <h1>Notifications</h1>
         <div
           style={{
             display: "flex",
@@ -34,17 +32,8 @@ export default function Notifications() {
             margin: "10px",
           }}
         >
-          <div
-            style={{
-              padding: "10px",
-              margin: "5px",
-              backgroundColor: "red",
-              height: "60px",
-              width: "60px",
-              borderRadius: "50px",
-            }}
-          >
-            image
+          <div>
+            <img width="150px" height="150px" src={img} />
           </div>
           <div
             style={{
@@ -60,8 +49,20 @@ export default function Notifications() {
               XYZ added a new job for Software Engineer
             </Typography>
             <div>
-              <Button>View Details</Button>
-              <Button>Apply now</Button>
+              <Button
+                style={{ margin: "10px" }}
+                size="small"
+                variant="outlined"
+              >
+                View Details
+              </Button>
+              <Button
+                style={{ margin: "10px" }}
+                size="small"
+                variant="outlined"
+              >
+                Apply now
+              </Button>
             </div>
           </div>
         </div>
@@ -76,17 +77,8 @@ export default function Notifications() {
             margin: "10px",
           }}
         >
-          <div
-            style={{
-              padding: "10px",
-              margin: "5px",
-              backgroundColor: "red",
-              height: "60px",
-              width: "60px",
-              borderRadius: "50px",
-            }}
-          >
-            image
+          <div>
+            <img width="150px" height="150px" src={img} />
           </div>
           <div
             style={{
@@ -102,8 +94,20 @@ export default function Notifications() {
               XYZ added a new job for Software Engineer
             </Typography>
             <div>
-              <Button>View Details</Button>
-              <Button>Apply now</Button>
+              <Button
+                style={{ margin: "10px" }}
+                size="small"
+                variant="outlined"
+              >
+                View Details
+              </Button>
+              <Button
+                style={{ margin: "10px" }}
+                size="small"
+                variant="outlined"
+              >
+                Apply now
+              </Button>
             </div>
           </div>
         </div>
@@ -118,17 +122,8 @@ export default function Notifications() {
             margin: "10px",
           }}
         >
-          <div
-            style={{
-              padding: "10px",
-              margin: "5px",
-              backgroundColor: "red",
-              height: "60px",
-              width: "60px",
-              borderRadius: "50px",
-            }}
-          >
-            image
+          <div>
+            <img width="150px" height="150px" src={img} />
           </div>
           <div
             style={{
@@ -144,8 +139,20 @@ export default function Notifications() {
               XYZ added a new job for Software Engineer
             </Typography>
             <div>
-              <Button>View Details</Button>
-              <Button>Apply now</Button>
+              <Button
+                style={{ margin: "10px" }}
+                size="small"
+                variant="outlined"
+              >
+                View Details
+              </Button>
+              <Button
+                style={{ margin: "10px" }}
+                size="small"
+                variant="outlined"
+              >
+                Apply now
+              </Button>
             </div>
           </div>
         </div>
@@ -160,17 +167,8 @@ export default function Notifications() {
             margin: "10px",
           }}
         >
-          <div
-            style={{
-              padding: "10px",
-              margin: "5px",
-              backgroundColor: "red",
-              height: "60px",
-              width: "60px",
-              borderRadius: "50px",
-            }}
-          >
-            image
+          <div>
+            <img width="150px" height="150px" src={img} />
           </div>
           <div
             style={{
@@ -186,8 +184,20 @@ export default function Notifications() {
               XYZ added a new job for Software Engineer
             </Typography>
             <div>
-              <Button>View Details</Button>
-              <Button>Apply now</Button>
+              <Button
+                style={{ margin: "10px" }}
+                size="small"
+                variant="outlined"
+              >
+                View Details
+              </Button>
+              <Button
+                style={{ margin: "10px" }}
+                size="small"
+                variant="outlined"
+              >
+                Apply now
+              </Button>
             </div>
           </div>
         </div>
