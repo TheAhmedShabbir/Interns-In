@@ -8,7 +8,7 @@ import img from "../../assets/images/Userpfp.jpg";
 
 export default function AdminProfile() {
   return (
-    <div>
+    <div style={{ backgroundColor: "#f3f2ef" }}>
       <AdminHeader />
       <div
         style={{
@@ -44,14 +44,15 @@ export default function AdminProfile() {
             }}
           >
             <Paper
-              elevation={3}
+              elevation={2}
               style={{
                 paddingTop: "90px",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
-                borderRadius: "20px",
+                borderRadius: "10px",
                 paddingBottom: "30px",
+                marginBottom: "30px",
               }}
             >
               <div>

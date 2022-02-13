@@ -4,7 +4,7 @@ import AdminHeader from "../../Components/Admin/Adminheader";
 
 export default function AdminDashboard() {
   return (
-    <div>
+    <div style={{ backgroundColor: "#f3f2ef" }}>
       <AdminHeader />
       <div
         style={{
@@ -18,8 +18,8 @@ export default function AdminDashboard() {
         <div
           style={{
             borderRadius: "10px",
-            border: "2px solid blue",
             padding: "15px",
+            backgroundColor: "#fff",
           }}
         >
           <h2>Pending Approvals</h2>
@@ -28,8 +28,8 @@ export default function AdminDashboard() {
         <div
           style={{
             borderRadius: "10px",
-            border: "2px solid blue",
             padding: "15px",
+            backgroundColor: "#fff",
           }}
         >
           <h2>Jobs Posted</h2>
@@ -38,8 +38,8 @@ export default function AdminDashboard() {
         <div
           style={{
             borderRadius: "10px",
-            border: "2px solid blue",
             padding: "15px",
+            backgroundColor: "#fff",
           }}
         >
           <h2>Users Registered</h2>
@@ -48,8 +48,8 @@ export default function AdminDashboard() {
         <div
           style={{
             borderRadius: "10px",
-            border: "2px solid blue",
             padding: "15px",
+            backgroundColor: "#fff",
           }}
         >
           <h2>Companies registered</h2>
@@ -70,10 +70,10 @@ export default function AdminDashboard() {
         <div
           style={{
             borderRadius: "10px",
-            border: "2px solid blue",
             height: "400px",
             width: "400px",
             margin: "10px",
+            backgroundColor: "#fff",
           }}
         >
           <h2>Users Joining</h2>
@@ -81,10 +81,10 @@ export default function AdminDashboard() {
         <div
           style={{
             borderRadius: "10px",
-            border: "2px solid blue",
             height: "400px",
             width: "400px",
             margin: "10px",
+            backgroundColor: "#fff",
           }}
         >
           <h2>Companies Joining</h2>

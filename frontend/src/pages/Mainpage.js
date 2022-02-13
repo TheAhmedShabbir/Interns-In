@@ -131,8 +131,7 @@ export default function Mainpage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-evenly",
-          
-          
+
           backgroundColor: "#323233",
           color: "white",
         }}
