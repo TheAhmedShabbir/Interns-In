@@ -22,7 +22,9 @@ export default function UserHeader() {
           >
             <MenuIcon />
           </IconButton> */}
-          <Typography>Interns-In</Typography>
+          <Link to={"/"} style = {{color: "white", textDecoration: "none"}}>
+          <Typography style = {{fontSize : '30px'}}>Interns-In</Typography>
+          </Link>
           <Typography
             variant="h6"
             component="div"

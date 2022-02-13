@@ -23,9 +23,9 @@ export default function Generalheader() {
           >
             <MenuIcon />
           </IconButton> */}
-          <Typography style = {{fontSize : '30px'}}>
-              Interns-In
-          </Typography>
+          <Link to={"/"} style = {{color: "white", textDecoration: "none"}}>
+          <Typography style = {{fontSize : '30px'}}>Interns-In</Typography>
+          </Link>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             
           </Typography>
