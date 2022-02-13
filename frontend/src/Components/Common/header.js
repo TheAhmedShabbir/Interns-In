@@ -30,7 +30,7 @@ export default function Generalheader() {
             
           </Typography>
           <Link to="/Signin" style={{color : 'white', textDecoration : 'none'}}>
-          <Button color="inherit" >Login</Button>
+          <Button color="inherit" >Sign in</Button>
           </Link>
           <Link to="/SignUp" style={{color : 'white', textDecoration : 'none'}}>
           <Button color="inherit">Sign Up</Button>

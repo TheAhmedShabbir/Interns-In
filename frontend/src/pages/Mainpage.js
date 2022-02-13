@@ -131,13 +131,13 @@ export default function Mainpage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-evenly",
-          paddingtop: "150px",
-          paddingbottom: "0px",
+          
+          
           backgroundColor: "#323233",
           color: "white",
         }}
       >
-        <h1>Footer</h1>
+        <h5>Copyright @ Interns-In. All Rights Reserved</h5>
       </div>
     </div>
   );
