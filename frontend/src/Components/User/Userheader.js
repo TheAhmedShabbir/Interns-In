@@ -22,28 +22,38 @@ export default function UserHeader() {
           >
             <MenuIcon />
           </IconButton> */}
-          <Link to={"/"} style = {{color: "white", textDecoration: "none"}}>
-          <Typography style = {{fontSize : '30px'}}>Interns-In</Typography>
+          <Link to={"/"} style={{ color: "white", textDecoration: "none" }}>
+            <Typography style={{ fontSize: "30px" }}>Interns-In</Typography>
           </Link>
           <Typography
             variant="h6"
             component="div"
             sx={{ flexGrow: 1 }}
           ></Typography>
-          <Link to="/UserHomePage" style={{ color: "white", textDecoration: "none" }}>
+          <Link
+            to="/UserHomePage"
+            style={{ color: "white", textDecoration: "none" }}
+          >
             <Button color="inherit">Home</Button>
           </Link>
-          <Link to="/Notifications" style={{ color: "white", textDecoration: "none" }}>
+          <Link
+            to="/Notifications"
+            style={{ color: "white", textDecoration: "none" }}
+          >
             <Button color="inherit">Notifications</Button>
           </Link>
           <Link to="/Forums" style={{ color: "white", textDecoration: "none" }}>
             <Button color="inherit">Forums</Button>
           </Link>
-          <Link to="/UserProfile" style={{ color: "white", textDecoration: "none" }}>
+          <Link
+            to="/UserProfile"
+            style={{ color: "white", textDecoration: "none" }}
+          >
             <Button color="inherit">Me</Button>
           </Link>
-
-          <Button color="inherit">Logout</Button>
+          <Link to="/" style={{ color: "white", textDecoration: "none" }}>
+            <Button color="inherit">Logout</Button>
+          </Link>
         </Toolbar>
       </AppBar>
     </Box>

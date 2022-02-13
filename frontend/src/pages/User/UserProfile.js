@@ -4,29 +4,36 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
+import img from "../../assets/images/Userpfp.jpg";
 
 export default function UserProfile() {
   return (
-    <div>
+    <div style={{ backgroundColor: "#f3f2ef" }}>
       <UserHeader />
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-around",
+          marginTop: "25px",
+          backgroundColor: "#fff",
+          width: "1200px",
+          padding: "15px",
+          marginLeft: "auto",
+          marginRight: "auto",
+          borderRadius: "10px",
         }}
       >
         <div>
-          <div
-            style={{
-              height: "200px",
-              width: "200px",
-              backgroundColor: "blue",
-            }}
-          >
-            <h3>User picture</h3>
+          <div style={{ padding: "10px", margin: "10px" }}>
+            <img
+              style={{ borderRadius: "110px" }}
+              width="150px"
+              height="150px"
+              src={img}
+            />
           </div>
-          <Typography>User 123</Typography>
+          <h3>Ahmed Shabbir</h3>
         </div>
         <div
           style={{
@@ -36,6 +43,7 @@ export default function UserProfile() {
             alignItems: "baseline",
             width: "900px",
             padding: "20px",
+            marginLeft: "20px",
           }}
         >
           <h3>user123@gmail.com</h3>
@@ -46,11 +54,16 @@ export default function UserProfile() {
           style={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-around",
+            justifyContent: "space-evenly",
+            marginRight: "20px",
           }}
         >
-          <button>Edit</button>
-          <button>CV</button>
+          <Button size="small" variant="outlined">
+            Edit
+          </Button>
+          <Button size="small" variant="outlined">
+            CV
+          </Button>
         </div>
       </div>
       <div
@@ -58,61 +71,86 @@ export default function UserProfile() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          marginTop: "10px",
         }}
       >
         <div
           style={{
-            height: "400px",
+            height: "300px",
             width: "1200px",
             display: "flex",
             flexDirection: "row",
-            backgroundColor: "grey",
+            backgroundColor: "#fff",
             margin: "10px",
-            padding: "10px",
+            padding: "15px",
             alignContent: "flex-start",
             alignItems: "center",
             flexWrap: "wrap",
+            borderRadius: "10px",
+            justifyContent: "space-between",
           }}
         >
-          <h2>Education</h2>
-          <button>Add</button>
-          <button>Edit</button>
+          <h2 style={{ margin: "10px", padding: "10px" }}>Education</h2>
+          <div style={{ padding: "10px", margin: "10px" }}>
+            <Button style={{ margin: "10px" }} size="small" variant="outlined">
+              Add
+            </Button>
+            <Button style={{ margin: "10px" }} size="small" variant="outlined">
+              Edit
+            </Button>
+          </div>
         </div>
         <div
           style={{
-            height: "400px",
+            height: "300px",
             width: "1200px",
             display: "flex",
             flexDirection: "row",
-            backgroundColor: "grey",
+            backgroundColor: "#fff",
             margin: "10px",
-            padding: "10px",
+            padding: "15px",
             alignContent: "flex-start",
             alignItems: "center",
             flexWrap: "wrap",
+            borderRadius: "10px",
+            justifyContent: "space-between",
           }}
         >
-          <h2>Experience</h2>
-          <button>Add</button>
-          <button>Edit</button>
+          <h2 style={{ margin: "10px", padding: "10px" }}>Experience</h2>
+          <div style={{ padding: "10px", margin: "10px" }}>
+            <Button style={{ margin: "10px" }} size="small" variant="outlined">
+              Add
+            </Button>
+            <Button style={{ margin: "10px" }} size="small" variant="outlined">
+              Edit
+            </Button>
+          </div>
         </div>
         <div
           style={{
-            height: "400px",
+            height: "300px",
             width: "1200px",
             display: "flex",
             flexDirection: "row",
-            backgroundColor: "grey",
+            backgroundColor: "#fff",
             margin: "10px",
-            padding: "10px",
+            padding: "15px",
             alignContent: "flex-start",
             alignItems: "center",
             flexWrap: "wrap",
+            borderRadius: "10px",
+            justifyContent: "space-between",
           }}
         >
-          <h2>Skills</h2>
-          <button>Add</button>
-          <button>Edit</button>
+          <h2 style={{ margin: "10px", padding: "10px" }}>Skills</h2>
+          <div style={{ padding: "10px", margin: "10px" }}>
+            <Button style={{ margin: "10px" }} size="small" variant="outlined">
+              Add
+            </Button>
+            <Button style={{ margin: "10px" }} size="small" variant="outlined">
+              Edit
+            </Button>
+          </div>
         </div>
       </div>
     </div>
