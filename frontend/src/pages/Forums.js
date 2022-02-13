@@ -1,10 +1,12 @@
 import { Button, TextField, Typography } from "@mui/material";
 import React from "react";
+import UserHeader from "../Components/User/Userheader";
+
 
 export default function Forums() {
   return (
     <div>
-      <h2>This is forums page</h2>
+      <UserHeader/>
       <div
         style={{
           display: "flex",
@@ -13,6 +15,7 @@ export default function Forums() {
           padding: "15px",
           backgroundColor: "gray",
           width: "1200px",
+          marginTop : "30px",
           marginLeft: "auto",
           marginRight: "auto",
         }}
@@ -25,11 +28,14 @@ export default function Forums() {
             borderRadius: "10px",
           }}
         >
-          <TextField fullWidth></TextField>
+          <h3>Start a New Topic</h3>
+          <TextField fullWidth  label = "Topic Title"></TextField>
+          <div>
           <Button>Image</Button>
           <Button>Event</Button>
           <Button>Document</Button>
           <Button>Post</Button>
+        </div>
         </div>
         <div
           style={{
@@ -43,6 +49,7 @@ export default function Forums() {
           <div
             style={{
               backgroundColor: "white",
+              border : '3px solid #548CCB',
               height: "350px",
               width: "400px",
               borderRadius: "10px",
@@ -57,6 +64,7 @@ export default function Forums() {
           <div
             style={{
               backgroundColor: "white",
+              border : '3px solid #548CCB',
               height: "350px",
               width: "400px",
               borderRadius: "10px",
@@ -71,6 +79,7 @@ export default function Forums() {
           <div
             style={{
               backgroundColor: "white",
+              border : '3px solid #548CCB',
               height: "350px",
               width: "400px",
               borderRadius: "10px",
@@ -85,6 +94,7 @@ export default function Forums() {
           <div
             style={{
               backgroundColor: "white",
+              border : '3px solid #548CCB',
               height: "350px",
               width: "400px",
               borderRadius: "10px",

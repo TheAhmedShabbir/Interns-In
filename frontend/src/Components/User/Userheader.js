@@ -28,16 +28,16 @@ export default function UserHeader() {
             component="div"
             sx={{ flexGrow: 1 }}
           ></Typography>
-          <Link to="/UserHomePage">
+          <Link to="/UserHomePage" style={{ color: "white", textDecoration: "none" }}>
             <Button color="inherit">Home</Button>
           </Link>
-          <Link to="/Notifications">
+          <Link to="/Notifications" style={{ color: "white", textDecoration: "none" }}>
             <Button color="inherit">Notifications</Button>
           </Link>
-          <Link to="/Forums">
+          <Link to="/Forums" style={{ color: "white", textDecoration: "none" }}>
             <Button color="inherit">Forums</Button>
           </Link>
-          <Link to="/UserProfile">
+          <Link to="/UserProfile" style={{ color: "white", textDecoration: "none" }}>
             <Button color="inherit">Me</Button>
           </Link>
 

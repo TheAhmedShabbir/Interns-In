@@ -1,13 +1,17 @@
 import { Button, TextField, Typography } from "@mui/material";
 import React from "react";
+import UserHeader from "../Components/User/Userheader";
+
+
 
 export default function Notifications() {
   return (
     <div>
-      <h2>This is notifications page</h2>
+      <UserHeader/>
       <div
         style={{
           display: "flex",
+          marginTop : "30px",
           flexDirection: "column",
           alignItems: "center",
           backgroundColor: "gray",

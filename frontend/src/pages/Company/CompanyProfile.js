@@ -1,98 +1,91 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
+import CompanyHeader from "../../Components/Company/CompanyHeader";
+import img from "../../assets/images/Userpfp.jpg";
+
 
 export default function CompanyProfile() {
   return (
     <div>
-      <h1
-        style={{ textAlign: "center", marginTop: "50px", marginBottom: "40px" }}
-      >
-        Company Profile
-      </h1>
+      <CompanyHeader />
       <div
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-evenly",
-          backgroundColor: "grey",
-          padding: "50px",
-          margin: "10px",
-          borderRadius: "10px",
+          justifyContent: "space-around",
+          marginTop: "20px",
+          marginLeft : "40px",
+          marginRight : "40px",
         }}
       >
+        
+          <img
+            style={{
+              height: "200px",
+              width: "200px",
+              marginTop : "30px",
+              // marginLeft : "30px",
+              border : '3px solid #548CCB'
+            }}
+            src={img}
+            alt = "img"
+            
+          />
+  
+        
         <div
           style={{
-            borderRadius: "10px",
-            backgroundColor: "blue",
-            padding: "15px",
+            display: "flex",
+            flexDirection: "column",
+            JustifyContent: "center",
+            alignItems: "baseline",
+            width: "900px",
+            padding: "20px",
           }}
         >
-          <h2>Pending Interviews</h2>
-          <Typography>125</Typography>
+          <h3>User Name</h3>
+          <h3>E-mail</h3>
+          <h3>Company Location</h3>
+          <h3>Compny Affiliated Position</h3>
         </div>
         <div
           style={{
-            borderRadius: "10px",
-            backgroundColor: "blue",
-            padding: "15px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-around",
           }}
         >
-          <h2>Jobs Posted</h2>
-          <Typography>125</Typography>
-        </div>
-        <div
-          style={{
-            borderRadius: "10px",
-            backgroundColor: "blue",
-            padding: "15px",
-          }}
-        >
-          <h2>Users Applied</h2>
-          <Typography>125</Typography>
-        </div>
-        <div
-          style={{
-            borderRadius: "10px",
-            backgroundColor: "blue",
-            padding: "15px",
-          }}
-        >
-          <h2>Employees</h2>
-          <Typography>125</Typography>
+          <button>Edit</button>
+          <button>CV</button>
         </div>
       </div>
       <div
         style={{
           display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          backgroundColor: "grey",
-          padding: "50px",
-          margin: "10px",
-          borderRadius: "10px",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
         <div
           style={{
-            borderRadius: "10px",
-            backgroundColor: "blue",
-            height: "250px",
-            width: "250px",
+            height: "400px",
+            width: "1200px",
+            display: "flex",
+            flexDirection: "row",
+            backgroundColor: "white",
+            margin: "10px",
+            padding: "10px",
+            alignContent: "flex-start",
+            alignItems: "center",
+            flexWrap: "wrap",
+            border : '3px solid #548CCB'
           }}
         >
-          <h2>graph 1</h2>
+          <h2>Company details</h2>
+          <button>Add</button>
+          <button>Edit</button>
         </div>
-        <div
-          style={{
-            borderRadius: "10px",
-            backgroundColor: "blue",
-            height: "250px",
-            width: "250px",
-          }}
-        >
-          <h2>graph 2</h2>
-        </div>
-      </div>
-    </div>
+        
+      </div>    </div>
   );
 }
