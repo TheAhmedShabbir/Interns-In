@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import CompanyHeader from "../../Components/Company/CompanyHeader";
-import TextField from "@mui/material/TextField";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { Button } from "@mui/material";
-import Userpfp from "../../assets/images/Userpfp.jpg";
+import { Button, Checkbox, TextField, Typography } from "@mui/material";
+import { FormControlLabel } from "@mui/material";
+import img from "../../assets/images/Userpfp.jpg";
 
 export default function CompanyHomePage() {
-  const [startDate, setStartDate] = useState(null);
   return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
       <CompanyHeader />
@@ -18,247 +12,183 @@ export default function CompanyHomePage() {
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-evenly",
-          width: "100%",
-          height: "1100px",
-          paddingTop: "50px",
+          marginTop: "40px",
         }}
       >
         <div
           style={{
+            padding: "15px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            width: "300px",
-            minHeight: "500px",
-            maxHeight: "1050px",
-            backgroundColor: "white",
+            marginLeft: "10px",
           }}
         >
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-evenly",
-              width: "250px",
-              height: "200px",
-              alignItems: "center",
-              backgroundColor: "white",
+              backgroundColor: "#fff",
+              padding: "15px",
+              width: "200px",
+              marginTop: "40px",
+              borderRadius: "8px",
+              marginBottom: "5px",
             }}
           >
-            <img
-              style={{
-                height: "200px",
-                width: "200px",
-                borderRadius: "100px",
-                border: "2px solid #548CCB",
-              }}
-              src={Userpfp}
-              alt="img"
-            />
-            <Button>Username</Button>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-evenly",
-              width: "250px",
-              height: "330px",
-              backgroundColor: "#548CCB",
-              marginTop: "50px",
-              borderRadius: "20px",
-            }}
-          >
-            <h4>Active Posts</h4>
-
             <div
               style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-evenly",
-                backgroundColor: "white",
-                margin: "10px",
-                borderRadius: "10px",
+                marginLeft: "auto",
+                marginRight: "auto",
               }}
             >
-              <h5>Active post 1</h5>
-              <Button>View Applicants</Button>
+              <img
+                style={{ borderRadius: "110px", marginTop: "-75px" }}
+                width="150px"
+                height="150px"
+                src={img}
+              />
             </div>
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "space-evenly",
-                backgroundColor: "white",
-                margin: "10px",
-                borderRadius: "10px",
+                alignItems: "center",
+                marginBottom: "10px",
               }}
             >
-              <h5>Active post 2</h5>
-              <Button>View Applicants</Button>
-            </div>
-            <div>
-              <Button style={{ color: "white" }}>View All</Button>
+              <h3>Company XYZ</h3>
+              <Typography>We are Hiring!</Typography>
             </div>
           </div>
-
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-evenly",
-              width: "250px",
-              height: "440px",
-              backgroundColor: "#548CCB",
-              marginTop: "20px",
-              borderRadius: "20px",
+              padding: "15px",
+              margin: "5px",
+              backgroundColor: "#fff",
+              width: "200px",
+              borderRadius: "8px",
             }}
           >
-            <h4>Previous Posts</h4>
-
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-evenly",
-                backgroundColor: "white",
-                margin: "10px",
-                borderRadius: "10px",
-              }}
-            >
-              <h5>Previous post 1</h5>
-              <Button>View Applicants</Button>
+            <h2>Jobs Posted</h2>
+            <div style={{ padding: "10px" }}>
+              <h3>Software Engineer</h3>
+              <Button size="small" variant="outlined">
+                View Applicants
+              </Button>
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-evenly",
-                backgroundColor: "white",
-                margin: "10px",
-                borderRadius: "10px",
-              }}
-            >
-              <h5>Previous post 2</h5>
-              <Button>View Applicants</Button>
+            <div style={{ padding: "10px", marginBottom: "20px" }}>
+              <h3>SQA Engineer</h3>
+              <Button size="small" variant="outlined">
+                View Applicants
+              </Button>
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-evenly",
-                backgroundColor: "white",
-                margin: "10px",
-                borderRadius: "10px",
-              }}
-            >
-              <h5>Previous post 3</h5>
-              <Button>View Applicants</Button>
+            <Button size="small" variant="contained">
+              View all
+            </Button>
+          </div>
+          <div
+            style={{
+              backgroundColor: "#fff",
+              padding: "15px",
+              margin: "5px",
+              width: "200px",
+              borderRadius: "8px",
+            }}
+          >
+            <h3>Pending Interviews</h3>
+            <div style={{ padding: "10px" }}>
+              <h4>Ahmed Shabbir</h4>
+              <Button size="small" variant="outlined">
+                View Profile
+              </Button>
             </div>
-            <div>
-              <Button style={{ color: "white" }}>View All</Button>
+            <div style={{ padding: "10px" }}>
+              <h3>Abdullah Shahzad</h3>
+              <Button size="small" variant="outlined">
+                View Profile
+              </Button>
             </div>
+            <div style={{ padding: "10px", marginBottom: "20px" }}>
+              <h3>Muaaz Shabbir</h3>
+              <Button size="small" variant="outlined">
+                View Profile
+              </Button>
+            </div>
+            <Button size="small" variant="contained">
+              View all
+            </Button>
           </div>
         </div>
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            width: "800px",
-            height: "650px",
-            backgroundColor: "white",
-          }}
-        >
-          <h3>Add A New Post</h3>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
               display: "flex",
-              flexDirection: "column",
-              width: "600px",
-              height: "600px",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              flexWrap: "wrap",
+              alignContent: "flex-start",
+              padding: "20px",
+              margin: "10px",
+              marginLeft: "auto",
+              marginRight: "auto",
             }}
           >
-            <TextField required fullWidth label="Job Title" />
-            <TextField required fullWidth label="Job Description" />
-            <h4>Job Type</h4>
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-evenly",
+                borderRadius: "10px",
+                padding: "15px",
+                backgroundColor: "#fff",
+                border: "2px solid blue",
+                margin: "10px",
+                width: "200px",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                <FormGroup>
-                  <FormControlLabel control={<Checkbox />} label="Full Time" />
-                  <FormControlLabel control={<Checkbox />} label="Part Time" />
-                </FormGroup>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                <FormGroup>
-                  <FormControlLabel control={<Checkbox />} label="Internship" />
-                  <FormControlLabel control={<Checkbox />} label="Job" />
-                </FormGroup>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                <FormGroup>
-                  <FormControlLabel control={<Checkbox />} label="Online" />
-                  <FormControlLabel control={<Checkbox />} label="Physical" />
-                </FormGroup>
-              </div>
+              <h2>Post a Job</h2>
+              <Button size="small" variant="contained">
+                Add
+              </Button>
             </div>
-            <h4>Set Salary</h4>
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-evenly",
+                borderRadius: "10px",
+                padding: "15px",
+                backgroundColor: "#fff",
+                border: "2px solid blue",
+                margin: "10px",
+                width: "200px",
               }}
             >
-              <TextField label="Minimum Salary" />
-              <TextField label="Maximum Salary" />
+              <h2>Jobs Posted</h2>
+              <Typography>125</Typography>
             </div>
-            <h4>Set Location and Deadline</h4>
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-evenly",
+                borderRadius: "10px",
+                padding: "15px",
+                backgroundColor: "#fff",
+                border: "2px solid blue",
+                margin: "10px",
+                width: "200px",
               }}
             >
-              <TextField label="City Name" />
-              <div>
-                <DatePicker
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                />
-              </div>
+              <h2>Pending Interviews</h2>
+              <Typography>125</Typography>
             </div>
-            <div style={{ paddingTop: "30px" }}>
-              <Button>Post</Button>
+            <div
+              style={{
+                borderRadius: "10px",
+                padding: "15px",
+                backgroundColor: "#fff",
+                border: "2px solid blue",
+                margin: "10px",
+                width: "200px",
+              }}
+            >
+              <h2>Employees</h2>
+              <Typography>125</Typography>
             </div>
+          </div>
+          <div>
+            <h2>Posts</h2>
           </div>
         </div>
       </div>
