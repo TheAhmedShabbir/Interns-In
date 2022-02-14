@@ -20,6 +20,7 @@ export default function AdminDashboard() {
             borderRadius: "10px",
             padding: "15px",
             backgroundColor: "#fff",
+            border: "2px solid blue",
           }}
         >
           <h2>Pending Approvals</h2>
@@ -30,6 +31,7 @@ export default function AdminDashboard() {
             borderRadius: "10px",
             padding: "15px",
             backgroundColor: "#fff",
+            border: "2px solid blue",
           }}
         >
           <h2>Jobs Posted</h2>
@@ -40,6 +42,7 @@ export default function AdminDashboard() {
             borderRadius: "10px",
             padding: "15px",
             backgroundColor: "#fff",
+            border: "2px solid blue",
           }}
         >
           <h2>Users Registered</h2>
@@ -50,6 +53,7 @@ export default function AdminDashboard() {
             borderRadius: "10px",
             padding: "15px",
             backgroundColor: "#fff",
+            border: "2px solid blue",
           }}
         >
           <h2>Companies registered</h2>
@@ -74,6 +78,7 @@ export default function AdminDashboard() {
             width: "400px",
             margin: "10px",
             backgroundColor: "#fff",
+            border: "2px solid blue",
           }}
         >
           <h2>Users Joining</h2>
@@ -85,6 +90,7 @@ export default function AdminDashboard() {
             width: "400px",
             margin: "10px",
             backgroundColor: "#fff",
+            border: "2px solid blue",
           }}
         >
           <h2>Companies Joining</h2>
