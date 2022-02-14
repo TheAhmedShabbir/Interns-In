@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -7,14 +6,13 @@ import { Button } from "@mui/material";
 import CompanyHeader from "../../Components/Company/CompanyHeader";
 import img from "../../assets/images/Userpfp.jpg";
 
-
 export default function CompanyProfile() {
   return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
       <CompanyHeader />
       <div
         style={{
-          marginTop: "20px",
+          marginTop: "40px",
         }}
       >
         <div style={{ zIndex: 1, position: "relative" }}>
@@ -48,7 +46,7 @@ export default function CompanyProfile() {
             <Paper
               elevation={2}
               style={{
-                paddingTop: "90px",
+                paddingTop: "150px",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
@@ -140,7 +138,7 @@ export default function CompanyProfile() {
                   Lahore, Punjab
                 </Typography>
               </div>
-              
+
               <div>
                 <div
                   style={{
@@ -159,15 +157,30 @@ export default function CompanyProfile() {
                   </Button>
                 </div>
                 <Typography style={{ margin: "15px" }}>
-                  <div style = {{textAlign : 'justify', marginLeft : '20px', marginRight : '20px'}}>
-                  <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                  <div
+                    style={{
+                      textAlign: "justify",
+                      marginLeft: "40px",
+                      marginRight: "40px",
+                      marginBottom: "40px",
+                    }}
+                  >
+                    <p>
+                      Lorem Ipsum is simply dummy text of the printing and
+                      typesetting industry. Lorem Ipsum has been the industry's
+                      standard dummy text ever since the 1500s, when an unknown
+                      printer took a galley of type and scrambled it to make a
+                      type specimen book. It has survived not only five
+                      centuries, but also the leap into electronic typesetting,
+                      remaining essentially unchanged. It was popularised in the
+                      1960s with the release of Letraset sheets containing Lorem
+                      Ipsum passages, and more recently with desktop publishing
+                      software like Aldus PageMaker including versions of Lorem
+                      Ipsum.
                     </p>
-                    </div>
+                  </div>
                 </Typography>
               </div>
-              
-
             </Paper>
           </Box>
         </div>
@@ -175,5 +188,3 @@ export default function CompanyProfile() {
     </div>
   );
 }
-
-

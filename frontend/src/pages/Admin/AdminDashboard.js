@@ -75,7 +75,7 @@ export default function AdminDashboard() {
           style={{
             borderRadius: "10px",
             height: "400px",
-            width: "400px",
+            width: "500px",
             margin: "10px",
             backgroundColor: "#fff",
             border: "2px solid blue",
@@ -87,7 +87,7 @@ export default function AdminDashboard() {
           style={{
             borderRadius: "10px",
             height: "400px",
-            width: "400px",
+            width: "500px",
             margin: "10px",
             backgroundColor: "#fff",
             border: "2px solid blue",

@@ -3,27 +3,25 @@ import React from "react";
 import CompanyHeader from "../../Components/Company/CompanyHeader";
 import Userpfp from "../../assets/images/Userpfp.jpg";
 
-
-
 export default function Homepage() {
   return (
-    <div>
-     <CompanyHeader/>
+    <div style={{ backgroundColor: "#f3f2ef" }}>
+      <CompanyHeader />
       <div
         style={{
-          maxWidth: "1100px",
-          backgroundColor: "#548CCB",
+          height: "500px",
+          maxWidth: "900px",
+          backgroundColor: "#fff",
           padding: "20px",
           borderRadius: "10px",
           marginLeft: "auto",
           marginRight: "auto",
           marginTop: "30px",
-          marginBottom: "10px",
         }}
       >
-        <h2 style={{color : 'white'}}>View Applicants</h2>
+        <h2>View Applicants</h2>
         <div>
-          <Button style = {{color : 'white'}}>Vew Shortlisted Candidates</Button>
+          <Button variant="outlined">Vew Shortlisted Candidates</Button>
         </div>
         <div
           style={{
@@ -52,16 +50,15 @@ export default function Homepage() {
                 borderRadius: "50px",
                 marginRight: "10px",
               }}
-            
-              src = {Userpfp}
-              alt = "img"
+              src={Userpfp}
+              alt="img"
             />
             <Typography style={{ marginLeft: "15px" }}>User 123</Typography>
           </div>
           <div>
             <Button>Shortlist</Button>
             <Button>Visit Profile</Button>
-            <Button>View CV</Button>
+            <Button variant="contained">View CV</Button>
           </div>
         </div>
         <div
@@ -83,25 +80,23 @@ export default function Homepage() {
               alignItems: "center",
             }}
           >
-             <img
+            <img
               style={{
                 height: "100px",
                 width: "100px",
                 // backgroundColor: "red",
                 borderRadius: "50px",
                 marginRight: "10px",
-                
               }}
-            
-              src = {Userpfp}
-              alt = "img"
+              src={Userpfp}
+              alt="img"
             />
             <Typography style={{ marginLeft: "15px" }}>User 456</Typography>
           </div>
           <div>
             <Button>Shortlist</Button>
             <Button>Visit Profile</Button>
-            <Button>View CV</Button>
+            <Button variant="contained">View CV</Button>
           </div>
         </div>
         <div
@@ -123,7 +118,7 @@ export default function Homepage() {
               alignItems: "center",
             }}
           >
-             <img
+            <img
               style={{
                 height: "100px",
                 width: "100px",
@@ -131,16 +126,15 @@ export default function Homepage() {
                 borderRadius: "50px",
                 marginRight: "10px",
               }}
-            
-              src = {Userpfp}
-              alt = "img"
+              src={Userpfp}
+              alt="img"
             />
             <Typography style={{ marginLeft: "15px" }}>User 789</Typography>
           </div>
           <div>
             <Button>Shortlist</Button>
             <Button>Visit Profile</Button>
-            <Button>View CV</Button>
+            <Button variant="contained">View CV</Button>
           </div>
         </div>
       </div>
