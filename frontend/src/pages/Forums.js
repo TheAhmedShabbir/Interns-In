@@ -13,15 +13,16 @@ export default function Forums() {
           flexDirection: "column",
           alignItems: "center",
           padding: "15px",
-          backgroundColor: "gray",
-          width: "1200px",
-          marginTop : "30px",
+          backgroundColor: "#f3f2ef",
+          width: "100%",
+          // marginTop : "30px",
           marginLeft: "auto",
           marginRight: "auto",
         }}
       >
         <div
           style={{
+            marginTop : '30px',
             padding: "15px",
             width: "1100px",
             backgroundColor: "white",
@@ -49,63 +50,56 @@ export default function Forums() {
           <div
             style={{
               backgroundColor: "white",
-              border : '3px solid #548CCB',
+              // border : '3px solid #548CCB',
               height: "350px",
               width: "400px",
               borderRadius: "10px",
               margin: "8px",
             }}
           >
+            <div style = {{marginTop : '140px'}}>
             <h3>Topic 1</h3>
             <Typography>Total posts: 1000</Typography>
             <Typography>Views: 2300</Typography>
             <Button>View Discussion</Button>
           </div>
+          </div>
           <div
             style={{
               backgroundColor: "white",
-              border : '3px solid #548CCB',
+              // border : '3px solid #548CCB',
               height: "350px",
               width: "400px",
               borderRadius: "10px",
               margin: "8px",
             }}
           >
+            <div style = {{marginTop : '140px'}}>
             <h3>Topic 2</h3>
             <Typography>Total posts: 1000</Typography>
             <Typography>Views: 2300</Typography>
             <Button>View Discussion</Button>
           </div>
+          </div>
           <div
             style={{
               backgroundColor: "white",
-              border : '3px solid #548CCB',
+              // border : '3px solid #548CCB',
               height: "350px",
               width: "400px",
               borderRadius: "10px",
               margin: "8px",
+              
             }}
           >
+            <div style = {{marginTop : '140px'}}>
             <h3>Topic 3</h3>
             <Typography>Total posts: 1000</Typography>
             <Typography>Views: 2300</Typography>
             <Button>View Discussion</Button>
           </div>
-          <div
-            style={{
-              backgroundColor: "white",
-              border : '3px solid #548CCB',
-              height: "350px",
-              width: "400px",
-              borderRadius: "10px",
-              margin: "8px",
-            }}
-          >
-            <h3>Topic 4</h3>
-            <Typography>Total posts: 1000</Typography>
-            <Typography>Views: 2300</Typography>
-            <Button>View Discussion</Button>
           </div>
+          
         </div>
       </div>
     </div>
