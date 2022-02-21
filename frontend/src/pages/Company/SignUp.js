@@ -10,6 +10,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import CompanyHeader from "../../Components/Company/CompanyHeader";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
@@ -26,7 +27,11 @@ export default function CompanySignUp() {
   };
 
   return (
+    
     <ThemeProvider theme={theme}>
+      <div>
+      <CompanyHeader/>
+    </div>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -81,9 +86,9 @@ export default function CompanySignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="cityname"
-                  label="City Name"
-                  name="CityName"
+                  id="taxno"
+                  label="Tax Number"
+                  name="taxnumber"
                   autoComplete="family-name"
                 />
               </Grid> 
