@@ -1,10 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CompanyHeader from "../../Components/Company/CompanyHeader";
-import { Button, Checkbox, TextField, Typography } from "@mui/material";
-import { FormControlLabel } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import img from "../../assets/images/Userpfp.jpg";
+import { db } from "../../firebase-config";
+import { collection, getDocs } from "firebase/firestore";
 
 export default function CompanyHomePage() {
+  const [jobs, setJobs] = useState([]);
+  const jobCollection = collection(db, "jobs");
+
+  useEffect(() => {
+    // get jobs
+    const getJobs = async () => {
+      const data = await getDocs(jobCollection);
+      // setJobs(data.docs.map((doc) => doc.data()));
+      console.log(data);
+    };
+
+    // Function Calls
+    getJobs();
+  }, []);
+
   return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
       <CompanyHeader />
@@ -143,7 +159,7 @@ export default function CompanyHomePage() {
               }}
             >
               <h2>Post a Job</h2>
-              <Button size="small" variant="contained">
+              <Button href="/postjob" size="small" variant="contained">
                 Add
               </Button>
             </div>

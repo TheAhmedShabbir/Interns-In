@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore, collection, getDocs, doc } from "firebase/firestore";
+import { getFirestore, collection, doc } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -21,22 +21,22 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // initialize services
-const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
 
 // collection references
 
-const colref = collection(db, "postjob");
+// const colref = collection(db, "postjob");
 
 // get collection data
-getDocs(colref)
-  .then((ss) => {
-    let postjob = [];
-    ss.docs.forEach((doc) => {
-      postjob.push({ ...doc.data(), id: doc.id });
-    });
-    console.log(postjob);
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+// getDocs(colref)
+//   .then((ss) => {
+//     let postjob = [];
+//     ss.docs.forEach((doc) => {
+//       postjob.push({ ...doc.data(), id: doc.id });
+//     });
+//     console.log(postjob);
+//   })
+//   .catch((err) => {
+//     console.log(err.message);
+//   });
