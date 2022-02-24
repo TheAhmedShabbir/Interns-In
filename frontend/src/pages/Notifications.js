@@ -1,9 +1,25 @@
-import { Button, TextField, Typography } from "@mui/material";
-import React from "react";
+import { Button, Typography } from "@mui/material";
+import React, { useState, useEffect } from "react";
 import UserHeader from "../Components/User/Userheader";
 import img from "../assets/images/Userpfp.jpg";
+import { db } from "../firebase-config";
+import { collection, getDocs } from "firebase/firestore";
 
 export default function Notifications() {
+  const [jobs, setJobs] = useState([]);
+  const jobCollection = collection(db, "Job");
+
+  useEffect(() => {
+    // get jobs
+    const getJobs = async () => {
+      const data = await getDocs(jobCollection);
+      setJobs(data.docs.map((doc) => ({ ...doc.data() })));
+    };
+
+    // Function Calls
+    getJobs();
+  }, []);
+
   return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
       <UserHeader />
@@ -14,6 +30,7 @@ export default function Notifications() {
           flexDirection: "column",
           alignItems: "center",
           width: "900px",
+          minHeight: "500px",
           marginLeft: "auto",
           marginRight: "auto",
           borderRadius: "10px",
@@ -21,186 +38,65 @@ export default function Notifications() {
         }}
       >
         <h1>Notifications</h1>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            backgroundColor: "white",
-            padding: "15px",
-            width: "700px",
-            borderRadius: "10px",
-            margin: "10px",
-          }}
-        >
-          <div>
-            <img width="150px" height="150px" src={img} />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              padding: "10px",
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
-            <Typography style={{ padding: "10px" }}>
-              XYZ added a new job for Software Engineer
-            </Typography>
-            <div>
-              <Button
-                style={{ margin: "10px" }}
-                size="small"
-                variant="outlined"
+        {jobs.map((job) => {
+          return (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  backgroundColor: "white",
+                  padding: "15px",
+                  width: "700px",
+                  borderRadius: "10px",
+                  margin: "10px",
+                }}
               >
-                View Details
-              </Button>
-              <Button
-                style={{ margin: "10px" }}
-                size="small"
-                variant="outlined"
-              >
-                Apply now
-              </Button>
+                <div>
+                  <img width="150px" height="150px" src={img} />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    padding: "15px",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    marginTop: "10px",
+                  }}
+                >
+                  <Typography style={{ padding: "10px" }}>
+                    XYZ added a new job for {job.Title}
+                  </Typography>
+                  <div>
+                    <Button
+                      style={{ margin: "10px" }}
+                      size="small"
+                      variant="outlined"
+                    >
+                      View Details
+                    </Button>
+                    <Button
+                      style={{ margin: "10px" }}
+                      size="small"
+                      variant="outlined"
+                    >
+                      Apply now
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            backgroundColor: "white",
-            padding: "15px",
-            width: "700px",
-            borderRadius: "10px",
-            margin: "10px",
-          }}
-        >
-          <div>
-            <img width="150px" height="150px" src={img} />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              padding: "10px",
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
-            <Typography style={{ padding: "10px" }}>
-              XYZ added a new job for Software Engineer
-            </Typography>
-            <div>
-              <Button
-                style={{ margin: "10px" }}
-                size="small"
-                variant="outlined"
-              >
-                View Details
-              </Button>
-              <Button
-                style={{ margin: "10px" }}
-                size="small"
-                variant="outlined"
-              >
-                Apply now
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            backgroundColor: "white",
-            padding: "15px",
-            width: "700px",
-            borderRadius: "10px",
-            margin: "10px",
-          }}
-        >
-          <div>
-            <img width="150px" height="150px" src={img} />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              padding: "10px",
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
-            <Typography style={{ padding: "10px" }}>
-              XYZ added a new job for Software Engineer
-            </Typography>
-            <div>
-              <Button
-                style={{ margin: "10px" }}
-                size="small"
-                variant="outlined"
-              >
-                View Details
-              </Button>
-              <Button
-                style={{ margin: "10px" }}
-                size="small"
-                variant="outlined"
-              >
-                Apply now
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            backgroundColor: "white",
-            padding: "15px",
-            width: "700px",
-            borderRadius: "10px",
-            margin: "10px",
-          }}
-        >
-          <div>
-            <img width="150px" height="150px" src={img} />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              padding: "10px",
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
-            <Typography style={{ padding: "10px" }}>
-              XYZ added a new job for Software Engineer
-            </Typography>
-            <div>
-              <Button
-                style={{ margin: "10px" }}
-                size="small"
-                variant="outlined"
-              >
-                View Details
-              </Button>
-              <Button
-                style={{ margin: "10px" }}
-                size="small"
-                variant="outlined"
-              >
-                Apply now
-              </Button>
-            </div>
-          </div>
-        </div>
+          );
+        })}
       </div>
     </div>
   );

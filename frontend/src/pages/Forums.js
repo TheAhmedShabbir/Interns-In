@@ -1,8 +1,23 @@
 import { Button, TextField, Typography } from "@mui/material";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import UserHeader from "../Components/User/Userheader";
+import { db } from "../firebase-config";
+import { collection, getDocs } from "firebase/firestore";
 
 export default function Forums() {
+  const [forums, setForums] = useState([]);
+  const forumsCollection = collection(db, "Forums");
+
+  useEffect(() => {
+    // get forums
+    const getForums = async () => {
+      const data = await getDocs(forumsCollection);
+      setForums(data.docs.map((doc) => ({ ...doc.data() })));
+    };
+
+    // Function Calls
+    getForums();
+  }, []);
   return (
     <div>
       <UserHeader />
@@ -13,10 +28,9 @@ export default function Forums() {
           alignItems: "center",
           padding: "15px",
           backgroundColor: "#f3f2ef",
-          width: "100%",
-          // marginTop : "30px",
           marginLeft: "auto",
           marginRight: "auto",
+          minHeight: "600px",
         }}
       >
         <div
@@ -50,57 +64,30 @@ export default function Forums() {
             padding: "15px",
           }}
         >
-          <div
-            style={{
-              backgroundColor: "white",
-              // border : '3px solid #548CCB',
-              height: "350px",
-              width: "400px",
-              borderRadius: "10px",
-              margin: "8px",
-            }}
-          >
-            <div style={{ marginTop: "140px" }}>
-              <h3>Topic 1</h3>
-              <Typography>Total posts: 1000</Typography>
-              <Typography>Views: 2300</Typography>
-              <Button>View Discussion</Button>
-            </div>
-          </div>
-          <div
-            style={{
-              backgroundColor: "white",
-              // border : '3px solid #548CCB',
-              height: "350px",
-              width: "400px",
-              borderRadius: "10px",
-              margin: "8px",
-            }}
-          >
-            <div style={{ marginTop: "140px" }}>
-              <h3>Topic 2</h3>
-              <Typography>Total posts: 1000</Typography>
-              <Typography>Views: 2300</Typography>
-              <Button>View Discussion</Button>
-            </div>
-          </div>
-          <div
-            style={{
-              backgroundColor: "white",
-              // border : '3px solid #548CCB',
-              height: "350px",
-              width: "400px",
-              borderRadius: "10px",
-              margin: "8px",
-            }}
-          >
-            <div style={{ marginTop: "140px" }}>
-              <h3>Topic 3</h3>
-              <Typography>Total posts: 1000</Typography>
-              <Typography>Views: 2300</Typography>
-              <Button>View Discussion</Button>
-            </div>
-          </div>
+          {forums.map((forum) => {
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "white",
+                  height: "300px",
+                  width: "350px",
+                  borderRadius: "10px",
+                  margin: "8px",
+                }}
+              >
+                <h2>{forum.TopicTitle}</h2>
+                <Typography>Total posts: 1000</Typography>
+                <Typography>Views: 2300</Typography>
+                <Button style={{ margin: "15px" }} variant="outlined">
+                  View Discussion
+                </Button>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

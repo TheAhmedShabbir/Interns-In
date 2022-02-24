@@ -3,18 +3,18 @@ import CompanyHeader from "../../Components/Company/CompanyHeader";
 import { Button, Typography } from "@mui/material";
 import img from "../../assets/images/Userpfp.jpg";
 import { db } from "../../firebase-config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc } from "firebase/firestore";
 
 export default function CompanyHomePage() {
   const [jobs, setJobs] = useState([]);
-  const jobCollection = collection(db, "jobs");
+  const jobCollection = collection(db, "Job");
 
   useEffect(() => {
     // get jobs
     const getJobs = async () => {
       const data = await getDocs(jobCollection);
-      // setJobs(data.docs.map((doc) => doc.data()));
-      console.log(data);
+      setJobs(data.docs.map((doc) => ({ ...doc.data() })));
+      console.log(jobs);
     };
 
     // Function Calls
@@ -205,6 +205,36 @@ export default function CompanyHomePage() {
           </div>
           <div>
             <h2>Posts</h2>
+            {jobs.map((job) => {
+              return (
+                <div
+                  style={{
+                    backgroundColor: "white",
+                    padding: "20px",
+                    margin: "50px",
+                    borderRadius: "8px",
+                  }}
+                >
+                  <h2>
+                    {job.Title}, {job.Type}, {job.Mode}, {job.City}
+                  </h2>
+                  <Typography>{job.Description}</Typography>
+                  <h2 style={{ color: "green" }}> {job.Salary} pkr</h2>
+                  <Button style={{ margin: "10px" }} variant="outlined">
+                    Edit
+                  </Button>
+                  <Button
+                    style={{
+                      margin: "10px",
+                    }}
+                    variant="outlined"
+                    color="error"
+                  >
+                    Delete
+                  </Button>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

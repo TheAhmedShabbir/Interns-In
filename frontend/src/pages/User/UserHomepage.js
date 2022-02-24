@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Checkbox, TextField, Typography } from "@mui/material";
 import { FormControlLabel } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import img from "../../assets/images/Userpfp.jpg";
+import { db } from "../../firebase-config";
+import { collection, getDocs, doc } from "firebase/firestore";
 
 export default function UserHomepage() {
+  const [jobs, setJobs] = useState([]);
+  const jobCollection = collection(db, "Job");
+
+  useEffect(() => {
+    // get jobs
+    const getJobs = async () => {
+      const data = await getDocs(jobCollection);
+      setJobs(data.docs.map((doc) => ({ ...doc.data() })));
+      console.log(jobs);
+    };
+
+    // Function Calls
+    getJobs();
+  }, []);
+
   return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
       <UserHeader />
@@ -140,19 +157,48 @@ export default function UserHomepage() {
               </Button>
             </div>
           </div>
-          <div
-            style={{
-              padding: "15px",
-              backgroundColor: "#fff",
-              borderRadius: "10px",
-              marginTop: "10px",
-              width: "920px",
-            }}
-          >
+          <div>
             <h2>Posts</h2>
+            {jobs.map((job) => {
+              return (
+                <div
+                  style={{
+                    backgroundColor: "white",
+                    padding: "20px",
+                    margin: "50px",
+                    borderRadius: "8px",
+                  }}
+                >
+                  <h2>
+                    {job.Title}, {job.Type}, {job.Mode}, {job.City}
+                  </h2>
+                  <Typography>{job.Description}</Typography>
+                  <h2 style={{ color: "green" }}> {job.Salary} pkr</h2>
+                  <Button style={{ margin: "10px" }} variant="outlined">
+                    Apply now
+                  </Button>
+                  <Button
+                    style={{
+                      margin: "10px",
+                    }}
+                    variant="outlined"
+                  >
+                    Save
+                  </Button>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+// style={{
+//   padding: "15px",
+//   backgroundColor: "#fff",
+//   borderRadius: "10px",
+//   marginTop: "10px",
+//   width: "920px",
+// }}
