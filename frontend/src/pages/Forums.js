@@ -18,6 +18,7 @@ export default function Forums() {
     // Function Calls
     getForums();
   }, []);
+
   return (
     <div>
       <UserHeader />
