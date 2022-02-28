@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import img from "../../assets/images/Userpfp.jpg";
@@ -6,13 +9,13 @@ import { db } from "../../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 
 export default function UserProfile() {
-  const [userInfo, setUserInfo] = useState([]);
-  const UserInfoCollection = collection(db, "Applicant");
+  const [UserInfo, setUserInfo] = useState([]);
+  const UserCollection = collection(db, "UserProfile");
 
   useEffect(() => {
-    // get forums
+    // get User information
     const getUserInfo = async () => {
-      const data = await getDocs(UserInfoCollection);
+      const data = await getDocs(UserCollection);
       setUserInfo(data.docs.map((doc) => ({ ...doc.data() })));
     };
 
@@ -23,201 +26,115 @@ export default function UserProfile() {
   return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
       <UserHeader />
-      {userInfo.map((userinfo) => {
+      {UserInfo.map((userinfo) => {
         return (
-          <div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-around",
-                marginTop: "25px",
-                backgroundColor: "#fff",
-                width: "1200px",
-                padding: "15px",
-                marginLeft: "auto",
-                marginRight: "auto",
-                borderRadius: "10px",
-              }}
-            >
-              <div>
-                <div style={{ padding: "10px", margin: "10px" }}>
-                  <img
-                    style={{ borderRadius: "110px" }}
-                    width="150px"
-                    height="150px"
-                    src={img}
-                  />
-                </div>
-                <h3>{userinfo.Name}</h3>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  JustifyContent: "center",
-                  alignItems: "baseline",
-                  width: "900px",
-                  padding: "20px",
-                  marginLeft: "20px",
-                }}
-              >
-                <h3>{userinfo.email}</h3>
-                <h3>{userinfo.Location}</h3>
-                <h3>{userinfo.About}</h3>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-evenly",
-                  marginRight: "20px",
-                }}
-              >
-                <Button size="small" variant="outlined">
-                  Edit
-                </Button>
-                <Button size="small" variant="outlined">
-                  CV
-                </Button>
-              </div>
+          <div
+            style={{
+              marginTop: "40px",
+            }}
+          >
+            <div style={{ zIndex: 1, position: "relative" }}>
+              <img
+                style={{ borderRadius: "110px" }}
+                width="200px"
+                height="200px"
+                src={img}
+              />
             </div>
             <div
               style={{
                 display: "flex",
-                flexDirection: "column",
+                justifyContent: "center",
                 alignItems: "center",
-                marginTop: "10px",
+                minHeight: "50vh",
+                marginTop: "-110px",
               }}
             >
-              <div
-                style={{
-                  height: "300px",
-                  width: "1200px",
-                  borderRadius: "10px",
-                  backgroundColor: "#fff",
-                  margin: "10px",
-                  padding: "15px",
+              <Box
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  "& > :not(style)": {
+                    m: 1,
+                    width: 550,
+                  },
                 }}
               >
-                <div
+                <Paper
+                  elevation={2}
                   style={{
+                    paddingTop: "130px",
                     display: "flex",
-                    flexDirection: "row",
-                    alignContent: "flex-start",
-                    alignItems: "center",
-                    flexWrap: "wrap",
-                    justifyContent: "space-between",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    borderRadius: "20px",
+                    paddingBottom: "30px",
+                    marginBottom: "30px",
                   }}
                 >
-                  <h2 style={{ margin: "10px", padding: "10px" }}>Education</h2>
-                  <div style={{ padding: "10px", margin: "10px" }}>
-                    <Button
-                      style={{ margin: "10px" }}
-                      size="small"
-                      variant="outlined"
+                  <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        alignContent: "center",
+                        paddingLeft: "50px",
+                        paddingRight: "70px",
+                      }}
                     >
-                      Add
-                    </Button>
-                    <Button
-                      style={{ margin: "10px" }}
-                      size="small"
-                      variant="outlined"
-                    >
-                      Edit
-                    </Button>
+                      <h2>Username</h2>
+                      <Button size="small" variant="outlined">
+                        Edit
+                      </Button>
+                    </div>
+                    <Typography style={{ marginBottom: "15px" }}>
+                      {userinfo.Username}
+                    </Typography>
                   </div>
-                </div>
-                <div>
-                  <h3>{userinfo.Education}</h3>
-                </div>
-              </div>
-              <div
-                style={{
-                  height: "300px",
-                  width: "1200px",
-                  borderRadius: "10px",
-                  backgroundColor: "#fff",
-                  margin: "10px",
-                  padding: "15px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignContent: "flex-start",
-                    alignItems: "center",
-                    flexWrap: "wrap",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <h2 style={{ margin: "10px", padding: "10px" }}>
-                    Experience
-                  </h2>
-                  <div style={{ padding: "10px", margin: "10px" }}>
-                    <Button
-                      style={{ margin: "10px" }}
-                      size="small"
-                      variant="outlined"
+                  <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        alignContent: "center",
+                        paddingLeft: "50px",
+                        paddingRight: "70px",
+                      }}
                     >
-                      Add
-                    </Button>
-                    <Button
-                      style={{ margin: "10px" }}
-                      size="small"
-                      variant="outlined"
-                    >
-                      Edit
-                    </Button>
+                      <h2>Password</h2>
+                      <Button size="small" variant="outlined">
+                        Edit
+                      </Button>
+                    </div>
+                    <Typography style={{ marginBottom: "15px" }}>
+                      {userinfo.Password}
+                    </Typography>
                   </div>
-                </div>
-                <div>
-                  <h3>{userinfo.Experience}</h3>
-                </div>
-              </div>
-              <div
-                style={{
-                  height: "300px",
-                  width: "1200px",
-                  borderRadius: "10px",
-                  backgroundColor: "#fff",
-                  margin: "10px",
-                  padding: "15px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignContent: "flex-start",
-                    alignItems: "center",
-                    flexWrap: "wrap",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <h2 style={{ margin: "10px", padding: "10px" }}>Skills</h2>
-                  <div style={{ padding: "10px", margin: "10px" }}>
-                    <Button
-                      style={{ margin: "10px" }}
-                      size="small"
-                      variant="outlined"
+                  <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        alignContent: "center",
+                        paddingLeft: "50px",
+                        paddingRight: "70px",
+                      }}
                     >
-                      Add
-                    </Button>
-                    <Button
-                      style={{ margin: "10px" }}
-                      size="small"
-                      variant="outlined"
-                    >
-                      Edit
-                    </Button>
+                      <h2>Email</h2>
+                      <Button size="small" variant="outlined">
+                        Edit
+                      </Button>
+                    </div>
+                    <Typography>{userinfo.Email}</Typography>
                   </div>
-                </div>
-                <div>
-                  <h3>{userinfo.Skills}</h3>
-                </div>
-              </div>
+                </Paper>
+              </Box>
             </div>
           </div>
         );

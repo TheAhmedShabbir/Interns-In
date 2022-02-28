@@ -45,9 +45,12 @@ export default function UserHeader() {
           <Link to="/Forums" style={{ color: "white", textDecoration: "none" }}>
             <Button color="inherit">Forums</Button>
           </Link>
-          {/* <Link to="/Forums" style={{ color: "white", textDecoration: "none" }}>
-            <Button color="inherit">Saved Jobs</Button>
-          </Link> */}
+          <Link
+            to="/UserAbout"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            <Button color="inherit">Profile</Button>
+          </Link>
           <Link
             to="/UserProfile"
             style={{ color: "white", textDecoration: "none" }}

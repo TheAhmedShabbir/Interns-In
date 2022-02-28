@@ -5,6 +5,7 @@ import SignUp from "./pages/User/SignUp";
 import CompanySignUp from "./pages/Company/SignUp";
 import AdminProfile from "./pages/Admin/AdminProfile";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
+import UserAbout from "./pages/User/UserAbout";
 import UserProfile from "./pages/User/UserProfile";
 import CompanyProfile from "./pages/Company/CompanyProfile";
 import Mainpage from "./pages/Mainpage";
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/CompanySignUp" element={<CompanySignUp />}></Route>
           <Route path="/AdminProfile" element={<AdminProfile />}></Route>
           <Route path="/AdminDashboard" element={<AdminDashboard />}></Route>
+          <Route path="/UserAbout" element={<UserAbout />}></Route>
           <Route path="/UserProfile" element={<UserProfile />}></Route>
           <Route path="/CompanyProfile" element={<CompanyProfile />}></Route>
           <Route path="/UserHomePage" element={<UserHomepage />}></Route>
@@ -34,7 +36,7 @@ export default function App() {
           <Route path="/CompanyHomePage" element={<CompanyHomePage />}></Route>
           <Route path="/Forums" element={<Forums />}></Route>
           <Route path="/Notifications" element={<Notifications />}></Route>
-          <Route path="/PostJob" element={<PostJob/>}></Route>
+          <Route path="/PostJob" element={<PostJob />}></Route>
         </Routes>
       </div>
     </Router>
