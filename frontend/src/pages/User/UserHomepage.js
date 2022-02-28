@@ -194,11 +194,3 @@ export default function UserHomepage() {
     </div>
   );
 }
-
-// style={{
-//   padding: "15px",
-//   backgroundColor: "#fff",
-//   borderRadius: "10px",
-//   marginTop: "10px",
-//   width: "920px",
-// }}
