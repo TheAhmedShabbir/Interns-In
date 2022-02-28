@@ -13,6 +13,7 @@ import UserHomepage from "./pages/User/UserHomepage";
 import ViewApplicants from "./pages/Company/ViewApplicants";
 import CompanyHomePage from "./pages/Company/CompanyHomePage";
 import Forums from "./pages/Forums";
+import ForumTopic from "./pages/ForumTopic";
 import Notifications from "./pages/Notifications";
 import PostJob from "./pages/Company/PostJob";
 import "./App.css";
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/ViewApplicants" element={<ViewApplicants />}></Route>
           <Route path="/CompanyHomePage" element={<CompanyHomePage />}></Route>
           <Route path="/Forums" element={<Forums />}></Route>
+          <Route path="/ForumTopic" element={<ForumTopic />}></Route>
           <Route path="/Notifications" element={<Notifications />}></Route>
           <Route path="/PostJob" element={<PostJob />}></Route>
         </Routes>

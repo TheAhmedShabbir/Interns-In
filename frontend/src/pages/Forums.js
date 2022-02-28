@@ -83,7 +83,11 @@ export default function Forums() {
                 <h2>{forum.TopicTitle}</h2>
                 <Typography>Total posts: 1000</Typography>
                 <Typography>Views: 2300</Typography>
-                <Button style={{ margin: "15px" }} variant="outlined">
+                <Button
+                  href="/ForumTopic"
+                  style={{ margin: "15px" }}
+                  variant="outlined"
+                >
                   View Discussion
                 </Button>
               </div>
