@@ -4,11 +4,13 @@ import UserHeader from "../Components/User/Userheader";
 import { db } from "../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import img from "../assets/images/Userpfp.jpg";
-import { Comment, Form, } from 'semantic-ui-react'
-
+import { Comment, Form } from "semantic-ui-react";
+// import { TextField } from "@mui/material";
 
 export default function ForumTopic() {
   const [forumTopic, setForumTopic] = useState([]);
+  const [rep, setReply] = useState(false);
+  const [repp, setReplyState] = useState("false");
   const forumTopicCollection = collection(db, "Forum Topic");
 
   useEffect(() => {
@@ -22,6 +24,14 @@ export default function ForumTopic() {
     getForumTopic();
   }, []);
 
+  function reply() {
+    setReply(true);
+  }
+  function replyy() {
+    setReplyState(true);
+
+  }
+
   return (
     <div>
       <UserHeader />
@@ -34,7 +44,7 @@ export default function ForumTopic() {
           backgroundColor: "#f3f2ef",
           marginLeft: "auto",
           marginRight: "auto",
-          marginTop : '50px',
+          // marginTop: "50px",
           minHeight: "600px",
         }}
       >
@@ -43,7 +53,10 @@ export default function ForumTopic() {
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
-            backgroundColor: "blue",
+            borderRadius: "15px",
+            marginTop: "50px",
+            border: "3px solid #548CCB",
+            backgroundColor: "#f3f2ef",
             flexWrap: "wrap",
             padding: "15px",
           }}
@@ -58,73 +71,125 @@ export default function ForumTopic() {
                     flexDirection: "column",
                     justifyContent: "space-evenly",
                     // alignItems: "center",
-                    backgroundColor: "purple",
-                    minHeight: "600px",
+                    // border: "3px solid #548CCB",
+                    backgroundColor: "#f3f2ef",
+                    minHeight: "200px",
                     borderRadius: "10px",
                     margin: "8px",
                     minWidth: "900px",
                   }}
-                > 
-                <div style = {{alignContent : 'baseline'}}>
-                  <Button>Ask a Question</Button>
-                  {/* <TextField/> */}
-                </div>
-                <div  style = {{display : 'flex', flexDirection : 'row' , backgroundColor : 'white', margin : '15px',borderRadius : '20px'}}>
-                  <div style = {{marginright : '5px'}}>
-                    <img style = {{height : '100px', width : '100px', borderRadius : '50px'}}
-                    src = {img}
-                    alt = ""
-                    />
+                >
+                  <div style={{ alignContent: "baseline" }}>
+                    <Button>Ask a Question</Button>
+                    {/* <TextField/> */}
                   </div>
-                  <div style = {{display : 'flex', flexDirection : 'column', margin : '5px', justifyContent : 'space-evenly', alignItems : 'flex-start',}}>
-                    <h4 style = {{marginLeft : '5px'}}>
-                      My Name
-                    </h4>
-                    <p style = {{marginLeft : '5px',textAlign : 'justify'}}>
-                      My Question
-                    </p>
-                    <Button style = {{marginLeft : '5px'}}>reply</Button>
-                  </div>
-                </div> 
-                <div  style = {{display : 'flex', flexDirection : 'row' , backgroundColor : 'white', margin : '15px',borderRadius : '20px'}}>
-                  <div style = {{marginright : '5px'}}>
-                    <img style = {{height : '100px', width : '100px', borderRadius : '50px'}}
-                    src = {img}
-                    alt = ""
-                    />
-                  </div>
-                  <div style = {{display : 'flex', flexDirection : 'column', margin : '5px', justifyContent : 'space-evenly', alignItems : 'flex-start',}}>
-                    <h4 style = {{marginLeft : '5px'}}>
-                      My Name
-                    </h4>
-                    <p style = {{marginLeft : '5px',textAlign : 'justify'}}>
-                      My Question
-                    </p>
-                    <Button style = {{marginLeft : '5px'}}>reply</Button>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      backgroundColor: "white",
+                      margin: "15px",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    <div style={{ marginright: "5px" }}>
+                      <img
+                        style={{
+                          height: "100px",
+                          width: "100px",
+                          borderRadius: "50px",
+                        }}
+                        src={img}
+                        alt=""
+                      />
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        margin: "5px",
+                        justifyContent: "space-evenly",
+                        alignItems: "flex-start",
+                      }}
+                    >
+                      <h4 style={{ marginLeft: "5px" }}>My Name</h4>
+                      <p style={{ marginLeft: "5px", textAlign: "justify" }}>
+                        Hey, whats up??
+                      </p>
+                      <Button onClick={reply} style={{ marginLeft: "5px" }}>
+                        reply
+                      </Button>
+
+                      {rep ? (
+                        <div style={{ display: 'flex', justifyContent: 'space-evenly', }}>
+                          <TextField></TextField>
 
 
-                  </div>
-                </div> 
-                 <div  style = {{display : 'flex', flexDirection : 'row' , backgroundColor : 'white', margin : '15px',borderRadius : '20px'}}>
-                  <div style = {{marginright : '5px'}}>
-                    <img style = {{height : '100px', width : '100px', borderRadius : '50px'}}
-                    src = {img}
-                    alt = ""
-                    />
-                  </div>
-                  <div style = {{display : 'flex', flexDirection : 'column', margin : '5px', justifyContent : 'space-evenly', alignItems : 'flex-start',}}>
-                    <h4 style = {{marginLeft : '5px'}}>
-                      My Name
-                    </h4>
-                    <p style = {{marginLeft : '5px',textAlign : 'justify'}}>
-                      My Question
-                    </p>
-                    <Button style = {{marginLeft : '5px'}}>reply</Button>
+                          <Button onClick={replyy}>Post</Button>
+
+                          <Button
+                            onClick={() => {
+                              setReply(false);
+                            }}
+                            style={{ marginLeft: "5px" }}
+                          >
+                            Cancel
+                          </Button>
+
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
 
 
-                  </div>
-                </div>
+                      {repp ? (
 
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            backgroundColor: "white",
+                            margin: "15px",
+                            borderRadius: "20px",
+                          }}
+                        >
+                          <div style={{ marginright: "5px" }}>
+                            <img
+                              style={{
+                                height: "100px",
+                                width: "100px",
+                                borderRadius: "50px",
+                              }}
+                              src={img}
+                              alt=""
+                            />
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              margin: "5px",
+                              justifyContent: "space-evenly",
+                              alignItems: "flex-start",
+                            }}
+                          >
+                            <h4 style={{ marginLeft: "5px" }}>My Name</h4>
+                            <p style={{ marginLeft: "5px", textAlign: "justify" }}>
+                              Hey, whats up??
+                            </p>
+                            <Button onClick={reply} style={{ marginLeft: "5px" }}>
+                              reply
+                            </Button>
+                          </div>
+                        </div>
+
+
+                      ) : (
+                        <div></div>
+                      )}
+
+                    </div>
+                  </div>
                 </div>
               </div>
             );
@@ -134,7 +199,6 @@ export default function ForumTopic() {
     </div>
   );
 }
-
 
 // import React from 'react'
 // import { Button, Comment, Form, Header } from 'semantic-ui-react'
