@@ -4,13 +4,10 @@ import UserHeader from "../Components/User/Userheader";
 import { db } from "../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import img from "../assets/images/Userpfp.jpg";
-<<<<<<< HEAD
 // import { Comment, Form, } from 'semantic-ui-react'
 
-=======
 import { Comment, Form } from "semantic-ui-react";
 // import { TextField } from "@mui/material";
->>>>>>> faa128a48af1f6658132cd280e1657be38cfeefc
 
 export default function ForumTopic() {
   const [forumTopic, setForumTopic] = useState([]);
@@ -34,7 +31,6 @@ export default function ForumTopic() {
   }
   function replyy() {
     setReplyState(true);
-
   }
 
   return (
@@ -126,9 +122,13 @@ export default function ForumTopic() {
                       </Button>
 
                       {rep ? (
-                        <div style={{ display: 'flex', justifyContent: 'space-evenly', }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-evenly",
+                          }}
+                        >
                           <TextField></TextField>
-
 
                           <Button onClick={replyy}>Post</Button>
 
@@ -140,15 +140,12 @@ export default function ForumTopic() {
                           >
                             Cancel
                           </Button>
-
                         </div>
                       ) : (
                         <div></div>
                       )}
 
-
                       {repp ? (
-
                         <div
                           style={{
                             display: "flex",
@@ -179,20 +176,25 @@ export default function ForumTopic() {
                             }}
                           >
                             <h4 style={{ marginLeft: "5px" }}>My Name</h4>
-                            <p style={{ marginLeft: "5px", textAlign: "justify" }}>
+                            <p
+                              style={{
+                                marginLeft: "5px",
+                                textAlign: "justify",
+                              }}
+                            >
                               Hey, whats up??
                             </p>
-                            <Button onClick={reply} style={{ marginLeft: "5px" }}>
+                            <Button
+                              onClick={reply}
+                              style={{ marginLeft: "5px" }}
+                            >
                               reply
                             </Button>
                           </div>
                         </div>
-
-
                       ) : (
                         <div></div>
                       )}
-
                     </div>
                   </div>
                 </div>
