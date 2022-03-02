@@ -4,7 +4,7 @@ import UserHeader from "../Components/User/Userheader";
 import { db } from "../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import img from "../assets/images/Userpfp.jpg";
-import { Comment, Form, } from 'semantic-ui-react'
+// import { Comment, Form, } from 'semantic-ui-react'
 
 
 export default function ForumTopic() {
