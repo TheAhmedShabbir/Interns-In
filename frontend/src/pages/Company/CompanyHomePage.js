@@ -4,11 +4,6 @@ import { Button, TextField, Typography } from "@mui/material";
 import img from "../../assets/images/Userpfp.jpg";
 import { db } from "../../firebase-config";
 import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import FormEdit from "../../Components/Company/FormEdit";
 
 export default function CompanyHomePage() {
@@ -17,16 +12,14 @@ export default function CompanyHomePage() {
   const jobCollection = collection(db, "Job");
   let [editJob, setEditJob] = useState([]);
   const closeModal = () => setOpen(false);
-
-  // const updateJob = async (id) => {
-  //   // const data = await getDocs(jobCollection);
-  //   // setEditJob(data.docs[id]._document.data.value.mapValue.fields);
-  //   // console.log(data.docs[id]._document.data.value.mapValue.fields);
-  //   setOpen(true);
-  // };
-
   const openModal = () => {
     setOpen(true);
+  };
+
+  const updateJob = async (id) => {
+    openModal();
+    const data = await getDocs(jobCollection);
+    setEditJob(data.docs[id]._document.data.value.mapValue.fields);
   };
 
   useEffect(() => {
@@ -244,8 +237,7 @@ export default function CompanyHomePage() {
                     <Button
                       style={{ margin: "10px" }}
                       variant="outlined"
-                      // onClick={() => updateJob(key)}
-                      onClick={openModal}
+                      onClick={() => updateJob(key)}
                     >
                       Edit
                     </Button>
@@ -262,6 +254,7 @@ export default function CompanyHomePage() {
                       open={open}
                       setOpen={setOpen}
                       close={closeModal}
+                      title={job.Title}
                     />
                   </div>
                 </div>

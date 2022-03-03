@@ -5,7 +5,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 
-export default function FormEdit({ open, close }) {
+export default function FormEdit({ open, close, title }) {
   return (
     <div>
       <Modal open={open} onClose={close}>
@@ -30,7 +30,7 @@ export default function FormEdit({ open, close }) {
             }}
           >
             <TextField style={{ margin: "10px" }} label="Job Title">
-              {/* {editJob.Title.stringValue} */}
+              {console.log(title)}
               {/* {console.log(title)} */}
             </TextField>
             <TextField
