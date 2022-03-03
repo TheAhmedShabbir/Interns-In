@@ -4,16 +4,43 @@ import UserHeader from "../Components/User/Userheader";
 import { db } from "../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import img from "../assets/images/Userpfp.jpg";
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 // import { Comment, Form, } from 'semantic-ui-react'
 
 import { Comment, Form } from "semantic-ui-react";
 // import { TextField } from "@mui/material";
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: '#f3f2ef',
+  border: '2px solid #548CCB',
+  borderRadius: '10px',
+  boxShadow: 24,
+  p: 4,
+};
+
+
 export default function ForumTopic() {
   const [forumTopic, setForumTopic] = useState([]);
+
+  //Question/Answer states
   const [rep, setReply] = useState(false);
   const [repp, setReplyState] = useState("false");
+
+  //data fetch from database
   const forumTopicCollection = collection(db, "Forum Topic");
+
+  // Modal states
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+
 
   useEffect(() => {
     // get forums topic
@@ -29,8 +56,9 @@ export default function ForumTopic() {
   function reply() {
     setReply(true);
   }
-  function replyy() {
-    setReplyState(true);
+  function replystate() {
+    setReplyState(false);
+    setReply(false);
   }
 
   return (
@@ -81,8 +109,28 @@ export default function ForumTopic() {
                   }}
                 >
                   <div style={{ alignContent: "baseline" }}>
-                    <Button>Ask a Question</Button>
-                    {/* <TextField/> */}
+                    <Button onClick={handleOpen}>Ask a Question</Button>
+                    <Modal
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box sx={style}>
+                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#f3f2ef' }}>
+                          <div>
+                            <TextField
+                              style={{ width: '350px' }}
+                              label="What's on your mind?"
+                            />
+                          </div>
+                          <div>
+                            <Button>Post</Button>
+                            <Button>Cancel</Button>
+                          </div>
+                        </div>
+                      </Box>
+                    </Modal>
                   </div>
                   <div
                     style={{
@@ -130,7 +178,7 @@ export default function ForumTopic() {
                         >
                           <TextField></TextField>
 
-                          <Button onClick={replyy}>Post</Button>
+                          <Button onClick={replystate}>Post</Button>
 
                           <Button
                             onClick={() => {
@@ -145,7 +193,14 @@ export default function ForumTopic() {
                         <div></div>
                       )}
 
+
+
+
+
+
                       {repp ? (
+                        <div></div>
+                      ) : (
                         <div
                           style={{
                             display: "flex",
@@ -192,9 +247,8 @@ export default function ForumTopic() {
                             </Button>
                           </div>
                         </div>
-                      ) : (
-                        <div></div>
                       )}
+
                     </div>
                   </div>
                 </div>
@@ -207,79 +261,4 @@ export default function ForumTopic() {
   );
 }
 
-// import React from 'react'
-// import { Button, Comment, Form, Header } from 'semantic-ui-react'
 
-// const ForumTopic = () => (
-//   <Comment.Group>
-//     <Header as='h3' dividing>
-//       Comments
-//     </Header>
-
-//     <Comment>
-//       <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
-//       <Comment.Content>
-//         <Comment.Author as='a'>Matt</Comment.Author>
-//         <Comment.Metadata>
-//           <div>Today at 5:42PM</div>
-//         </Comment.Metadata>
-//         <Comment.Text>How artistic!</Comment.Text>
-//         <Comment.Actions>
-//           <Comment.Action>Reply</Comment.Action>
-//         </Comment.Actions>
-//       </Comment.Content>
-//     </Comment>
-
-//     <Comment>
-//       <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/elliot.jpg' />
-//       <Comment.Content>
-//         <Comment.Author as='a'>Elliot Fu</Comment.Author>
-//         <Comment.Metadata>
-//           <div>Yesterday at 12:30AM</div>
-//         </Comment.Metadata>
-//         <Comment.Text>
-//           <p>This has been very useful for my research. Thanks as well!</p>
-//         </Comment.Text>
-//         <Comment.Actions>
-//           <Comment.Action>Reply</Comment.Action>
-//         </Comment.Actions>
-//       </Comment.Content>
-//       <Comment.Group>
-//         <Comment>
-//           <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/jenny.jpg' />
-//           <Comment.Content>
-//             <Comment.Author as='a'>Jenny Hess</Comment.Author>
-//             <Comment.Metadata>
-//               <div>Just now</div>
-//             </Comment.Metadata>
-//             <Comment.Text>Elliot you are always so right :)</Comment.Text>
-//             <Comment.Actions>
-//               <Comment.Action>Reply</Comment.Action>
-//             </Comment.Actions>
-//           </Comment.Content>
-//         </Comment>
-//       </Comment.Group>
-//     </Comment>
-
-//     <Comment>
-//       <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/joe.jpg' />
-//       <Comment.Content>
-//         <Comment.Author as='a'>Joe Henderson</Comment.Author>
-//         <Comment.Metadata>
-//           <div>5 days ago</div>
-//         </Comment.Metadata>
-//         <Comment.Text>Dude, this is awesome. Thanks so much</Comment.Text>
-//         <Comment.Actions>
-//           <Comment.Action>Reply</Comment.Action>
-//         </Comment.Actions>
-//       </Comment.Content>
-//     </Comment>
-
-//     <Form reply>
-//       <Form.TextArea />
-//       <Button content='Add Reply' labelPosition='left' icon='edit' primary />
-//     </Form>
-//   </Comment.Group>
-// )
-
-// export default ForumTopic
