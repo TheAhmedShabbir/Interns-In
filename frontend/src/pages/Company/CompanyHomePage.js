@@ -9,6 +9,7 @@ import FormEdit from "../../Components/Company/FormEdit";
 export default function CompanyHomePage() {
   const [jobs, setJobs] = useState([]);
   const [open, setOpen] = useState(false);
+  const [Id, setId] = useState(0);
   const jobCollection = collection(db, "Job");
   let [editJob, setEditJob] = useState([]);
   const closeModal = () => setOpen(false);
@@ -19,7 +20,8 @@ export default function CompanyHomePage() {
   const updateJob = async (id) => {
     openModal();
     const data = await getDocs(jobCollection);
-    setEditJob(data.docs[id]._document.data.value.mapValue.fields);
+    setEditJob(jobs[id]);
+    setId(data.docs[id].id);
   };
 
   useEffect(() => {
@@ -217,6 +219,7 @@ export default function CompanyHomePage() {
           </div>
           <div>
             <h2>Posts</h2>
+
             {jobs.map((job, key) => {
               return (
                 <div
@@ -250,18 +253,22 @@ export default function CompanyHomePage() {
                     >
                       Delete
                     </Button>
-                    <FormEdit
-                      open={open}
-                      setOpen={setOpen}
-                      close={closeModal}
-                      title={job.Title}
-                    />
                   </div>
                 </div>
               );
             })}
           </div>
         </div>
+        <FormEdit
+          id={Id}
+          key={Id}
+          open={open}
+          setOpen={setOpen}
+          close={closeModal}
+          title={editJob.Title}
+          description={editJob.Description}
+          salary={editJob.Salary}
+        />
       </div>
     </div>
   );

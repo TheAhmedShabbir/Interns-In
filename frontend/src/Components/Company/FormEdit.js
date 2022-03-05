@@ -1,14 +1,53 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import { Button, Modal, TextField, Typography } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import { updateDoc, doc, collection } from "firebase/firestore";
+import { db } from "../../firebase-config";
 
-export default function FormEdit({ open, close, title }) {
+export default function FormEdit({
+  open,
+  close,
+  id,
+  title,
+  description,
+  salary,
+}) {
+  const updateTitle = async (id, newTitle) => {
+    const jobDoc = doc(db, "Job", id);
+    const nf = { Title: newTitle };
+    updateDoc(jobDoc, nf);
+  };
+
+  const updateDescription = async (id, newDescription) => {
+    const jobDoc = doc(db, "Job", id);
+    const nf = { Description: newDescription };
+    updateDoc(jobDoc, nf);
+  };
+
+  const updateSalary = async (id, newSalary) => {
+    const jobDoc = doc(db, "Job", id);
+    const nf = { Title: newSalary };
+    updateDoc(jobDoc, nf);
+  };
+
+  // const updateTitle = async (id, newTitle) => {
+  //   const jobDoc = doc(db, "Job", id);
+  //   const nf = { Title: newTitle };
+  //   updateDoc(jobDoc, nf);
+  // };
+
+  // const updateTitle = async (id, newTitle) => {
+  //   const jobDoc = doc(db, "Job", id);
+  //   const nf = { Title: newTitle };
+  //   updateDoc(jobDoc, nf);
+  // };
+
   return (
     <div>
-      <Modal open={open} onClose={close}>
+      <Modal open={open}>
         <Box
           sx={{
             position: "absolute",
@@ -20,22 +59,29 @@ export default function FormEdit({ open, close, title }) {
             boxShadow: 0,
             p: 4,
             width: "500px",
-            height: "500px",
+            height: "520px",
           }}
         >
           <div
             style={{
               display: "flex",
               flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            <TextField style={{ margin: "10px" }} label="Job Title">
-              {console.log(title)}
-              {/* {console.log(title)} */}
-            </TextField>
             <TextField
+              fullWidth
+              style={{ margin: "10px" }}
+              label="Job Title"
+              defaultValue={title}
+              onChange={(e) => updateTitle(id, e.target.value)}
+            ></TextField>
+            <TextField
+              fullWidth
               style={{ margin: "10px" }}
               label="Job Description"
+              defaultValue={description}
+              onChange={(e) => updateDescription(id, e.target.value)}
             ></TextField>
             <h3>Job Type</h3>
             <div
@@ -61,7 +107,7 @@ export default function FormEdit({ open, close, title }) {
                   <FormControlLabel
                     control={<Checkbox />}
                     label="Full Time"
-                    value="Full Time"
+                    value="Full time"
                   />
                   <FormControlLabel
                     sx={{ marginLeft: "80px" }}
@@ -113,14 +159,29 @@ export default function FormEdit({ open, close, title }) {
             <div
               style={{
                 display: "flex",
-                flexDirection: "row",
+                flexDirection: "column",
                 justifyContent: "space-evenly",
+                alignItems: "center",
               }}
             >
-              <TextField type="number" label="Salary" />
+              <TextField
+                type="number"
+                label="Salary"
+                defaultValue={salary}
+                onChange={(e) => updateSalary(id, e.target.value)}
+              />
             </div>
-
-            <h4>Set Location and Deadline</h4>
+            <div>
+              <Button
+                sx={{ margin: "20px" }}
+                color="success"
+                variant="contained"
+                onClick={close}
+              >
+                Save
+              </Button>
+              {/* <Button variant="outlined">Cancel</Button> */}
+            </div>
           </div>
         </Box>
       </Modal>
