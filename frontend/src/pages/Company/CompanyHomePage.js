@@ -267,6 +267,7 @@ export default function CompanyHomePage() {
           close={closeModal}
           title={editJob.Title}
           description={editJob.Description}
+          city= {editJob.City}
           salary={editJob.Salary}
         />
       </div>

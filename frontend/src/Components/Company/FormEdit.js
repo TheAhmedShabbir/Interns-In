@@ -14,6 +14,7 @@ export default function FormEdit({
   title,
   description,
   salary,
+  city,
 }) {
   const updateTitle = async (id, newTitle) => {
     const jobDoc = doc(db, "Job", id);
@@ -29,15 +30,15 @@ export default function FormEdit({
 
   const updateSalary = async (id, newSalary) => {
     const jobDoc = doc(db, "Job", id);
-    const nf = { Title: newSalary };
+    const nf = { Salary: newSalary };
     updateDoc(jobDoc, nf);
   };
 
-  // const updateTitle = async (id, newTitle) => {
-  //   const jobDoc = doc(db, "Job", id);
-  //   const nf = { Title: newTitle };
-  //   updateDoc(jobDoc, nf);
-  // };
+  const updateCity = async (id, newCity) => {
+    const jobDoc = doc(db, "Job", id);
+    const nf = { City: newCity };
+    updateDoc(jobDoc, nf);
+  };
 
   // const updateTitle = async (id, newTitle) => {
   //   const jobDoc = doc(db, "Job", id);
@@ -58,8 +59,9 @@ export default function FormEdit({
             borderRadius: "8px",
             boxShadow: 0,
             p: 4,
-            width: "500px",
-            height: "520px",
+            width: "80vh",
+            height: "85vh",
+            overflowY: "auto",
           }}
         >
           <div
@@ -171,9 +173,23 @@ export default function FormEdit({
                 onChange={(e) => updateSalary(id, e.target.value)}
               />
             </div>
+            <h4>Set Location</h4>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+              }}
+            >
+              <TextField
+                label="City Name"
+                defaultValue={city}
+                onChange={(e) => updateCity(id, e.target.value)}
+              />
+            </div>
             <div>
               <Button
-                sx={{ margin: "20px" }}
+                sx={{ marginTop: "30px" }}
                 color="success"
                 variant="contained"
                 onClick={close}
