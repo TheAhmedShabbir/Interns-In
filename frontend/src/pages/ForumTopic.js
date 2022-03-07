@@ -2,14 +2,11 @@ import { Button, TextField, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import UserHeader from "../Components/User/Userheader";
 import { db } from "../firebase-config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 import img from "../assets/images/Userpfp.jpg";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-// import { Comment, Form, } from 'semantic-ui-react'
 
-import { Comment, Form } from "semantic-ui-react";
-// import { TextField } from "@mui/material";
 
 const style = {
   position: 'absolute',
@@ -26,7 +23,11 @@ const style = {
 
 
 export default function ForumTopic() {
+
+  //Database variables
+  const [NewTopic, setNewTopic] = useState("");
   const [forumTopic, setForumTopic] = useState([]);
+  const [NewPost, setNewPost] = useState("");
 
   //Question/Answer states
   const [rep, setReply] = useState(false);
@@ -34,11 +35,17 @@ export default function ForumTopic() {
 
   //data fetch from database
   const forumTopicCollection = collection(db, "Forum Topic");
+  const forumsCollection = collection(db, "Forums");
 
   // Modal states
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+
+  const PostQuery = async () => {
+    await addDoc(forumTopicCollection, { Post: NewPost });
+  }
 
 
 
@@ -53,13 +60,18 @@ export default function ForumTopic() {
     getForumTopic();
   }, []);
 
-  function reply() {
-    setReply(true);
-  }
-  function replystate() {
-    setReplyState(false);
-    setReply(false);
-  }
+  useEffect(() => {
+    // get forums topic
+    const getForumTopic = async () => {
+      const data = await getDocs(forumsCollection);
+      setForumTopic(data.docs.map((doc) => ({ ...doc.data() })));
+    };
+
+    // Function Calls
+    getForumTopic();
+  }, []);
+
+
 
   return (
     <div>
@@ -85,12 +97,12 @@ export default function ForumTopic() {
             borderRadius: "15px",
             marginTop: "50px",
             border: "3px solid #548CCB",
-            backgroundColor: "#f3f2ef",
+            backgroundColor: "purple",
             flexWrap: "wrap",
             padding: "15px",
           }}
         >
-          {forumTopic.map((forumtopic) => {
+          {forumTopic.map((forumtopic, key) => {
             return (
               <div>
                 <h2>{forumtopic.Description}</h2>
@@ -101,13 +113,17 @@ export default function ForumTopic() {
                     justifyContent: "space-evenly",
                     // alignItems: "center",
                     // border: "3px solid #548CCB",
-                    backgroundColor: "#f3f2ef",
+                    backgroundColor: "green",
                     minHeight: "200px",
                     borderRadius: "10px",
                     margin: "8px",
                     minWidth: "900px",
                   }}
+                  key={key}
                 >
+
+
+                  {/* Modal Div */}
                   <div style={{ alignContent: "baseline" }}>
                     <Button onClick={handleOpen}>Ask a Question</Button>
                     <Modal
@@ -117,21 +133,25 @@ export default function ForumTopic() {
                       aria-describedby="modal-modal-description"
                     >
                       <Box sx={style}>
-                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: '#f3f2ef' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: 'blue' }}>
                           <div>
                             <TextField
                               style={{ width: '350px' }}
                               label="What's on your mind?"
+                              onChange={(event) => { setNewPost(event.target.value) }}
                             />
                           </div>
                           <div>
-                            <Button>Post</Button>
+                            <Button onClick={PostQuery}>Post</Button>
                             <Button>Cancel</Button>
                           </div>
                         </div>
                       </Box>
                     </Modal>
                   </div>
+
+
+
                   <div
                     style={{
                       display: "flex",
@@ -163,91 +183,11 @@ export default function ForumTopic() {
                     >
                       <h4 style={{ marginLeft: "5px" }}>My Name</h4>
                       <p style={{ marginLeft: "5px", textAlign: "justify" }}>
-                        Hey, whats up??
+                        {forumtopic.Post}
                       </p>
-                      <Button onClick={reply} style={{ marginLeft: "5px" }}>
+                      <Button style={{ marginLeft: "5px" }}>
                         reply
                       </Button>
-
-                      {rep ? (
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                          }}
-                        >
-                          <TextField></TextField>
-
-                          <Button onClick={replystate}>Post</Button>
-
-                          <Button
-                            onClick={() => {
-                              setReply(false);
-                            }}
-                            style={{ marginLeft: "5px" }}
-                          >
-                            Cancel
-                          </Button>
-                        </div>
-                      ) : (
-                        <div></div>
-                      )}
-
-
-
-
-
-
-                      {repp ? (
-                        <div></div>
-                      ) : (
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            backgroundColor: "white",
-                            margin: "15px",
-                            borderRadius: "20px",
-                          }}
-                        >
-                          <div style={{ marginright: "5px" }}>
-                            <img
-                              style={{
-                                height: "100px",
-                                width: "100px",
-                                borderRadius: "50px",
-                              }}
-                              src={img}
-                              alt=""
-                            />
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              margin: "5px",
-                              justifyContent: "space-evenly",
-                              alignItems: "flex-start",
-                            }}
-                          >
-                            <h4 style={{ marginLeft: "5px" }}>My Name</h4>
-                            <p
-                              style={{
-                                marginLeft: "5px",
-                                textAlign: "justify",
-                              }}
-                            >
-                              Hey, whats up??
-                            </p>
-                            <Button
-                              onClick={reply}
-                              style={{ marginLeft: "5px" }}
-                            >
-                              reply
-                            </Button>
-                          </div>
-                        </div>
-                      )}
 
                     </div>
                   </div>
