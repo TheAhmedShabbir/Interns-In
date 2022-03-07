@@ -30,24 +30,23 @@ export default function () {
       Salary: salary,
       City: city,
     });
+    history.back();
   };
 
   return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
       <CompanyHeader />
-      <div
-        style={{ marginTop: "50px", display: "flex", justifyContent: "center" }}
-      >
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            width: "800px",
+            width: "700px",
             backgroundColor: "white",
             borderRadius: "10px",
-            height: "730px",
-            marginBottom: "30px",
+            height: "750px",
+            margin: "50px",
           }}
         >
           <h2 style={{ padding: "10px", margin: "20px" }}>Add A New Post</h2>
@@ -60,14 +59,27 @@ export default function () {
             }}
           >
             <TextField
+              id="name"
+              required
               style={{ margin: "10px" }}
               fullWidth
               label="Job Title"
-              onChange={(event) => {
-                setJobTitle(event.target.value);
+              // onChange={(event) => {
+              //   if (event.target.value == "") {
+              //     const name = document.getElementById("name");
+              //     name.style.border = "red";
+              //   } else setJobTitle(event.target.value);
+              // }}
+              onClick={(event) => {
+                if (event.target.value == "") {
+                  const name = document.getElementById("name");
+                  name.style.border = "red";
+                  console.log(event.target.value);
+                }
               }}
             />
             <TextField
+              required
               style={{ margin: "10px" }}
               fullWidth
               label="Job Description"
@@ -162,6 +174,7 @@ export default function () {
               }}
             >
               <TextField
+                required
                 type="number"
                 label="Salary"
                 onChange={(event) => {
@@ -174,27 +187,47 @@ export default function () {
             <div
               style={{
                 display: "flex",
-                flexDirection: "row",
+                flexDirection: "column",
                 justifyContent: "space-evenly",
               }}
             >
-              <TextField
-                label="City Name"
-                onChange={(event) => {
-                  setCity(event.target.value);
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
                 }}
-              />
-              <div>
-                <DatePicker
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
+              >
+                <TextField
+                  required
+                  label="City Name"
+                  onChange={(event) => {
+                    setCity(event.target.value);
+                  }}
                 />
+                <div>
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                  />
+                </div>
               </div>
-            </div>
-            <div style={{ padding: "40px" }}>
-              <Button onClick={createPost} variant="contained">
-                Post
-              </Button>
+              <div style={{ marginTop: "25px", marginBottom: "25px" }}>
+                <Button
+                  color="success"
+                  onClick={createPost}
+                  variant="contained"
+                >
+                  Post
+                </Button>
+                <Button
+                  style={{ marginLeft: "25px" }}
+                  variant="outlined"
+                  onClick={() => history.back()}
+                >
+                  Cancel
+                </Button>
+              </div>
             </div>
           </div>
         </div>

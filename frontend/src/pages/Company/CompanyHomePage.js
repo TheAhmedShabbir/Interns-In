@@ -3,7 +3,7 @@ import CompanyHeader from "../../Components/Company/CompanyHeader";
 import { Button, TextField, Typography } from "@mui/material";
 import img from "../../assets/images/Userpfp.jpg";
 import { db } from "../../firebase-config";
-import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import FormEdit from "../../Components/Company/FormEdit";
 
 export default function CompanyHomePage() {
@@ -18,10 +18,18 @@ export default function CompanyHomePage() {
   };
 
   const updateJob = async (id) => {
+    setEditJob(jobs[id]);
     openModal();
     const data = await getDocs(jobCollection);
-    setEditJob(jobs[id]);
     setId(data.docs[id].id);
+  };
+
+  const deleteJob = async (id) => {
+    const data = await getDocs(jobCollection);
+    const ID = data.docs[id].id;
+    const jobDoc = doc(db, "Job", ID);
+    await deleteDoc(jobDoc);
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -250,6 +258,7 @@ export default function CompanyHomePage() {
                       }}
                       variant="outlined"
                       color="error"
+                      onClick={() => deleteJob(key)}
                     >
                       Delete
                     </Button>
@@ -267,7 +276,7 @@ export default function CompanyHomePage() {
           close={closeModal}
           title={editJob.Title}
           description={editJob.Description}
-          city= {editJob.City}
+          city={editJob.City}
           salary={editJob.Salary}
         />
       </div>

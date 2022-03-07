@@ -77,7 +77,9 @@ export default function FormEdit({
               label="Job Title"
               defaultValue={title}
               onChange={(e) => updateTitle(id, e.target.value)}
-            ></TextField>
+            >
+              {console.log(title)}
+            </TextField>
             <TextField
               fullWidth
               style={{ margin: "10px" }}
