@@ -2,11 +2,20 @@ import { Button, TextField, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import UserHeader from "../Components/User/Userheader";
 import { db } from "../firebase-config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 
 export default function Forums() {
+
+  const [NewTopic, setNewTopic] = useState("");
+  const [NewDescription, setNewDescription] = useState("");
   const [forums, setForums] = useState([]);
   const forumsCollection = collection(db, "Forums");
+
+
+  const StartTopic = async () => {
+    await addDoc(forumsCollection, { TopicTitle: NewTopic, TopicDescription: NewDescription });
+
+  }
 
   useEffect(() => {
     // get forums
@@ -38,7 +47,8 @@ export default function Forums() {
           style={{
             marginTop: "30px",
             padding: "15px",
-            width: "1100px",
+            minWidth: "300px",
+            width: '1100px',
             backgroundColor: "white",
             borderRadius: "10px",
           }}
@@ -48,12 +58,24 @@ export default function Forums() {
             style={{ marginBottom: "15px" }}
             fullWidth
             label="Topic Title"
+            onChange={(event) => { setNewTopic(event.target.value) }}
           ></TextField>
-          <div>
-            <Button>Image</Button>
-            <Button>Event</Button>
-            <Button>Document</Button>
-            <Button>Post</Button>
+          <TextField
+            style={{ marginBottom: "15px" }}
+            fullWidth
+            label="Topic Description"
+            onChange={(event) => { setNewDescription(event.target.value) }}
+          ></TextField>
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+            <div>
+              <Button>Image</Button>
+              <Button>Event</Button>
+              <Button>Document</Button>
+
+            </div>
+            <div>
+              <Button onClick={StartTopic} style={{ color: 'white', backgroundColor: '#548CCB', borderRadius: '2px' }}>Post</Button>
+            </div>
           </div>
         </div>
         <div
@@ -94,7 +116,7 @@ export default function Forums() {
             );
           })}
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
