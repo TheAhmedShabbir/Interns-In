@@ -194,7 +194,7 @@ export default function FormEdit({
                 sx={{ marginTop: "30px" }}
                 color="success"
                 variant="contained"
-                onClick={close}
+                onClick={() => close && window.location.reload()}
               >
                 Save
               </Button>

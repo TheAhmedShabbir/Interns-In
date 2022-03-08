@@ -8,8 +8,8 @@ import FormEdit from "../../Components/Company/FormEdit";
 
 export default function CompanyHomePage() {
   const [jobs, setJobs] = useState([]);
+  const [jobid, setjobid] = useState("");
   const [open, setOpen] = useState(false);
-  const [Id, setId] = useState(0);
   const jobCollection = collection(db, "Job");
   let [editJob, setEditJob] = useState([]);
   const closeModal = () => setOpen(false);
@@ -19,15 +19,12 @@ export default function CompanyHomePage() {
 
   const updateJob = async (id) => {
     setEditJob(jobs[id]);
+    setjobid(jobs[id].id);
     openModal();
-    const data = await getDocs(jobCollection);
-    setId(data.docs[id].id);
   };
 
   const deleteJob = async (id) => {
-    const data = await getDocs(jobCollection);
-    const ID = data.docs[id].id;
-    const jobDoc = doc(db, "Job", ID);
+    const jobDoc = doc(db, "Job", jobs[id].id);
     await deleteDoc(jobDoc);
     window.location.reload();
   };
@@ -36,7 +33,7 @@ export default function CompanyHomePage() {
     // get jobs
     const getJobs = async () => {
       const data = await getDocs(jobCollection);
-      setJobs(data.docs.map((doc) => ({ ...doc.data() })));
+      setJobs(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
 
     // Function Calls
@@ -269,8 +266,8 @@ export default function CompanyHomePage() {
           </div>
         </div>
         <FormEdit
-          id={Id}
-          key={Id}
+          id={jobid}
+          key={jobid}
           open={open}
           setOpen={setOpen}
           close={closeModal}
