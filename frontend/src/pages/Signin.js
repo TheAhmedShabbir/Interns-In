@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,20 +11,44 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 import Header from "../Components/Common/header";
+import { auth } from "../firebase-config";
+import { db } from "../firebase-config";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import {
+  onAuthStateChanged,
+  signOut,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 const theme = createTheme();
 
 export default function Signin() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const navigate = useNavigate();
+  const [email, setemail] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState({});
+
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+    localStorage.setItem("token", user.accessToken);
+  });
+
+  const login = async () => {
+    try {
+      const LoggedInUser = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      navigate("/UserHomepage");
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  
 
   return (
     <ThemeProvider theme={theme}>
@@ -43,12 +67,7 @@ export default function Signin() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
+          <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -57,6 +76,8 @@ export default function Signin() {
               label="Email Address"
               name="email"
               autoComplete="email"
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
               autoFocus
             />
             <TextField
@@ -68,6 +89,8 @@ export default function Signin() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -75,10 +98,11 @@ export default function Signin() {
               sx={{ marginRight: 32, marginTop: 2 }}
             />
             <Button
-              type="submit"
+              // type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={login}
             >
               Sign In
             </Button>

@@ -159,7 +159,7 @@ export default function UserHomepage() {
           </div>
           <div>
             <h2>Posts</h2>
-            {jobs.map((job) => {
+            {jobs.map((job, key) => {
               return (
                 <div
                   style={{
@@ -168,6 +168,7 @@ export default function UserHomepage() {
                     margin: "50px",
                     borderRadius: "8px",
                   }}
+                  key={key}
                 >
                   <h2>
                     {job.Title}, {job.Type}, {job.Mode}, {job.City}
