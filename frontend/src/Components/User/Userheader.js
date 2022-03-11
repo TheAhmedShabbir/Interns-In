@@ -7,11 +7,17 @@ import Button from "@mui/material/Button";
 // import IconButton from '@mui/material/IconButton';
 // import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
+import { auth } from "../../firebase-config";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function UserHeader() {
-  // const logout = async () => {
-  //   await signOut(auth);
-  // };
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    await signOut(auth);
+    navigate("/signIn");
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -50,20 +56,20 @@ export default function UserHeader() {
             <Button color="inherit">Forums</Button>
           </Link>
           <Link
-            to="/UserAbout"
+            to="/UserProfile"
             style={{ color: "white", textDecoration: "none" }}
           >
             <Button color="inherit">Profile</Button>
           </Link>
           <Link
-            to="/UserProfile"
+            to="/UserAbout"
             style={{ color: "white", textDecoration: "none" }}
           >
             <Button color="inherit">Me</Button>
           </Link>
-          <Link to="/Signin" style={{ color: "white", textDecoration: "none" }}>
-            <Button color="inherit">Logout</Button>
-          </Link>
+          <Button color="inherit" onClick={logout}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>

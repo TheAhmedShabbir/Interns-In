@@ -7,8 +7,17 @@ import Button from "@mui/material/Button";
 // import IconButton from '@mui/material/IconButton';
 // import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
+import { auth } from "../../firebase-config";
+import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
 
 export default function CompanyHeader() {
+  const navigate = useNavigate();
+  const logout = async () => {
+    await signOut(auth);
+    navigate("/CompanySignIn");
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -42,21 +51,18 @@ export default function CompanyHeader() {
           >
             <Button color="inherit">Notifications</Button>
           </Link>
-          <Link to="/Forums" style={{ color: "white", textDecoration: "none" }}>
-            <Button color="inherit">Forums</Button>
-          </Link>
+          {/* <Link to="/Forums" style={{ color: "white", textDecoration: "none" }}> */}
+          <Button color="inherit">Forums</Button>
+          {/* </Link> */}
           <Link
             to="/CompanyProfile"
             style={{ color: "white", textDecoration: "none" }}
           >
             <Button color="inherit">Me</Button>
           </Link>
-          <Link
-            to="/CompanySignIn"
-            style={{ color: "white", textDecoration: "none" }}
-          >
-            <Button color="inherit">Logout</Button>
-          </Link>
+          <Button color="inherit" onClick={logout}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>

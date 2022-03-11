@@ -7,10 +7,18 @@ import CompanyHeader from "../../Components/Company/CompanyHeader";
 import img from "../../assets/images/Userpfp.jpg";
 import { db } from "../../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
+import { auth } from "../../firebase-config";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function CompanyProfile() {
+  const [user, setUser] = useState({});
   const [companyInfo, setCompanyInfo] = useState([]);
   const recruiterCollection = collection(db, "CompanyProfile");
+
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+    localStorage.setItem("token", user.accessToken);
+  });
 
   useEffect(() => {
     // get company information
@@ -26,173 +34,150 @@ export default function CompanyProfile() {
   return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
       <CompanyHeader />
-      {companyInfo.map((companyinfo) => {
-        return (
-          <div
-            style={{
-              marginTop: "40px",
+      <div
+        style={{
+          marginTop: "40px",
+        }}
+      >
+        <div style={{ zIndex: 1, position: "relative" }}>
+          <img
+            style={{ borderRadius: "110px" }}
+            width="200px"
+            height="200px"
+            src={img}
+          />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "-110px",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              "& > :not(style)": {
+                m: 1,
+                width: 550,
+                height: 600,
+              },
             }}
           >
-            <div style={{ zIndex: 1, position: "relative" }}>
-              <img
-                style={{ borderRadius: "110px" }}
-                width="200px"
-                height="200px"
-                src={img}
-              />
-            </div>
-            <div
+            <Paper
+              elevation={2}
               style={{
                 display: "flex",
+                flexDirection: "column",
                 justifyContent: "center",
-                alignItems: "center",
-                minHeight: "50vh",
-                marginTop: "-110px",
+                borderRadius: "20px",
+                marginBottom: "30px",
+                paddingTop: "30px",
               }}
             >
-              <Box
-                sx={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  "& > :not(style)": {
-                    m: 1,
-                    width: 550,
-                    height: 700,
-                  },
-                }}
-              >
-                <Paper
-                  elevation={2}
+              <div>
+                <div
                   style={{
-                    paddingTop: "130px",
                     display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    borderRadius: "20px",
-                    paddingBottom: "30px",
-                    marginBottom: "30px",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    alignContent: "center",
+                    paddingLeft: "50px",
+                    paddingRight: "70px",
                   }}
                 >
-                  <div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        alignContent: "center",
-                        paddingLeft: "50px",
-                        paddingRight: "70px",
-                      }}
-                    >
-                      <h2>Company Name</h2>
-                      <Button size="small" variant="outlined">
-                        Edit
-                      </Button>
-                    </div>
-                    <Typography style={{ marginBottom: "15px" }}>
-                      {companyinfo.CompanyName}
-                    </Typography>
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        alignContent: "center",
-                        paddingLeft: "50px",
-                        paddingRight: "70px",
-                      }}
-                    >
-                      <h2>Password</h2>
-                      <Button size="small" variant="outlined">
-                        Edit
-                      </Button>
-                    </div>
-                    <Typography style={{ marginBottom: "15px" }}>
-                      {companyinfo.Password}
-                    </Typography>
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        alignContent: "center",
-                        paddingLeft: "50px",
-                        paddingRight: "70px",
-                      }}
-                    >
-                      <h2>Email</h2>
-                      <Button size="small" variant="outlined">
-                        Edit
-                      </Button>
-                    </div>
-                    <Typography>{companyinfo.Email}</Typography>
-                  </div>
+                  <h2>Company Name</h2>
+                  <Button size="small" variant="outlined">
+                    Edit
+                  </Button>
+                </div>
+                <Typography style={{ marginBottom: "15px" }}>eew</Typography>
+              </div>
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    alignContent: "center",
+                    paddingLeft: "50px",
+                    paddingRight: "70px",
+                  }}
+                >
+                  <h2>Password</h2>
+                  <Button size="small" variant="outlined">
+                    Edit
+                  </Button>
+                </div>
+                <Typography style={{ marginBottom: "15px" }}>cdew</Typography>
+              </div>
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    alignContent: "center",
+                    paddingLeft: "50px",
+                    paddingRight: "70px",
+                  }}
+                >
+                  <h2>Email</h2>
+                  <Button size="small" variant="outlined">
+                    Edit
+                  </Button>
+                </div>
+                <Typography>{user?.email}</Typography>
+              </div>
 
-                  <div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        alignContent: "center",
-                        paddingLeft: "50px",
-                        paddingRight: "70px",
-                      }}
-                    >
-                      <h2>Location</h2>
-                      <Button size="small" variant="outlined">
-                        Edit
-                      </Button>
-                    </div>
-                    <Typography style={{ marginBottom: "15px" }}>
-                      {companyinfo.Location}
-                    </Typography>
-                  </div>
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    alignContent: "center",
+                    paddingLeft: "50px",
+                    paddingRight: "70px",
+                  }}
+                >
+                  <h2>Location</h2>
+                  <Button size="small" variant="outlined">
+                    Edit
+                  </Button>
+                </div>
+                <Typography style={{ marginBottom: "15px" }}>nkjd</Typography>
+              </div>
 
-                  <div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        alignContent: "center",
-                        paddingLeft: "50px",
-                        paddingRight: "70px",
-                      }}
-                    >
-                      <h2>About </h2>
-                      <Button size="small" variant="outlined">
-                        Edit
-                      </Button>
-                    </div>
-                    <Typography style={{ margin: "15px" }}>
-                      <div
-                        style={{
-                          textAlign: "justify",
-                          marginLeft: "40px",
-                          marginRight: "40px",
-                          marginBottom: "40px",
-                        }}
-                      >
-                        <p>{companyinfo.About}</p>
-                      </div>
-                    </Typography>
-                  </div>
-                </Paper>
-              </Box>
-            </div>
-          </div>
-        );
-      })}
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    alignContent: "center",
+                    paddingLeft: "50px",
+                    paddingRight: "70px",
+                  }}
+                >
+                  <h2>About </h2>
+                  <Button size="small" variant="outlined">
+                    Edit
+                  </Button>
+                </div>
+                <Typography>cd</Typography>
+              </div>
+            </Paper>
+          </Box>
+        </div>
+      </div>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import FormEdit from "../../Components/Company/FormEdit";
 
 export default function CompanyHomePage() {
+  // const [user, setUser] = useState({});
   const [jobs, setJobs] = useState([]);
   const [jobid, setjobid] = useState("");
   const [open, setOpen] = useState(false);
@@ -90,7 +91,7 @@ export default function CompanyHomePage() {
                 marginBottom: "10px",
               }}
             >
-              <h3>Company XYZ</h3>
+              <h3>Company</h3>
               <Typography>We are Hiring!</Typography>
             </div>
           </div>

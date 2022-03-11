@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,25 +12,35 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Generalheader from "../../Components/Common/header";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase-config";
+import {
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 
 const theme = createTheme();
 
 export default function CompanySignUp() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const signUp = async () => {
+    try {
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+      navigate("/CompanyHomePage");
+      console.log(user);
+    } catch (error) {
+      console.log(error.message);
+      console.log("error creating user");
+    }
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <div>
-        <Generalheader />
-      </div>
+      <Generalheader />
+
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -45,12 +55,7 @@ export default function CompanySignUp() {
           <Typography component="h1" variant="h5">
             Company SignUp
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
+          <Box component="form" noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -70,7 +75,7 @@ export default function CompanySignUp() {
                   id="taxno"
                   label="Tax Number"
                   name="taxnumber"
-                  autoComplete="family-name"
+                  autoComplete="tax-number"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -81,6 +86,9 @@ export default function CompanySignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -92,20 +100,23 @@ export default function CompanySignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
                 />
               </Grid>
             </Grid>
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={signUp}
             >
               Sign Up
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/SignIn" variant="body2">
+                <Link href="/CompanySignIn" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

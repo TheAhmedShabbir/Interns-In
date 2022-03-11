@@ -14,32 +14,24 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import Generalheader from "../../Components/Common/header";
 import { auth } from "../../firebase-config";
-import {
-  onAuthStateChanged,
-  signOut,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 
 const theme = createTheme();
 
 export default function CompanySignIn() {
   const navigate = useNavigate();
-  const [email, setemail] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
 
-  //   onAuthStateChanged(auth, (currentUser) => {
-  //     setUser(currentUser);
-  //     localStorage.setItem("token", user.accessToken);
-  //   });
+  // onAuthStateChanged(auth, (currentUser) => {
+  //   setUser(currentUser);
+  //   localStorage.setItem("token", user.accessToken);
+  // });
 
   const login = async () => {
     try {
-      const LoggedInUser = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const user = await signInWithEmailAndPassword(auth, email, password);
       navigate("/CompanyHomepage");
     } catch (error) {
       console.log(error);
@@ -73,7 +65,7 @@ export default function CompanySignIn() {
               name="email"
               autoComplete="email"
               value={email}
-              onChange={(e) => setemail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               autoFocus
             />
             <TextField
@@ -109,7 +101,7 @@ export default function CompanySignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/SignUp" variant="body2">
+                <Link href="/CompanySignUp" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
