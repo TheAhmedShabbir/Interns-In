@@ -17,6 +17,7 @@ import ForumTopic from "./pages/ForumTopic";
 import Notifications from "./pages/Notifications";
 import PostJob from "./pages/Company/PostJob";
 import CompanySignIn from "./pages/Company/CompanySignIn";
+import SavedJobs from "./pages/User/SavedJobs";
 import "./App.css";
 
 export default function App() {
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="/Forums" element={<Forums />}></Route>
           <Route path="/ForumTopic" element={<ForumTopic />}></Route>
           <Route path="/Notifications" element={<Notifications />}></Route>
+          <Route path="/savedJobs" element={<SavedJobs />}></Route>
           <Route path="/PostJob" element={<PostJob />}></Route>
         </Routes>
       </div>

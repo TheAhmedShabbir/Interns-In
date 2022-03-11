@@ -14,11 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import Generalheader from "../Components/Common/header";
 import { auth } from "../firebase-config";
-import {
-  onAuthStateChanged,
-  signOut,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const theme = createTheme();
 
@@ -26,12 +22,6 @@ export default function Signin() {
   const navigate = useNavigate();
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState({});
-
-  // onAuthStateChanged(auth, (currentUser) => {
-  //   setUser(currentUser);
-  //   localStorage.setItem("token", user.accessToken);
-  // });
 
   const login = async () => {
     try {

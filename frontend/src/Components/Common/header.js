@@ -23,7 +23,7 @@ export default function Generalheader() {
             <MenuIcon />
           </IconButton> */}
           <Link to={"/"} style={{ color: "white", textDecoration: "none" }}>
-            <Typography style={{ fontSize: "30px" }}>Interns-In</Typography>
+            <Typography style={{ fontSize: "25px" }}>Interns-In</Typography>
           </Link>
           <Typography
             variant="h6"
@@ -32,21 +32,39 @@ export default function Generalheader() {
           ></Typography>
           <Link
             to="/CompanySignIn"
-            style={{ color: "white", textDecoration: "none" }}
+            style={{
+              color: "white",
+              textDecoration: "none",
+              marginRight: "15px",
+            }}
           >
-            <Button color="inherit">Sign in as Company</Button>
+            Company SignIn
           </Link>
-          <Link to="/Signin" style={{ color: "white", textDecoration: "none" }}>
-            <Button color="inherit">Sign in</Button>
+          <Link
+            to="/Signin"
+            style={{
+              color: "white",
+              textDecoration: "none",
+              marginRight: "15px",
+            }}
+          >
+            SignIn
           </Link>
-          <Link to="/SignUp" style={{ color: "white", textDecoration: "none" }}>
-            <Button color="inherit">Sign Up</Button>
+          <Link
+            to="/SignUp"
+            style={{
+              color: "white",
+              textDecoration: "none",
+              marginRight: "15px",
+            }}
+          >
+            SignUp
           </Link>
           <Link
             to="/CompanySignUp"
             style={{ color: "white", textDecoration: "none" }}
           >
-            <Button color="inherit">SignUp as Company</Button>
+            SignUp as Company
           </Link>
         </Toolbar>
       </AppBar>
