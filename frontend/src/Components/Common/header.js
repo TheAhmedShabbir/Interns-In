@@ -30,17 +30,23 @@ export default function Generalheader() {
             component="div"
             sx={{ flexGrow: 1 }}
           ></Typography>
-          {/* <Link
+          <Link
             to="/CompanySignIn"
             style={{ color: "white", textDecoration: "none" }}
           >
             <Button color="inherit">Sign in as Company</Button>
-          </Link> */}
+          </Link>
           <Link to="/Signin" style={{ color: "white", textDecoration: "none" }}>
             <Button color="inherit">Sign in</Button>
           </Link>
           <Link to="/SignUp" style={{ color: "white", textDecoration: "none" }}>
             <Button color="inherit">Sign Up</Button>
+          </Link>
+          <Link
+            to="/CompanySignUp"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            <Button color="inherit">SignUp as Company</Button>
           </Link>
         </Toolbar>
       </AppBar>

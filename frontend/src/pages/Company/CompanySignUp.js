@@ -10,7 +10,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import CompanyHeader from "../../Components/Company/CompanyHeader";
+import Generalheader from "../../Components/Common/header";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme();
@@ -29,7 +29,7 @@ export default function CompanySignUp() {
   return (
     <ThemeProvider theme={theme}>
       <div>
-        <CompanyHeader />
+        <Generalheader />
       </div>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -43,7 +43,7 @@ export default function CompanySignUp() {
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Company SignUp
           </Typography>
           <Box
             component="form"

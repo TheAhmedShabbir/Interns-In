@@ -9,9 +9,9 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
 export default function UserHeader() {
-  const logout = async () => {
-    await signOut(auth);
-  };
+  // const logout = async () => {
+  //   await signOut(auth);
+  // };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -61,10 +61,8 @@ export default function UserHeader() {
           >
             <Button color="inherit">Me</Button>
           </Link>
-          <Link style={{ color: "white", textDecoration: "none" }}>
-            <Button color="inherit" onClick={logout}>
-              Logout
-            </Button>
+          <Link to="/Signin" style={{ color: "white", textDecoration: "none" }}>
+            <Button color="inherit">Logout</Button>
           </Link>
         </Toolbar>
       </AppBar>

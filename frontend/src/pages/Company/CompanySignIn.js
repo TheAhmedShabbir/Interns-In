@@ -12,8 +12,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import Generalheader from "../Components/Common/header";
-import { auth } from "../firebase-config";
+import Generalheader from "../../Components/Common/header";
+import { auth } from "../../firebase-config";
 import {
   onAuthStateChanged,
   signOut,
@@ -22,16 +22,16 @@ import {
 
 const theme = createTheme();
 
-export default function Signin() {
+export default function CompanySignIn() {
   const navigate = useNavigate();
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState({});
 
-  // onAuthStateChanged(auth, (currentUser) => {
-  //   setUser(currentUser);
-  //   localStorage.setItem("token", user.accessToken);
-  // });
+  //   onAuthStateChanged(auth, (currentUser) => {
+  //     setUser(currentUser);
+  //     localStorage.setItem("token", user.accessToken);
+  //   });
 
   const login = async () => {
     try {
@@ -40,7 +40,7 @@ export default function Signin() {
         email,
         password
       );
-      navigate("/UserHomepage");
+      navigate("/CompanyHomepage");
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +61,7 @@ export default function Signin() {
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Company SignIn
           </Typography>
           <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField

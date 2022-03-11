@@ -22,8 +22,8 @@ export default function CompanyHeader() {
           >
             <MenuIcon />
           </IconButton> */}
-          <Link to={"/"} style = {{color: "white", textDecoration: "none"}}>
-          <Typography style = {{fontSize : '30px'}}>Interns-In</Typography>
+          <Link to={"/"} style={{ color: "white", textDecoration: "none" }}>
+            <Typography style={{ fontSize: "30px" }}>Interns-In</Typography>
           </Link>
           <Typography
             variant="h6"
@@ -51,7 +51,10 @@ export default function CompanyHeader() {
           >
             <Button color="inherit">Me</Button>
           </Link>
-          <Link to="/" style={{ color: "white", textDecoration: "none" }}>
+          <Link
+            to="/CompanySignIn"
+            style={{ color: "white", textDecoration: "none" }}
+          >
             <Button color="inherit">Logout</Button>
           </Link>
         </Toolbar>
