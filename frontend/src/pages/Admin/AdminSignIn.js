@@ -12,13 +12,13 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import Generalheader from "../Components/Common/header";
-import { auth } from "../firebase-config";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import Generalheader from "../../Components/Common/header";
+import { auth } from "../../firebase-config";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const theme = createTheme();
 
-export default function Signin() {
+export default function AdminSignin() {
   const navigate = useNavigate();
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +31,7 @@ export default function Signin() {
         email,
         password
       );
-      navigate("/UserHomepage");
+      navigate("/AdminDashboard");
     } catch (error) {
       console.log(error);
     }
@@ -97,11 +97,6 @@ export default function Signin() {
               <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/SignUp" variant="body2">
-                  {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>

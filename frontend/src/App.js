@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React, { Component } from "react";
-import Signin from "./pages/Signin";
+import SignIn from "./pages/User/UserSignIn";
 import SignUp from "./pages/User/SignUp";
 import CompanySignUp from "./pages/Company/CompanySignUp";
+import AdminSignin from "./pages/Admin/AdminSignIn";
 import AdminProfile from "./pages/Admin/AdminProfile";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import UserAbout from "./pages/User/UserAbout";
@@ -26,7 +27,7 @@ export default function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Mainpage />}></Route>
-          <Route path="/Signin" element={<Signin />}></Route>
+          <Route path="/SignIn" element={<SignIn />}></Route>
           <Route path="/SignUp" element={<SignUp />}></Route>
           <Route path="/CompanySignIn" element={<CompanySignIn />}></Route>
           <Route path="/CompanySignUp" element={<CompanySignUp />}></Route>
@@ -43,6 +44,7 @@ export default function App() {
           <Route path="/Notifications" element={<Notifications />}></Route>
           <Route path="/savedJobs" element={<SavedJobs />}></Route>
           <Route path="/PostJob" element={<PostJob />}></Route>
+          <Route path="/AdminSignIn" element={<AdminSignin />}></Route>
         </Routes>
       </div>
     </Router>
