@@ -31,7 +31,10 @@ export default function CompanyHeader() {
           >
             <MenuIcon />
           </IconButton> */}
-          <Link to={"/"} style={{ color: "white", textDecoration: "none" }}>
+          <Link
+            to={"/CompanyHomePage"}
+            style={{ color: "white", textDecoration: "none" }}
+          >
             <Typography style={{ fontSize: "30px" }}>Interns-In</Typography>
           </Link>
           <Typography
@@ -39,12 +42,7 @@ export default function CompanyHeader() {
             component="div"
             sx={{ flexGrow: 1 }}
           ></Typography>
-          <Link
-            to="/CompanyHomePage"
-            style={{ color: "white", textDecoration: "none" }}
-          >
-            <Button color="inherit">Home</Button>
-          </Link>
+
           <Link
             to="/Notifications"
             style={{ color: "white", textDecoration: "none" }}

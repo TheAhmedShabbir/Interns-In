@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import Generalheader from "../Components/Common/header";
 import { auth } from "../firebase-config";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
 const theme = createTheme();
 
@@ -22,6 +22,7 @@ export default function Signin() {
   const navigate = useNavigate();
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState();
 
   const login = async () => {
     try {

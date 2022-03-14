@@ -21,13 +21,9 @@ const style = {
 };
 
 export default function Forumtopic() {
-
-
   //Database variables
   const [forumTopic, setForumTopic] = useState([]);
   const [NewPost, setNewPost] = useState("");
-
-  
 
   //data fetch from database
   const forumTopicCollection = collection(db, "Forum Topic");
@@ -41,9 +37,6 @@ export default function Forumtopic() {
   const PostQuery = async () => {
     await addDoc(forumTopicCollection, { Post: NewPost });
   };
-
-  // useEffect(() => {
-  //   }, []);
 
   useEffect(() => {
     // get forums topic
@@ -77,96 +70,117 @@ export default function Forumtopic() {
         Click
       </button> */}
       <div
-        style={{ display: "flex", flexDirection: "column", minHeight: "500px", backgroundColor : 'white', borderRadius: '10px', border : '2px solid #548CCB' , margin : '50px', minHeight : '200px'}}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "500px",
+          backgroundColor: "white",
+          borderRadius: "10px",
+          border: "2px solid #548CCB",
+          margin: "50px",
+          minHeight: "200px",
+        }}
       >
         {forumTopic.map((item, key) => {
           return (
-            
-            <div style = {{display : 'flex', flexDirection : 'column', margin : '50px', borderRadius : '10px', }}>
-              <h1>{item.TopicDescription}</h1>
-
-                {/* Modal Div */}
-                       <div style={{ alignContent: "baseline" }}>
-                         <Button onClick={handleOpen}>What's on your mind?</Button>
-                         <Modal
-                           open={open}
-                           onClose={handleClose}
-                           aria-labelledby="modal-modal-title"
-                           aria-describedby="modal-modal-description"
-                         >
-                           <Box sx={style}>
-                             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', alignItems: 'center', backgroundColor: 'white' }}>
-                               <div>
-                                 <TextField
-                                   style={{ width: '350px' }}
-                                   label="What's on your mind?"
-                                   onChange={(event) => { setNewPost(event.target.value) }}
-                                 />
-                               </div>
-                               <div>
-                                 <Button onClick={PostQuery}>Post</Button>
-                                 <Button>Cancel</Button>
-                               </div>
-                             </div>
-                           </Box>
-                         </Modal>
-                       </div>
-            </div>
-          );
-        })}
-        </div>
-
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            minHeight: "200px",
-            backgroundColor: "white",
-            margin: "50px",
-            border : '2px solid #548CCB',
-            borderRadius: "10px",
-          }}
-        >
-          <h1>User posts</h1>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              backgroundColor: "white",
-              margin: "15px",
-              borderRadius: "20px",
-            }}
-          >
-            <div style={{ marginright: "5px" }}>
-              <img
-                style={{
-                  height: "100px",
-                  width: "100px",
-                  borderRadius: "50px",
-                }}
-                src={img}
-                alt=""
-              />
-            </div>
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                margin: "5px",
-                justifyContent: "space-evenly",
-                alignItems: "flex-start",
+                margin: "50px",
+                borderRadius: "10px",
               }}
             >
-              <h4 style={{ marginLeft: "5px" }}>My Name</h4>
-              <p style={{ marginLeft: "5px", textAlign: "justify" }}>
-                hey there
-              </p>
-              <Button style={{ marginLeft: "5px" }}>reply</Button>
+              <h1>{item.TopicDescription}</h1>
+
+              {/* Modal Div */}
+              <div style={{ alignContent: "baseline" }}>
+                <Button onClick={handleOpen}>What's on your mind?</Button>
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={style}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-evenly",
+                        alignItems: "center",
+                        backgroundColor: "white",
+                      }}
+                    >
+                      <div>
+                        <TextField
+                          style={{ width: "350px" }}
+                          label="What's on your mind?"
+                          onChange={(event) => {
+                            setNewPost(event.target.value);
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <Button onClick={PostQuery}>Post</Button>
+                        <Button>Cancel</Button>
+                      </div>
+                    </div>
+                  </Box>
+                </Modal>
+              </div>
             </div>
+          );
+        })}
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "200px",
+          backgroundColor: "white",
+          margin: "50px",
+          border: "2px solid #548CCB",
+          borderRadius: "10px",
+        }}
+      >
+        <h1>User posts</h1>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            backgroundColor: "white",
+            margin: "15px",
+            borderRadius: "20px",
+          }}
+        >
+          <div style={{ marginright: "5px" }}>
+            <img
+              style={{
+                height: "100px",
+                width: "100px",
+                borderRadius: "50px",
+              }}
+              src={img}
+              alt=""
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              margin: "5px",
+              justifyContent: "space-evenly",
+              alignItems: "flex-start",
+            }}
+          >
+            <h4 style={{ marginLeft: "5px" }}>My Name</h4>
+            <p style={{ marginLeft: "5px", textAlign: "justify" }}>hey there</p>
+            <Button style={{ marginLeft: "5px" }}>reply</Button>
           </div>
         </div>
-      
+      </div>
     </div>
   );
 }
