@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -13,22 +11,31 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Header from "../../Components/Common/header";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../firebase-config";
-import {
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
+import { db, auth } from "../../firebase-config";
+import { collection, addDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const theme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const userProfile = collection(db, "UserProfile");
 
   const signUp = async () => {
     try {
       const user = await createUserWithEmailAndPassword(auth, email, password);
+      if (user != null) {
+        addDoc(userProfile, {
+          FirstName: firstName,
+          LastName: lastName,
+          Email: email,
+          Role: "User",
+        });
+      }
       navigate("/UserHomepage");
       console.log(user);
     } catch (error) {
@@ -65,6 +72,9 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -75,6 +85,9 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  onChange={(e) => {
+                    setLastName(e.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>

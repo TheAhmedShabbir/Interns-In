@@ -13,25 +13,56 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import Generalheader from "../../Components/Common/header";
-import { auth } from "../../firebase-config";
+import { db, auth } from "../../firebase-config";
+import { collection, getDocs, doc } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 const theme = createTheme();
 
 export default function UserSignIn() {
   const navigate = useNavigate();
-  const [email, setemail] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState();
+  const userProfile = collection(db, "UserProfile");
+  const [checkUser, setCheckUser] = useState([]);
+
+  let verifyEmail, verifyRole;
+
+  const verifyUser = (item, index) => {
+    console.log("4");
+    verifyEmail = item.Email;
+    verifyRole = item.Role;
+
+    if (email == verifyEmail && verifyRole == "User") {
+      navigate("/UserHomepage");
+      // console.log("/userHomepage");
+    }
+
+    if (email == verifyEmail && verifyRole == "Company") {
+      navigate("/CompanyHomepage");
+      // console.log("/CompanyHomepage");
+    }
+
+    if (email == verifyEmail && verifyRole == "Admin") {
+      navigate("/AdminDashboard");
+      // console.log("/AdminDashboard");
+    }
+  };
 
   const login = async () => {
+    console.log("1");
+    const data = await getDocs(userProfile);
+    setCheckUser(data.docs.map((doc) => ({ ...doc.data() })));
+    console.log("2");
     try {
       const LoggedInUser = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
-      navigate("/UserHomepage");
+      console.log("3");
+      checkUser.forEach(verifyUser);
+      console.log("5");
     } catch (error) {
       console.log(error);
     }
@@ -40,6 +71,7 @@ export default function UserSignIn() {
   return (
     <ThemeProvider theme={theme}>
       <Generalheader />
+
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -64,7 +96,7 @@ export default function UserSignIn() {
               name="email"
               autoComplete="email"
               value={email}
-              onChange={(e) => setemail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               autoFocus
             />
             <TextField

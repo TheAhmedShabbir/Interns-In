@@ -15,7 +15,7 @@ export default function CompanyHeader() {
   const navigate = useNavigate();
   const logout = async () => {
     await signOut(auth);
-    navigate("/CompanySignIn");
+    navigate("/SignIn");
   };
 
   return (

@@ -47,7 +47,7 @@ export default function AdminHeader() {
             <Button color="inherit">Me</Button>
           </Link>
 
-          <Link to="/" style={{ color: "white", textDecoration: "none" }}>
+          <Link to="/SignIn" style={{ color: "white", textDecoration: "none" }}>
             <Button color="inherit">Logout</Button>
           </Link>
         </Toolbar>
