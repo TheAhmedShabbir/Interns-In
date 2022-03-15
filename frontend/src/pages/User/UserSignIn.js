@@ -29,7 +29,7 @@ export default function UserSignIn() {
   let verifyEmail, verifyRole;
 
   const verifyUser = (item, index) => {
-    console.log("4");
+    console.log("3");
     verifyEmail = item.Email;
     verifyRole = item.Role;
 
@@ -49,20 +49,23 @@ export default function UserSignIn() {
     }
   };
 
-  const login = async () => {
-    console.log("1");
+  const getData = async () => {
     const data = await getDocs(userProfile);
     setCheckUser(data.docs.map((doc) => ({ ...doc.data() })));
-    console.log("2");
+  };
+
+  const login = async () => {
+    console.log("1");
+
     try {
       const LoggedInUser = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
-      console.log("3");
+      console.log("2");
       checkUser.forEach(verifyUser);
-      console.log("5");
+      console.log("4");
     } catch (error) {
       console.log(error);
     }
@@ -97,6 +100,7 @@ export default function UserSignIn() {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onFocus={getData}
               autoFocus
             />
             <TextField
