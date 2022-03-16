@@ -24,6 +24,7 @@ export default function Forumtopic() {
   //Database variables
   const [forumTopic, setForumTopic] = useState([]);
   const [NewPost, setNewPost] = useState("");
+  const [UserPost, setUserPost] = useState("");
 
   //data fetch from database
   const forumTopicCollection = collection(db, "Forum Topic");
@@ -46,17 +47,17 @@ export default function Forumtopic() {
       // console.log(forumTopic)
     };
 
-    // get forums topic
-    // const getForumTopic = async () => {
-    //   const data = await getDocs(forumTopicCollection);
-    //   setForumTopic(data.docs.map((doc) => ({ ...doc.data() })));
-    // };
-
-    // Function Calls
-    // getForumTopic();
-
-    // Function Calls
     getForumDescription();
+  }, []);
+
+  useEffect(() => {
+    // get forums topic
+    const getForumPosts = async () => {
+      const data = await getDocs(forumTopicCollection);
+      setNewPost(data.docs.map((doc) => ({ ...doc.data() })));
+      // console.log(forumTopic)
+    };
+    getForumPosts();
   }, []);
 
   return (
@@ -90,6 +91,7 @@ export default function Forumtopic() {
                 margin: "50px",
                 borderRadius: "10px",
               }}
+              key={key}
             >
               <h1>{item.TopicDescription}</h1>
 
@@ -166,6 +168,8 @@ export default function Forumtopic() {
               alt=""
             />
           </div>
+          {forumTopic.map((item, key) => {
+          return (
           <div
             style={{
               display: "flex",
@@ -174,11 +178,17 @@ export default function Forumtopic() {
               justifyContent: "space-evenly",
               alignItems: "flex-start",
             }}
+            key ={key}
           >
+            
             <h4 style={{ marginLeft: "5px" }}>My Name</h4>
-            <p style={{ marginLeft: "5px", textAlign: "justify" }}>hey there</p>
+            <p style={{ marginLeft: "5px", textAlign: "justify" }}>{item.Post}</p>
             <Button style={{ marginLeft: "5px" }}>reply</Button>
+                      
           </div>
+          );
+        })}
+
         </div>
       </div>
     </div>
