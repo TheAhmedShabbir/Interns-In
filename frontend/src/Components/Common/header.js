@@ -41,7 +41,7 @@ export default function Generalheader() {
             SignIn
           </Link>
           <Link
-            to="/SignUp"
+            to="/UserSignUp"
             style={{
               color: "white",
               textDecoration: "none",
