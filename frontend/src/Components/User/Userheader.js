@@ -16,8 +16,8 @@ export default function UserHeader() {
 
   const logout = async () => {
     await signOut(auth);
-    
-    navigate("/signIn");
+
+    navigate("/SignIn");
   };
 
   return (

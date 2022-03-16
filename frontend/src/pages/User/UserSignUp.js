@@ -17,13 +17,13 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const theme = createTheme();
 
-export default function SignUp() {
+export default function UserSignUp() {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const userProfile = collection(db, "UserProfile");
+  const userProfile = collection(db, "Users");
 
   const signUp = async () => {
     try {
