@@ -13,22 +13,31 @@ import Container from "@mui/material/Container";
 import Generalheader from "../../Components/Common/header";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../firebase-config";
-import {
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
+import { db, auth } from "../../firebase-config";
+import { collection, addDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const theme = createTheme();
 
 export default function CompanySignUp() {
   const navigate = useNavigate();
+  const [companyName, setCompanyName] = useState("");
+  const [taxNumber, setTaxNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const userProfile = collection(db, "Users");
 
   const signUp = async () => {
     try {
       const user = await createUserWithEmailAndPassword(auth, email, password);
+      if (user != null) {
+        addDoc(userProfile, {
+          CompanyName: companyName,
+          TaxNumber: taxNumber,
+          Email: email,
+          Role: "Company",
+        });
+      }
       navigate("/CompanyHomePage");
       console.log(user);
     } catch (error) {
@@ -66,6 +75,7 @@ export default function CompanySignUp() {
                   id="companyName"
                   label="Company Name"
                   autoFocus
+                  onChange={(e) => setCompanyName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -76,6 +86,7 @@ export default function CompanySignUp() {
                   label="Tax Number"
                   name="taxnumber"
                   autoComplete="tax-number"
+                  onChange={(e) => setTaxNumber(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>

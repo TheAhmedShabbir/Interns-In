@@ -31,26 +31,6 @@ export default function Generalheader() {
             sx={{ flexGrow: 1 }}
           ></Typography>
           <Link
-            to="/AdminSignIn"
-            style={{
-              color: "white",
-              textDecoration: "none",
-              marginRight: "15px",
-            }}
-          >
-            Admin SignIn
-          </Link>
-          <Link
-            to="/CompanySignIn"
-            style={{
-              color: "white",
-              textDecoration: "none",
-              marginRight: "15px",
-            }}
-          >
-            Company SignIn
-          </Link>
-          <Link
             to="/Signin"
             style={{
               color: "white",
@@ -61,7 +41,7 @@ export default function Generalheader() {
             SignIn
           </Link>
           <Link
-            to="/SignUp"
+            to="/UserSignUp"
             style={{
               color: "white",
               textDecoration: "none",

@@ -12,27 +12,55 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import Generalheader from "../../Components/Common/header";
-import { auth } from "../../firebase-config";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import Generalheader from "../Components/Common/header";
+import { db, auth } from "../firebase-config";
+import { collection, getDocs, doc } from "firebase/firestore";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const theme = createTheme();
 
-export default function CompanySignIn() {
+export default function SignIn() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [user, setUser] = useState({});
+  const userProfile = collection(db, "Users");
+  const [checkUser, setCheckUser] = useState([]);
 
-  // onAuthStateChanged(auth, (currentUser) => {
-  //   setUser(currentUser);
-  //   localStorage.setItem("token", user.accessToken);
-  // });
+  let verifyEmail, verifyRole;
+
+  const verifyUser = (item, index) => {
+    verifyEmail = item.Email;
+    verifyRole = item.Role;
+
+    if (email == verifyEmail && verifyRole == "User") {
+      navigate("/UserHomepage");
+      // console.log("/userHomepage");
+    }
+
+    if (email == verifyEmail && verifyRole == "Company") {
+      navigate("/CompanyHomepage");
+      // console.log("/CompanyHomepage");
+    }
+
+    if (email == verifyEmail && verifyRole == "Admin") {
+      navigate("/AdminDashboard");
+      // console.log("/AdminDashboard");
+    }
+  };
+
+  const getData = async () => {
+    const data = await getDocs(userProfile);
+    setCheckUser(data.docs.map((doc) => ({ ...doc.data() })));
+  };
 
   const login = async () => {
     try {
-      const user = await signInWithEmailAndPassword(auth, email, password);
-      navigate("/CompanyHomepage");
+      const LoggedInUser = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      checkUser.forEach(verifyUser);
     } catch (error) {
       console.log(error);
     }
@@ -41,6 +69,7 @@ export default function CompanySignIn() {
   return (
     <ThemeProvider theme={theme}>
       <Generalheader />
+
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -53,7 +82,7 @@ export default function CompanySignIn() {
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
           <Typography component="h1" variant="h5">
-            Company SignIn
+            Sign in
           </Typography>
           <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField
@@ -66,6 +95,7 @@ export default function CompanySignIn() {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onFocus={getData}
               autoFocus
             />
             <TextField
@@ -101,7 +131,7 @@ export default function CompanySignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/CompanySignUp" variant="body2">
+                <Link href="/SignUp" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
