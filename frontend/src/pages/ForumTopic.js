@@ -6,6 +6,8 @@ import { collection, getDocs, addDoc } from "firebase/firestore";
 import img from "../assets/images/Userpfp.jpg";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 const style = {
   position: "absolute",
@@ -23,8 +25,9 @@ const style = {
 export default function Forumtopic() {
   //Database variables
   const [forumTopic, setForumTopic] = useState([]);
+  const [Userposts, setUserposts] = useState([]);
   const [NewPost, setNewPost] = useState("");
-  const [UserPost, setUserPost] = useState("");
+
 
   //data fetch from database
   const forumTopicCollection = collection(db, "Forum Topic");
@@ -36,29 +39,31 @@ export default function Forumtopic() {
   const handleClose = () => setOpen(false);
 
   const PostQuery = async () => {
-    await addDoc(forumTopicCollection, { Post: NewPost });
+    await addDoc(forumTopicCollection, { userPost: NewPost });
   };
 
   useEffect(() => {
     // get forums topic
     const getForumDescription = async () => {
       const data = await getDocs(forumsCollection);
-      setForumTopic(data.docs.map((doc) => ({ ...doc.data() })));
+      setForumTopic(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       // console.log(forumTopic)
     };
 
     getForumDescription();
   }, []);
 
-  useEffect(() => {
-    // get forums topic
-    const getForumPosts = async () => {
-      const data = await getDocs(forumTopicCollection);
-      setNewPost(data.docs.map((doc) => ({ ...doc.data() })));
-      // console.log(forumTopic)
-    };
-    getForumPosts();
-  }, []);
+
+useEffect(() => {
+  const getUserPosts = async () => {
+    const data = await getDocs(forumTopicCollection);
+    setUserposts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    console.log(Userposts)
+  };
+
+  getUserPosts();
+},[])
+  
 
   return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
@@ -141,13 +146,17 @@ export default function Forumtopic() {
           display: "flex",
           flexDirection: "column",
           minHeight: "200px",
-          backgroundColor: "white",
+          backgroundColor: "#f3f2ef",
           margin: "50px",
           border: "2px solid #548CCB",
           borderRadius: "10px",
         }}
       >
         <h1>User posts</h1>
+        {Userposts.map((item, key) => {
+          return (
+
+         
         <div
           style={{
             display: "flex",
@@ -155,41 +164,56 @@ export default function Forumtopic() {
             backgroundColor: "white",
             margin: "15px",
             borderRadius: "20px",
+            justifyContent: "space-between",
+            Width: "200px"
           }}
         >
-          <div style={{ marginright: "5px" }}>
+          <div style={{ marginright: "5px" , display : 'flex', flexDirection : 'column', justifyContent : 'center'}}>
             <img
               style={{
                 height: "100px",
                 width: "100px",
                 borderRadius: "50px",
+                marginLeft:"25px"
               }}
               src={img}
               alt=""
             />
           </div>
-          {forumTopic.map((item, key) => {
-          return (
+          
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              margin: "5px",
+              marginRight: "800px",
               justifyContent: "space-evenly",
               alignItems: "flex-start",
             }}
-            key ={key}
+            
           >
             
-            <h4 style={{ marginLeft: "5px" }}>My Name</h4>
-            <p style={{ marginLeft: "5px", textAlign: "justify" }}>{item.Post}</p>
+            <h4 style={{ marginLeft: "5px" }}>{item.userName}</h4>
+            <p style={{ marginLeft: "5px", textAlign: "justify" }}>{item.userPost}</p>
             <Button style={{ marginLeft: "5px" }}>reply</Button>
-                      
+            </div>
+            
+
+            
+            <div style = {{
+            justifyContent : 'center', 
+           
+            // marginRight:"20px",
+            // marginTop : '20px'
+            margin : '20px'
+            }}> 
+
+            <DeleteIcon/>
           </div>
-          );
-        })}
 
         </div>
+         );
+         
+        })}
       </div>
     </div>
   );
