@@ -2,13 +2,13 @@ import { Button, TextField, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import UserHeader from "../Components/User/Userheader";
 import { db } from "../firebase-config";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, updateDoc } from "firebase/firestore";
 import img from "../assets/images/Userpfp.jpg";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import DeleteIcon from '@mui/icons-material/Delete';
-
-
+import EditIcon from '@mui/icons-material/Edit';
+import UserPostEdit from "../Components/User/UserPostEdit";
 
 const style = {
   position: "absolute",
@@ -29,6 +29,20 @@ export default function Forumtopic() {
   const [Userposts, setUserposts] = useState([]);
   const [NewPost, setNewPost] = useState("");
 
+  //Update Post
+  const [updatedPost, setUpdatedPost] = useState([]);
+  const [postId, setPostId] = useState("");
+
+  
+  const closeModal = () => setOpen(false);
+
+ 
+
+  const updatePost = async (id) => {
+    setUpdatedPost(Userposts[id]);
+    setPostId(Userposts[id].id);
+    openModal();
+  };
 
   //data fetch from database
   const forumTopicCollection = collection(db, "Forum Topic");
@@ -39,9 +53,14 @@ export default function Forumtopic() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const openModal = () => {
+    setOpen(true);
+  };
+
   const PostQuery = async () => {
     await addDoc(forumTopicCollection, { userPost: NewPost });
   };
+
 
   useEffect(() => {
     // get forums topic
@@ -76,6 +95,7 @@ useEffect(() => {
       >
         Click
       </button> */}
+      <div>
       <div
         style={{
           display: "flex",
@@ -131,7 +151,7 @@ useEffect(() => {
                       </div>
                       <div>
                         <Button onClick={PostQuery}>Post</Button>
-                        <Button>Cancel</Button>
+                        <Button onClick={closeModal}>Cancel</Button>
                       </div>
                     </div>
                   </Box>
@@ -168,6 +188,7 @@ useEffect(() => {
             justifyContent: "space-between",
             Width: "200px"
           }}
+          key = {key}
         >
           <div style={{ marginright: "5px" , display : 'flex', flexDirection : 'column', justifyContent : 'center'}}>
             <img
@@ -193,7 +214,7 @@ useEffect(() => {
             
           >
             
-            <h4 style={{ marginLeft: "5px" }}>{item.userName}</h4>
+            <h4 style={{ marginLeft: "5px" }}>Test user</h4>
             <p style={{ marginLeft: "5px", textAlign: "justify" }}>{item.userPost}</p>
             <Button style={{ marginLeft: "5px" }}>reply</Button>
             </div>
@@ -207,14 +228,27 @@ useEffect(() => {
             // marginTop : '20px'
             margin : '20px'
             }}> 
-
+            <button style = {{border : 'none', backgroundColor: 'white', cursor : 'pointer'}} onClick={() => updatePost(key)}>
+            <EditIcon/>
+            </button>
+            <button  style = {{border : 'none', backgroundColor: 'white', cursor : 'pointer'}}>
             <DeleteIcon/>
+            </button>
           </div>
 
         </div>
          );
          
         })}
+      </div>
+      {/* <UserPostEdit
+      id = {postId}
+      key = {postId}
+      open = {open}
+      setOpen = {setOpen}
+      close = {closeModal}
+      Userposts = {updatedPost.userPost}
+      /> */}
       </div>
     </div>
   );
