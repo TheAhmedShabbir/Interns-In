@@ -22,19 +22,18 @@ export default function AdminHeader() {
           >
             <MenuIcon />
           </IconButton> */}
-          <Link
-            to="/AdminDashboard"
-            style={{ color: "white", textDecoration: "none" }}
-          >
-            <Button style={{ fontSize: "20px" }} color="inherit">
-              Interns-In
-            </Button>
-          </Link>
+          <Typography style={{ fontSize: "30px" }}>Interns-In</Typography>
           <Typography
             variant="h6"
             component="div"
             sx={{ flexGrow: 1 }}
           ></Typography>
+          <Link
+            to="/AdminDashboard"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            <Button color="inherit">Home</Button>
+          </Link>
           <Link
             to="/Notifications"
             style={{ color: "white", textDecoration: "none" }}

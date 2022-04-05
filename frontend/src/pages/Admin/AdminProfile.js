@@ -26,6 +26,7 @@ export default function AdminProfile() {
   return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
       <AdminHeader />
+
       {adminInfo.map((admininfo, key) => {
         return (
           <div
