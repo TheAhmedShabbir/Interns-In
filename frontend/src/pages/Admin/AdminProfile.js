@@ -26,12 +26,14 @@ export default function AdminProfile() {
   return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
       <AdminHeader />
-      {adminInfo.map((admininfo) => {
+
+      {adminInfo.map((admininfo, key) => {
         return (
           <div
             style={{
               marginTop: "20px",
             }}
+            key={key}
           >
             <div style={{ zIndex: 1, position: "relative" }}>
               <img

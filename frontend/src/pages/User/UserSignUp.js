@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -24,6 +24,7 @@ export default function UserSignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const userProfile = collection(db, "Users");
+  const [user, setUser] = useState({});
 
   const signUp = async () => {
     try {
@@ -36,8 +37,8 @@ export default function UserSignUp() {
           Role: "User",
         });
       }
-      navigate("/UserHomepage");
       console.log(user);
+      navigate("/UserHomepage");
     } catch (error) {
       console.log(error.message);
       console.log("error creating user");
