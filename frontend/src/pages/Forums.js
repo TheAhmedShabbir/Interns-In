@@ -3,6 +3,13 @@ import React, { useState, useEffect } from "react";
 import UserHeader from "../Components/User/Userheader";
 import { db } from "../firebase-config";
 import { collection, getDocs, addDoc } from "firebase/firestore";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+
+
+
+
+
 
 export default function Forums() {
 
@@ -87,6 +94,7 @@ export default function Forums() {
             padding: "15px",
           }}
         >
+         
           {forums.map((forum) => {
             return (
               <div
@@ -102,6 +110,7 @@ export default function Forums() {
                   margin: "8px",
                 }}
               >
+            
                 <h2>{forum.TopicTitle}</h2>
                 <Typography>Total posts: 1000</Typography>
                 <Typography>Views: 2300</Typography>
@@ -112,6 +121,14 @@ export default function Forums() {
                 >
                   View Discussion
                 </Button>
+                <div>
+                <button style = {{border : 'none', backgroundColor: 'white'}}>
+                <EditIcon/>
+                </button>
+                <button  style = {{border : 'none', backgroundColor: 'white'}}>
+                <DeleteIcon/>
+                </button>
+                </div>
               </div>
             );
           })}
