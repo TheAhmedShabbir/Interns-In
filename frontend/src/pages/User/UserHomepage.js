@@ -12,26 +12,55 @@ export default function UserHomepage() {
   const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
   const jobCollection = collection(db, "Job");
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [checkUser, setCheckUser] = useState([]);
+  const userProfile = collection(db, "Users");
+
+  let verifyEmail, verifyRole;
+
+  const getJobs = async () => {
+    const data = await getDocs(jobCollection);
+    setJobs(data.docs.map((doc) => ({ ...doc.data() })));
+  };
+
+  const verifyUser = (item, index) => {
+    console.log("12");
+
+    verifyEmail = item.Email;
+    verifyRole = item.Role;
+
+    if (user?.email != verifyEmail && verifyRole != "User") {
+      // navigate("/UserHomepage");
+      console.log("jdc");
+      setLoading(true);
+    } else {
+      console.log("/userHomepage");
+      setLoading(false);
+    }
+  };
+
+  const getData = async () => {
+    const data = await getDocs(userProfile);
+    setCheckUser(data.docs.map((doc) => ({ ...doc.data() })));
+    console.log("data");
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
+    getData();
+    console.log(user);
 
-    if (user) {
-      // get jobs
-      const getJobs = async () => {
-        const data = await getDocs(jobCollection);
-        setJobs(data.docs.map((doc) => ({ ...doc.data() })));
-        setLoading(false);
-      };
-
-      // Function Calls
-      getJobs();
+    if (user == null) {
+      console.log("no user");
+      setLoading(true);
     } else {
-      navigate("/SignIn");
+      setLoading(false);
+      checkUser.forEach(verifyUser);
+      // get jobs
+      getJobs();
     }
   }, [user]);
 
