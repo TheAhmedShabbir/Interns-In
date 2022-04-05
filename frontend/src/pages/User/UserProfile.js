@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -9,6 +9,8 @@ import { db, auth } from "../../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import EditIcon from '@mui/icons-material/Edit';
+import Avatar from '@mui/material/Avatar';
 
 export default function UserProfile() {
   const navigate = useNavigate();
@@ -16,6 +18,24 @@ export default function UserProfile() {
   const [UserInfo, setUserInfo] = useState([]);
   const UserCollection = collection(db, "UserProfile");
   const [loading, setLoading] = useState(true);
+
+//Uploading User Profile Picture
+
+const [file, setFile] = useState(null);
+const [preview, setPreview] = useState(null);
+const filePickerRef = useRef();
+
+
+
+const handleImageChange = () => {
+
+}
+
+
+const handleSubmit = () => {
+
+}
+
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -49,12 +69,23 @@ export default function UserProfile() {
           }}
         >
           <div style={{ zIndex: 1, position: "relative" }}>
+         
             <img
               style={{ borderRadius: "110px" }}
               width="200px"
               height="200px"
               src={img}
             />
+             
+          </div>
+          <div>
+            <input type = "file" onChange={handleImageChange}/>
+            <Button onClick = {handleSubmit}>Upload</Button>
+
+
+          {/* <Button>
+              <EditIcon />
+          </Button> */}
           </div>
           <div
             style={{
@@ -88,6 +119,7 @@ export default function UserProfile() {
                 }}
               >
                 <div>
+                 
                   <div
                     style={{
                       display: "flex",
