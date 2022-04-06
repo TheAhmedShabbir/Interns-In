@@ -14,6 +14,15 @@ export default function UserAbout() {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
+//Upload CV
+const [uploadFile, setUploadFile] = useState(true);
+
+
+const HandleUpload = () => {}
+
+
+
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -93,9 +102,17 @@ export default function UserAbout() {
                   <Button size="small" variant="outlined">
                     Edit
                   </Button>
-                  <Button size="small" variant="outlined">
+                  {/* Upload CV */}
+                  {uploadFile ? (
+                    <Button size="small" variant="outlined" onClick={() => {
+                      setUploadFile(false);
+                    }}>
                     CV
                   </Button>
+                  ) : (
+                    <input type="file" onChange={HandleUpload} />
+                  )}
+                  
                 </div>
               </div>
               <div

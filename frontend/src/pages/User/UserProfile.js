@@ -2,15 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import EditIcon from '@mui/icons-material/Edit';
-import Avatar from '@mui/material/Avatar';
+import EditIcon from "@mui/icons-material/Edit";
+import Avatar from "@mui/material/Avatar";
 
 export default function UserProfile() {
   const navigate = useNavigate();
@@ -19,23 +19,16 @@ export default function UserProfile() {
   const UserCollection = collection(db, "UserProfile");
   const [loading, setLoading] = useState(true);
 
-//Uploading User Profile Picture
+  //Uploading User Profile Picture
 
-const [file, setFile] = useState(null);
-const [preview, setPreview] = useState(null);
-const filePickerRef = useRef();
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const filePickerRef = useRef();
+  const [uploadpic, setUploadpic] = useState(true);
 
+  const handleImageChange = () => {};
 
-
-const handleImageChange = () => {
-
-}
-
-
-const handleSubmit = () => {
-
-}
-
+  const handleSubmit = () => {};
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -69,23 +62,32 @@ const handleSubmit = () => {
           }}
         >
           <div style={{ zIndex: 1, position: "relative" }}>
-         
             <img
               style={{ borderRadius: "110px" }}
               width="200px"
               height="200px"
               src={img}
             />
-             
           </div>
           <div>
-            <input type = "file" onChange={handleImageChange}/>
-            <Button onClick = {handleSubmit}>Upload</Button>
+            {uploadpic ? (
+              <Button
+                onClick={() => {
+                  setUploadpic(false);
+                }}
+              >
+                <EditIcon />
+              </Button>
+            ) : (
+              <div style={{display:"flex", marginleft:"50%",marginRight:"50%", zIndex:"9999"}}>
+              <input
+                type="file"
+                onChange={handleImageChange}
+                // ref={filePickerRef}
+              />
+          </div>
 
-
-          {/* <Button>
-              <EditIcon />
-          </Button> */}
+            )}
           </div>
           <div
             style={{
@@ -119,7 +121,6 @@ const handleSubmit = () => {
                 }}
               >
                 <div>
-                 
                   <div
                     style={{
                       display: "flex",
