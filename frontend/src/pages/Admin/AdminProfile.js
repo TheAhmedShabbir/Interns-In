@@ -9,139 +9,139 @@ import { db } from "../../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 
 export default function AdminProfile() {
-  const [adminInfo, setAdminInfo] = useState([]);
-  const adminInfoCollection = collection(db, "AdminProfile");
+  let [adminInfo, setAdminInfo] = useState();
+  const userProfile = collection(db, "UserProfile");
+  const [loading, setLoading] = useState(true);
+
+  const getAdminInfo = async () => {
+    const data = await getDocs(userProfile);
+
+    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
+
+    const admin = profiles.filter((i) => i.Role == "Admin");
+    setAdminInfo(admin[0]);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    // get Admin information
-    const getAdminInfo = async () => {
-      const data = await getDocs(adminInfoCollection);
-      setAdminInfo(data.docs.map((doc) => ({ ...doc.data() })));
-    };
-
-    // Function Calls
     getAdminInfo();
   }, []);
 
-  return (
-    <div style={{ backgroundColor: "#f3f2ef" }}>
-      <AdminHeader />
-
-      {adminInfo.map((admininfo, key) => {
-        return (
+  if (loading) {
+    return <div>loading...</div>;
+  } else {
+    return (
+      <div style={{ backgroundColor: "#f3f2ef" }}>
+        <AdminHeader />
+        <div
+          style={{
+            marginTop: "20px",
+          }}
+        >
+          <div style={{ zIndex: 1, position: "relative" }}>
+            <img
+              style={{ borderRadius: "110px" }}
+              width="200px"
+              height="200px"
+              src={img}
+            />
+          </div>
           <div
             style={{
-              marginTop: "20px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: "50vh",
+              marginTop: "-110px",
             }}
-            key={key}
           >
-            <div style={{ zIndex: 1, position: "relative" }}>
-              <img
-                style={{ borderRadius: "110px" }}
-                width="200px"
-                height="200px"
-                src={img}
-              />
-            </div>
-            <div
-              style={{
+            <Box
+              sx={{
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                minHeight: "50vh",
-                marginTop: "-110px",
+                flexWrap: "wrap",
+                "& > :not(style)": {
+                  m: 1,
+                  width: 550,
+                  height: 300,
+                },
               }}
             >
-              <Box
-                sx={{
+              <Paper
+                elevation={2}
+                style={{
+                  paddingTop: "90px",
                   display: "flex",
-                  flexWrap: "wrap",
-                  "& > :not(style)": {
-                    m: 1,
-                    width: 550,
-                    height: 300,
-                  },
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  borderRadius: "10px",
+                  paddingBottom: "30px",
+                  marginBottom: "30px",
                 }}
               >
-                <Paper
-                  elevation={2}
-                  style={{
-                    paddingTop: "90px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    borderRadius: "10px",
-                    paddingBottom: "30px",
-                    marginBottom: "30px",
-                  }}
-                >
-                  <div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        alignContent: "center",
-                        paddingLeft: "50px",
-                        paddingRight: "70px",
-                      }}
-                    >
-                      <h2>Name</h2>
-                      <Button size="small" variant="outlined">
-                        Edit
-                      </Button>
-                    </div>
-                    <Typography style={{ marginBottom: "15px" }}>
-                      {admininfo.Name}
-                    </Typography>
+                <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      alignContent: "center",
+                      paddingLeft: "50px",
+                      paddingRight: "70px",
+                    }}
+                  >
+                    <h2>Name</h2>
+                    <Button size="small" variant="outlined">
+                      Edit
+                    </Button>
                   </div>
-                  <div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        alignContent: "center",
-                        paddingLeft: "50px",
-                        paddingRight: "70px",
-                      }}
-                    >
-                      <h2>Password</h2>
-                      <Button size="small" variant="outlined">
-                        Edit
-                      </Button>
-                    </div>
-                    <Typography style={{ marginBottom: "15px" }}>
-                      {admininfo.Password}
-                    </Typography>
+                  <p style={{ marginBottom: "15px" }}>{adminInfo?.Role}</p>
+                </div>
+                <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      alignContent: "center",
+                      paddingLeft: "50px",
+                      paddingRight: "70px",
+                    }}
+                  >
+                    <h2>Password</h2>
+                    <Button size="small" variant="outlined">
+                      Edit
+                    </Button>
                   </div>
-                  <div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        alignContent: "center",
-                        paddingLeft: "50px",
-                        paddingRight: "70px",
-                      }}
-                    >
-                      <h2>Email</h2>
-                      <Button size="small" variant="outlined">
-                        Edit
-                      </Button>
-                    </div>
-                    <Typography>{admininfo.Email}</Typography>
+                  <Typography style={{ marginBottom: "15px" }}>
+                    {adminInfo?.Password}
+                  </Typography>
+                </div>
+                <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      alignContent: "center",
+                      paddingLeft: "50px",
+                      paddingRight: "70px",
+                    }}
+                  >
+                    <h2>Email</h2>
+                    <Button size="small" variant="outlined">
+                      Edit
+                    </Button>
                   </div>
-                </Paper>
-              </Box>
-            </div>
+                  <Typography>{adminInfo?.Email}</Typography>
+                </div>
+              </Paper>
+            </Box>
           </div>
-        );
-      })}
-    </div>
-  );
+        </div>
+      </div>
+    );
+  }
 }
