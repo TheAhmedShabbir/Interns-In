@@ -8,58 +8,42 @@ import { useNavigate } from "react-router-dom";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
-  const [companyData, setCompanyData] = useState([]);
   const userProfile = collection(db, "UserProfile");
+  const jobs = collection(db, "Job");
+
   const [user, setUser] = useState(null);
   let [companies, setCompanies] = useState([]);
+  let [jobsPosted, setJobsPosted] = useState([]);
   let [usersRegistered, setUsersRegistered] = useState([]);
+
   const [loading, setLoading] = useState(true);
-
-  let companyRole;
-
-  const getCompanies = async (item, index) => {
-    companyRole = item.Role;
-
-    if (companyRole == "Company") {
-      setCompanies(companies.push({ index }));
-    }
-    if (companyRole == "User") {
-      setUsersRegistered(usersRegistered.push({ index }));
-    }
-    console.log(usersRegistered);
-    console.log(companies);
-  };
 
   const getData = async () => {
     const data = await getDocs(userProfile);
-    setCompanyData(data.docs.map((doc) => ({ ...doc.data() })));
-    companyData.forEach(getCompanies);
-  };
+    const d = await getDocs(jobs);
 
-  const verifyUser = () => {
-    if (user == null) {
-      setLoading(true);
-    } else {
-      getData();
-      if (user?.email == "ahmed.shabbir1308@gmail.com") {
-        setLoading(false);
-      } else {
-        history.back();
-      }
-    }
+    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
+    const job = d.docs.map((doc) => ({ ...doc.data() }));
+
+    const companies = profiles.filter((i) => i.Role == "Company");
+    const users = profiles.filter((i) => i.Role == "User");
+
+    setJobsPosted(job);
+    setCompanies(companies);
+    setUsersRegistered(users);
   };
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+
+      if (currentUser?.email == "ahmed.shabbir1308@gmail.com") {
+        setLoading(false);
+      } else {
+        history.back();
+      }
     });
     getData();
-
-    if (user && companyData == null) {
-      setLoading(true);
-    } else {
-      verifyUser();
-    }
   }, [user]);
 
   if (loading) {
@@ -73,7 +57,7 @@ export default function AdminDashboard() {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-evenly",
-            padding: "50px",
+            padding: "60px",
             margin: "10px",
           }}
         >
@@ -97,7 +81,7 @@ export default function AdminDashboard() {
             }}
           >
             <h2>Jobs Posted</h2>
-            <Typography>125</Typography>
+            <Typography>{jobsPosted.length}</Typography>
           </div>
           <div
             style={{
@@ -108,7 +92,7 @@ export default function AdminDashboard() {
             }}
           >
             <h2>Users Registered</h2>
-            <p>{usersRegistered}</p>
+            <p>{usersRegistered.length}</p>
           </div>
           <div
             style={{
@@ -119,7 +103,7 @@ export default function AdminDashboard() {
             }}
           >
             <h2>Companies registered</h2>
-            <Typography>{companies}</Typography>
+            <Typography>{companies.length}</Typography>
           </div>
         </div>
         <div
