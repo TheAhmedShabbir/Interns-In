@@ -6,6 +6,9 @@ import { db, auth } from "../../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function UserAbout() {
   const navigate = useNavigate();
@@ -66,7 +69,7 @@ const HandleUpload = () => {}
                 }}
               >
                 <div>
-                  <div style={{ padding: "10px", margin: "10px" }}>
+                  <div style={{ paddingTop: "10px",paddingLeft : '10px',paddingRight : '10px', marginLeft: "10px",marginRight: "10px" ,}}>
                     <img
                       style={{ borderRadius: "110px" }}
                       width="150px"
@@ -85,6 +88,7 @@ const HandleUpload = () => {}
                     width: "900px",
                     padding: "20px",
                     marginLeft: "20px",
+                    
                   }}
                 >
                   <h3>{userinfo.email}</h3>
@@ -97,10 +101,11 @@ const HandleUpload = () => {}
                     flexDirection: "column",
                     justifyContent: "space-evenly",
                     marginRight: "20px",
+                    
                   }}
                 >
-                  <Button size="small" variant="outlined">
-                    Edit
+                  <Button >
+                    <EditIcon/>
                   </Button>
                   {/* Upload CV */}
                   {uploadFile ? (
@@ -115,6 +120,9 @@ const HandleUpload = () => {}
                   
                 </div>
               </div>
+
+
+              
               <div
                 style={{
                   display: "flex",
@@ -123,14 +131,18 @@ const HandleUpload = () => {}
                   marginTop: "10px",
                 }}
               >
+
+
+
                 <div
                   style={{
-                    height: "300px",
+                    // minHeight: "300px",
                     width: "1200px",
                     borderRadius: "10px",
                     backgroundColor: "#fff",
                     margin: "10px",
                     padding: "15px",
+                    backgroundColor : 'white'
                   }}
                 >
                   <div
@@ -141,6 +153,8 @@ const HandleUpload = () => {}
                       alignItems: "center",
                       flexWrap: "wrap",
                       justifyContent: "space-between",
+                      backgroundColor : 'white',
+                      
                     }}
                   >
                     <h2 style={{ margin: "10px", padding: "10px" }}>
@@ -148,33 +162,69 @@ const HandleUpload = () => {}
                     </h2>
                     <div style={{ padding: "10px", margin: "10px" }}>
                       <Button
-                        style={{ margin: "10px" }}
-                        size="small"
-                        variant="outlined"
+                        style={{ margin: "10px",}}
                       >
-                        Add
+                        <AddCircleOutlineIcon/>
                       </Button>
-                      <Button
+                      {/* <Button
                         style={{ margin: "10px" }}
                         size="small"
                         variant="outlined"
                       >
                         Edit
-                      </Button>
+                      </Button> */}
                     </div>
                   </div>
-                  <div>
-                    <h3>{userinfo.Education}</h3>
-                  </div>
+                    
+                    <div style ={{display : 'flex', flexDirection : 'row', border : '2px solid #548CCB',borderRadius : '15px'}}>
+                    <div 
+                    style = {{
+                    display : 'flex', 
+                    flex : '1.90',
+                    flexDirection : 'column', 
+                    justifyContent : 'space-evenly', 
+                    alignItems : 'start', 
+                    margin : '25px',
+                    paddingLeft : '25px',
+                    
+                    backgroundColor: 'white'
+                    }}>
+                      <h3>Degree Name : {userinfo.Education}</h3>
+                      <h3>Institution Name : </h3>
+                      <h3>Status : </h3>
+                      <h3>Duration : </h3>
+                      </div>
+
+                      <div 
+                    style = {{
+                    display : 'flex', 
+                    flex : '0.10',
+                    flexDirection : 'column', 
+                    // justifyContent : ''
+                    // // alignItems : 'start', 
+                    margin : '25px',
+                    paddingLeft : '25px',
+                    
+                    backgroundColor: 'white'}}>
+                     <Button><EditIcon/></Button>
+                     <Button><DeleteIcon/></Button>
+                    </div>
+                    
+                    </div>                 
                 </div>
+                
+
+
+
                 <div
                   style={{
-                    height: "300px",
+                    // height: "300px",
                     width: "1200px",
                     borderRadius: "10px",
                     backgroundColor: "#fff",
                     margin: "10px",
                     padding: "15px",
+                    backgroundColor : 'white'
                   }}
                 >
                   <div
@@ -185,6 +235,7 @@ const HandleUpload = () => {}
                       alignItems: "center",
                       flexWrap: "wrap",
                       justifyContent: "space-between",
+                      backgroundColor : 'white'
                     }}
                   >
                     <h2 style={{ margin: "10px", padding: "10px" }}>
@@ -193,32 +244,65 @@ const HandleUpload = () => {}
                     <div style={{ padding: "10px", margin: "10px" }}>
                       <Button
                         style={{ margin: "10px" }}
-                        size="small"
-                        variant="outlined"
                       >
-                        Add
-                      </Button>
-                      <Button
-                        style={{ margin: "10px" }}
-                        size="small"
-                        variant="outlined"
-                      >
-                        Edit
+                        <AddCircleOutlineIcon/>
                       </Button>
                     </div>
                   </div>
-                  <div>
-                    <h3>{userinfo.Experience}</h3>
-                  </div>
+
+
+
+                  <div style ={{display : 'flex', flexDirection : 'row', border : '2px solid #548CCB',borderRadius : '15px'}}>
+                  <div 
+                    style = {{
+                    display : 'flex', 
+                    flex : '1.90',
+                    flexDirection : 'column', 
+                    justifyContent : 'space-evenly', 
+                    alignItems : 'start', 
+                    margin : '25px',
+                    paddingLeft : '25px',
+                   
+                    backgroundColor: 'white'
+                    }}>
+                      <h3>Company Name : </h3>
+                      <h3>Position Name : </h3>
+                      <h3>Duration : {userinfo.Experience}</h3>
+                      <h3>Certified : </h3>
+                    </div>
+                    <div 
+                    style = {{
+                    display : 'flex', 
+                    flex : '0.10',
+                    flexDirection : 'column', 
+                    // justifyContent : ''
+                    // // alignItems : 'start', 
+                    margin : '25px',
+                    paddingLeft : '25px',
+                    
+                    backgroundColor: 'white'}}>
+                     <Button><EditIcon/></Button>
+                     <Button><DeleteIcon/></Button>
+                    </div>
+                    </div>
                 </div>
+                    
+                 
+
+
+
+
+
+                
                 <div
                   style={{
-                    height: "300px",
+                    // height: "300px",
                     width: "1200px",
                     borderRadius: "10px",
                     backgroundColor: "#fff",
                     margin: "10px",
                     padding: "15px",
+                    backgroundColor: "white",
                   }}
                 >
                   <div
@@ -229,35 +313,64 @@ const HandleUpload = () => {}
                       alignItems: "center",
                       flexWrap: "wrap",
                       justifyContent: "space-between",
+                      backgroundColor : 'white'
                     }}
                   >
                     <h2 style={{ margin: "10px", padding: "10px" }}>Skills</h2>
                     <div style={{ padding: "10px", margin: "10px" }}>
                       <Button
                         style={{ margin: "10px" }}
-                        size="small"
-                        variant="outlined"
+                        
                       >
-                        Add
+                        <AddCircleOutlineIcon/>
                       </Button>
-                      <Button
-                        style={{ margin: "10px" }}
-                        size="small"
-                        variant="outlined"
-                      >
-                        Edit
-                      </Button>
+                     
                     </div>
                   </div>
-                  <div>
-                    <h3>{userinfo.Skills}</h3>
+
+
+                  <div style ={{display : 'flex', flexDirection : 'row', border : '2px solid #548CCB',borderRadius : '15px'}}>
+                  <div 
+                    style = {{
+                    display : 'flex', 
+                    flex : '1.90',
+                    flexDirection : 'column', 
+                    justifyContent : 'space-evenly', 
+                    alignItems : 'start', 
+                    margin : '25px',
+                    paddingLeft : '25px',
+                   
+                    backgroundColor: 'white'
+                    }}>
+                      <h3>{userinfo.Skills}</h3>
+                      
+                    </div>
+                    <div 
+                    style = {{
+                    display : 'flex', 
+                    flex : '0.10',
+                    flexDirection : 'column', 
+                    // justifyContent : ''
+                    // // alignItems : 'start', 
+                    margin : '25px',
+                    paddingLeft : '25px',
+                    
+                    backgroundColor: 'white'}}>
+                     <Button><EditIcon/></Button>
+                     <Button><DeleteIcon/></Button>
+                    </div>
+                
+                   </div>
                   </div>
+
+
                 </div>
-              </div>
-            </div>
+              // </div>
+            // </div>
           );
         })}
       </div>
+      
     );
   }
 }
