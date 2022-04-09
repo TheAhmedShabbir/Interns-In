@@ -40,12 +40,6 @@ export default function FormEdit({
     updateDoc(jobDoc, nf);
   };
 
-  // const updateTitle = async (id, newTitle) => {
-  //   const jobDoc = doc(db, "Job", id);
-  //   const nf = { Title: newTitle };
-  //   updateDoc(jobDoc, nf);
-  // };
-
   return (
     <div>
       <Modal open={open}>
