@@ -8,7 +8,6 @@ export default function UpdateName({ id, open, close, name }) {
   const editName = async (id, newName) => {
     const UsersDoc = doc(db, "UserProfile", id);
     const nf = { name: newName };
-    console.log(id);
     updateDoc(UsersDoc, nf);
   };
 
@@ -42,9 +41,7 @@ export default function UpdateName({ id, open, close, name }) {
               label="Name"
               defaultValue={name}
               onChange={(e) => editName(id, e.target.value)}
-            >
-              {console.log(name)}
-            </TextField>
+            ></TextField>
 
             <div>
               <Button

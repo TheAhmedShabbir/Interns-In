@@ -29,12 +29,13 @@ export default function () {
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-    });
 
-    if (!user) {
-      setLoading(false);
-      navigate("/CompanySignIn");
-    }
+      if (currentUser) {
+        setLoading(false);
+      } else {
+        navigate("/SignIn");
+      }
+    });
   }, [user]);
 
   const createPost = async () => {
@@ -87,13 +88,13 @@ export default function () {
                 //     name.style.border = "red";
                 //   } else setJobTitle(event.target.value);
                 // }}
-                onClick={(event) => {
-                  if (event.target.value == "") {
-                    const name = document.getElementById("name");
-                    name.style.border = "red";
-                    console.log(event.target.value);
-                  }
-                }}
+                // onClick={(event) => {
+                //   if (event.target.value == "") {
+                //     const name = document.getElementById("name");
+                //     name.style.border = "red";
+                //     console.log(event.target.value);
+                //   }
+                // }}
               />
               <TextField
                 required

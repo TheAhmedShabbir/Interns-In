@@ -40,7 +40,7 @@ export default function AdminDashboard() {
       if (currentUser?.email == "ahmed.shabbir1308@gmail.com") {
         setLoading(false);
       } else {
-        history.back();
+        navigate("/SignIn");
       }
     });
     getData();

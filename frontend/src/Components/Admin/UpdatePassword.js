@@ -8,7 +8,6 @@ export default function UpdatePassword({ id, open, close, password }) {
   const editPass = async (id, newPassword) => {
     const UsersDoc = doc(db, "UserProfile", id);
     const nf = { Password: newPassword };
-    console.log(password);
     updateDoc(UsersDoc, nf);
   };
 
@@ -42,9 +41,7 @@ export default function UpdatePassword({ id, open, close, password }) {
               label="Password"
               defaultValue={password}
               onChange={(e) => editPass(id, e.target.value)}
-            >
-              {console.log(password)}
-            </TextField>
+            ></TextField>
 
             <div>
               <Button
