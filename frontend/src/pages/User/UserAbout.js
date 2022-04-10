@@ -166,13 +166,7 @@ const HandleUpload = () => {}
                       >
                         <AddCircleOutlineIcon/>
                       </Button>
-                      {/* <Button
-                        style={{ margin: "10px" }}
-                        size="small"
-                        variant="outlined"
-                      >
-                        Edit
-                      </Button> */}
+                      
                     </div>
                   </div>
                     
@@ -214,8 +208,6 @@ const HandleUpload = () => {}
                 </div>
                 
 
-
-
                 <div
                   style={{
                     // height: "300px",
@@ -249,7 +241,6 @@ const HandleUpload = () => {}
                       </Button>
                     </div>
                   </div>
-
 
 
                   <div style ={{display : 'flex', flexDirection : 'row', border : '2px solid #548CCB',borderRadius : '15px'}}>
@@ -286,14 +277,7 @@ const HandleUpload = () => {}
                     </div>
                     </div>
                 </div>
-                    
                  
-
-
-
-
-
-                
                 <div
                   style={{
                     // height: "300px",
