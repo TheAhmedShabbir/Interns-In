@@ -9,7 +9,6 @@ import { db } from "../../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import UpdateName from "../../Components/Admin/UpdateName";
 import UpdatePassword from "../../Components/Admin/UpdatePassword";
-import { updatePassword } from "firebase/auth";
 
 export default function AdminProfile() {
   let [adminInfo, setAdminInfo] = useState();
@@ -30,10 +29,10 @@ export default function AdminProfile() {
     openModal();
   };
 
-  const updatePassword = async () => {
-    setEditPassword(adminInfo.Password);
-    openModal();
-  };
+  // const updatePassword = async () => {
+  //   setEditPassword(adminInfo.Password);
+  //   openModal();
+  // };
 
   const getAdminInfo = async () => {
     const data = await getDocs(userProfile);
@@ -140,7 +139,7 @@ export default function AdminProfile() {
                     <Button
                       size="small"
                       variant="outlined"
-                      onClick={() => updatePassword()}
+                      // onClick={() => updatePassword()}
                     >
                       Edit
                     </Button>

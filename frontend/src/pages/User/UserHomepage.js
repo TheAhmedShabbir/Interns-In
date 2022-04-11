@@ -4,64 +4,73 @@ import { FormControlLabel } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
-import { collection, getDocs, doc } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 export default function UserHomepage() {
   const navigate = useNavigate();
+
   const [jobs, setJobs] = useState([]);
-  const jobCollection = collection(db, "Job");
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [checkUser, setCheckUser] = useState([]);
-  const userProfile = collection(db, "Users");
+  // const [checkUser, setCheckUser] = useState([]);
 
-  let verifyEmail, verifyRole;
+  const jobCollection = collection(db, "Job");
+  const userProfile = collection(db, "UserProfile");
+
+  // let verifyEmail, verifyRole;
+
+  // const verifyUser = (item, index) => {
+  //   verifyEmail = item.Email;
+  //   verifyRole = item.Role;
+
+  //   if (user?.email != verifyEmail && verifyRole != "User") {
+  //     // navigate("/UserHomepage");
+  //   } else {
+  //     // console.log("/userHomepage");
+  //     setLoading(false);
+  //   }
+  // };
+
+  // const getData = async () => {
+  //   const data = await getDocs(userProfile);
+  //   setCheckUser(data.docs.map((doc) => ({ ...doc.data() })));
+  // };
+
+  const saveJob = async (id) => {
+    const data = await getDocs(userProfile);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userProf = profiles.filter((i) => i.Role == "User");
+    const i = userProf[0].id;
+    const job = jobs.filter((i) => i.id == id);
+    const j = [job[0]];
+
+    const jobSave = doc(db, "UserProfile", i);
+    const nf = { jobs };
+    updateDoc(jobSave, nf);
+  };
 
   const getJobs = async () => {
     const data = await getDocs(jobCollection);
-    setJobs(data.docs.map((doc) => ({ ...doc.data() })));
-  };
-
-  const verifyUser = (item, index) => {
-    console.log("12");
-
-    verifyEmail = item.Email;
-    verifyRole = item.Role;
-
-    if (user?.email != verifyEmail && verifyRole != "User") {
-      // navigate("/UserHomepage");
-      console.log("jdc");
-      setLoading(true);
-    } else {
-      console.log("/userHomepage");
-      setLoading(false);
-    }
-  };
-
-  const getData = async () => {
-    const data = await getDocs(userProfile);
-    setCheckUser(data.docs.map((doc) => ({ ...doc.data() })));
-    console.log("data");
+    setJobs(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    setLoading(false);
   };
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-    });
-    getData();
-    console.log(user);
 
-    if (user == null) {
-      console.log("no user");
-      setLoading(true);
-    } else {
-      setLoading(false);
-      checkUser.forEach(verifyUser);
-      // get jobs
-      getJobs();
-    }
+      if (currentUser) {
+        // checkUser.forEach(verifyUser);
+        // get jobs
+        getJobs();
+      } else {
+        navigate("/SignIn");
+      }
+    });
+
+    // getData();
   }, [user]);
 
   if (loading) {
@@ -228,6 +237,7 @@ export default function UserHomepage() {
                         margin: "10px",
                       }}
                       variant="outlined"
+                      onClick={() => saveJob(job.id)}
                     >
                       Save
                     </Button>
