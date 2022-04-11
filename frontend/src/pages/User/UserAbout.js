@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -16,6 +16,98 @@ export default function UserAbout() {
   const UserInfoCollection = collection(db, "Applicant");
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
+
+
+// Get / post User Education
+
+const [UserEducation, setUserEducation] = useState([]);
+const [Degree, setDegree] = useState("");
+const [Institute, setInstitute] = useState("");
+const [Status, setStaatus] = useState("");
+const [Duration, setDuration] = useState("");
+
+//Database variable
+const EduCollection = collection(db, "UserEducation");
+
+
+//Get User Education From Firestore database
+useEffect(() => {
+  const getEducation = async () => {
+    const data = await getDocs(EduCollection);
+    setUserEducation(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    console.log(UserEducation)
+  };
+
+  getEducation();
+},[])
+
+//Post User Education into Firestore database
+const postDegree = async () => {
+  await addDoc(EduCollection, {Degree_Name : Degree,
+  Institute_Name : Institute,
+  Status : Status,
+  Duration : Duration});
+};
+
+
+
+//Get / Post User Experience
+
+const [UserExperience, setUserExperience] = useState([]);
+const [Company, setCompany] = useState("");
+const [Position, setPosition] = useState("");
+const [ Certified, setCertified] = useState("");
+const [Duration2, setDuration2] = useState("");
+
+//Database variable
+const ExpCollection = collection(db, "UserExperience");
+
+
+//Get User Eperience From Firestore database
+useEffect(() => {
+  const getExperience = async () => {
+    const data = await getDocs(ExpCollection);
+    setUserExperience(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    console.log(UserEdxperience)
+  };
+
+  getExperience();
+},[])
+
+//Post User Experience into Firestore database
+const postExp = async () => {
+  await addDoc(EduCollection, {Company_Name : Company,
+  Position : Position,
+  Certified : Certified,
+  Duration2 : Duration2});
+};
+
+
+//Get / Post User Skills
+
+const [UserSkills, setUserSkills] = useState([]);
+const [Skills, setSkills] = useState([]);
+
+
+const SkillCollection = collection(db, "UserSkills");
+
+//Get User skills From Firestore database
+useEffect(() => {
+  const getSkills = async () => {
+    const data = await getDocs(SkillCollection);
+    setUserSkills(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    console.log(UserSkills)
+  };
+
+  getSkills();
+},[])
+
+//Post User skills into Firestore database
+const postSkills = async () => {
+  await addDoc(SkillCollection, {Skills : Skills});
+};
+
+
 
 //Upload CV
 const [uploadFile, setUploadFile] = useState(true);
@@ -132,8 +224,9 @@ const HandleUpload = () => {}
                 }}
               >
 
-
-
+{/* Education Block */}
+{UserEducation.map((item, key) => {
+  return(
                 <div
                   style={{
                     // minHeight: "300px",
@@ -144,6 +237,7 @@ const HandleUpload = () => {}
                     padding: "15px",
                     backgroundColor : 'white'
                   }}
+                  key = {key}
                 >
                   <div
                     style={{
@@ -183,10 +277,10 @@ const HandleUpload = () => {}
                     
                     backgroundColor: 'white'
                     }}>
-                      <h3>Degree Name : {userinfo.Education}</h3>
-                      <h3>Institution Name : </h3>
-                      <h3>Status : </h3>
-                      <h3>Duration : </h3>
+                      <h3>Degree Name : {item.Degree_Name}</h3>
+                      <h3>Institution Name : {item.Institute_Name}</h3>
+                      <h3>Status : {item.Status}</h3>
+                      <h3>Duration : {item.Duration}</h3>
                       </div>
 
                       <div 
@@ -206,8 +300,14 @@ const HandleUpload = () => {}
                     
                     </div>                 
                 </div>
+  );
+                })}
                 
+{/*User Eperience Block*/}
+{UserExperience.map((item, key) => {
+  return(
 
+  
                 <div
                   style={{
                     // height: "300px",
@@ -218,6 +318,7 @@ const HandleUpload = () => {}
                     padding: "15px",
                     backgroundColor : 'white'
                   }}
+                  key = {key}
                 >
                   <div
                     style={{
@@ -256,10 +357,10 @@ const HandleUpload = () => {}
                    
                     backgroundColor: 'white'
                     }}>
-                      <h3>Company Name : </h3>
-                      <h3>Position Name : </h3>
-                      <h3>Duration : {userinfo.Experience}</h3>
-                      <h3>Certified : </h3>
+                      <h3>Company Name : {item.Compny_Name}</h3>
+                      <h3>Position Name : {item.Position}</h3>
+                      <h3>Duration : {item.Duration}</h3>
+                      <h3>Certified : {item.Certified}</h3>
                     </div>
                     <div 
                     style = {{
@@ -277,7 +378,17 @@ const HandleUpload = () => {}
                     </div>
                     </div>
                 </div>
-                 
+                 );
+                })}
+
+
+
+{/*User Skills Block*/} 
+{UserSkills.map((item, key) => {
+  return(
+
+ 
+
                 <div
                   style={{
                     // height: "300px",
@@ -288,6 +399,7 @@ const HandleUpload = () => {}
                     padding: "15px",
                     backgroundColor: "white",
                   }}
+                  key = {key}
                 >
                   <div
                     style={{
@@ -326,7 +438,7 @@ const HandleUpload = () => {}
                    
                     backgroundColor: 'white'
                     }}>
-                      <h3>{userinfo.Skills}</h3>
+                      <h3>{item.Skills}</h3>
                       
                     </div>
                     <div 
@@ -346,6 +458,8 @@ const HandleUpload = () => {}
                 
                    </div>
                   </div>
+                   );
+                  })}
 
 
                 </div>
