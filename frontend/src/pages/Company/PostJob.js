@@ -47,6 +47,8 @@ export default function () {
       Salary: salary,
       City: city,
     });
+
+    navigate("/CompanyHomepage");
   };
   if (loading) {
     return <div>loading...</div>;

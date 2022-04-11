@@ -1,35 +1,65 @@
-import { Button, Typography } from "@mui/material";
+import { Button, formLabelClasses, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import UserHeader from "../../Components/User/Userheader";
 import { db, auth } from "../../firebase-config";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  updateDoc,
+  doc,
+  deleteField,
+} from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 export default function SavedJobs() {
   const navigate = useNavigate();
-  const [jobs, setJobs] = useState([]);
-  const jobCollection = collection(db, "Job");
+  const [savedJobs, setSavedJobs] = useState([]);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
+
+  const userProfile = collection(db, "UserProfile");
+
+  const deleteSaveJob = async (id) => {
+    // const data = await getDocs(userProfile);
+    // const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    // const userProf = profiles.filter((i) => i.Role == "User");
+
+    // // const matchedJob = userProf[0].jobs.filter((i) => i.id == id);
+
+    // const savedJob = doc(db, "UserProfile", userProf[0].id);
+
+    // await updateDoc(savedJob, {
+    //   jobs: deleteField(),
+    // });
+
+    console.log(id);
+  };
+
+  const getSavedJobs = async () => {
+    const data = await getDocs(userProfile);
+    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
+    const userProf = profiles.filter((i) => i.Role == "User");
+
+    if (userProf[0].job == undefined) {
+      setLoading(false);
+    } else {
+      setSavedJobs(userProf[0].job);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-    });
-    if (user) {
-      // get jobs
-      const getJobs = async () => {
-        const data = await getDocs(jobCollection);
-        setJobs(data.docs.map((doc) => ({ ...doc.data() })));
-        setLoading(false);
-      };
 
-      // Function Calls
-      getJobs();
-    } else {
-      navigate("/SignIn");
-    }
+      if (currentUser) {
+        // Function Calls
+        getSavedJobs();
+      } else {
+        navigate("/SignIn");
+      }
+    });
   }, [user]);
 
   if (loading) {
@@ -53,7 +83,7 @@ export default function SavedJobs() {
           }}
         >
           <h1>Saved Jobs</h1>
-          {jobs.map((job) => {
+          {savedJobs.map((job, key) => {
             return (
               <div
                 style={{
@@ -63,6 +93,7 @@ export default function SavedJobs() {
                   marginLeft: "auto",
                   marginRight: "auto",
                 }}
+                key={key}
               >
                 <div
                   style={{
@@ -102,6 +133,18 @@ export default function SavedJobs() {
                         variant="outlined"
                       >
                         Apply now
+                      </Button>
+
+                      <Button
+                        style={{
+                          margin: "10px",
+                        }}
+                        variant="outlined"
+                        color="error"
+                        size="small"
+                        onClick={() => deleteSaveJob(key)}
+                      >
+                        Delete
                       </Button>
                     </div>
                   </div>

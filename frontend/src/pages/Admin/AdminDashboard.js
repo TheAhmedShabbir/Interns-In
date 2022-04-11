@@ -8,15 +8,15 @@ import { useNavigate } from "react-router-dom";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
-  const userProfile = collection(db, "UserProfile");
-  const jobs = collection(db, "Job");
 
   const [user, setUser] = useState(null);
   let [companies, setCompanies] = useState([]);
   let [jobsPosted, setJobsPosted] = useState([]);
   let [usersRegistered, setUsersRegistered] = useState([]);
-
   const [loading, setLoading] = useState(true);
+
+  const userProfile = collection(db, "UserProfile");
+  const jobs = collection(db, "Job");
 
   const getData = async () => {
     const data = await getDocs(userProfile);
