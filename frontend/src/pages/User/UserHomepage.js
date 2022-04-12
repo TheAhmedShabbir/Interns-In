@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Button, Checkbox, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  containerClasses,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { FormControlLabel } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import img from "../../assets/images/Userpfp.jpg";
@@ -7,6 +13,7 @@ import { db, auth } from "../../firebase-config";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { KebabDining, KebabDiningOutlined } from "@mui/icons-material";
 
 export default function UserHomepage() {
   const navigate = useNavigate();
@@ -43,11 +50,11 @@ export default function UserHomepage() {
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userProf = profiles.filter((i) => i.Role == "User");
     const i = userProf[0].id;
-    const job = jobs.filter((i) => i.id == id);
-    const j = [job[0]];
 
+    const job = jobs.filter((i) => i.id == id);
     const jobSave = doc(db, "UserProfile", i);
-    const nf = { jobs };
+
+    const nf = { savedJob: userProf[0].savedJob.concat(job) };
     updateDoc(jobSave, nf);
   };
 

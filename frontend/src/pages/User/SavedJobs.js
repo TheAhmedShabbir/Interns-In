@@ -7,7 +7,7 @@ import {
   getDocs,
   updateDoc,
   doc,
-  deleteField,
+  arrayRemove,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -20,20 +20,20 @@ export default function SavedJobs() {
 
   const userProfile = collection(db, "UserProfile");
 
-  const deleteSaveJob = async (id) => {
-    // const data = await getDocs(userProfile);
-    // const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    // const userProf = profiles.filter((i) => i.Role == "User");
+  const deleteSaveJob = async (key, id) => {
+    const data = await getDocs(userProfile);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userProf = profiles.filter((i) => i.Role == "User");
 
-    // // const matchedJob = userProf[0].jobs.filter((i) => i.id == id);
+    // const matchedJob = userProf[0].savedJob.filter((i) => i.id == id);
 
-    // const savedJob = doc(db, "UserProfile", userProf[0].id);
+    const deleteSavedJob = doc(db, "UserProfile", userProf[0].id);
+    const sj = userProf[0].savedJob[key];
+    await updateDoc(deleteSavedJob, {
+      savedJob: arrayRemove(sj),
+    });
 
-    // await updateDoc(savedJob, {
-    //   jobs: deleteField(),
-    // });
-
-    console.log(id);
+    window.location.reload(false);
   };
 
   const getSavedJobs = async () => {
@@ -41,10 +41,10 @@ export default function SavedJobs() {
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
     const userProf = profiles.filter((i) => i.Role == "User");
 
-    if (userProf[0].job == undefined) {
+    if (!userProf[0].savedJob) {
       setLoading(false);
     } else {
-      setSavedJobs(userProf[0].job);
+      setSavedJobs(userProf[0].savedJob);
       setLoading(false);
     }
   };
@@ -142,7 +142,7 @@ export default function SavedJobs() {
                         variant="outlined"
                         color="error"
                         size="small"
-                        onClick={() => deleteSaveJob(key)}
+                        onClick={() => deleteSaveJob(key, job.id)}
                       >
                         Delete
                       </Button>
