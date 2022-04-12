@@ -10,13 +10,17 @@ import { useNavigate } from "react-router-dom";
 
 export default function CompanyHomePage() {
   const navigate = useNavigate();
+
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [jobs, setJobs] = useState([]);
   const [jobid, setjobid] = useState("");
   const [open, setOpen] = useState(false);
-  const jobCollection = collection(db, "Job");
   let [editJob, setEditJob] = useState([]);
+  const [jobsPosted, setJobsPosted] = useState();
+
+  const jobCollection = collection(db, "Job");
+  const userProfile = collection(db, "UserProfile");
 
   const closeModal = () => setOpen(false);
 
@@ -36,24 +40,32 @@ export default function CompanyHomePage() {
     window.location.reload();
   };
 
+  const getJobs = async () => {
+    const data = await getDocs(jobCollection);
+    setJobs(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    setLoading(false);
+  };
+
+  const getData = async () => {
+    const d = await getDocs(jobCollection);
+
+    const job = d.docs.map((doc) => ({ ...doc.data() }));
+
+    setJobsPosted(job);
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+
+      if (currentUser) {
+        // Function Calls
+        getJobs();
+      } else {
+        navigate("/CompanySignIn");
+      }
     });
-
-    if (user) {
-      // get jobs
-      const getJobs = async () => {
-        const data = await getDocs(jobCollection);
-        setJobs(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        setLoading(false);
-      };
-
-      // Function Calls
-      getJobs();
-    } else {
-      navigate("/CompanySignIn");
-    }
+    getData();
   }, [user]);
 
   if (loading) {
@@ -212,7 +224,7 @@ export default function CompanyHomePage() {
                 }}
               >
                 <h2>Jobs Posted</h2>
-                <Typography>125</Typography>
+                <Typography>{jobsPosted.length}</Typography>
               </div>
               <div
                 style={{
