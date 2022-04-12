@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
@@ -9,6 +9,24 @@ import { useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EducatinModal from "../../Components/User/EducatinModal";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #548CCB',
+  boxShadow: 24,
+  p: 4,
+};
+
 
 export default function UserAbout() {
   const navigate = useNavigate();
@@ -17,6 +35,12 @@ export default function UserAbout() {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
+
+// Education Modal
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+  
 
 // Get / post User Education
 
@@ -257,12 +281,45 @@ const HandleUpload = () => {}
                     <div style={{ padding: "10px", margin: "10px" }}>
                       <Button
                         style={{ margin: "10px",}}
+                        onClick={handleOpen}
                       >
                         <AddCircleOutlineIcon/>
                       </Button>
-                      
                     </div>
                   </div>
+                  <div>
+                      <Modal
+                      open={open}
+                      onClose={handleClose}
+                      // aria-labelledby="modal-modal-title"
+                      // aria-describedby="modal-modal-description"
+                       >
+                         <Box sx={style}>
+                          {/* <Form> */}
+                            <h2>Add Education</h2>
+                            <TextField
+                            fullWidth 
+                            label = "Degree Title"
+                            />
+                            <TextField
+                            fullWidth 
+                            label = "Institute Name"
+                            />
+                            <TextField
+                            fullWidth 
+                            label = "Duration"
+                            />
+                            <TextField
+                            fullWidth 
+                            label = "Status"
+                            />
+                            <Button>Cancel</Button>
+                            <Button>Add</Button>
+                          {/* </Form> */}
+                        </Box>
+                       </Modal>
+                  </div>
+
                     
                     <div style ={{display : 'flex', flexDirection : 'row', border : '2px solid #548CCB',borderRadius : '15px'}}>
                     <div 
@@ -337,10 +394,43 @@ const HandleUpload = () => {}
                     <div style={{ padding: "10px", margin: "10px" }}>
                       <Button
                         style={{ margin: "10px" }}
+                        onClick ={handleOpen}
                       >
                         <AddCircleOutlineIcon/>
                       </Button>
                     </div>
+                  </div>
+                  <div>
+                      <Modal
+                      open={open}
+                      onClose={handleClose}
+                      // aria-labelledby="modal-modal-title"
+                      // aria-describedby="modal-modal-description"
+                       >
+                         <Box sx={style}>
+                          {/* <Form> */}
+                            <h2>Add Experience</h2>
+                            <TextField
+                            fullWidth 
+                            label = "Company Name"
+                            />
+                            <TextField
+                            fullWidth 
+                            label = "Position"
+                            />
+                            <TextField
+                            fullWidth 
+                            label = "Duration"
+                            />
+                            <TextField
+                            fullWidth 
+                            label = "Certified"
+                            />
+                            <Button>Cancel</Button>
+                            <Button>Add</Button>
+                          {/* </Form> */}
+                        </Box>
+                       </Modal>
                   </div>
 
 
@@ -357,7 +447,7 @@ const HandleUpload = () => {}
                    
                     backgroundColor: 'white'
                     }}>
-                      <h3>Company Name : {item.Compny_Name}</h3>
+                      <h3>Company Name : {item.Company_Name}</h3>
                       <h3>Position Name : {item.Position}</h3>
                       <h3>Duration : {item.Duration}</h3>
                       <h3>Certified : {item.Certified}</h3>
@@ -467,6 +557,10 @@ const HandleUpload = () => {}
             // </div>
           );
         })}
+        {/* <EducatinModal
+         open = {open}
+         close = {close}
+        /> */}
       </div>
       
     );
