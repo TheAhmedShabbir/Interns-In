@@ -36,18 +36,27 @@ export default function UserAbout() {
   const [loading, setLoading] = useState(true);
 
 
-// Education Modal
+// Education Modal----------------------------------------------------------------------------------------------------------
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-  
 
-// Get / post User Education
+// Experience Modal----------------------------------------------------------------------------------------------------------
+  const [open1, setOpen1] = React.useState(false);
+  const handleOpen1 = () => setOpen1(true);
+  const handleClose1 = () => setOpen1(false);
+
+  // Skills Modal-------------------------------------------------------------------------------------------------------------
+  const [open2, setOpen2] = React.useState(false);
+  const handleOpen2 = () => setOpen2(true);
+  const handleClose2 = () => setOpen2(false);
+
+// Get / post User Education------------------------------------------------------------------------------------------------------
 
 const [UserEducation, setUserEducation] = useState([]);
 const [Degree, setDegree] = useState("");
 const [Institute, setInstitute] = useState("");
-const [Status, setStaatus] = useState("");
+const [Status, setStatus] = useState("");
 const [Duration, setDuration] = useState("");
 
 //Database variable
@@ -66,7 +75,7 @@ useEffect(() => {
 },[])
 
 //Post User Education into Firestore database
-const postDegree = async () => {
+const postEducation = async () => {
   await addDoc(EduCollection, {Degree_Name : Degree,
   Institute_Name : Institute,
   Status : Status,
@@ -75,12 +84,12 @@ const postDegree = async () => {
 
 
 
-//Get / Post User Experience
+//Get / Post User Experience----------------------------------------------------------------------------------------------
 
 const [UserExperience, setUserExperience] = useState([]);
 const [Company, setCompany] = useState("");
 const [Position, setPosition] = useState("");
-const [ Certified, setCertified] = useState("");
+const [Certified, setCertified] = useState("");
 const [Duration2, setDuration2] = useState("");
 
 //Database variable
@@ -100,14 +109,14 @@ useEffect(() => {
 
 //Post User Experience into Firestore database
 const postExp = async () => {
-  await addDoc(EduCollection, {Company_Name : Company,
+  await addDoc(ExpCollection, {Company_Name : Company,
   Position : Position,
   Certified : Certified,
-  Duration2 : Duration2});
+  Duration : Duration2});
 };
 
 
-//Get / Post User Skills
+//Get / Post User Skills-----------------------------------------------------------------------------------------------------
 
 const [UserSkills, setUserSkills] = useState([]);
 const [Skills, setSkills] = useState([]);
@@ -133,7 +142,7 @@ const postSkills = async () => {
 
 
 
-//Upload CV
+//Upload CV-----------------------------------------------------------------------------------------------------------
 const [uploadFile, setUploadFile] = useState(true);
 
 
@@ -248,9 +257,7 @@ const HandleUpload = () => {}
                 }}
               >
 
-{/* Education Block */}
-{UserEducation.map((item, key) => {
-  return(
+
                 <div
                   style={{
                     // minHeight: "300px",
@@ -261,7 +268,7 @@ const HandleUpload = () => {}
                     padding: "15px",
                     backgroundColor : 'white'
                   }}
-                  key = {key}
+                  
                 >
                   <div
                     style={{
@@ -300,26 +307,40 @@ const HandleUpload = () => {}
                             <TextField
                             fullWidth 
                             label = "Degree Title"
+                            onChange={(event) => {
+                              setDegree(event.target.value);
+                            }}
                             />
                             <TextField
                             fullWidth 
                             label = "Institute Name"
+                            onChange={(event) => {
+                              setInstitute(event.target.value);
+                            }}
                             />
                             <TextField
                             fullWidth 
                             label = "Duration"
+                            onChange={(event) => {
+                              setStatus(event.target.value);
+                            }}
                             />
                             <TextField
                             fullWidth 
                             label = "Status"
+                            onChange={(event) => {
+                             setDuration(event.target.value);
+                            }}
                             />
-                            <Button>Cancel</Button>
-                            <Button>Add</Button>
+                            <Button onClick = {handleClose}>Cancel</Button>
+                            <Button onClick={postEducation}>Add</Button>
                           {/* </Form> */}
                         </Box>
                        </Modal>
                   </div>
-
+{/* Education Block */}
+{UserEducation.map((item, key) => {
+  return(
                     
                     <div style ={{display : 'flex', flexDirection : 'row', border : '2px solid #548CCB',borderRadius : '15px'}}>
                     <div 
@@ -333,7 +354,9 @@ const HandleUpload = () => {}
                     paddingLeft : '25px',
                     
                     backgroundColor: 'white'
-                    }}>
+                    }}
+                    key = {key}
+                    >
                       <h3>Degree Name : {item.Degree_Name}</h3>
                       <h3>Institution Name : {item.Institute_Name}</h3>
                       <h3>Status : {item.Status}</h3>
@@ -356,14 +379,10 @@ const HandleUpload = () => {}
                     </div>
                     
                     </div>                 
-                </div>
+                
   );
                 })}
-                
-{/*User Eperience Block*/}
-{UserExperience.map((item, key) => {
-  return(
-
+                </div>
   
                 <div
                   style={{
@@ -375,7 +394,7 @@ const HandleUpload = () => {}
                     padding: "15px",
                     backgroundColor : 'white'
                   }}
-                  key = {key}
+                  
                 >
                   <div
                     style={{
@@ -394,7 +413,7 @@ const HandleUpload = () => {}
                     <div style={{ padding: "10px", margin: "10px" }}>
                       <Button
                         style={{ margin: "10px" }}
-                        onClick ={handleOpen}
+                        onClick ={handleOpen1}
                       >
                         <AddCircleOutlineIcon/>
                       </Button>
@@ -402,8 +421,8 @@ const HandleUpload = () => {}
                   </div>
                   <div>
                       <Modal
-                      open={open}
-                      onClose={handleClose}
+                      open={open1}
+                      onClose={handleClose1}
                       // aria-labelledby="modal-modal-title"
                       // aria-describedby="modal-modal-description"
                        >
@@ -413,27 +432,35 @@ const HandleUpload = () => {}
                             <TextField
                             fullWidth 
                             label = "Company Name"
+                            onChange={(event) => {
+                              setCompany(event.target.value);
+                            }}
                             />
                             <TextField
                             fullWidth 
                             label = "Position"
+                            onChange={(event) => {
+                              setPosition(event.target.value);
+                            }}
                             />
                             <TextField
                             fullWidth 
                             label = "Duration"
+                            onChange={(event) => {
+                              setDuration2(event.target.value);
+                            }}
                             />
-                            <TextField
-                            fullWidth 
-                            label = "Certified"
-                            />
-                            <Button>Cancel</Button>
-                            <Button>Add</Button>
+                            
+                            <Button onClick = {handleClose1}>Cancel</Button>
+                            <Button onClick = {postExp}>Add</Button>
                           {/* </Form> */}
                         </Box>
                        </Modal>
                   </div>
 
-
+{/*User Eperience Block*/}
+{UserExperience.map((item, key) => {
+  return(
                   <div style ={{display : 'flex', flexDirection : 'row', border : '2px solid #548CCB',borderRadius : '15px'}}>
                   <div 
                     style = {{
@@ -446,7 +473,9 @@ const HandleUpload = () => {}
                     paddingLeft : '25px',
                    
                     backgroundColor: 'white'
-                    }}>
+                    }}
+                    key = {key}
+                    >
                       <h3>Company Name : {item.Company_Name}</h3>
                       <h3>Position Name : {item.Position}</h3>
                       <h3>Duration : {item.Duration}</h3>
@@ -467,17 +496,12 @@ const HandleUpload = () => {}
                      <Button><DeleteIcon/></Button>
                     </div>
                     </div>
-                </div>
+               
                  );
                 })}
+               </div>
 
 
-
-{/*User Skills Block*/} 
-{UserSkills.map((item, key) => {
-  return(
-
- 
 
                 <div
                   style={{
@@ -488,9 +512,7 @@ const HandleUpload = () => {}
                     margin: "10px",
                     padding: "15px",
                     backgroundColor: "white",
-                  }}
-                  key = {key}
-                >
+                  }}>
                   <div
                     style={{
                       display: "flex",
@@ -514,7 +536,9 @@ const HandleUpload = () => {}
                     </div>
                   </div>
 
-
+{/*User Skills Block*/} 
+{UserSkills.map((item, key) => {
+  return(
                   <div style ={{display : 'flex', flexDirection : 'row', border : '2px solid #548CCB',borderRadius : '15px'}}>
                   <div 
                     style = {{
@@ -527,7 +551,9 @@ const HandleUpload = () => {}
                     paddingLeft : '25px',
                    
                     backgroundColor: 'white'
-                    }}>
+                    }}
+                    key = {key}
+                    >
                       <h3>{item.Skills}</h3>
                       
                     </div>
@@ -547,22 +573,17 @@ const HandleUpload = () => {}
                     </div>
                 
                    </div>
-                  </div>
+                  
                    );
                   })}
-
+              </div>
 
                 </div>
               // </div>
             // </div>
           );
         })}
-        {/* <EducatinModal
-         open = {open}
-         close = {close}
-        /> */}
       </div>
-      
     );
   }
 }
