@@ -9,11 +9,9 @@ import { useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EducatinModal from "../../Components/User/EducatinModal";
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-
+import Loader from '../../Components/Common/Loader';
 
 const style = {
   position: 'absolute',
@@ -31,6 +29,7 @@ const style = {
 export default function UserAbout() {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState([]);
+  const [userProfile, setUserProfile] = useState();
   const UserInfoCollection = collection(db, "Applicant");
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
@@ -61,25 +60,38 @@ const [Duration, setDuration] = useState("");
 
 //Database variable
 const EduCollection = collection(db, "UserEducation");
-
+const userData  = collection(db, "UserProfile");
 
 //Get User Education From Firestore database
-useEffect(() => {
-  const getEducation = async () => {
-    const data = await getDocs(EduCollection);
-    setUserEducation(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    console.log(UserEducation)
-  };
+const getEducation = async () => {
+  const data = await getDocs(EduCollection);
+  setUserEducation(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  // console.log(UserEducation)
+};
 
-  getEducation();
-},[])
+// Get User ID
+const getUser = async () => {
+  const data = await getDocs(userData);
+  const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userProf = profiles.filter((i) => i.Role == "User");
+    const i = userProf[0].id;
+  setUserProfile(userProf)
+  // console.log(userProfile)
+};
+
+
+
 
 //Post User Education into Firestore database
-const postEducation = async () => {
+const postEducation = async (id) => {
   await addDoc(EduCollection, {Degree_Name : Degree,
   Institute_Name : Institute,
   Status : Status,
-  Duration : Duration});
+  Duration : Duration,
+    User_Id:id
+});
+
+  console.log(id)
 };
 
 
@@ -97,22 +109,24 @@ const ExpCollection = collection(db, "UserExperience");
 
 
 //Get User Eperience From Firestore database
-useEffect(() => {
+
   const getExperience = async () => {
     const data = await getDocs(ExpCollection);
     setUserExperience(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    console.log(UserEdxperience)
+    // console.log(UserEdxperience)
   };
 
-  getExperience();
-},[])
+  
+
 
 //Post User Experience into Firestore database
-const postExp = async () => {
+const postExp = async (id) => {
   await addDoc(ExpCollection, {Company_Name : Company,
   Position : Position,
   Certified : Certified,
-  Duration : Duration2});
+  Duration : Duration2,
+    User_Id:id
+});
 };
 
 
@@ -125,19 +139,21 @@ const [Skills, setSkills] = useState([]);
 const SkillCollection = collection(db, "UserSkills");
 
 //Get User skills From Firestore database
-useEffect(() => {
+
   const getSkills = async () => {
     const data = await getDocs(SkillCollection);
     setUserSkills(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    console.log(UserSkills)
+    // console.log(UserSkills)
   };
 
-  getSkills();
-},[])
+  
+
 
 //Post User skills into Firestore database
-const postSkills = async () => {
-  await addDoc(SkillCollection, {Skills : Skills});
+const postSkills = async (id) => {
+  await addDoc(SkillCollection, {Skills : Skills,
+  id:id
+  });
 };
 
 
@@ -161,17 +177,24 @@ const HandleUpload = () => {}
       const getUserInfo = async () => {
         const data = await getDocs(UserInfoCollection);
         setUserInfo(data.docs.map((doc) => ({ ...doc.data() })));
+        
       };
 
       // Function Calls
       getUserInfo();
+      getEducation();
+      getExperience();
+      getSkills();
+
+
     } else {
       navigate("/SignIn");
     }
+    getUser();
   }, [user]);
 
   if (loading) {
-    return <div>loading...</div>;
+    return <div><Loader/></div>;
   } else {
     return (
       <div style={{ backgroundColor: "#f3f2ef" }}>
@@ -333,7 +356,7 @@ const HandleUpload = () => {}
                             }}
                             />
                             <Button onClick = {handleClose}>Cancel</Button>
-                            <Button onClick={postEducation}>Add</Button>
+                            <Button onClick={() => postEducation(userProfile[0].id)}>Add</Button>
                           {/* </Form> */}
                         </Box>
                        </Modal>
@@ -375,7 +398,7 @@ const HandleUpload = () => {}
                     
                     backgroundColor: 'white'}}>
                      <Button><EditIcon/></Button>
-                     <Button><DeleteIcon/></Button>
+                     <Button onClick = {() => {deleteEdu()}}><DeleteIcon/></Button>
                     </div>
                     
                     </div>                 
