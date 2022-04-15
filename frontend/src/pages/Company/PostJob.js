@@ -84,19 +84,9 @@ export default function () {
                 style={{ margin: "10px" }}
                 fullWidth
                 label="Job Title"
-                // onChange={(event) => {
-                //   if (event.target.value == "") {
-                //     const name = document.getElementById("name");
-                //     name.style.border = "red";
-                //   } else setJobTitle(event.target.value);
-                // }}
-                // onClick={(event) => {
-                //   if (event.target.value == "") {
-                //     const name = document.getElementById("name");
-                //     name.style.border = "red";
-                //     console.log(event.target.value);
-                //   }
-                // }}
+                onChange={(event) => {
+                  setJobTitle(event.target.value);
+                }}
               />
               <TextField
                 required
@@ -241,7 +231,7 @@ export default function () {
                 <div style={{ marginTop: "25px", marginBottom: "25px" }}>
                   <Button
                     color="success"
-                    onClick={createPost}
+                    onClick={() => createPost()}
                     variant="contained"
                   >
                     Post

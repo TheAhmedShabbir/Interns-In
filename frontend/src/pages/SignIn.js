@@ -23,7 +23,7 @@ export default function SignIn() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const userProfile = collection(db, "Users");
+  const userProfile = collection(db, "UserProfile");
   const [checkUser, setCheckUser] = useState([]);
 
   let verifyEmail, verifyRole;

@@ -16,28 +16,52 @@ export default function FormEdit({
   salary,
   city,
 }) {
-  const updateTitle = async (id, newTitle) => {
+  const [newTitle, setNewTitle] = useState();
+  const [newDescription, setNewDescription] = useState();
+  const [newSalary, setNewSalary] = useState();
+  const [newCity, setNewCity] = useState();
+
+  const updateTitle = async (id, nTitle) => {
+    if (nTitle == undefined) {
+      nTitle = title;
+    }
     const jobDoc = doc(db, "Job", id);
-    const nf = { Title: newTitle };
+    const nf = { Title: nTitle };
     updateDoc(jobDoc, nf);
   };
 
-  const updateDescription = async (id, newDescription) => {
+  const updateDescription = async (id, nDescription) => {
+    if (nDescription == undefined) {
+      nDescription = description;
+    }
     const jobDoc = doc(db, "Job", id);
-    const nf = { Description: newDescription };
+    const nf = { Description: nDescription };
     updateDoc(jobDoc, nf);
   };
 
-  const updateSalary = async (id, newSalary) => {
+  const updateSalary = async (id, nSalary) => {
+    if (nSalary == undefined) {
+      nSalary = salary;
+    }
     const jobDoc = doc(db, "Job", id);
-    const nf = { Salary: newSalary };
+    const nf = { Salary: nSalary };
     updateDoc(jobDoc, nf);
   };
 
-  const updateCity = async (id, newCity) => {
+  const updateCity = async (id, nCity) => {
+    if (nCity == undefined) {
+      nCity = city;
+    }
     const jobDoc = doc(db, "Job", id);
-    const nf = { City: newCity };
+    const nf = { City: nCity };
     updateDoc(jobDoc, nf);
+  };
+
+  const editJob = async () => {
+    updateTitle(id, newTitle);
+    updateDescription(id, newDescription);
+    updateSalary(id, newSalary);
+    updateCity(id, newCity);
   };
 
   return (
@@ -70,16 +94,14 @@ export default function FormEdit({
               style={{ margin: "10px" }}
               label="Job Title"
               defaultValue={title}
-              onChange={(e) => updateTitle(id, e.target.value)}
-            >
-              {console.log(title)}
-            </TextField>
+              onChange={(e) => setNewTitle(e.target.value)}
+            ></TextField>
             <TextField
               fullWidth
               style={{ margin: "10px" }}
               label="Job Description"
               defaultValue={description}
-              onChange={(e) => updateDescription(id, e.target.value)}
+              onChange={(e) => setNewDescription(e.target.value)}
             ></TextField>
             <h3>Job Type</h3>
             <div
@@ -166,7 +188,7 @@ export default function FormEdit({
                 type="number"
                 label="Salary"
                 defaultValue={salary}
-                onChange={(e) => updateSalary(id, e.target.value)}
+                onChange={(e) => setNewSalary(e.target.value)}
               />
             </div>
             <h4>Set Location</h4>
@@ -180,7 +202,7 @@ export default function FormEdit({
               <TextField
                 label="City Name"
                 defaultValue={city}
-                onChange={(e) => updateCity(id, e.target.value)}
+                onChange={(e) => setNewCity(e.target.value)}
               />
             </div>
             <div>
@@ -188,11 +210,17 @@ export default function FormEdit({
                 sx={{ marginTop: "30px" }}
                 color="success"
                 variant="contained"
-                onClick={() => close && window.location.reload()}
+                onClick={() => editJob()}
               >
                 Save
               </Button>
-              {/* <Button variant="outlined">Cancel</Button> */}
+              <Button
+                sx={{ marginTop: "30px", marginLeft: "10px" }}
+                variant="outlined"
+                onClick={close}
+              >
+                Close
+              </Button>
             </div>
           </div>
         </Box>

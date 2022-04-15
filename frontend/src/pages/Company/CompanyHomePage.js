@@ -22,7 +22,9 @@ export default function CompanyHomePage() {
   const jobCollection = collection(db, "Job");
   const userProfile = collection(db, "UserProfile");
 
-  const closeModal = () => setOpen(false);
+  const closeModal = () => {
+    setOpen(false);
+  };
 
   const openModal = () => {
     setOpen(true);
@@ -66,7 +68,7 @@ export default function CompanyHomePage() {
       }
     });
     getData();
-  }, [user]);
+  }, [user, open]);
 
   if (loading) {
     return <div>loading...</div>;
@@ -124,32 +126,6 @@ export default function CompanyHomePage() {
                 <h3>Company</h3>
                 <Typography>We are Hiring!</Typography>
               </div>
-            </div>
-            <div
-              style={{
-                padding: "15px",
-                margin: "5px",
-                backgroundColor: "#fff",
-                width: "200px",
-                borderRadius: "8px",
-              }}
-            >
-              <h2>Jobs Posted</h2>
-              <div style={{ padding: "10px" }}>
-                <h3>Software Engineer</h3>
-                <Button size="small" variant="outlined">
-                  View Applicants
-                </Button>
-              </div>
-              <div style={{ padding: "10px", marginBottom: "20px" }}>
-                <h3>SQA Engineer</h3>
-                <Button size="small" variant="outlined">
-                  View Applicants
-                </Button>
-              </div>
-              <Button size="small" variant="contained">
-                View all
-              </Button>
             </div>
             <div
               style={{
@@ -300,7 +276,6 @@ export default function CompanyHomePage() {
             id={jobid}
             key={jobid}
             open={open}
-            setOpen={setOpen}
             close={closeModal}
             title={editJob.Title}
             description={editJob.Description}
