@@ -39,7 +39,6 @@ export default function CompanyHomePage() {
   const deleteJob = async (id) => {
     const jobDoc = doc(db, "Job", jobs[id].id);
     await deleteDoc(jobDoc);
-    window.location.reload();
   };
 
   const getJobs = async () => {
@@ -64,11 +63,11 @@ export default function CompanyHomePage() {
         // Function Calls
         getJobs();
       } else {
-        navigate("/CompanySignIn");
+        navigate("/SignIn");
       }
     });
     getData();
-  }, [user, open]);
+  }, [user, open, jobs]);
 
   if (loading) {
     return <div>loading...</div>;
@@ -249,6 +248,9 @@ export default function CompanyHomePage() {
                     <Typography>{job.Description}</Typography>
                     <div>
                       <h2 style={{ color: "green" }}> {job.Salary} pkr</h2>
+                      <Button style={{ margin: "10px" }} variant="outlined">
+                        View Applicants
+                      </Button>
                       <Button
                         style={{ margin: "10px" }}
                         variant="outlined"

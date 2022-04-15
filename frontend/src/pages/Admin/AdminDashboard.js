@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import AdminHeader from "../../Components/Admin/Adminheader";
 import { db, auth } from "../../firebase-config";
-import { collection, getDocs, where, query } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 

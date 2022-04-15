@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Checkbox,
-  containerClasses,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Checkbox, TextField, Typography } from "@mui/material";
 import { FormControlLabel } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import img from "../../assets/images/Userpfp.jpg";
@@ -13,7 +7,6 @@ import { db, auth } from "../../firebase-config";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { KebabDining, KebabDiningOutlined } from "@mui/icons-material";
 
 export default function UserHomepage() {
   const navigate = useNavigate();
@@ -21,29 +14,9 @@ export default function UserHomepage() {
   const [jobs, setJobs] = useState([]);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  // const [checkUser, setCheckUser] = useState([]);
 
   const jobCollection = collection(db, "Job");
   const userProfile = collection(db, "UserProfile");
-
-  // let verifyEmail, verifyRole;
-
-  // const verifyUser = (item, index) => {
-  //   verifyEmail = item.Email;
-  //   verifyRole = item.Role;
-
-  //   if (user?.email != verifyEmail && verifyRole != "User") {
-  //     // navigate("/UserHomepage");
-  //   } else {
-  //     // console.log("/userHomepage");
-  //     setLoading(false);
-  //   }
-  // };
-
-  // const getData = async () => {
-  //   const data = await getDocs(userProfile);
-  //   setCheckUser(data.docs.map((doc) => ({ ...doc.data() })));
-  // };
 
   const saveJob = async (id) => {
     const data = await getDocs(userProfile);
@@ -58,6 +31,17 @@ export default function UserHomepage() {
     updateDoc(jobSave, nf);
   };
 
+  const applyJob = async (k, id) => {
+    const data = await getDocs(userProfile);
+    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
+    const users = profiles.filter((i) => i.Email == user?.email);
+
+    const jobApply = doc(db, "Job", id);
+    const nf = { Applicants: jobs[k].Applicants.concat(users) };
+    console.log(nf);
+    updateDoc(jobApply, nf);
+  };
+
   const getJobs = async () => {
     const data = await getDocs(jobCollection);
     setJobs(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
@@ -69,7 +53,6 @@ export default function UserHomepage() {
       setUser(currentUser);
 
       if (currentUser) {
-        // checkUser.forEach(verifyUser);
         // get jobs
         getJobs();
       } else {
@@ -78,7 +61,7 @@ export default function UserHomepage() {
     });
 
     // getData();
-  }, [user]);
+  }, [user, jobs]);
 
   if (loading) {
     return <div>loading...</div>;
@@ -236,7 +219,11 @@ export default function UserHomepage() {
                     </h2>
                     <Typography>{job.Description}</Typography>
                     <h2 style={{ color: "green" }}> {job.Salary} pkr</h2>
-                    <Button style={{ margin: "10px" }} variant="outlined">
+                    <Button
+                      style={{ margin: "10px" }}
+                      variant="outlined"
+                      onClick={() => applyJob(key, job.id)}
+                    >
                       Apply now
                     </Button>
                     <Button

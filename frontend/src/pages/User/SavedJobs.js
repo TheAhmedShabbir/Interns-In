@@ -25,8 +25,6 @@ export default function SavedJobs() {
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userProf = profiles.filter((i) => i.Role == "User");
 
-    // const matchedJob = userProf[0].savedJob.filter((i) => i.id == id);
-
     const deleteSavedJob = doc(db, "UserProfile", userProf[0].id);
     const sj = userProf[0].savedJob[key];
     await updateDoc(deleteSavedJob, {

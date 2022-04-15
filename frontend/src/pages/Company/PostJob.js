@@ -13,7 +13,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-export default function () {
+export default function PostJob() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [startDate, setStartDate] = useState(null);
@@ -46,6 +46,7 @@ export default function () {
       Mode: mode,
       Salary: salary,
       City: city,
+      Applicants: [],
     });
 
     navigate("/CompanyHomepage");

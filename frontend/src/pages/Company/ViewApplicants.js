@@ -3,7 +3,7 @@ import React from "react";
 import CompanyHeader from "../../Components/Company/CompanyHeader";
 import Userpfp from "../../assets/images/Userpfp.jpg";
 
-export default function Homepage() {
+export default function ViewApplicants() {
   return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
       <CompanyHeader />
