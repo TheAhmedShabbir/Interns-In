@@ -1,13 +1,102 @@
-import { Button, Typography } from "@mui/material";
-import React from "react";
-import CompanyHeader from "../../Components/Company/CompanyHeader";
-import Userpfp from "../../assets/images/Userpfp.jpg";
+import React, { useState, useEffect } from "react";
+import { Button, Modal, TextField, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import img from "../../assets/images/Userpfp.jpg";
 
-export default function ViewApplicants() {
+export default function ViewApplicants({ id, open, close, applicant }) {
   return (
-    <div style={{ backgroundColor: "#f3f2ef" }}>
-      <CompanyHeader />
-      <div
+    <div>
+      <Modal open={open}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "background.paper",
+            borderRadius: "8px",
+            boxShadow: 0,
+            p: 4,
+            width: "110vh",
+            // height: "85vh",
+            overflowY: "auto",
+          }}
+        >
+          {applicant?.map((app, key) => {
+            return (
+              <div key={key}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    margin: "10px",
+                    padding: "10px",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div>
+                      <img width="80px" height="80px" src={img} />
+                    </div>
+                    <p style={{ marginLeft: "15px" }}>
+                      {app.FirstName} {app.LastName}
+                    </p>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      float: "right",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Button
+                      style={{
+                        margin: "10px",
+                      }}
+                      color="success"
+                      size="small"
+                      variant="outlined"
+                    >
+                      ShortList
+                    </Button>
+                    <Button size="small" variant="outlined">
+                      View Profile
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <Button
+                sx={{ marginTop: "30px", marginLeft: "30px" }}
+                variant="outlined"
+                onClick={close}
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </Box>
+      </Modal>
+    </div>
+  );
+}
+
+{
+  /* <div
         style={{
           height: "500px",
           maxWidth: "900px",
@@ -137,7 +226,5 @@ export default function ViewApplicants() {
             <Button variant="contained">View CV</Button>
           </div>
         </div>
-      </div>
-    </div>
-  );
+      </div> */
 }

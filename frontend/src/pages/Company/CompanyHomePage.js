@@ -5,6 +5,7 @@ import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import FormEdit from "../../Components/Company/FormEdit";
+import ViewApplicants from "../../Components/Company/ViewApplicants";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -14,13 +15,12 @@ export default function CompanyHomePage() {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [jobs, setJobs] = useState([]);
-  const [jobid, setjobid] = useState("");
   const [open, setOpen] = useState(false);
+  const [applicantOpen, setApplicantOpen] = useState(false);
   let [editJob, setEditJob] = useState([]);
-  const [jobsPosted, setJobsPosted] = useState();
+  let [appJob, setAppJob] = useState([]);
 
   const jobCollection = collection(db, "Job");
-  const userProfile = collection(db, "UserProfile");
 
   const closeModal = () => {
     setOpen(false);
@@ -30,9 +30,17 @@ export default function CompanyHomePage() {
     setOpen(true);
   };
 
+  const openApplicantModal = (id) => {
+    setAppJob(jobs[id]);
+    setApplicantOpen(true);
+  };
+
+  const closeApplicantModal = () => {
+    setApplicantOpen(false);
+  };
+
   const updateJob = async (id) => {
     setEditJob(jobs[id]);
-    setjobid(jobs[id].id);
     openModal();
   };
 
@@ -47,14 +55,6 @@ export default function CompanyHomePage() {
     setLoading(false);
   };
 
-  const getData = async () => {
-    const d = await getDocs(jobCollection);
-
-    const job = d.docs.map((doc) => ({ ...doc.data() }));
-
-    setJobsPosted(job);
-  };
-
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -62,11 +62,8 @@ export default function CompanyHomePage() {
       if (currentUser) {
         // Function Calls
         getJobs();
-      } else {
-        navigate("/SignIn");
       }
     });
-    getData();
   }, [user, open, jobs]);
 
   if (loading) {
@@ -199,7 +196,7 @@ export default function CompanyHomePage() {
                 }}
               >
                 <h2>Jobs Posted</h2>
-                <Typography>{jobsPosted.length}</Typography>
+                <Typography>{jobs.length}</Typography>
               </div>
               <div
                 style={{
@@ -248,7 +245,11 @@ export default function CompanyHomePage() {
                     <Typography>{job.Description}</Typography>
                     <div>
                       <h2 style={{ color: "green" }}> {job.Salary} pkr</h2>
-                      <Button style={{ margin: "10px" }} variant="outlined">
+                      <Button
+                        style={{ margin: "10px" }}
+                        variant="outlined"
+                        onClick={() => openApplicantModal(key)}
+                      >
                         View Applicants
                       </Button>
                       <Button
@@ -275,14 +276,21 @@ export default function CompanyHomePage() {
             </div>
           </div>
           <FormEdit
-            id={jobid}
-            key={jobid}
+            id={editJob.id}
+            key={editJob.id}
             open={open}
             close={closeModal}
             title={editJob.Title}
             description={editJob.Description}
             city={editJob.City}
             salary={editJob.Salary}
+          />
+          <ViewApplicants
+            open={applicantOpen}
+            close={closeApplicantModal}
+            applicant={appJob.Applicants}
+            id={appJob.id}
+            key={"apps123" + appJob.id}
           />
         </div>
       </div>

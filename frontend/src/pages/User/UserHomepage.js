@@ -55,11 +55,8 @@ export default function UserHomepage() {
       if (currentUser) {
         // get jobs
         getJobs();
-      } else {
-        navigate("/SignIn");
       }
     });
-
     // getData();
   }, [user, jobs]);
 
