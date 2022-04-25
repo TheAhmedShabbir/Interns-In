@@ -12,6 +12,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Loader from '../../Components/Common/Loader';
+import { storage } from "../../firebase-config";
+import { ref, uploadBytesResumable } from "firebase/storage";
+
 
 const style = {
   position: 'absolute',
@@ -160,10 +163,34 @@ const postSkills = async (id) => {
 
 //Upload CV-----------------------------------------------------------------------------------------------------------
 const [uploadFile, setUploadFile] = useState(true);
+const [progress, setProgress] = useState(0);
+
+const formHandler = (e) => {
+  e.preventDefault();
+  const file = e.target[0].files[0];
+  HandleUpload(file);
+}
 
 
-const HandleUpload = () => {}
+const HandleUpload = (file) => {
+  if (!file) return;
+  const storegeRef = ref(storage,`files/${file.name}`);
+  //`files/${file.name}`
+  const uploadTask = uploadBytesResumable(storegeRef, file);
 
+  uploadTask.on("state_changes", (snapshot) => {
+    const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+    setProgress(prog);
+    console.log(progress)
+  }, (error) => {console.log(error), 
+  () => {
+    gateDownloadURL(uploadTask.snapshot.ref).then((url) => {console.log(url)});
+  }})
+};
+// CV Modal----------------------------------------------------------------------------------------------------------
+const [open3, setOpen3] = React.useState(false);
+  const handleOpen3 = () => setOpen3(true);
+  const handleClose3 = () => setOpen3(false);
 
 
 
@@ -185,6 +212,7 @@ const HandleUpload = () => {}
       getEducation();
       getExperience();
       getSkills();
+     
 
 
     } else {
@@ -252,19 +280,46 @@ const HandleUpload = () => {}
                     
                   }}
                 >
+                   <Modal
+                      open={open3}
+                      onClose={handleClose3}
+                      // aria-labelledby="modal-modal-title"
+                      // aria-describedby="modal-modal-description"
+                       >
+                         <Box sx={style}>
+                          {/* <Form> */}
+                            <h2>Upload / Download files</h2>
+                            <form onSubmit={formHandler}>
+                            <input type="file" onChange={HandleUpload} />
+                            <Button type = "submit">upload</Button>
+                            <Button>Download</Button>
+                            
+                            <Button onClick = {handleClose3}>Cancel</Button>
+                            
+                            <h3>uploaded{progress}%</h3>
+                            </form>
+                        </Box>
+                       </Modal>
+
+
+
                   <Button >
                     <EditIcon/>
                   </Button>
+                  
                   {/* Upload CV */}
-                  {uploadFile ? (
-                    <Button size="small" variant="outlined" onClick={() => {
-                      setUploadFile(false);
-                    }}>
+                  {/* {uploadFile ? ( */}
+                    <Button size="small" variant="outlined" onClick={
+                      // setUploadFile(false);
+                      handleOpen3
+                    }>
                     CV
                   </Button>
-                  ) : (
+                  {/* ) : (
                     <input type="file" onChange={HandleUpload} />
-                  )}
+                  )} */}
+                  
+                  
                   
                 </div>
               </div>
