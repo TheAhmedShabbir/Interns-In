@@ -82,7 +82,8 @@ export default function ViewApplicants({ id, open, close, applicant }) {
             <div>
               <Button
                 sx={{ marginTop: "30px", marginLeft: "30px" }}
-                variant="outlined"
+                variant="contained"
+                color="error"
                 onClick={close}
               >
                 Close

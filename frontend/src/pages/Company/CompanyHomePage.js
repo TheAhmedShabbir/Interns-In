@@ -51,7 +51,11 @@ export default function CompanyHomePage() {
 
   const getJobs = async () => {
     const data = await getDocs(jobCollection);
-    setJobs(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const jobFilter = job.filter((i) => i.company == user?.email);
+    console.log(jobFilter);
+
+    setJobs(jobFilter);
     setLoading(false);
   };
 
@@ -64,7 +68,7 @@ export default function CompanyHomePage() {
         getJobs();
       }
     });
-  }, [user, open, jobs]);
+  }, [user, open]);
 
   if (loading) {
     return <div>loading...</div>;
@@ -255,6 +259,7 @@ export default function CompanyHomePage() {
                       <Button
                         style={{ margin: "10px" }}
                         variant="outlined"
+                        color="warning"
                         onClick={() => updateJob(key)}
                       >
                         Edit
@@ -284,6 +289,8 @@ export default function CompanyHomePage() {
             description={editJob.Description}
             city={editJob.City}
             salary={editJob.Salary}
+            type={editJob.Type}
+            mode={editJob.Mode}
           />
           <ViewApplicants
             open={applicantOpen}

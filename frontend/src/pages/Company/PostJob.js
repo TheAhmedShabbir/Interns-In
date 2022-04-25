@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import CompanyHeader from "../../Components/Company/CompanyHeader";
 import TextField from "@mui/material/TextField";
-import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+import { FormControl } from "@mui/material";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { Button } from "@mui/material";
-import Userpfp from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
 import { collection, addDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function PostJob() {
   const navigate = useNavigate();
@@ -47,6 +47,7 @@ export default function PostJob() {
       Salary: salary,
       City: city,
       Applicants: [],
+      company: user?.email,
     });
 
     navigate("/CompanyHomepage");
@@ -113,30 +114,31 @@ export default function PostJob() {
                     justifyContent: "space-evenly",
                   }}
                 >
-                  <FormGroup
-                    sx={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <FormControlLabel
-                      control={<Checkbox />}
-                      label="Full Time"
-                      value="Full Time"
-                      onChange={(event) => {
-                        setJobType(event.target.value);
-                      }}
-                    />
-                    <FormControlLabel
-                      sx={{ marginLeft: "80px" }}
-                      control={<Checkbox />}
-                      label="Part Time"
-                      value="Part Time"
-                      onChange={(event) => {
-                        setJobType(event.target.value);
-                      }}
-                    />
-                  </FormGroup>
+                  <FormControl>
+                    <RadioGroup
+                      row
+                      aria-labelledby="demo-row-radio-buttons-group-label"
+                      name="row-radio-buttons-group"
+                    >
+                      <FormControlLabel
+                        value="Full Time"
+                        control={<Radio />}
+                        label="Full Time"
+                        onChange={(event) => {
+                          setJobType(event.target.value);
+                        }}
+                      />
+                      <FormControlLabel
+                        sx={{ marginLeft: "80px" }}
+                        control={<Radio />}
+                        label="Part Time"
+                        value="Part Time"
+                        onChange={(event) => {
+                          setJobType(event.target.value);
+                        }}
+                      />
+                    </RadioGroup>
+                  </FormControl>
                 </div>
               </div>
 
@@ -155,30 +157,31 @@ export default function PostJob() {
                     justifyContent: "space-evenly",
                   }}
                 >
-                  <FormGroup
-                    sx={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <FormControlLabel
-                      control={<Checkbox />}
-                      label="Remote"
-                      value="Remote"
-                      onChange={(event) => {
-                        setMode(event.target.value);
-                      }}
-                    />
-                    <FormControlLabel
-                      sx={{ marginLeft: "80px" }}
-                      control={<Checkbox />}
-                      label="On-site"
-                      value="On-site"
-                      onChange={(event) => {
-                        setMode(event.target.value);
-                      }}
-                    />
-                  </FormGroup>
+                  <FormControl>
+                    <RadioGroup
+                      row
+                      aria-labelledby="demo-row-radio-buttons-group-label"
+                      name="row-radio-buttons-group"
+                    >
+                      <FormControlLabel
+                        control={<Radio />}
+                        label="Remote"
+                        value="Remote"
+                        onChange={(event) => {
+                          setMode(event.target.value);
+                        }}
+                      />
+                      <FormControlLabel
+                        sx={{ marginLeft: "80px" }}
+                        control={<Radio />}
+                        label="On-site"
+                        value="On-site"
+                        onChange={(event) => {
+                          setMode(event.target.value);
+                        }}
+                      />
+                    </RadioGroup>
+                  </FormControl>
                 </div>
               </div>
 

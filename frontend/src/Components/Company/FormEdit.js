@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import { Button, Modal, TextField, Typography } from "@mui/material";
-import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+import { FormControl } from "@mui/material";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 import { updateDoc, doc, collection } from "firebase/firestore";
 import { db } from "../../firebase-config";
 
@@ -15,11 +16,15 @@ export default function FormEdit({
   description,
   salary,
   city,
+  type,
+  mode,
 }) {
   const [newTitle, setNewTitle] = useState();
   const [newDescription, setNewDescription] = useState();
   const [newSalary, setNewSalary] = useState();
   const [newCity, setNewCity] = useState();
+  const [newJobType, setNewJobType] = useState();
+  const [newMode, setNewMode] = useState();
 
   const updateTitle = async (id, nTitle) => {
     if (nTitle == undefined) {
@@ -57,11 +62,31 @@ export default function FormEdit({
     updateDoc(jobDoc, nf);
   };
 
+  const updateJobType = async (id, nJobType) => {
+    if (nJobType == undefined) {
+      nJobType = type;
+    }
+    const jobDoc = doc(db, "Job", id);
+    const nf = { Type: nJobType };
+    updateDoc(jobDoc, nf);
+  };
+
+  const updateMode = async (id, nMode) => {
+    if (nMode == undefined) {
+      nMode = mode;
+    }
+    const jobDoc = doc(db, "Job", id);
+    const nf = { Mode: nMode };
+    updateDoc(jobDoc, nf);
+  };
+
   const editJob = async () => {
     updateTitle(id, newTitle);
     updateDescription(id, newDescription);
     updateSalary(id, newSalary);
     updateCity(id, newCity);
+    updateJobType(id, newJobType);
+    updateMode(id, newMode);
   };
 
   return (
@@ -118,24 +143,33 @@ export default function FormEdit({
                   justifyContent: "space-evenly",
                 }}
               >
-                <FormGroup
-                  sx={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Full Time"
-                    value="Full time"
-                  />
-                  <FormControlLabel
-                    sx={{ marginLeft: "80px" }}
-                    control={<Checkbox />}
-                    label="Part Time"
-                    value="Part Time"
-                  />
-                </FormGroup>
+                <FormControl>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      control={<Radio />}
+                      label="Full Time"
+                      value="Full Time"
+                      // defaultValue={type}
+                      onChange={(event) => {
+                        setNewJobType(event.target.value);
+                      }}
+                    />
+                    <FormControlLabel
+                      sx={{ marginLeft: "80px" }}
+                      control={<Radio />}
+                      label="Part Time"
+                      value="Part Time"
+                      // defaultValue={type}
+                      onChange={(event) => {
+                        setNewJobType(event.target.value);
+                      }}
+                    />
+                  </RadioGroup>
+                </FormControl>
               </div>
             </div>
 
@@ -154,24 +188,33 @@ export default function FormEdit({
                   justifyContent: "space-evenly",
                 }}
               >
-                <FormGroup
-                  sx={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Remote"
-                    value="Remote"
-                  />
-                  <FormControlLabel
-                    sx={{ marginLeft: "80px" }}
-                    control={<Checkbox />}
-                    label="On-site"
-                    value="On-site"
-                  />
-                </FormGroup>
+                <FormControl>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      control={<Radio />}
+                      label="Remote"
+                      value="Remote"
+                      defaultValue={mode}
+                      onChange={(event) => {
+                        setNewMode(event.target.value);
+                      }}
+                    />
+                    <FormControlLabel
+                      sx={{ marginLeft: "80px" }}
+                      control={<Radio />}
+                      label="On-site"
+                      value="On-site"
+                      defaultValue={mode}
+                      onChange={(event) => {
+                        setNewMode(event.target.value);
+                      }}
+                    />
+                  </RadioGroup>
+                </FormControl>
               </div>
             </div>
 
