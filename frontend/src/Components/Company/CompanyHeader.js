@@ -44,7 +44,7 @@ export default function CompanyHeader() {
           ></Typography>
 
           <Link
-            to="/Notifications"
+            to="/CompanyNotifications"
             style={{ color: "white", textDecoration: "none" }}
           >
             <Button color="inherit">Notifications</Button>

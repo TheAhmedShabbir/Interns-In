@@ -1,8 +1,8 @@
 import { Button, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import UserHeader from "../Components/User/Userheader";
-import img from "../assets/images/Userpfp.jpg";
-import { db, auth } from "../firebase-config";
+import UserHeader from "../../Components/User/Userheader";
+import img from "../../assets/images/Userpfp.jpg";
+import { db, auth } from "../../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";

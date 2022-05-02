@@ -46,7 +46,7 @@ export default function UserHeader() {
           ></Typography>
 
           <Link
-            to="/Notifications"
+            to="/UserNotifications"
             style={{ color: "white", textDecoration: "none" }}
           >
             <Button color="inherit">Notifications</Button>

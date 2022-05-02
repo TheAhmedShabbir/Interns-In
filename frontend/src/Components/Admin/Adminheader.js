@@ -35,7 +35,7 @@ export default function AdminHeader() {
             <Button color="inherit">Home</Button>
           </Link>
           <Link
-            to="/Notifications"
+            to="/AdminNotifications"
             style={{ color: "white", textDecoration: "none" }}
           >
             <Button color="inherit">Notifications</Button>

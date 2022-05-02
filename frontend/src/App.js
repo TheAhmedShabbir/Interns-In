@@ -13,7 +13,9 @@ import UserHomepage from "./pages/User/UserHomepage";
 import CompanyHomePage from "./pages/Company/CompanyHomePage";
 import Forums from "./pages/Forums";
 import ForumTopic from "./pages/ForumTopic";
-import Notifications from "./pages/Notifications";
+import UserNotifications from "./pages/User/UserNotifications";
+import CompanyNotifications from "./pages/Company/CompanyNotifications";
+import AdminNotifications from "./pages/Admin/AdminNotifications";
 import PostJob from "./pages/Company/PostJob";
 import SavedJobs from "./pages/User/SavedJobs";
 import "./App.css";
@@ -36,7 +38,18 @@ export default function App() {
           <Route path="/CompanyHomePage" element={<CompanyHomePage />}></Route>
           <Route path="/Forums" element={<Forums />}></Route>
           <Route path="/ForumTopic" element={<ForumTopic />}></Route>
-          <Route path="/Notifications" element={<Notifications />}></Route>
+          <Route
+            path="/UserNotifications"
+            element={<UserNotifications />}
+          ></Route>
+          <Route
+            path="/CompanyNotifications"
+            element={<CompanyNotifications />}
+          ></Route>
+          <Route
+            path="/AdminNotifications"
+            element={<AdminNotifications />}
+          ></Route>
           <Route path="/savedJobs" element={<SavedJobs />}></Route>
           <Route path="/PostJob" element={<PostJob />}></Route>
         </Routes>
