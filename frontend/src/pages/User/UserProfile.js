@@ -10,7 +10,24 @@ import { collection, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
-import Avatar from "@mui/material/Avatar";
+import Modal from '@mui/material/Modal';
+
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #548CCB',
+  boxShadow: 24,
+  p: 4,
+};
+
+
+
+
 
 export default function UserProfile() {
   const navigate = useNavigate();
@@ -19,16 +36,40 @@ export default function UserProfile() {
   const UserCollection = collection(db, "UserProfile");
   const [loading, setLoading] = useState(true);
 
-  //Uploading User Profile Picture
+  
+// Upload Profile pic------------------------------------------------------------------------------------------------------------------------
 
-  const [file, setFile] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const filePickerRef = useRef();
-  const [uploadpic, setUploadpic] = useState(true);
+const [progress, setProgress] = useState(0);
 
-  const handleImageChange = () => {};
+const formHandler = (e) => {
+  e.preventDefault();
+  const file = e.target[0].files[0];
+  HandleUpload(file);
+}
 
-  const handleSubmit = () => {};
+
+const HandleUpload = (file) => {
+  if (!file) return;
+  const storegeRef = ref(storage,`files/${file.name}`);
+  //`files/${file.name}`
+  const uploadTask = uploadBytesResumable(storegeRef, file);
+
+  uploadTask.on("state_changes", (snapshot) => {
+    const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+    setProgress(prog);
+    console.log(progress)
+  }, (error) => {console.log(error), 
+  () => {
+    gateDownloadURL(uploadTask.snapshot.ref).then((url) => {console.log(url)});
+  }})
+};
+
+// Profile pic modal -----------------------------------------------------------------------------------------------------------------------
+  const [open3, setOpen3] = React.useState(false);
+  const handleOpen3 = () => setOpen3(true);
+  const handleClose3 = () => setOpen3(false);
+
+
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -70,24 +111,31 @@ export default function UserProfile() {
             />
           </div>
           <div>
-            {uploadpic ? (
-              <Button
-                onClick={() => {
-                  setUploadpic(false);
-                }}
-              >
+          <Modal
+              open={open3}
+              onClose={handleClose3}
+                >
+                  <Box sx={style}>
+                          
+                    <h2>Upload / Download files</h2>
+                    <form onSubmit={formHandler}>
+                    <input type="file" onChange={HandleUpload} />
+                    <Button type = "submit">upload</Button>
+                    <Button>Download</Button>
+                            
+                    <Button onClick = {handleClose3}>Cancel</Button>
+                            
+                    <h3>uploaded{progress}%</h3>
+                    </form>
+                </Box>
+                </Modal>
+              <Button onClick = {handleOpen3}>
                 <EditIcon />
               </Button>
-            ) : (
-              <div style={{display:"flex", marginleft:"50%",marginRight:"50%", zIndex:"9999"}}>
-              <input
-                type="file"
-                onChange={handleImageChange}
-                // ref={filePickerRef}
-              />
           </div>
+          
 
-            )}
+           
           </div>
           <div
             style={{
@@ -185,7 +233,7 @@ export default function UserProfile() {
             </Box>
           </div>
         </div>
-      </div>
+      
     );
   }
 }
