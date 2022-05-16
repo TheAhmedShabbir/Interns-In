@@ -3,7 +3,7 @@ import { Button, TextField } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, deleteDoc, doc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -14,6 +14,8 @@ import Modal from '@mui/material/Modal';
 import Loader from '../../Components/Common/Loader';
 import { storage } from "../../firebase-config";
 import { ref, uploadBytesResumable } from "firebase/storage";
+import EduEdit from "../../Components/User/EducatinModal";
+import ExpEdit from "../../Components/User/ExperienceModal";
 
 
 const style = {
@@ -81,8 +83,6 @@ const getUser = async () => {
   setUserProfile(userProf)
   // console.log(userProfile)
 };
-
-
 
 
 //Post User Education into Firestore database
@@ -192,6 +192,47 @@ const [open3, setOpen3] = React.useState(false);
   const handleOpen3 = () => setOpen3(true);
   const handleClose3 = () => setOpen3(false);
 
+
+// Edit User Education------------------------------------------------------------------------------------------------------
+let [editEducation, setEditEducation] = useState([]);
+
+const updateEdu = async (id) => {
+  setEditEducation(UserEducation[id]);
+  handleOpen4();
+};
+
+// Update Education modal----------------------------------------------------------------------------------------------------------
+  const [open4, setOpen4] = React.useState(false);
+  const handleOpen4 = () => setOpen4(true);
+  const handleClose4 = () => setOpen4(false);
+
+  // Delete User  Education-------------------------------------------------------------------------------------------------
+  
+  const deleteEdu = async (id) => {
+  const EduCollection = doc(db, "UserEducation", UserEducation[id].id);
+  await deleteDoc(EduCollection);
+};
+
+// Edit User Experience------------------------------------------------------------------------------------------------------
+
+let [editExperience, setEditExperience] = useState([]);
+
+const updateExp = async (id) => {
+  setEditExperience(UserExperience[id]);
+  handleOpen5();
+};
+// Update Experience modal----------------------------------------------------------------------------------------------------------
+const [open5, setOpen5] = React.useState(false);
+  const handleOpen5 = () => setOpen5(true);
+  const handleClose5 = () => setOpen5(false);
+
+
+// Delete User  Education-------------------------------------------------------------------------------------------------
+  
+const deleteExp = async (id) => {
+  const ExpCollection = doc(db, "UserExperience", UserExperience[id].id);
+  await deleteDoc(ExpCollection);
+};
 
 
   useEffect(() => {
@@ -400,14 +441,15 @@ const [open3, setOpen3] = React.useState(false);
                             fullWidth 
                             label = "Duration"
                             onChange={(event) => {
-                              setStatus(event.target.value);
+                              setDuration(event.target.value);
+                             
                             }}
                             />
                             <TextField
                             fullWidth 
                             label = "Status"
                             onChange={(event) => {
-                             setDuration(event.target.value);
+                            setStatus(event.target.value);                           
                             }}
                             />
                             <Button onClick = {handleClose}>Cancel</Button>
@@ -430,7 +472,6 @@ const [open3, setOpen3] = React.useState(false);
                     alignItems : 'start', 
                     margin : '25px',
                     paddingLeft : '25px',
-                    
                     backgroundColor: 'white'
                     }}
                     key = {key}
@@ -452,14 +493,24 @@ const [open3, setOpen3] = React.useState(false);
                     paddingLeft : '25px',
                     
                     backgroundColor: 'white'}}>
-                     <Button><EditIcon/></Button>
-                     <Button onClick = {() => {deleteEdu()}}><DeleteIcon/></Button>
+                     <Button onClick={() => updateEdu(key)}><EditIcon/></Button>
+                     <Button onClick = {() => {deleteEdu(key)}}><DeleteIcon/></Button>
                     </div>
                     
                     </div>                 
                 
   );
                 })}
+                <EduEdit
+                id={editEducation.id}
+                key={editEducation.id}
+                open={open4}
+                close={handleClose4}
+                degree={editEducation.Degree_Name}
+                Institute={editEducation.Institute_Name}
+                duration={editEducation.Duration}
+                status={editEducation.Status}
+                />
                 </div>
   
                 <div
@@ -570,13 +621,23 @@ const [open3, setOpen3] = React.useState(false);
                     paddingLeft : '25px',
                     
                     backgroundColor: 'white'}}>
-                     <Button><EditIcon/></Button>
-                     <Button><DeleteIcon/></Button>
+                     <Button onClick={() => updateExp(key)}><EditIcon/></Button>
+                     <Button onClick={() => deleteExp(key)}><DeleteIcon/></Button>
                     </div>
                     </div>
                
                  );
                 })}
+                <ExpEdit
+                id={editExperience.id}
+                key={editExperience.id}
+                open={open5}
+                close={handleClose5}
+                company={editExperience.Company_Name}
+                position={editExperience.Position}
+                duration={editExperience.Duration}
+                certified={editExperience.Certified}
+                />
                </div>
 
 
@@ -661,6 +722,7 @@ const [open3, setOpen3] = React.useState(false);
             // </div>
           );
         })}
+        
       </div>
     );
   }

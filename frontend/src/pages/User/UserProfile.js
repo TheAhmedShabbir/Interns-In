@@ -110,6 +110,8 @@ const HandleUpload = (file) => {
               src={img}
             />
           </div>
+          
+          {/* Upload Profile picture */}
           <div>
           <Modal
               open={open3}

@@ -29,6 +29,7 @@ export default function CompanyHomePage() {
   const openModal = () => {
     setOpen(true);
   };
+  
 
   const openApplicantModal = (id) => {
     setAppJob(jobs[id]);
