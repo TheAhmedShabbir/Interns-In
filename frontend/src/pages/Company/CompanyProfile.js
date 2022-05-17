@@ -13,9 +13,20 @@ import { useNavigate } from "react-router-dom";
 export default function CompanyProfile() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
-  const [companyInfo, setCompanyInfo] = useState([]);
-  const recruiterCollection = collection(db, "CompanyProfile");
+  const [UserInfo, setUserInfo] = useState([]);
+
+  const UserCollection = collection(db, "UserProfile");
   const [loading, setLoading] = useState(true);
+
+  const getUserInfo = async () => {
+    const data = await getDocs(UserCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
+
+    const userData = profiles.filter((i) => i.Email == user?.email);
+
+    setUserInfo(userData[0]);
+    setLoading(false);
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -24,14 +35,7 @@ export default function CompanyProfile() {
 
     if (user) {
       // get company information
-      const getCompanyInfo = async () => {
-        const data = await getDocs(recruiterCollection);
-        setCompanyInfo(data.docs.map((doc) => ({ ...doc.data() })));
-        setLoading(false);
-      };
-
-      // Function Calls
-      getCompanyInfo();
+      getUserInfo();
     } else {
       navigate("/CompanySignIn");
     }
@@ -103,7 +107,9 @@ export default function CompanyProfile() {
                       Edit
                     </Button>
                   </div>
-                  <Typography style={{ marginBottom: "15px" }}>eew</Typography>
+                  <Typography style={{ marginBottom: "15px" }}>
+                    {UserInfo?.CompanyName}
+                  </Typography>
                 </div>
                 <div>
                   <div
@@ -122,7 +128,9 @@ export default function CompanyProfile() {
                       Edit
                     </Button>
                   </div>
-                  <Typography style={{ marginBottom: "15px" }}>cdew</Typography>
+                  <Typography style={{ marginBottom: "15px" }}>
+                    {UserInfo?.Password}
+                  </Typography>
                 </div>
                 <div>
                   <div
@@ -141,7 +149,7 @@ export default function CompanyProfile() {
                       Edit
                     </Button>
                   </div>
-                  <Typography>{user?.email}</Typography>
+                  <Typography> {user?.email}</Typography>
                 </div>
 
                 <div>
@@ -161,7 +169,9 @@ export default function CompanyProfile() {
                       Edit
                     </Button>
                   </div>
-                  <Typography style={{ marginBottom: "15px" }}>nkjd</Typography>
+                  <Typography style={{ marginBottom: "15px" }}>
+                    {UserInfo?.Location}
+                  </Typography>
                 </div>
 
                 <div>
@@ -181,7 +191,7 @@ export default function CompanyProfile() {
                       Edit
                     </Button>
                   </div>
-                  <Typography>cd</Typography>
+                  <Typography> {UserInfo?.About}</Typography>
                 </div>
               </Paper>
             </Box>

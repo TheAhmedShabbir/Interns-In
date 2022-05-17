@@ -14,6 +14,15 @@ export default function Notifications() {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
+  const getJobs = async () => {
+    const data = await getDocs(jobCollection);
+    const j = data.docs.map((doc) => ({ ...doc.data() }));
+
+    const applicant = j.map((a) => a.Applicants);
+    setJobs(applicant);
+    setLoading(false);
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -21,13 +30,6 @@ export default function Notifications() {
 
     if (user) {
       // get jobs
-      const getJobs = async () => {
-        const data = await getDocs(jobCollection);
-        setJobs(data.docs.map((doc) => ({ ...doc.data() })));
-        setLoading(false);
-      };
-
-      // Function Calls
       getJobs();
     } else {
       navigate("/SignIn");
@@ -55,64 +57,70 @@ export default function Notifications() {
           }}
         >
           <h1>Notifications</h1>
-          {jobs.map((job) => {
-            return (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
-              >
+          {jobs.map((job, key) => {
+            if (job.length == 0) {
+              <div></div>;
+            } else {
+              return (
                 <div
                   style={{
                     display: "flex",
-                    flexDirection: "row",
-                    backgroundColor: "white",
-                    padding: "15px",
-                    width: "700px",
-                    borderRadius: "10px",
-                    margin: "10px",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    marginLeft: "auto",
+                    marginRight: "auto",
                   }}
+                  key={key}
                 >
-                  <div>
-                    <img width="150px" height="150px" src={img} />
-                  </div>
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "column",
+                      flexDirection: "row",
+                      backgroundColor: "white",
                       padding: "15px",
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      marginTop: "10px",
+                      width: "700px",
+                      borderRadius: "10px",
+                      margin: "10px",
                     }}
                   >
-                    <Typography style={{ padding: "10px" }}>
-                      XYZ added a new job for {job.Title}
-                    </Typography>
                     <div>
-                      <Button
-                        style={{ margin: "10px" }}
-                        size="small"
-                        variant="outlined"
-                      >
-                        View Details
-                      </Button>
-                      <Button
-                        style={{ margin: "10px" }}
-                        size="small"
-                        variant="outlined"
-                      >
-                        Apply now
-                      </Button>
+                      <img width="150px" height="150px" src={img} />
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        padding: "15px",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <Typography style={{ padding: "10px" }}>
+                        {console.log(job)} has applied to your job for
+                        {/* {console.log(job)} */}
+                      </Typography>
+                      <div>
+                        <Button
+                          style={{ margin: "10px" }}
+                          size="small"
+                          variant="outlined"
+                        >
+                          View Details
+                        </Button>
+                        <Button
+                          style={{ margin: "10px" }}
+                          size="small"
+                          variant="outlined"
+                        >
+                          Apply now
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
+              );
+            }
           })}
         </div>
       </div>

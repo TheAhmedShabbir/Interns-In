@@ -36,6 +36,9 @@ export default function UserSignUp() {
           Email: email,
           Role: "User",
           savedJob: [],
+          skills: [],
+          experience: [],
+          education: [],
         });
       }
       console.log(user);

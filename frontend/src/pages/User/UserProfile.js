@@ -81,7 +81,11 @@ export default function UserProfile() {
       // get User information
       const getUserInfo = async () => {
         const data = await getDocs(UserCollection);
-        setUserInfo(data.docs.map((doc) => ({ ...doc.data() })));
+        const profiles = data.docs.map((doc) => ({ ...doc.data() }));
+
+        const userData = profiles.filter((i) => i.Email == user?.email);
+
+        setUserInfo(userData[0]);
         setLoading(false);
       };
 
@@ -182,7 +186,7 @@ export default function UserProfile() {
                   </Button>
                 </div>
                 <Typography style={{ marginBottom: "15px" }}>
-                  {/* {userinfo.Username} */}
+                  {UserInfo?.FirstName + " " + UserInfo?.LastName}
                 </Typography>
               </div>
               <div>
@@ -203,7 +207,7 @@ export default function UserProfile() {
                   </Button>
                 </div>
                 <Typography style={{ marginBottom: "15px" }}>
-                  {/* {userinfo.Password} */}
+                  {UserInfo?.Password}
                 </Typography>
               </div>
               <div>

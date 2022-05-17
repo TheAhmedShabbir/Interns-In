@@ -15,12 +15,14 @@ export default function CompanyHomePage() {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [jobs, setJobs] = useState([]);
+  const [UserInfo, setUserInfo] = useState([]);
   const [open, setOpen] = useState(false);
   const [applicantOpen, setApplicantOpen] = useState(false);
   let [editJob, setEditJob] = useState([]);
   let [appJob, setAppJob] = useState([]);
 
   const jobCollection = collection(db, "Job");
+  const UserCollection = collection(db, "UserProfile");
 
   const closeModal = () => {
     setOpen(false);
@@ -29,7 +31,6 @@ export default function CompanyHomePage() {
   const openModal = () => {
     setOpen(true);
   };
-  
 
   const openApplicantModal = (id) => {
     setAppJob(jobs[id]);
@@ -54,9 +55,18 @@ export default function CompanyHomePage() {
     const data = await getDocs(jobCollection);
     const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const jobFilter = job.filter((i) => i.company == user?.email);
-    console.log(jobFilter);
 
     setJobs(jobFilter);
+    setLoading(false);
+  };
+
+  const getUserInfo = async () => {
+    const data = await getDocs(UserCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
+
+    const userData = profiles.filter((i) => i.Email == user?.email);
+
+    setUserInfo(userData[0]);
     setLoading(false);
   };
 
@@ -65,6 +75,9 @@ export default function CompanyHomePage() {
       setUser(currentUser);
 
       if (currentUser) {
+        // get user info
+        getUserInfo();
+
         // Function Calls
         getJobs();
       }
@@ -124,8 +137,8 @@ export default function CompanyHomePage() {
                   marginBottom: "10px",
                 }}
               >
-                <h3>Company</h3>
-                <Typography>We are Hiring!</Typography>
+                <h3>{UserInfo?.CompanyName}</h3>
+                <Typography>{UserInfo?.Headline}</Typography>
               </div>
             </div>
             <div

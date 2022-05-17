@@ -13,10 +13,12 @@ export default function UserHomepage() {
 
   const [jobs, setJobs] = useState([]);
   const [user, setUser] = useState(null);
+  const [UserInfo, setUserInfo] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const jobCollection = collection(db, "Job");
   const userProfile = collection(db, "UserProfile");
+  const UserCollection = collection(db, "UserProfile");
 
   const saveJob = async (id) => {
     const data = await getDocs(userProfile);
@@ -48,16 +50,28 @@ export default function UserHomepage() {
     setLoading(false);
   };
 
+  const getUserInfo = async () => {
+    const data = await getDocs(UserCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
+
+    const userData = profiles.filter((i) => i.Email == user?.email);
+
+    setUserInfo(userData[0]);
+    setLoading(false);
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
 
       if (currentUser) {
+        // get user info
+        getUserInfo();
+
         // get jobs
         getJobs();
       }
     });
-    // getData();
   }, [user, jobs]);
 
   if (loading) {
@@ -113,8 +127,8 @@ export default function UserHomepage() {
                   marginBottom: "10px",
                 }}
               >
-                <h3>Ahmed Shabbir</h3>
-                <Typography>Student</Typography>
+                <h3>{UserInfo?.FirstName + " " + UserInfo?.LastName}</h3>
+                <Typography>{UserInfo?.MainField}</Typography>
               </div>
             </div>
             <div
