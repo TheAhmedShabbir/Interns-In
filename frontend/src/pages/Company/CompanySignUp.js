@@ -25,7 +25,7 @@ export default function CompanySignUp() {
   const [taxNumber, setTaxNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const userProfile = collection(db, "Users");
+  const userProfile = collection(db, "UserProfile");
 
   const signUp = async () => {
     try {
@@ -127,7 +127,7 @@ export default function CompanySignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/CompanySignIn" variant="body2">
+                <Link href="/SignIn" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

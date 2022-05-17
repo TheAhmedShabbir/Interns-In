@@ -6,8 +6,8 @@ import { collection, getDocs, addDoc, updateDoc } from "firebase/firestore";
 import img from "../assets/images/Userpfp.jpg";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import UserPostEdit from "../Components/User/UserPostEdit";
 
 const style = {
@@ -33,10 +33,7 @@ export default function Forumtopic() {
   const [updatedPost, setUpdatedPost] = useState([]);
   const [postId, setPostId] = useState("");
 
-  
   const closeModal = () => setOpen(false);
-
- 
 
   const updatePost = async (id) => {
     setUpdatedPost(Userposts[id]);
@@ -61,7 +58,6 @@ export default function Forumtopic() {
     await addDoc(forumTopicCollection, { userPost: NewPost });
   };
 
-
   useEffect(() => {
     // get forums topic
     const getForumDescription = async () => {
@@ -73,17 +69,15 @@ export default function Forumtopic() {
     getForumDescription();
   }, []);
 
+  useEffect(() => {
+    const getUserPosts = async () => {
+      const data = await getDocs(forumTopicCollection);
+      setUserposts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      console.log(Userposts);
+    };
 
-useEffect(() => {
-  const getUserPosts = async () => {
-    const data = await getDocs(forumTopicCollection);
-    setUserposts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    console.log(Userposts)
-  };
-
-  getUserPosts();
-},[])
-  
+    getUserPosts();
+  }, []);
 
   return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
@@ -96,152 +90,168 @@ useEffect(() => {
         Click
       </button> */}
       <div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "500px",
-          backgroundColor: "white",
-          borderRadius: "10px",
-          border: "2px solid #548CCB",
-          margin: "50px",
-          minHeight: "200px",
-        }}
-      >
-        {forumTopic.map((item, key) => {
-          return (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                margin: "50px",
-                borderRadius: "10px",
-              }}
-              key={key}
-            >
-              <h1>{item.TopicDescription}</h1>
-
-              {/* Modal Div */}
-              <div style={{ alignContent: "baseline" }}>
-                <Button onClick={handleOpen}>What's on your mind?</Button>
-                <Modal
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                >
-                  <Box sx={style}>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-evenly",
-                        alignItems: "center",
-                        backgroundColor: "white",
-                      }}
-                    >
-                      <div>
-                        <TextField
-                          style={{ width: "350px" }}
-                          label="What's on your mind?"
-                          onChange={(event) => {
-                            setNewPost(event.target.value);
-                          }}
-                        />
-                      </div>
-                      <div>
-                        <Button onClick={PostQuery}>Post</Button>
-                        <Button onClick={closeModal}>Cancel</Button>
-                      </div>
-                    </div>
-                  </Box>
-                </Modal>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "200px",
-          backgroundColor: "#f3f2ef",
-          margin: "50px",
-          border: "2px solid #548CCB",
-          borderRadius: "10px",
-        }}
-      >
-        <h1>User posts</h1>
-        {Userposts.map((item, key) => {
-          return (
-
-         
         <div
           style={{
             display: "flex",
-            flexDirection: "row",
+            flexDirection: "column",
+            minHeight: "500px",
             backgroundColor: "white",
-            margin: "15px",
-            borderRadius: "20px",
-            justifyContent: "space-between",
-            Width: "200px"
+            borderRadius: "10px",
+            border: "2px solid #548CCB",
+            margin: "50px",
+            minHeight: "200px",
           }}
-          key = {key}
         >
-          <div style={{ marginright: "5px" , display : 'flex', flexDirection : 'column', justifyContent : 'center'}}>
-            <img
-              style={{
-                height: "100px",
-                width: "100px",
-                borderRadius: "50px",
-                marginLeft:"25px"
-              }}
-              src={img}
-              alt=""
-            />
-          </div>
-          
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              marginRight: "800px",
-              justifyContent: "space-evenly",
-              alignItems: "flex-start",
-            }}
-            
-          >
-            
-            <h4 style={{ marginLeft: "5px" }}>Test user</h4>
-            <p style={{ marginLeft: "5px", textAlign: "justify" }}>{item.userPost}</p>
-            <Button style={{ marginLeft: "5px" }}>reply</Button>
-            </div>
-            
+          {forumTopic.map((item, key) => {
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  margin: "50px",
+                  borderRadius: "10px",
+                }}
+                key={key}
+              >
+                <h1>{item.TopicDescription}</h1>
 
-            
-            <div style = {{
-            justifyContent : 'center', 
-           
-            // marginRight:"20px",
-            // marginTop : '20px'
-            margin : '20px'
-            }}> 
-            <button style = {{border : 'none', backgroundColor: 'white', cursor : 'pointer'}} onClick={() => updatePost(key)}>
-            <EditIcon/>
-            </button>
-            <button  style = {{border : 'none', backgroundColor: 'white', cursor : 'pointer'}}>
-            <DeleteIcon/>
-            </button>
-          </div>
-
+                {/* Modal Div */}
+                <div style={{ alignContent: "baseline" }}>
+                  <Button onClick={handleOpen}>What's on your mind?</Button>
+                  <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box sx={style}>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-evenly",
+                          alignItems: "center",
+                          backgroundColor: "white",
+                        }}
+                      >
+                        <div>
+                          <TextField
+                            style={{ width: "350px" }}
+                            label="What's on your mind?"
+                            onChange={(event) => {
+                              setNewPost(event.target.value);
+                            }}
+                          />
+                        </div>
+                        <div>
+                          <Button onClick={PostQuery}>Post</Button>
+                          <Button onClick={closeModal}>Cancel</Button>
+                        </div>
+                      </div>
+                    </Box>
+                  </Modal>
+                </div>
+              </div>
+            );
+          })}
         </div>
-         );
-         
-        })}
-      </div>
-      {/* <UserPostEdit
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "200px",
+            backgroundColor: "#f3f2ef",
+            margin: "50px",
+            border: "2px solid #548CCB",
+            borderRadius: "10px",
+          }}
+        >
+          <h1>User posts</h1>
+          {Userposts.map((item, key) => {
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  backgroundColor: "white",
+                  margin: "15px",
+                  borderRadius: "20px",
+                  justifyContent: "space-between",
+                  Width: "200px",
+                }}
+                key={key}
+              >
+                <div
+                  style={{
+                    marginright: "5px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img
+                    style={{
+                      height: "100px",
+                      width: "100px",
+                      borderRadius: "50px",
+                      marginLeft: "25px",
+                    }}
+                    src={img}
+                    alt=""
+                  />
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    marginRight: "800px",
+                    justifyContent: "space-evenly",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <h4 style={{ marginLeft: "5px" }}>Test user</h4>
+                  <p style={{ marginLeft: "5px", textAlign: "justify" }}>
+                    {item.userPost}
+                  </p>
+                  <Button style={{ marginLeft: "5px" }}>reply</Button>
+                </div>
+
+                <div
+                  style={{
+                    justifyContent: "center",
+
+                    // marginRight:"20px",
+                    // marginTop : '20px'
+                    margin: "20px",
+                  }}
+                >
+                  <button
+                    style={{
+                      border: "none",
+                      backgroundColor: "white",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => updatePost(key)}
+                  >
+                    <EditIcon />
+                  </button>
+                  <button
+                    style={{
+                      border: "none",
+                      backgroundColor: "white",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <DeleteIcon />
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        {/* <UserPostEdit
       id = {postId}
       key = {postId}
       open = {open}
