@@ -24,7 +24,7 @@ export default function EduEdit({
     if (nDegree == undefined) {
       nDegree = degree;
     }
-    const EDUcollection = doc(db, "UserEducation", id);
+    const EDUcollection = doc(db, "UserProfile", id);
     const nf = { Degree_Name: nDegree };
     updateDoc(EDUcollection, nf);
   };
@@ -33,7 +33,7 @@ export default function EduEdit({
     if (nInstitute == undefined) {
       nInstitute = Institute;
     }
-    const EDUcollection = doc(db, "UserEducation", id);
+    const EDUcollection = doc(db, "UserProfile", id);
     const nf = { Institute_Name: nInstitute };
     updateDoc(EDUcollection, nf);
   };
@@ -42,7 +42,7 @@ export default function EduEdit({
     if (nDuration == undefined) {
       nDuration = duration;
     }
-    const EDUcollection = doc(db, "UserEducation", id);
+    const EDUcollection = doc(db, "UserProfile", id);
     const nf = { Duration: nDuration };
     updateDoc(EDUcollection, nf);
   };
@@ -51,7 +51,7 @@ export default function EduEdit({
     if (nStatus == undefined) {
       nStatus = status;
     }
-    const EDUcollection = doc(db, "UserEducation", id);
+    const EDUcollection = doc(db, "UserProfile", id);
     const nf = { Status: nStatus };
     updateDoc(EDUcollection, nf);
   };

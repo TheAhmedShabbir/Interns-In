@@ -23,7 +23,7 @@ export default function ExpEdit({
     if (nCompany == undefined) {
         nCompany = company;
     }
-    const EXPcollection = doc(db, "UserExperience", id);
+    const EXPcollection = doc(db, "UserProfile", id);
     const nf = { Company_Name: nCompany };
     updateDoc(EXPcollection, nf);
   };
@@ -32,7 +32,7 @@ export default function ExpEdit({
     if (nPosition == undefined) {
         nPosition = position;
     }
-    const EXPcollection = doc(db, "UserExperience", id);
+    const EXPcollection = doc(db, "UserProfile", id);
     const nf = { Position_Name: nPosition };
     updateDoc(EXPcollection, nf);
   };
@@ -41,7 +41,7 @@ export default function ExpEdit({
     if (nDuration == undefined) {
       nDuration = duration;
     }
-    const EXPcollection = doc(db, "UserExperience", id);
+    const EXPcollection = doc(db, "UserProfile", id);
     const nf = { Duration: nDuration };
     updateDoc(EXPcollection, nf);
   };
@@ -50,7 +50,7 @@ export default function ExpEdit({
     if (nCertified == undefined) {
         nCertified = certified;
     }
-    const EXPcollection = doc(db, "UserExperience", id);
+    const EXPcollection = doc(db, "UserProfile", id);
     const nf = { Certified: nCertified };
     updateDoc(EXPcollection, nf);
   };
