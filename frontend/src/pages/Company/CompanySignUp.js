@@ -25,7 +25,7 @@ export default function CompanySignUp() {
   const [taxNumber, setTaxNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const userProfile = collection(db, "Users");
+  const userProfile = collection(db, "UserProfile");
 
   const signUp = async () => {
     try {

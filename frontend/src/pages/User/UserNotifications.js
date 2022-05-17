@@ -14,7 +14,7 @@ export default function Notifications() {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {         
+  useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });

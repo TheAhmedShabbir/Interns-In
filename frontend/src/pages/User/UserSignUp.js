@@ -23,7 +23,7 @@ export default function UserSignUp() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const userProfile = collection(db, "Users");
+  const userProfile = collection(db, "UserProfile");
   const [user, setUser] = useState({});
 
   const signUp = async () => {
