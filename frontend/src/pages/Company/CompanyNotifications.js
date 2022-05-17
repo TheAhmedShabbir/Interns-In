@@ -97,8 +97,9 @@ export default function Notifications() {
                       }}
                     >
                       <Typography style={{ padding: "10px" }}>
-                        {console.log(job)} has applied to your job for
-                        {/* {console.log(job)} */}
+                        {job[0].FirstName + " " + job[0].LastName + " "}
+                        has applied to your job for
+                        {console.log(job)}
                       </Typography>
                       <div>
                         <Button
