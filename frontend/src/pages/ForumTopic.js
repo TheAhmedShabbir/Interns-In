@@ -9,6 +9,7 @@ import Modal from "@mui/material/Modal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import UserPostEdit from "../Components/User/UserPostEdit";
+import { Link, useParams } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -29,6 +30,8 @@ export default function Forumtopic() {
   const [Userposts, setUserposts] = useState([]);
   const [NewPost, setNewPost] = useState("");
 
+  const { id } = useParams();
+
   //Update Post
   const [updatedPost, setUpdatedPost] = useState([]);
   const [postId, setPostId] = useState("");
@@ -42,7 +45,7 @@ export default function Forumtopic() {
   };
 
   //data fetch from database
-  const forumTopicCollection = collection(db, "Forum Topic");
+  const forumTopicCollection = collection(db, "User posts");
   const forumsCollection = collection(db, "Forums");
 
   // Modal states
@@ -61,10 +64,19 @@ export default function Forumtopic() {
   useEffect(() => {
     // get forums topic
     const getForumDescription = async () => {
-      const data = await getDocs(forumsCollection);
-      setForumTopic(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      // console.log(forumTopic)
+
+      let x = await getDoc(doc(db, `Forums/${id}`));
+      console.log({
+        id: x.id,
+        ...x.data(),
+      });
+      setForumTopic({ id: x.id, ...x.data() });
     };
+
+      // const data = await getDocs(forumsCollection);
+      // setForumTopic(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      // console.log(forumTopic)
+    // };?
 
     getForumDescription();
   }, []);
@@ -102,8 +114,8 @@ export default function Forumtopic() {
             minHeight: "200px",
           }}
         >
-          {forumTopic.map((item, key) => {
-            return (
+          {/* {forumTopic.map((item, key) => {
+            return ( */}
               <div
                 style={{
                   display: "flex",
@@ -111,13 +123,13 @@ export default function Forumtopic() {
                   margin: "50px",
                   borderRadius: "10px",
                 }}
-                key={key}
+                // key={key}
               >
-                <h1>{item.TopicDescription}</h1>
+                <h1>{forumTopic?.TopicDescription}</h1>
 
                 {/* Modal Div */}
                 <div style={{ alignContent: "baseline" }}>
-                  <Button onClick={handleOpen}>What's on your mind?</Button>
+                  <Button onClick={handleOpen}>Add an Answer</Button>
                   <Modal
                     open={open}
                     onClose={handleClose}
@@ -152,8 +164,8 @@ export default function Forumtopic() {
                   </Modal>
                 </div>
               </div>
-            );
-          })}
+            {/* );
+          })} */}
         </div>
 
         <div

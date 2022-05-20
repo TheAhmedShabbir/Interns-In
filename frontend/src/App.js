@@ -37,7 +37,7 @@ export default function App() {
           <Route path="/UserHomePage" element={<UserHomepage />}></Route>
           <Route path="/CompanyHomePage" element={<CompanyHomePage />}></Route>
           <Route path="/Forums" element={<Forums />}></Route>
-          <Route path="/ForumTopic" element={<ForumTopic />}></Route>
+          <Route path="/ForumTopic/:id" element={<ForumTopic />}></Route>
           <Route
             path="/UserNotifications"
             element={<UserNotifications />}

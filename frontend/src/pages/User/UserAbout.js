@@ -12,8 +12,9 @@ import {
   where,
   getDoc,
   doc,
+  getFirestore,
 } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import EditIcon from "@mui/icons-material/Edit";
@@ -42,7 +43,7 @@ const style = {
 export default function UserAbout() {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState([]);
-  const [userProfile, setUserProfile] = useState();
+  const [userProfile, setUserProfile] = useState([]);
   const UserInfoCollection = collection(db, "UserProfile");
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
@@ -83,16 +84,33 @@ export default function UserAbout() {
 
   // Get UserProfile data from Firestore database
   const getUser = async () => {
-    const q = query(UserInfoCollection, where("Email", "==", user?.email));
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        
 
-    await getDocs(q)
-      .then((data) => {
-        setUserProfile(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        console.log(user);
+        setUser(user);
+        
+        // ...
+      } else {
+        // User is signed out
+        // ...
+      }
+    });
+    
+    // const q = query(UserInfoCollection, where("Email", "==", user));
+
+    // await getDocs(q)
+    //   .then((data) => {
+    //     setUserProfile(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    //     console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    //     console.log(data.docs);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
 

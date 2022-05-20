@@ -26,7 +26,7 @@ export default function Forums() {
   // get forums
   const getForums = async () => {
     const data = await getDocs(forumsCollection);
-    setForums(data.docs.map((doc) => ({ ...doc.data() })));
+    setForums(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
    // get User information
@@ -105,9 +105,9 @@ export default function Forums() {
             }}
           >
             <div>
-              <Button>Image</Button>
+              {/* <Button>Image</Button>
               <Button>Event</Button>
-              <Button>Document</Button>
+              <Button>Document</Button> */}
             </div>
             <div>
               <Button
@@ -152,7 +152,7 @@ export default function Forums() {
                 <Typography>Total posts: 1000</Typography>
                 <Typography>Views: 2300</Typography>
                 <Button
-                  href="/ForumTopic"
+                  href={`/ForumTopic/${forum?.id}`}
                   style={{ margin: "15px" }}
                   variant="outlined"
                 >
