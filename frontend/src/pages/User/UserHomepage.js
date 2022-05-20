@@ -17,7 +17,6 @@ export default function UserHomepage() {
   const [loading, setLoading] = useState(true);
 
   const jobCollection = collection(db, "Job");
-  const userProfile = collection(db, "UserProfile");
   const UserCollection = collection(db, "UserProfile");
 
   const saveJob = async (id) => {
@@ -34,7 +33,7 @@ export default function UserHomepage() {
   };
 
   const applyJob = async (k, id) => {
-    const data = await getDocs(userProfile);
+    const data = await getDocs(UserCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
     const users = profiles.filter((i) => i.Email == user?.email);
 
@@ -53,9 +52,7 @@ export default function UserHomepage() {
   const getUserInfo = async () => {
     const data = await getDocs(UserCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
-
     const userData = profiles.filter((i) => i.Email == user?.email);
-
     setUserInfo(userData[0]);
     setLoading(false);
   };
@@ -64,7 +61,7 @@ export default function UserHomepage() {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
 
-      if (currentUser) {
+      if (user) {
         // get user info
         getUserInfo();
 
