@@ -2,7 +2,7 @@ import { Button, TextField, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import UserHeader from "../Components/User/Userheader";
 import { db } from "../firebase-config";
-import { collection, getDocs, addDoc, updateDoc } from "firebase/firestore";
+import { collection, getDocs,getDoc,doc, addDoc, updateDoc } from "firebase/firestore";
 import img from "../assets/images/Userpfp.jpg";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -65,7 +65,7 @@ export default function Forumtopic() {
     // get forums topic
     const getForumDescription = async () => {
 
-      let x = await getDoc(doc(db, `Forums/${id}`));
+      let x = await getDoc(doc(db, `Forums/${id}`)).the((res)=>{console.log(res)})
       console.log({
         id: x.id,
         ...x.data(),
@@ -125,7 +125,7 @@ export default function Forumtopic() {
                 }}
                 // key={key}
               >
-                <h1>{forumTopic?.TopicDescription}</h1>
+                <h1>{forumTopic[0]?.TopicDescription}</h1>
 
                 {/* Modal Div */}
                 <div style={{ alignContent: "baseline" }}>
