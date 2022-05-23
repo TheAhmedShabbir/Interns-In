@@ -20,6 +20,7 @@ export default function CompanyHomePage() {
   const [applicantOpen, setApplicantOpen] = useState(false);
   let [editJob, setEditJob] = useState([]);
   let [appJob, setAppJob] = useState([]);
+  const [num, setNum] = useState(0);
 
   const jobCollection = collection(db, "Job");
   const UserCollection = collection(db, "UserProfile");
@@ -34,7 +35,10 @@ export default function CompanyHomePage() {
 
   const openApplicantModal = (id) => {
     setAppJob(jobs[id]);
-    setApplicantOpen(true);
+    console.log(jobs);
+    if (jobs[id].Applicants.length == 0) {
+      setApplicantOpen(false);
+    } else setApplicantOpen(true);
   };
 
   const closeApplicantModal = () => {
@@ -56,7 +60,12 @@ export default function CompanyHomePage() {
     const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const jobFilter = job.filter((i) => i.company == user?.email);
 
+    // jobFilter.map((item) => {
+    //   setNum(num + item?.Applicants.length);
+    //   console.log(item?.Applicants.length);
+    // });
     setJobs(jobFilter);
+
     setLoading(false);
   };
 
@@ -141,38 +150,43 @@ export default function CompanyHomePage() {
                 <Typography>{UserInfo?.Headline}</Typography>
               </div>
             </div>
-            <div
-              style={{
-                backgroundColor: "#fff",
-                padding: "15px",
-                margin: "5px",
-                width: "200px",
-                borderRadius: "8px",
-              }}
-            >
-              <h3>Pending Interviews</h3>
-              <div style={{ padding: "10px" }}>
-                <h4>Ahmed Shabbir</h4>
-                <Button size="small" variant="outlined">
-                  View Profile
-                </Button>
-              </div>
-              <div style={{ padding: "10px" }}>
-                <h3>Abdullah Shahzad</h3>
-                <Button size="small" variant="outlined">
-                  View Profile
-                </Button>
-              </div>
-              <div style={{ padding: "10px", marginBottom: "20px" }}>
-                <h3>Muaaz Shabbir</h3>
-                <Button size="small" variant="outlined">
-                  View Profile
-                </Button>
-              </div>
-              <Button size="small" variant="contained">
-                View all
-              </Button>
-            </div>
+            <h3>Pending Interviews</h3>
+            {jobs.map((j, k) => {
+              if (j.Applicants[k] == undefined) {
+                <div></div>;
+              } else
+                return (
+                  <div
+                    style={{
+                      backgroundColor: "#fff",
+                      borderRadius: "8px",
+                      margin: "5px",
+                    }}
+                    key={k}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "#fff",
+                        padding: "15px",
+                        margin: "5px",
+                        width: "200px",
+                        borderRadius: "8px",
+                      }}
+                    >
+                      <div style={{ padding: "10px" }}>
+                        <h4>
+                          {j.Applicants[k]?.FirstName +
+                            " " +
+                            j.Applicants[k]?.LastName}
+                        </h4>
+                        <Button size="small" variant="outlined">
+                          View Profile
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                );
+            })}
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div
@@ -180,6 +194,7 @@ export default function CompanyHomePage() {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-evenly",
+                alignItems: "flex-start",
                 flexWrap: "wrap",
                 alignContent: "flex-start",
                 padding: "20px",
@@ -211,6 +226,7 @@ export default function CompanyHomePage() {
                   border: "2px solid blue",
                   margin: "10px",
                   width: "200px",
+                  height: "100px",
                 }}
               >
                 <h2>Jobs Posted</h2>
@@ -224,10 +240,11 @@ export default function CompanyHomePage() {
                   border: "2px solid blue",
                   margin: "10px",
                   width: "200px",
+                  height: "100px",
                 }}
               >
-                <h2>Pending Interviews</h2>
-                <Typography>125</Typography>
+                <h2 style={{ margin: "10px" }}>Pending Interviews</h2>
+                <Typography style={{ marginTop: "5px" }}>1</Typography>
               </div>
               <div
                 style={{
@@ -237,6 +254,7 @@ export default function CompanyHomePage() {
                   border: "2px solid blue",
                   margin: "10px",
                   width: "200px",
+                  height: "100px",
                 }}
               >
                 <h2>Employees</h2>
