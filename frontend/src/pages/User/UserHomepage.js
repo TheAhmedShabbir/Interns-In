@@ -14,6 +14,7 @@ export default function UserHomepage() {
   const [jobs, setJobs] = useState([]);
   const [user, setUser] = useState(null);
   const [UserInfo, setUserInfo] = useState([]);
+  const [companyInfo, setCompanyInfo] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const jobCollection = collection(db, "Job");
@@ -33,14 +34,26 @@ export default function UserHomepage() {
   };
 
   const applyJob = async (k, id) => {
-    const data = await getDocs(UserCollection);
-    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
-    const users = profiles.filter((i) => i.Email == user?.email);
+    const data = await getDocs(jobCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const j = profiles.filter((i) => i.id == id);
 
-    const jobApply = doc(db, "Job", id);
-    const nf = { Applicants: jobs[k].Applicants.concat(users) };
-    console.log(nf);
-    updateDoc(jobApply, nf);
+    if (
+      j[0].Applicants?.filter((a) => a == user.email) &&
+      j[0].Applicants.length != 0
+    ) {
+      console.log(
+        j[0].Applicants?.filter(
+          (a) => a == user.email && j[0].Applicants.length != 0
+        )
+      );
+      console.log("user already exists");
+    } else {
+      const jobApply = doc(db, "Job", id);
+      const nf = { Applicants: jobs[k].Applicants.concat(user.email) };
+      console.log(nf);
+      updateDoc(jobApply, nf);
+    }
   };
 
   const getJobs = async () => {
@@ -53,7 +66,11 @@ export default function UserHomepage() {
     const data = await getDocs(UserCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
     const userData = profiles.filter((i) => i.Email == user?.email);
+
+    const companyData = profiles.filter((i) => i.Role == "Company");
+
     setUserInfo(userData[0]);
+    setCompanyInfo(companyData);
     setLoading(false);
   };
 
@@ -138,53 +155,18 @@ export default function UserHomepage() {
               }}
             >
               <h2>Top companies</h2>
-              <div style={{ padding: "10px" }}>
-                <h3>Systems Limited</h3>
-                <Button size="small" variant="outlined">
-                  Follow
-                </Button>
-              </div>
-              <div style={{ padding: "10px", marginBottom: "20px" }}>
-                <h3>Netsol</h3>
-                <Button size="small" variant="outlined">
-                  Follow
-                </Button>
-              </div>
-              <Button size="small" variant="contained">
-                View all
-              </Button>
-            </div>
-            <div
-              style={{
-                backgroundColor: "#fff",
-                padding: "15px",
-                margin: "5px",
-                width: "200px",
-                borderRadius: "8px",
-              }}
-            >
-              <h3>People You may know</h3>
-              <div style={{ padding: "10px" }}>
-                <h4>ABC Company</h4>
-                <Button size="small" variant="outlined">
-                  View Profile
-                </Button>
-              </div>
-              <div style={{ padding: "10px" }}>
-                <h3>ABC Company</h3>
-                <Button size="small" variant="outlined">
-                  View Profile
-                </Button>
-              </div>
-              <div style={{ padding: "10px", marginBottom: "20px" }}>
-                <h3>ABC Company</h3>
-                <Button size="small" variant="outlined">
-                  View Profile
-                </Button>
-              </div>
-              <Button size="small" variant="contained">
-                View all
-              </Button>
+              {companyInfo.map((info, key) => {
+                return (
+                  <div key={key}>
+                    <div style={{ padding: "10px" }}>
+                      <h3>{info.CompanyName}</h3>
+                      <Button size="small" variant="outlined">
+                        View Profile
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div style={{ padding: "15px", width: "950px" }}>
