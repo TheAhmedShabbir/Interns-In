@@ -8,9 +8,13 @@ import {
   getDocs,
   addDoc,
   deleteDoc,
+  query,
+  where,
+  getDoc,
   doc,
+  getFirestore,
 } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import EditIcon from "@mui/icons-material/Edit";
@@ -39,7 +43,7 @@ const style = {
 export default function UserAbout() {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState([]);
-  const [userProfile, setUserProfile] = useState();
+  const [userProfile, setUserProfile] = useState([]);
   const UserInfoCollection = collection(db, "UserProfile");
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
@@ -72,23 +76,65 @@ export default function UserAbout() {
   // const userData = collection(db, "UserProfile");
 
   //Get User Education From Firestore database
-  const getEducation = async () => {
-    const data = await getDoc(UserInfoCollection);
-    setUserEducation(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    // console.log(UserEducation)
+  // const getEducation = async () => {
+  //   const data = await getDoc(UserInfoCollection);
+  //   setUserEducation(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  //   // console.log(UserEducation)
+  // };
+
+  // Get UserProfile data from Firestore database
+  const getUser = async () => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        
+
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        console.log(user);
+        setUser(user);
+        
+        // ...
+      } else {
+        // User is signed out
+        // ...
+      }
+    });
+    
+    // const q = query(UserInfoCollection, where("Email", "==", user));
+
+    // await getDocs(q)
+    //   .then((data) => {
+    //     setUserProfile(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    //     console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    //     console.log(data.docs);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
-  // Get User ID
-  const getUser = async () => {
-    const data = await getDocs(UserInfoCollection);
-    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    // const userProf = profiles.filter((i) => i.Role == "User");
-    const userProf = profiles.filter((i) => i.Email == user?.email);
-    const i = userProf[0];
-    console.log(i);
-    setUserProfile(userProf);
-    // console.log(userProfile)
-  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -98,8 +144,6 @@ export default function UserAbout() {
   //   setUserInfo(data.docs.map((doc) => ({ ...doc.data() })));
   //   console.log(userInfo);
   // };
-
-
 
   //Post User Education into Firestore database
   // const postEducation = async (id) => {
@@ -114,36 +158,14 @@ export default function UserAbout() {
 
   //   console.log(id);
   // };
-  const postEducation = async(id) => {
+  const postEducation = async (id) => {
     const data = await getDocs(UserInfoCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userProf = profiles.filter((i) => i.Role == "User");
     const i = userProf[0].id;
-    
-    
-    const AddEdu = doc(userData, "UserProfile", i) ;
-    
 
-    
-  }
-  // useEffect(() => {
-  //   const getProduct = async () => {
-  //     let x = await getDoc(doc(db, `products/${id}`));
-  //     console.log({
-  //       id: x.id,
-  //       ...x.data(),
-  //     });
-  //     setProduct({ id: x.id, ...x.data() });
-  //   };
-  //   getComment();
-  //   getProduct();
-  //   getFav();
-  // }, [user]);
-
-
-
-
-
+    const AddEdu = doc(userData, "UserProfile", i);
+  };
 
   //Get / Post User Experience----------------------------------------------------------------------------------------------
 
@@ -158,11 +180,11 @@ export default function UserAbout() {
 
   //Get User Eperience From Firestore database
 
-  const getExperience = async () => {
-    const data = await getDocs(UserInfoCollection);
-    setUserExperience(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    // console.log(UserEdxperience)
-  };
+  // const getExperience = async () => {
+  //   const data = await getDocs(UserInfoCollection);
+  //   setUserExperience(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  //   // console.log(UserEdxperience)
+  // };
 
   //Post User Experience into Firestore database
   const postExp = async (id) => {
@@ -184,11 +206,11 @@ export default function UserAbout() {
 
   //Get User skills From Firestore database
 
-  const getSkills = async () => {
-    const data = await getDocs(UserInfoCollection);
-    setUserSkills(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    // console.log(UserSkills)
-  };
+  // const getSkills = async () => {
+  //   const data = await getDocs(UserInfoCollection);
+  //   setUserSkills(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  //   // console.log(UserSkills)
+  // };
 
   //Post User skills into Firestore database
   const postSkills = async (id) => {
@@ -206,38 +228,9 @@ export default function UserAbout() {
   };
 
   const HandleUpload = (file) => {
-    // if (!file) return;
-    // const storegeRef = ref(storage, `files/${file.name}`);
-    // //`files/${file.name}`
-    // const uploadTask = uploadBytesResumable(storegeRef, file);
-
-    // uploadTask.on(
-    //   "state_changes",
-    //   (snapshot) => {
-    //     const prog = Math.round(
-    //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-    //     );
-    //     setProgress(prog);
-    //     console.log(progress);
-    //   },
-    //   (error) => {
-    //     console.log(error),
-    //       () => {
-    //         gateDownloadURL(uploadTask.snapshot.ref)
-    //           .then((url) => {
-    //             console.log(url);
-    //           })
-    //           .catch((error) => {
-    //             console.log(error);
-    //           });
-    //       };
-    //   }
-    // );
-
+  
     if (!file) return;
-    // const arr = [];
-
-    // for (let i = 0; i < image.length; i++) {
+ 
     const storageRef = ref(storage, `files/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -252,8 +245,6 @@ export default function UserAbout() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           console.log(url);
-          // arr.push(url);
-          // setUrls(arr);
         });
       }
     );
@@ -310,15 +301,11 @@ export default function UserAbout() {
       setLoading(false);
     });
     if (user) {
-      
-  
-      
-     
       // Function Calls
       getUser();
-      getEducation();
-      getExperience();
-      getSkills();
+      // getEducation();
+      // getExperience();
+      // getSkills();
     } else {
       navigate("/SignIn");
     }
@@ -336,484 +323,474 @@ export default function UserAbout() {
       <div style={{ backgroundColor: "#f3f2ef" }}>
         <UserHeader />
 
-          
+        <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              marginTop: "25px",
+              backgroundColor: "#fff",
+              width: "1200px",
+              padding: "15px",
+              marginLeft: "auto",
+              marginRight: "auto",
+              borderRadius: "10px",
+            }}
+          >
             <div>
+              <div
+                style={{
+                  paddingTop: "10px",
+                  paddingLeft: "10px",
+                  paddingRight: "10px",
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                }}
+              >
+                <img
+                  style={{ borderRadius: "110px" }}
+                  width="150px"
+                  height="150px"
+                  src={img}
+                />
+              </div>
+              <h3></h3>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                JustifyContent: "center",
+                alignItems: "baseline",
+                width: "900px",
+                padding: "20px",
+                marginLeft: "20px",
+              }}
+            >
+              <h3></h3>
+              <h3></h3>
+              <h3></h3>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-evenly",
+                marginRight: "20px",
+              }}
+            >
+              <Modal
+                open={open3}
+                onClose={handleClose3}
+              >
+                <Box sx={style}>
+                  {/* <Form> */}
+                  <h2>Upload / Download files</h2>
+                  <form onSubmit={formHandler}>
+                    <input type="file" onChange={HandleUpload} />
+                    <Button type="submit">upload</Button>
+                    <Button>Download</Button>
+
+                    <Button onClick={handleClose3}>Cancel</Button>
+
+                    <h3>uploaded{progress}%</h3>
+                  </form>
+                </Box>
+              </Modal>
+
+              <Button>
+                <EditIcon />
+              </Button>
+
+              {/* Upload CV */}
+              {/* {uploadFile ? ( */}
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={
+                  // setUploadFile(false);
+                  handleOpen3
+                }
+              >
+                CV
+              </Button>
+              {/* ) : (
+                    <input type="file" onChange={HandleUpload} />
+                  )} */}
+            </div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              marginTop: "10px",
+            }}
+          >
+            <div
+              style={{
+                // minHeight: "300px",
+                width: "1200px",
+                borderRadius: "10px",
+                backgroundColor: "#fff",
+                margin: "10px",
+                padding: "15px",
+                backgroundColor: "white",
+              }}
+            >
               <div
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-around",
-                  marginTop: "25px",
-                  backgroundColor: "#fff",
-                  width: "1200px",
-                  padding: "15px",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  borderRadius: "10px",
+                  alignContent: "flex-start",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  justifyContent: "space-between",
+                  backgroundColor: "white",
                 }}
               >
-                <div>
-                  <div
-                    style={{
-                      paddingTop: "10px",
-                      paddingLeft: "10px",
-                      paddingRight: "10px",
-                      marginLeft: "10px",
-                      marginRight: "10px",
-                    }}
-                  >
-                    <img
-                      style={{ borderRadius: "110px" }}
-                      width="150px"
-                      height="150px"
-                      src={img}
-                    />
-                  </div>
-                  <h3></h3>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    JustifyContent: "center",
-                    alignItems: "baseline",
-                    width: "900px",
-                    padding: "20px",
-                    marginLeft: "20px",
-                  }}
-                >
-                  <h3></h3>
-                  <h3></h3>
-                  <h3></h3>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-evenly",
-                    marginRight: "20px",
-                  }}
-                >
-                  <Modal
-                    open={open3}
-                    onClose={handleClose3}
-                    // aria-labelledby="modal-modal-title"
-                    // aria-describedby="modal-modal-description"
-                  >
-                    <Box sx={style}>
-                      {/* <Form> */}
-                      <h2>Upload / Download files</h2>
-                      <form onSubmit={formHandler}>
-                        <input type="file" onChange={HandleUpload} />
-                        <Button type="submit">upload</Button>
-                        <Button>Download</Button>
-
-                        <Button onClick={handleClose3}>Cancel</Button>
-
-                        <h3>uploaded{progress}%</h3>
-                      </form>
-                    </Box>
-                  </Modal>
-
-                  <Button>
-                    <EditIcon />
+                <h2 style={{ margin: "10px", padding: "10px" }}>Education</h2>
+                <div style={{ padding: "10px", margin: "10px" }}>
+                  <Button style={{ margin: "10px" }} onClick={handleOpen}>
+                    <AddCircleOutlineIcon />
                   </Button>
-
-                  {/* Upload CV */}
-                  {/* {uploadFile ? ( */}
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    onClick={
-                      // setUploadFile(false);
-                      handleOpen3
-                    }
-                  >
-                    CV
-                  </Button>
-                  {/* ) : (
-                    <input type="file" onChange={HandleUpload} />
-                  )} */}
                 </div>
               </div>
+              <div>
+                {/* <Modal
+                  open={open}
+                  onClose={handleClose}
+                
+                >
+                  <Box sx={style}>
+                    
+                    <h2>Add Education</h2>
+                    <TextField
+                      fullWidth
+                      label="Degree Title"
+                      onChange={(event) => {
+                        setDegree(event.target.value);
+                      }}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Institute Name"
+                      onChange={(event) => {
+                        setInstitute(event.target.value);
+                      }}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Duration"
+                      onChange={(event) => {
+                        setDuration(event.target.value);
+                      }}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Status"
+                      onChange={(event) => {
+                        setStatus(event.target.value);
+                      }}
+                    />
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={() => postEducation(userProfile[0].id)}>
+                      Add
+                    </Button>
+                    
+                  </Box>
+                </Modal> */}
+              </div>
+              {/* Education Block */}
+              {userProfile && userProfile.map((item, key) => {
+                return (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      border: "2px solid #548CCB",
+                      borderRadius: "15px",
+                    }}
+                  >
+                    
+                      {item && item.Education && item.Education.map((item, key) => (
+                        <div
+                        style={{
+                          display: "flex",
+                          flex: "1.90",
+                          flexDirection: "column",
+                          justifyContent: "space-evenly",
+                          alignItems: "start",
+                          margin: "25px",
+                          paddingLeft: "25px",
+                          backgroundColor: "white",
+                        }}
+                        key={key}
+                      >
+                        <h3>Degree Name :{item.Degree_Name}</h3>
+                        <h3>Institution Name : {item.Institution_Name}</h3>
+                        <h3>Status : {item.Status}</h3>
+                        <h3>Duration : {item.Duration}</h3>
+                        </div>
+                      ))}
+                      
+                      
+                   
+
+                    <div
+                      style={{
+                        display: "flex",
+                        flex: "0.10",
+                        flexDirection: "column",
+                        margin: "25px",
+                        paddingLeft: "25px",
+                        backgroundColor: "white",
+                      }}
+                    >
+                      <Button onClick={() => updateEdu(key)}>
+                        <EditIcon />
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          deleteEdu(key);
+                        }}
+                      >
+                        <DeleteIcon />
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}  
+              <EduEdit
+                id={editEducation.id}
+                key={editEducation.id}
+                open={open4}
+                close={handleClose4}
+                degree={editEducation.Degree_Name}
+                Institute={editEducation.Institute_Name}
+                duration={editEducation.Duration}
+                status={editEducation.Status}
+              />
+            </div>
+
+            <div
+              style={{
+                // height: "300px",
+                width: "1200px",
+                borderRadius: "10px",
+                backgroundColor: "#fff",
+                margin: "10px",
+                padding: "15px",
+                backgroundColor: "white",
+              }}
+            >
               <div
                 style={{
                   display: "flex",
-                  flexDirection: "column",
+                  flexDirection: "row",
+                  alignContent: "flex-start",
                   alignItems: "center",
-                  marginTop: "10px",
+                  flexWrap: "wrap",
+                  justifyContent: "space-between",
+                  backgroundColor: "white",
                 }}
               >
-                <div
-                  style={{
-                    // minHeight: "300px",
-                    width: "1200px",
-                    borderRadius: "10px",
-                    backgroundColor: "#fff",
-                    margin: "10px",
-                    padding: "15px",
-                    backgroundColor: "white",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignContent: "flex-start",
-                      alignItems: "center",
-                      flexWrap: "wrap",
-                      justifyContent: "space-between",
-                      backgroundColor: "white",
-                    }}
-                  >
-                    <h2 style={{ margin: "10px", padding: "10px" }}>
-                      Education
-                    </h2>
-                    <div style={{ padding: "10px", margin: "10px" }}>
-                      <Button style={{ margin: "10px" }} onClick={handleOpen}>
-                        <AddCircleOutlineIcon />
-                      </Button>
-                    </div>
-                  </div>
-                  <div>
-                    <Modal
-                      open={open}
-                      onClose={handleClose}
-                      // aria-labelledby="modal-modal-title"
-                      // aria-describedby="modal-modal-description"
-                    >
-                      <Box sx={style}>
-                        {/* <Form> */}
-                        <h2>Add Education</h2>
-                        <TextField
-                          fullWidth
-                          label="Degree Title"
-                          onChange={(event) => {
-                            setDegree(event.target.value);
-                          }}
-                        />
-                        <TextField
-                          fullWidth
-                          label="Institute Name"
-                          onChange={(event) => {
-                            setInstitute(event.target.value);
-                          }}
-                        />
-                        <TextField
-                          fullWidth
-                          label="Duration"
-                          onChange={(event) => {
-                            setDuration(event.target.value);
-                          }}
-                        />
-                        <TextField
-                          fullWidth
-                          label="Status"
-                          onChange={(event) => {
-                            setStatus(event.target.value);
-                          }}
-                        />
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button
-                          onClick={() => postEducation(userProfile[0].id)}
-                        >
-                          Add
-                        </Button>
-                        {/* </Form> */}
-                      </Box>
-                    </Modal>
-                  </div>
-                  {/* Education Block */}
-                  {UserEducation.map((item, key) => {
-                    return (
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          border: "2px solid #548CCB",
-                          borderRadius: "15px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            flex: "1.90",
-                            flexDirection: "column",
-                            justifyContent: "space-evenly",
-                            alignItems: "start",
-                            margin: "25px",
-                            paddingLeft: "25px",
-                            backgroundColor: "white",
-                          }}
-                          key={key}
-                        >
-                          <h3>Degree Name :</h3>
-                          <h3>Institution Name : </h3>
-                          <h3>Status : </h3>
-                          <h3>Duration : </h3>
-                        </div>
-
-                        <div
-                          style={{
-                            display: "flex",
-                            flex: "0.10",
-                            flexDirection: "column",
-                            // justifyContent : ''
-                            // // alignItems : 'start',
-                            margin: "25px",
-                            paddingLeft: "25px",
-
-                            backgroundColor: "white",
-                          }}
-                        >
-                          <Button onClick={() => updateEdu(key)}>
-                            <EditIcon />
-                          </Button>
-                          <Button
-                            onClick={() => {
-                              deleteEdu(key);
-                            }}
-                          >
-                            <DeleteIcon />
-                          </Button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                  <EduEdit
-                    id={editEducation.id}
-                    key={editEducation.id}
-                    open={open4}
-                    close={handleClose4}
-                    degree={editEducation.Degree_Name}
-                    Institute={editEducation.Institute_Name}
-                    duration={editEducation.Duration}
-                    status={editEducation.Status}
-                  />
-                </div>
-
-                <div
-                  style={{
-                    // height: "300px",
-                    width: "1200px",
-                    borderRadius: "10px",
-                    backgroundColor: "#fff",
-                    margin: "10px",
-                    padding: "15px",
-                    backgroundColor: "white",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignContent: "flex-start",
-                      alignItems: "center",
-                      flexWrap: "wrap",
-                      justifyContent: "space-between",
-                      backgroundColor: "white",
-                    }}
-                  >
-                    <h2 style={{ margin: "10px", padding: "10px" }}>
-                      Experience
-                    </h2>
-                    <div style={{ padding: "10px", margin: "10px" }}>
-                      <Button style={{ margin: "10px" }} onClick={handleOpen1}>
-                        <AddCircleOutlineIcon />
-                      </Button>
-                    </div>
-                  </div>
-                  <div>
-                    <Modal
-                      open={open1}
-                      onClose={handleClose1}
-                      // aria-labelledby="modal-modal-title"
-                      // aria-describedby="modal-modal-description"
-                    >
-                      <Box sx={style}>
-                        {/* <Form> */}
-                        <h2>Add Experience</h2>
-                        <TextField
-                          fullWidth
-                          label="Company Name"
-                          onChange={(event) => {
-                            setCompany(event.target.value);
-                          }}
-                        />
-                        <TextField
-                          fullWidth
-                          label="Position"
-                          onChange={(event) => {
-                            setPosition(event.target.value);
-                          }}
-                        />
-                        <TextField
-                          fullWidth
-                          label="Duration"
-                          onChange={(event) => {
-                            setDuration2(event.target.value);
-                          }}
-                        />
-
-                        <Button onClick={handleClose1}>Cancel</Button>
-                        <Button onClick={postExp}>Add</Button>
-                        {/* </Form> */}
-                      </Box>
-                    </Modal>
-                  </div>
-
-                  {/*User Eperience Block*/}
-                  {UserExperience.map((item, key) => {
-                    return (
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          border: "2px solid #548CCB",
-                          borderRadius: "15px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            flex: "1.90",
-                            flexDirection: "column",
-                            justifyContent: "space-evenly",
-                            alignItems: "start",
-                            margin: "25px",
-                            paddingLeft: "25px",
-
-                            backgroundColor: "white",
-                          }}
-                          key={key}
-                        >
-                          <h3>Company Name : {item.Company_Name}</h3>
-                          <h3>Position Name : {item.Position}</h3>
-                          <h3>Duration : {item.Duration}</h3>
-                          <h3>Certified : {item.Certified}</h3>
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flex: "0.10",
-                            flexDirection: "column",
-                            // justifyContent : ''
-                            // // alignItems : 'start',
-                            margin: "25px",
-                            paddingLeft: "25px",
-
-                            backgroundColor: "white",
-                          }}
-                        >
-                          <Button onClick={() => updateExp(key)}>
-                            <EditIcon />
-                          </Button>
-                          <Button onClick={() => deleteExp(key)}>
-                            <DeleteIcon />
-                          </Button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                  <ExpEdit
-                    id={editExperience.id}
-                    key={editExperience.id}
-                    open={open5}
-                    close={handleClose5}
-                    company={editExperience.Company_Name}
-                    position={editExperience.Position}
-                    duration={editExperience.Duration}
-                    certified={editExperience.Certified}
-                  />
-                </div>
-
-                <div
-                  style={{
-                    // height: "300px",
-                    width: "1200px",
-                    borderRadius: "10px",
-                    backgroundColor: "#fff",
-                    margin: "10px",
-                    padding: "15px",
-                    backgroundColor: "white",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignContent: "flex-start",
-                      alignItems: "center",
-                      flexWrap: "wrap",
-                      justifyContent: "space-between",
-                      backgroundColor: "white",
-                    }}
-                  >
-                    <h2 style={{ margin: "10px", padding: "10px" }}>Skills</h2>
-                    <div style={{ padding: "10px", margin: "10px" }}>
-                      <Button style={{ margin: "10px" }}>
-                        <AddCircleOutlineIcon />
-                      </Button>
-                    </div>
-                  </div>
-
-                  {/*User Skills Block*/}
-                  {UserSkills.map((item, key) => {
-                    return (
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          border: "2px solid #548CCB",
-                          borderRadius: "15px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            flex: "1.90",
-                            flexDirection: "column",
-                            justifyContent: "space-evenly",
-                            alignItems: "start",
-                            margin: "25px",
-                            paddingLeft: "25px",
-
-                            backgroundColor: "white",
-                          }}
-                          key={key}
-                        >
-                          <h3>{item.Skills}</h3>
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flex: "0.10",
-                            flexDirection: "column",
-                            // justifyContent : ''
-                            // // alignItems : 'start',
-                            margin: "25px",
-                            paddingLeft: "25px",
-
-                            backgroundColor: "white",
-                          }}
-                        >
-                          <Button>
-                            <EditIcon />
-                          </Button>
-                          <Button>
-                            <DeleteIcon />
-                          </Button>
-                        </div>
-                      </div>
-                    );
-                  })}
+                <h2 style={{ margin: "10px", padding: "10px" }}>Experience</h2>
+                <div style={{ padding: "10px", margin: "10px" }}>
+                  <Button style={{ margin: "10px" }} onClick={handleOpen1}>
+                    <AddCircleOutlineIcon />
+                  </Button>
                 </div>
               </div>
-              //{" "}
-            </div>
-         
-          
+              <div>
+                <Modal
+                  open={open1}
+                  onClose={handleClose1}
+                  // aria-labelledby="modal-modal-title"
+                  // aria-describedby="modal-modal-description"
+                >
+                  <Box sx={style}>
+                    {/* <Form> */}
+                    <h2>Add Experience</h2>
+                    <TextField
+                      fullWidth
+                      label="Company Name"
+                      onChange={(event) => {
+                        setCompany(event.target.value);
+                      }}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Position"
+                      onChange={(event) => {
+                        setPosition(event.target.value);
+                      }}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Duration"
+                      onChange={(event) => {
+                        setDuration2(event.target.value);
+                      }}
+                    />
 
+                    <Button onClick={handleClose1}>Cancel</Button>
+                    <Button onClick={postExp}>Add</Button>
+                    {/* </Form> */}
+                  </Box>
+                </Modal>
+              </div>
+
+              {/*User Eperience Block*/}
+              {/* {userProfile.map((item, key) => {
+                return (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      border: "2px solid #548CCB",
+                      borderRadius: "15px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flex: "1.90",
+                        flexDirection: "column",
+                        justifyContent: "space-evenly",
+                        alignItems: "start",
+                        margin: "25px",
+                        paddingLeft: "25px",
+
+                        backgroundColor: "white",
+                      }}
+                      key={key}
+                    >
+                      <h3>Company Name :</h3>
+                      <h3>Position Name : </h3>
+                      <h3>Duration : </h3>
+                      <h3>Certified : </h3>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flex: "0.10",
+                        flexDirection: "column",
+                        // justifyContent : ''
+                        // // alignItems : 'start',
+                        margin: "25px",
+                        paddingLeft: "25px",
+
+                        backgroundColor: "white",
+                      }}
+                    >
+                      <Button onClick={() => updateExp(key)}>
+                        <EditIcon />
+                      </Button>
+                      <Button onClick={() => deleteExp(key)}>
+                        <DeleteIcon />
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })} */}
+              <ExpEdit
+                id={editExperience.id}
+                key={editExperience.id}
+                open={open5}
+                close={handleClose5}
+                company={editExperience.Company_Name}
+                position={editExperience.Position}
+                duration={editExperience.Duration}
+                certified={editExperience.Certified}
+              />
+            </div>
+
+            <div
+              style={{
+                // height: "300px",
+                width: "1200px",
+                borderRadius: "10px",
+                backgroundColor: "#fff",
+                margin: "10px",
+                padding: "15px",
+                backgroundColor: "white",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignContent: "flex-start",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  justifyContent: "space-between",
+                  backgroundColor: "white",
+                }}
+              >
+                <h2 style={{ margin: "10px", padding: "10px" }}>Skills</h2>
+                <div style={{ padding: "10px", margin: "10px" }}>
+                  <Button style={{ margin: "10px" }}>
+                    <AddCircleOutlineIcon />
+                  </Button>
+                </div>
+              </div>
+
+              {/*User Skills Block*/}
+              {/* {userProfile.map((item, key) => {
+                return (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      border: "2px solid #548CCB",
+                      borderRadius: "15px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flex: "1.90",
+                        flexDirection: "column",
+                        justifyContent: "space-evenly",
+                        alignItems: "start",
+                        margin: "25px",
+                        paddingLeft: "25px",
+
+                        backgroundColor: "white",
+                      }}
+                      key={key}
+                    >
+                      <h3>{item.Skills}</h3>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flex: "0.10",
+                        flexDirection: "column",
+                        // justifyContent : ''
+                        // // alignItems : 'start',
+                        margin: "25px",
+                        paddingLeft: "25px",
+
+                        backgroundColor: "white",
+                      }}
+                    >
+                      <Button>
+                        <EditIcon />
+                      </Button>
+                      <Button>
+                        <DeleteIcon />
+                      </Button>
+                    </div>
+                  </div>
+                 );
+              })}  */}
+            </div>
+          </div>
+         
+        </div>
       </div>
     );
   }

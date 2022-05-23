@@ -1,39 +1,59 @@
 import { Button, TextField, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import UserHeader from "../Components/User/Userheader";
-import { db } from "../firebase-config";
+import { db, auth } from "../firebase-config";
 import { collection, getDocs, addDoc } from "firebase/firestore";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-
-
-
-
-
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function Forums() {
-
   const [NewTopic, setNewTopic] = useState("");
   const [NewDescription, setNewDescription] = useState("");
+  const [Usermail, setUsermail] = useState("");
   const [forums, setForums] = useState([]);
   const forumsCollection = collection(db, "Forums");
-
+  const [user, setUser] = useState({});
 
   const StartTopic = async () => {
-    await addDoc(forumsCollection, { TopicTitle: NewTopic, TopicDescription: NewDescription });
+    await addDoc(forumsCollection, {
+      TopicTitle: NewTopic,
+      TopicDescription: NewDescription,
+      Post_Email: user.email,
+    });
+  };
 
-  }
+  // get forums
+  const getForums = async () => {
+    const data = await getDocs(forumsCollection);
+    setForums(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  };
+
+   // get User information
+   const getUserInfo = async () => {
+    const data = await getDocs(forumsCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
+    const userData = profiles.filter((i) => i.Post_Email == user?.email);
+
+    
+    
+  };
+
+
 
   useEffect(() => {
-    // get forums
-    const getForums = async () => {
-      const data = await getDocs(forumsCollection);
-      setForums(data.docs.map((doc) => ({ ...doc.data() })));
-    };
-
-    // Function Calls
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      console.log(user);
+    });
+    if (user) {
+      getForums();
+    } else {
+      navigate("/SignIn");
+    }
     getForums();
-  }, []);
+    getUserInfo();
+  }, [user]);
 
   return (
     <div>
@@ -55,7 +75,7 @@ export default function Forums() {
             marginTop: "30px",
             padding: "15px",
             minWidth: "300px",
-            width: '1100px',
+            width: "1100px",
             backgroundColor: "white",
             borderRadius: "10px",
           }}
@@ -65,23 +85,42 @@ export default function Forums() {
             style={{ marginBottom: "15px" }}
             fullWidth
             label="Topic Title"
-            onChange={(event) => { setNewTopic(event.target.value) }}
+            onChange={(event) => {
+              setNewTopic(event.target.value);
+            }}
           ></TextField>
           <TextField
             style={{ marginBottom: "15px" }}
             fullWidth
             label="Topic Description"
-            onChange={(event) => { setNewDescription(event.target.value) }}
+            onChange={(event) => {
+              setNewDescription(event.target.value);
+            }}
           ></TextField>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
             <div>
-              <Button>Image</Button>
+              {/* <Button>Image</Button>
               <Button>Event</Button>
-              <Button>Document</Button>
-
+              <Button>Document</Button> */}
             </div>
             <div>
-              <Button onClick={StartTopic} style={{ color: 'white', backgroundColor: '#548CCB', borderRadius: '2px' }}>Post</Button>
+              <Button
+                onClick={StartTopic}
+      
+                style={{
+                  color: "white",
+                  backgroundColor: "#548CCB",
+                  borderRadius: "2px",
+                }}
+              >
+                Post
+              </Button>
             </div>
           </div>
         </div>
@@ -94,7 +133,6 @@ export default function Forums() {
             padding: "15px",
           }}
         >
-         
           {forums.map((forum) => {
             return (
               <div
@@ -110,30 +148,40 @@ export default function Forums() {
                   margin: "8px",
                 }}
               >
-            
                 <h2>{forum.TopicTitle}</h2>
                 <Typography>Total posts: 1000</Typography>
                 <Typography>Views: 2300</Typography>
                 <Button
-                  href="/ForumTopic"
+                  href={`/ForumTopic/${forum?.id}`}
                   style={{ margin: "15px" }}
                   variant="outlined"
                 >
                   View Discussion
                 </Button>
                 <div>
-                <button style = {{border : 'none', backgroundColor: 'white'}}>
-                <EditIcon/>
-                </button>
-                <button  style = {{border : 'none', backgroundColor: 'white'}}>
-                <DeleteIcon/>
-                </button>
+                {(
+                    user.email == forum.Post_Email 
+                  )?
+                  (<button style={{ border: "none", backgroundColor: "white" }}>
+                  <EditIcon />
+                </button>)
+                  :(<div></div>)}
+               
+                  
+                  {(
+                    user.email == forum.Post_Email 
+                  )?
+                  (<button style={{ border: "none", backgroundColor: "white" }} onClick>
+                    <DeleteIcon />
+                  </button>)
+                  :(<div></div>)}
+                  
                 </div>
               </div>
             );
           })}
         </div>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 }
