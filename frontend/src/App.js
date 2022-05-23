@@ -42,10 +42,10 @@ export default function App() {
             path="/UserNotifications"
             element={<UserNotifications />}
           ></Route>
-          <Route
+          {/* <Route
             path="/CompanyNotifications"
             element={<CompanyNotifications />}
-          ></Route>
+          ></Route> */}
           <Route
             path="/AdminNotifications"
             element={<AdminNotifications />}

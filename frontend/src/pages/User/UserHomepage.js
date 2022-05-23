@@ -14,9 +14,8 @@ export default function UserHomepage() {
   const [jobs, setJobs] = useState([]);
   const [user, setUser] = useState(null);
   const [UserInfo, setUserInfo] = useState([]);
+  
   const [loading, setLoading] = useState(true);
-  const [Company, setCompany] = useState([]);
-
 
   const jobCollection = collection(db, "Job");
   const UserCollection = collection(db, "UserProfile");
@@ -59,13 +58,6 @@ export default function UserHomepage() {
     setLoading(false);
   };
 
-  const getCompanyInfo = async () => {
-    const data = await getDocs(UserCollection);
-    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
-    const userData = profiles.filter((i) => i.Role == "Company");
-    setCompany(userData[0]);
-  }
-
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -73,7 +65,6 @@ export default function UserHomepage() {
       if (user) {
         // get user info
         getUserInfo();
-        getCompanyInfo();
 
         // get jobs
         getJobs();
@@ -120,10 +111,10 @@ export default function UserHomepage() {
                 }}
               >
                 <img
-                  style={{ borderRadius: "110px", marginTop: "-75px", border: "2px solid #548CCB" }}
+                  style={{ borderRadius: "110px", marginTop: "-75px" }}
                   width="150px"
                   height="150px"
-                  src={UserInfo?.Pfp}
+                  src={UserInfo.Pfp}
                 />
               </div>
               <div
@@ -147,9 +138,15 @@ export default function UserHomepage() {
                 borderRadius: "8px",
               }}
             >
-              <h2>Registered companies</h2>
+              <h2>Top companies</h2>
               <div style={{ padding: "10px" }}>
-                <h3>{Company.CompanyName}</h3>
+                <h3>Systems Limited</h3>
+                <Button size="small" variant="outlined">
+                  Follow
+                </Button>
+              </div>
+              <div style={{ padding: "10px", marginBottom: "20px" }}>
+                <h3>Netsol</h3>
                 <Button size="small" variant="outlined">
                   Follow
                 </Button>

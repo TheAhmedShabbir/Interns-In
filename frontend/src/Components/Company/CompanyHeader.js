@@ -43,12 +43,12 @@ export default function CompanyHeader() {
             sx={{ flexGrow: 1 }}
           ></Typography>
 
-          <Link
+          {/* <Link
             to="/CompanyNotifications"
             style={{ color: "white", textDecoration: "none" }}
           >
             <Button color="inherit">Notifications</Button>
-          </Link>
+          </Link> */}
           <Link to="/Forums" style={{ color: "white", textDecoration: "none" }}>
             <Button color="inherit">Forums</Button>
           </Link>
