@@ -18,10 +18,11 @@ export default function SavedJobs() {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const userProfile = collection(db, "UserProfile");
+  const jobCollection = collection(db, "Job");
+  const userCollection = collection(db, "UserProfile");
 
   const deleteSaveJob = async (key, id) => {
-    const data = await getDocs(userProfile);
+    const data = await getDocs(userCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userProf = profiles.filter((i) => i.Role == "User");
 
@@ -33,18 +34,24 @@ export default function SavedJobs() {
 
     window.location.reload(false);
   };
-
+  /////////pending
   const getSavedJobs = async () => {
-    const data = await getDocs(userProfile);
-    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
-    const userProf = profiles.filter((i) => i.Role == "User");
+    const data = await getDocs(userCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userData = profiles.filter((i) => i.Email == user?.email);
 
-    if (!userProf[0].savedJob) {
-      setLoading(false);
-    } else {
-      setSavedJobs(userProf[0].savedJob);
-      setLoading(false);
-    }
+    const d = await getDocs(jobCollection);
+    const job = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+    const sj = job.filter((j) => j.id == j.id);
+    console.log(sj);
+
+    // if (!userProf[0].savedJob) {
+    //   setLoading(false);
+    // } else {
+    //   setSavedJobs(userProf[0].savedJob);
+    //   setLoading(false);
+    // }
   };
 
   useEffect(() => {

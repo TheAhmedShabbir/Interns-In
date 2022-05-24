@@ -83,18 +83,19 @@ export default function UserHomepage() {
   };
 
   const saveJob = async (id) => {
-    const data = await getDocs(jobCollection);
-    const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const data = await getDocs(UserCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userData = profiles.filter((u) => u.Email == user?.email);
+    console.log(id);
 
     if (
-      job[0].savedby.length != 0 &&
-      job[0].savedby?.filter((j) => j == user.email)
+      userData[0].savedJobs.length != 0 &&
+      userData[0].savedJobs?.filter((j) => j == id)
     ) {
-      console.log("job already saved");
       handleAlreadySaveClick();
     } else {
-      const jobSave = doc(db, "Job", id);
-      const nf = { savedby: job[0].savedby.concat(user?.email) };
+      const jobSave = doc(db, "UserProfile", userData[0].id);
+      const nf = { savedJobs: userData[0].savedJobs.concat(id) };
       updateDoc(jobSave, nf);
       handleSaveClick();
     }
@@ -109,7 +110,6 @@ export default function UserHomepage() {
       j[0].Applicants?.filter((a) => a == user.email) &&
       j[0].Applicants.length != 0
     ) {
-      console.log("user already exists");
       handleWarningClick();
     } else {
       const jobApply = doc(db, "Job", id);
