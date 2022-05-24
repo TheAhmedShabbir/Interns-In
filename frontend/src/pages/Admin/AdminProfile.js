@@ -5,29 +5,32 @@ import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import AdminHeader from "../../Components/Admin/Adminheader";
 import img from "../../assets/images/Userpfp.jpg";
-import { db } from "../../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import UpdateName from "../../Components/Admin/UpdateName";
 import UpdatePassword from "../../Components/Admin/UpdatePassword";
+import { onAuthStateChanged } from "firebase/auth";
+import { db, auth } from "../../firebase-config";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminProfile() {
   let [adminInfo, setAdminInfo] = useState();
+  const [user, setUser] = useState({});
   let [editName, setEditName] = useState();
   let [editPassword, setEditPassword] = useState();
   const [open, setOpen] = useState(false);
   const userProfile = collection(db, "UserProfile");
   const [loading, setLoading] = useState(true);
 
-  const closeModal = () => setOpen(false);
+  // const closeModal = () => setOpen(false);
 
-  const openModal = () => {
-    setOpen(true);
-  };
+  // const openModal = () => {
+  //   setOpen(true);
+  // };
 
-  const updateName = async () => {
-    setEditName(adminInfo.name);
-    openModal();
-  };
+  // const updateName = async () => {
+  //   setEditName(adminInfo.name);
+  //   openModal();
+  // };
 
   // const updatePassword = async () => {
   //   setEditPassword(adminInfo.Password);
@@ -36,9 +39,7 @@ export default function AdminProfile() {
 
   const getAdminInfo = async () => {
     const data = await getDocs(userProfile);
-
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-
     const admin = profiles.filter((i) => i.Role == "Admin");
 
     setAdminInfo(admin[0]);
@@ -46,8 +47,17 @@ export default function AdminProfile() {
   };
 
   useEffect(() => {
-    getAdminInfo();
-  }, []);
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    if (user) {
+      // get admin information
+      getAdminInfo();
+    } else {
+      navigate("/SignIn");
+    }
+  }, [user]);
 
   if (loading) {
     return <div>loading...</div>;
@@ -116,12 +126,14 @@ export default function AdminProfile() {
                     <Button
                       size="small"
                       variant="outlined"
-                      onClick={() => updateName()}
+                      // onClick={() => updateName()}
                     >
                       Edit
                     </Button>
                   </div>
-                  <p style={{ marginBottom: "15px" }}>{adminInfo?.name}</p>
+                  <p style={{ marginBottom: "15px" }}>
+                    {adminInfo?.FirstName + " " + adminInfo?.LastName}
+                  </p>
                 </div>
                 <div>
                   <div
@@ -145,7 +157,7 @@ export default function AdminProfile() {
                     </Button>
                   </div>
                   <Typography style={{ marginBottom: "15px" }}>
-                    {adminInfo?.Password}
+                    {"*******"}
                   </Typography>
                 </div>
                 <div>
@@ -167,7 +179,7 @@ export default function AdminProfile() {
               </Paper>
             </Box>
           </div>
-          <UpdateName
+          {/* <UpdateName
             id={adminInfo.id}
             open={open}
             setOpen={setOpen}
@@ -180,7 +192,7 @@ export default function AdminProfile() {
             setOpen={setOpen}
             close={closeModal}
             password={editPassword}
-          />
+          /> */}
         </div>
       </div>
     );

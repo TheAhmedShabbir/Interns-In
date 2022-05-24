@@ -189,47 +189,6 @@ export default function UserHomepage() {
                   Follow
                 </Button>
               </div>
-              <div style={{ padding: "10px", marginBottom: "20px" }}>
-                <h3>Netsol</h3>
-                <Button size="small" variant="outlined">
-                  Follow
-                </Button>
-              </div>
-              <Button size="small" variant="contained">
-                View all
-              </Button>
-            </div>
-            <div
-              style={{
-                backgroundColor: "#fff",
-                padding: "15px",
-                margin: "5px",
-                width: "200px",
-                borderRadius: "8px",
-              }}
-            >
-              <h3>People You may know</h3>
-              <div style={{ padding: "10px" }}>
-                <h4>ABC Company</h4>
-                <Button size="small" variant="outlined">
-                  View Profile
-                </Button>
-              </div>
-              <div style={{ padding: "10px" }}>
-                <h3>ABC Company</h3>
-                <Button size="small" variant="outlined">
-                  View Profile
-                </Button>
-              </div>
-              <div style={{ padding: "10px", marginBottom: "20px" }}>
-                <h3>ABC Company</h3>
-                <Button size="small" variant="outlined">
-                  View Profile
-                </Button>
-              </div>
-              <Button size="small" variant="contained">
-                View all
-              </Button>
             </div>
           </div>
           <div style={{ padding: "15px", width: "950px" }}>
