@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Button, TextField } from "@mui/material";
+import { Button, Checkbox, FormControl, TextField } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
+import FormControlLabel from "@mui/material/FormControlLabel";
+
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 import {
   collection,
   getDocs,
@@ -27,6 +31,7 @@ import { ref, uploadBytesResumable } from "firebase/storage";
 import EduEdit from "../../Components/User/EducatinModal";
 import ExpEdit from "../../Components/User/ExperienceModal";
 import { getDownloadURL } from "firebase/storage";
+import UserProfile from "./UserProfile";
 
 const style = {
   position: "absolute",
@@ -44,24 +49,14 @@ export default function UserAbout() {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState([]);
   const [userProfile, setUserProfile] = useState([]);
-  const UserInfoCollection = collection(db, "UserProfile");
+
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
-  // Education Modal----------------------------------------------------------------------------------------------------------
+  // Education Modal
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  // Experience Modal----------------------------------------------------------------------------------------------------------
-  const [open1, setOpen1] = React.useState(false);
-  const handleOpen1 = () => setOpen1(true);
-  const handleClose1 = () => setOpen1(false);
-
-  // Skills Modal-------------------------------------------------------------------------------------------------------------
-  const [open2, setOpen2] = React.useState(false);
-  const handleOpen2 = () => setOpen2(true);
-  const handleClose2 = () => setOpen2(false);
 
   // Get / post User Education------------------------------------------------------------------------------------------------------
 
@@ -71,100 +66,58 @@ export default function UserAbout() {
   const [Status, setStatus] = useState("");
   const [Duration, setDuration] = useState("");
 
-  //Database variable
-  // const EduCollection = collection(db, "UserProfile");
-  // const userData = collection(db, "UserProfile");
-
-  //Get User Education From Firestore database
-  // const getEducation = async () => {
-  //   const data = await getDoc(UserInfoCollection);
-  //   setUserEducation(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  //   // console.log(UserEducation)
-  // };
-
-  // Get UserProfile data from Firestore database
+  // / Get User ID
   const getUser = async () => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        
-
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        console.log(user);
-        setUser(user);
-        
-        // ...
-      } else {
-        // User is signed out
-        // ...
-      }
-    });
-    
-    // const q = query(UserInfoCollection, where("Email", "==", user));
-
-    // await getDocs(q)
-    //   .then((data) => {
-    //     setUserProfile(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    //     console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    //     console.log(data.docs);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-  };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // const getUserInfo = async () => {
-  //   const data = await getDocs(UserInfoCollection);
-  //   setUserInfo(data.docs.map((doc) => ({ ...doc.data() })));
-  //   console.log(userInfo);
-  // };
-
-  //Post User Education into Firestore database
-  // const postEducation = async (id) => {
-  //   await addDoc(userData, {
-  //     Education : {
-  //     Degree_Name: Degree,
-  //     Institute_Name: Institute,
-  //     Status: Status,
-  //     Duration: Duration,
-  //     User_Id: id,}
-  //   });
-
-  //   console.log(id);
-  // };
-  const postEducation = async (id) => {
     const data = await getDocs(UserInfoCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    const userProf = profiles.filter((i) => i.Role == "User");
-    const i = userProf[0].id;
+    const userProf = profiles.filter((i) => i.Email == user?.email);
+    // const i = userProf[0].id;
+    setUserProfile(userProf);
+    // console.log(userProfile)
+  };
 
-    const AddEdu = doc(userData, "UserProfile", i);
+  // Database variable
+  const EduCollection = collection(db, "UserEducation");
+  const UserInfoCollection = collection(db, "UserProfile");
+
+  // Get User Education From Firestore database
+  const getEducation = async () => {
+    const data = await getDocs(EduCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userProf = profiles.filter((i) => i.User_Email == user?.email);
+    setUserEducation(userProf);
+  };
+
+  // Post User Education into Firestore database
+  const postEducation = async () => {
+    await addDoc(EduCollection, {
+      Degree_Name: Degree,
+      Institute_name: Institute,
+      Status: Status,
+      Duration: Duration,
+      User_Email: user?.email,
+    });
+  };
+
+  //Update User Education
+
+  let [editEducation, setEditEducation] = useState([]);
+
+  const updateEdu = async (id) => {
+    setEditEducation(UserEducation[id]);
+    handleOpen4();
+  };
+
+  // Update Education modal
+  const [open4, setOpen4] = React.useState(false);
+  const handleOpen4 = () => setOpen4(true);
+  const handleClose4 = () => setOpen4(false);
+
+  // Delete User  Education
+
+  const deleteEdu = async (id) => {
+    const EduCollection = doc(db, "UserEducation", UserEducation[id].id);
+    await deleteDoc(EduCollection);
   };
 
   //Get / Post User Experience----------------------------------------------------------------------------------------------
@@ -175,26 +128,54 @@ export default function UserAbout() {
   const [Certified, setCertified] = useState("");
   const [Duration2, setDuration2] = useState("");
 
-  //Database variable
-  // const ExpCollection = collection(db, "UserProfile");
+  // Database variable
+  const ExpCollection = collection(db, "UserExperience");
 
-  //Get User Eperience From Firestore database
+  // Get User Eperience From Firestore database
 
-  // const getExperience = async () => {
-  //   const data = await getDocs(UserInfoCollection);
-  //   setUserExperience(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  //   // console.log(UserEdxperience)
-  // };
+  const getExperience = async () => {
+    const data = await getDocs(ExpCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userProf = profiles.filter((i) => i.User_Email == user?.email);
+    setUserExperience(userProf);
+    // console.log(UserEdxperience)
+  };
+
+  // Experience Modal
+  const [open1, setOpen1] = React.useState(false);
+  const handleOpen1 = () => setOpen1(true);
+  const handleClose1 = () => setOpen1(false);
 
   //Post User Experience into Firestore database
-  const postExp = async (id) => {
-    await addDoc(UserInfoCollection, {
+  const postExp = async () => {
+    await addDoc(ExpCollection, {
       Company_Name: Company,
       Position: Position,
-      Certified: Certified,
       Duration: Duration2,
-      User_Id: id,
+      Certified: Certified,
+      User_Email: user?.email,
     });
+  };
+
+  // Edit User Experience
+
+  let [editExperience, setEditExperience] = useState([]);
+
+  const updateExp = async (id) => {
+    setEditExperience(UserExperience[id]);
+    handleOpen5();
+  };
+
+  // Update Experience modal
+  const [open5, setOpen5] = React.useState(false);
+  const handleOpen5 = () => setOpen5(true);
+  const handleClose5 = () => setOpen5(false);
+
+  // Delete User  Experience
+
+  const deleteExp = async (id) => {
+    const ExpCollection = doc(db, "UserExperience", UserExperience[id].id);
+    await deleteDoc(ExpCollection);
   };
 
   //Get / Post User Skills-----------------------------------------------------------------------------------------------------
@@ -202,15 +183,21 @@ export default function UserAbout() {
   const [UserSkills, setUserSkills] = useState([]);
   const [Skills, setSkills] = useState([]);
 
-  // const SkillCollection = collection(db, "UserSkills");
+  const SkillCollection = collection(db, "UserSkills");
 
   //Get User skills From Firestore database
 
-  // const getSkills = async () => {
-  //   const data = await getDocs(UserInfoCollection);
-  //   setUserSkills(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  //   // console.log(UserSkills)
-  // };
+  const getSkills = async () => {
+    const data = await getDocs(SkillCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userProf = profiles.filter((i) => i.User_Email == user?.email);
+    setUserSkills(userProf);
+  };
+
+  // Skills Modal
+  const [open2, setOpen2] = React.useState(false);
+  const handleOpen2 = () => setOpen2(true);
+  const handleClose2 = () => setOpen2(false);
 
   //Post User skills into Firestore database
   const postSkills = async (id) => {
@@ -218,6 +205,12 @@ export default function UserAbout() {
   };
 
   //Upload CV-----------------------------------------------------------------------------------------------------------
+
+  // CV Modal
+  const [open3, setOpen3] = React.useState(false);
+  const handleOpen3 = () => setOpen3(true);
+  const handleClose3 = () => setOpen3(false);
+
   const [uploadFile, setUploadFile] = useState(true);
   const [progress, setProgress] = useState(0);
 
@@ -228,9 +221,8 @@ export default function UserAbout() {
   };
 
   const HandleUpload = (file) => {
-  
     if (!file) return;
- 
+
     const storageRef = ref(storage, `files/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -250,62 +242,19 @@ export default function UserAbout() {
     );
     // }
   };
-  // CV Modal----------------------------------------------------------------------------------------------------------
-  const [open3, setOpen3] = React.useState(false);
-  const handleOpen3 = () => setOpen3(true);
-  const handleClose3 = () => setOpen3(false);
-
-  // Edit User Education------------------------------------------------------------------------------------------------------
-  let [editEducation, setEditEducation] = useState([]);
-
-  const updateEdu = async (id) => {
-    setEditEducation(UserEducation[id]);
-    handleOpen4();
-  };
-
-  // Update Education modal----------------------------------------------------------------------------------------------------------
-  const [open4, setOpen4] = React.useState(false);
-  const handleOpen4 = () => setOpen4(true);
-  const handleClose4 = () => setOpen4(false);
-
-  // Delete User  Education-------------------------------------------------------------------------------------------------
-
-  const deleteEdu = async (id) => {
-    const EduCollection = doc(db, "UserProfile", UserEducation[id].id);
-    await deleteDoc(EduCollection);
-  };
-
-  // Edit User Experience------------------------------------------------------------------------------------------------------
-
-  let [editExperience, setEditExperience] = useState([]);
-
-  const updateExp = async (id) => {
-    setEditExperience(UserExperience[id]);
-    handleOpen5();
-  };
-  // Update Experience modal----------------------------------------------------------------------------------------------------------
-  const [open5, setOpen5] = React.useState(false);
-  const handleOpen5 = () => setOpen5(true);
-  const handleClose5 = () => setOpen5(false);
-
-  // Delete User  Education-------------------------------------------------------------------------------------------------
-
-  const deleteExp = async (id) => {
-    const ExpCollection = doc(db, "UserExperience", UserExperience[id].id);
-    await deleteDoc(ExpCollection);
-  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      console.log(user);
       setLoading(false);
     });
     if (user) {
       // Function Calls
       getUser();
-      // getEducation();
-      // getExperience();
-      // getSkills();
+      getEducation();
+      getExperience();
+      getSkills();
     } else {
       navigate("/SignIn");
     }
@@ -324,102 +273,105 @@ export default function UserAbout() {
         <UserHeader />
 
         <div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
-              marginTop: "25px",
-              backgroundColor: "#fff",
-              width: "1200px",
-              padding: "15px",
-              marginLeft: "auto",
-              marginRight: "auto",
-              borderRadius: "10px",
-            }}
-          >
-            <div>
-              <div
-                style={{
-                  paddingTop: "10px",
-                  paddingLeft: "10px",
-                  paddingRight: "10px",
-                  marginLeft: "10px",
-                  marginRight: "10px",
-                }}
-              >
-                <img
-                  style={{ borderRadius: "110px" }}
-                  width="150px"
-                  height="150px"
-                  src={img}
-                />
-              </div>
-              <h3></h3>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                JustifyContent: "center",
-                alignItems: "baseline",
-                width: "900px",
-                padding: "20px",
-                marginLeft: "20px",
-              }}
-            >
-              <h3></h3>
-              <h3></h3>
-              <h3></h3>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-evenly",
-                marginRight: "20px",
-              }}
-            >
-              <Modal
-                open={open3}
-                onClose={handleClose3}
-              >
-                <Box sx={style}>
-                  {/* <Form> */}
-                  <h2>Upload / Download files</h2>
-                  <form onSubmit={formHandler}>
-                    <input type="file" onChange={HandleUpload} />
-                    <Button type="submit">upload</Button>
-                    <Button>Download</Button>
+          {userProfile &&
+            userProfile.map((item, key) => {
+              return (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                    marginTop: "25px",
+                    backgroundColor: "#fff",
+                    width: "1200px",
+                    padding: "15px",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    borderRadius: "10px",
+                  }}
+                  key={key}
+                >
+                  <div>
+                    <div
+                      style={{
+                        paddingTop: "10px",
+                        paddingLeft: "10px",
+                        paddingRight: "10px",
+                        marginLeft: "10px",
+                        marginRight: "10px",
+                      }}
+                    >
+                      <img
+                        style={{ borderRadius: "110px" }}
+                        width="150px"
+                        height="150px"
+                        src={item.Pfp}
+                      />
+                    </div>
+                    <h3>{item.FirstName + "" + item.LastName}</h3>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      JustifyContent: "center",
+                      alignItems: "baseline",
+                      width: "900px",
+                      padding: "20px",
+                      marginLeft: "20px",
+                    }}
+                  >
+                    <h4>{item.Address}</h4>
+                    <h4>
+                      {item.City},{item.Province}
+                    </h4>
+                    <h4>{item.Main}</h4>
+                    <h4>{item.About}</h4>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-evenly",
+                      marginRight: "20px",
+                    }}
+                  >
+                    <Modal open={open3} onClose={handleClose3}>
+                      <Box sx={style}>
+                        {/* <Form> */}
+                        <h2>Upload / Download files</h2>
+                        <form onSubmit={formHandler}>
+                          <input type="file" onChange={HandleUpload} />
+                          <Button type="submit">upload</Button>
+                          <Button>Download</Button>
 
-                    <Button onClick={handleClose3}>Cancel</Button>
+                          <Button onClick={handleClose3}>Cancel</Button>
 
-                    <h3>uploaded{progress}%</h3>
-                  </form>
-                </Box>
-              </Modal>
+                          <h3>uploaded{progress}%</h3>
+                        </form>
+                      </Box>
+                    </Modal>
 
-              <Button>
-                <EditIcon />
-              </Button>
+                    <Button>
+                      <EditIcon />
+                    </Button>
 
-              {/* Upload CV */}
-              {/* {uploadFile ? ( */}
-              <Button
-                size="small"
-                variant="outlined"
-                onClick={
-                  // setUploadFile(false);
-                  handleOpen3
-                }
-              >
-                CV
-              </Button>
-              {/* ) : (
-                    <input type="file" onChange={HandleUpload} />
-                  )} */}
-            </div>
-          </div>
+                    {/* Upload CV */}
+                    {/* {uploadFile ? ( */}
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={
+                        // setUploadFile(false);
+                        handleOpen3
+                      }
+                    >
+                      CV
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
           <div
             style={{
               display: "flex",
@@ -458,13 +410,8 @@ export default function UserAbout() {
                 </div>
               </div>
               <div>
-                {/* <Modal
-                  open={open}
-                  onClose={handleClose}
-                
-                >
+                <Modal open={open} onClose={handleClose}>
                   <Box sx={style}>
-                    
                     <h2>Add Education</h2>
                     <TextField
                       fullWidth
@@ -498,24 +445,22 @@ export default function UserAbout() {
                     <Button onClick={() => postEducation(userProfile[0].id)}>
                       Add
                     </Button>
-                    
                   </Box>
-                </Modal> */}
+                </Modal>
               </div>
               {/* Education Block */}
-              {userProfile && userProfile.map((item, key) => {
-                return (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      border: "2px solid #548CCB",
-                      borderRadius: "15px",
-                    }}
-                  >
-                    
-                      {item && item.Education && item.Education.map((item, key) => (
-                        <div
+              {UserEducation &&
+                UserEducation.map((item, key) => {
+                  return (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        border: "2px solid #548CCB",
+                        borderRadius: "15px",
+                      }}
+                    >
+                      <div
                         style={{
                           display: "flex",
                           flex: "1.90",
@@ -529,46 +474,41 @@ export default function UserAbout() {
                         key={key}
                       >
                         <h3>Degree Name :{item.Degree_Name}</h3>
-                        <h3>Institution Name : {item.Institution_Name}</h3>
+                        <h3>Institution Name : {item.Institute_name}</h3>
                         <h3>Status : {item.Status}</h3>
                         <h3>Duration : {item.Duration}</h3>
-                        </div>
-                      ))}
-                      
-                      
-                   
-
-                    <div
-                      style={{
-                        display: "flex",
-                        flex: "0.10",
-                        flexDirection: "column",
-                        margin: "25px",
-                        paddingLeft: "25px",
-                        backgroundColor: "white",
-                      }}
-                    >
-                      <Button onClick={() => updateEdu(key)}>
-                        <EditIcon />
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          deleteEdu(key);
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flex: "0.10",
+                          flexDirection: "column",
+                          margin: "25px",
+                          paddingLeft: "25px",
+                          backgroundColor: "white",
                         }}
                       >
-                        <DeleteIcon />
-                      </Button>
+                        <Button onClick={() => updateEdu(key)}>
+                          <EditIcon />
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            deleteEdu(key);
+                          }}
+                        >
+                          <DeleteIcon />
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}  
+                  );
+                })}
               <EduEdit
                 id={editEducation.id}
                 key={editEducation.id}
                 open={open4}
                 close={handleClose4}
                 degree={editEducation.Degree_Name}
-                Institute={editEducation.Institute_Name}
+                Institute={editEducation.Institute_name}
                 duration={editEducation.Duration}
                 status={editEducation.Status}
               />
@@ -634,6 +574,13 @@ export default function UserAbout() {
                         setDuration2(event.target.value);
                       }}
                     />
+                    <TextField
+                      fullWidth
+                      label="Certified"
+                      onChange={(event) => {
+                        setCertified(event.target.value);
+                      }}
+                    />
 
                     <Button onClick={handleClose1}>Cancel</Button>
                     <Button onClick={postExp}>Add</Button>
@@ -643,58 +590,59 @@ export default function UserAbout() {
               </div>
 
               {/*User Eperience Block*/}
-              {/* {userProfile.map((item, key) => {
-                return (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      border: "2px solid #548CCB",
-                      borderRadius: "15px",
-                    }}
-                  >
+              {UserExperience &&
+                UserExperience.map((item, key) => {
+                  return (
                     <div
                       style={{
                         display: "flex",
-                        flex: "1.90",
-                        flexDirection: "column",
-                        justifyContent: "space-evenly",
-                        alignItems: "start",
-                        margin: "25px",
-                        paddingLeft: "25px",
-
-                        backgroundColor: "white",
-                      }}
-                      key={key}
-                    >
-                      <h3>Company Name :</h3>
-                      <h3>Position Name : </h3>
-                      <h3>Duration : </h3>
-                      <h3>Certified : </h3>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flex: "0.10",
-                        flexDirection: "column",
-                        // justifyContent : ''
-                        // // alignItems : 'start',
-                        margin: "25px",
-                        paddingLeft: "25px",
-
-                        backgroundColor: "white",
+                        flexDirection: "row",
+                        border: "2px solid #548CCB",
+                        borderRadius: "15px",
                       }}
                     >
-                      <Button onClick={() => updateExp(key)}>
-                        <EditIcon />
-                      </Button>
-                      <Button onClick={() => deleteExp(key)}>
-                        <DeleteIcon />
-                      </Button>
+                      <div
+                        style={{
+                          display: "flex",
+                          flex: "1.90",
+                          flexDirection: "column",
+                          justifyContent: "space-evenly",
+                          alignItems: "start",
+                          margin: "25px",
+                          paddingLeft: "25px",
+
+                          backgroundColor: "white",
+                        }}
+                        key={key}
+                      >
+                        <h3>Company Name :{item.Company_Name}</h3>
+                        <h3>Position Name : {item.Position}</h3>
+                        <h3>Duration : {item.Duration}</h3>
+                        <h3>Certified : {item.Certified}</h3>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flex: "0.10",
+                          flexDirection: "column",
+                          // justifyContent : ''
+                          // // alignItems : 'start',
+                          margin: "25px",
+                          paddingLeft: "25px",
+
+                          backgroundColor: "white",
+                        }}
+                      >
+                        <Button onClick={() => updateExp(key)}>
+                          <EditIcon />
+                        </Button>
+                        <Button onClick={() => deleteExp(key)}>
+                          <DeleteIcon />
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                );
-              })} */}
+                  );
+                })}
               <ExpEdit
                 id={editExperience.id}
                 key={editExperience.id}
@@ -731,14 +679,14 @@ export default function UserAbout() {
               >
                 <h2 style={{ margin: "10px", padding: "10px" }}>Skills</h2>
                 <div style={{ padding: "10px", margin: "10px" }}>
-                  <Button style={{ margin: "10px" }}>
+                  <Button style={{ margin: "10px" }} onClick={handleOpen2}>
                     <AddCircleOutlineIcon />
                   </Button>
                 </div>
               </div>
 
               {/*User Skills Block*/}
-              {/* {userProfile.map((item, key) => {
+              {userProfile.map((item, key) => {
                 return (
                   <div
                     style={{
@@ -747,49 +695,110 @@ export default function UserAbout() {
                       border: "2px solid #548CCB",
                       borderRadius: "15px",
                     }}
+                    key={key}
                   >
                     <div
                       style={{
                         display: "flex",
-                        flex: "1.90",
                         flexDirection: "column",
-                        justifyContent: "space-evenly",
+                        justifyContent: "space-between",
                         alignItems: "start",
                         margin: "25px",
                         paddingLeft: "25px",
-
-                        backgroundColor: "white",
-                      }}
-                      key={key}
-                    >
-                      <h3>{item.Skills}</h3>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flex: "0.10",
-                        flexDirection: "column",
-                        // justifyContent : ''
-                        // // alignItems : 'start',
-                        margin: "25px",
-                        paddingLeft: "25px",
-
                         backgroundColor: "white",
                       }}
                     >
-                      <Button>
-                        <EditIcon />
-                      </Button>
-                      <Button>
-                        <DeleteIcon />
-                      </Button>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          // alignItems : 'start',
+                          backgroundColor: "#f3f2ef",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          <h3>{item.Skill_Name}</h3>
+                          <Button>
+                            <DeleteIcon />
+                          </Button>
+                        </div>
+                      </div>
+                      <Modal
+                        open={open2}
+                        onClose={handleClose2}
+                        // aria-labelledby="modal-modal-title"
+                        // aria-describedby="modal-modal-description"
+                      >
+                        <Box sx={style}>
+                          {/* <Form> */}
+                          <h2>Add Skills</h2>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              justifyContent: "space-between",
+                              backgroundColor: "red",
+                            }}
+                          >
+                            <FormControl>
+                              <input
+                                type="checkbox"
+                                name="Skill 1"
+                                value="Skill 1"
+                                onChange={(event) => {
+                                  setSkills(event.target.value);
+                                }}
+                              />
+                              Skill 1
+                              <input
+                                type="checkbox"
+                                name="Skill 2"
+                                value="Skill 2"
+                                onChange={(event) => {
+                                  setSkills(event.target.value);
+                                }}
+                              />
+                              Skill 2
+                              <input
+                                type="checkbox"
+                                name="Skill 3"
+                                value="Skill 3"
+                                onChange={(event) => {
+                                  setSkills(event.target.value);
+                                }}
+                              />
+                              Skill 3
+                              <input
+                                type="checkbox"
+                                name="Skill 4"
+                                value="Skill 4"
+                                onChange={(event) => {
+                                  setSkills(event.target.value);
+                                }}
+                              />
+                              Skill 4
+                            </FormControl>
+                          </div>
+                          <Button onClick={handleClose2}>Cancel</Button>
+                          <Button>Add</Button>
+
+                          {/* </Form> */}
+                        </Box>
+                      </Modal>
                     </div>
                   </div>
-                 );
-              })}  */}
+                );
+              })}
             </div>
           </div>
-         
         </div>
       </div>
     );

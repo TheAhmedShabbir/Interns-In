@@ -57,7 +57,7 @@ export default function UserHeader() {
             to="/UserNotifications"
             style={{ color: "white", textDecoration: "none" }}
           >
-            <Button color="inherit"><NotificationsNoneOutlinedIcon/> Notification</Button>
+            <Button color="inherit"><NotificationsNoneOutlinedIcon/>Notification</Button>
           </Link>
           <Link to="/Forums" style={{ color: "white", textDecoration: "none" }}>
             <Button color="inherit"><ArticleOutlinedIcon/> Forums</Button>
