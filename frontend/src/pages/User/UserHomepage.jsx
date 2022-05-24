@@ -27,8 +27,23 @@ export default function UserHomepage() {
   const jobCollection = collection(db, "Job");
   const UserCollection = collection(db, "UserProfile");
 
+  //apply now snackbars
   const [warningOpen, setWarningOpen] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
+
+  const [saveOpen, setSaveOpen] = useState(false);
+
+  const handleSaveClick = () => {
+    setSaveOpen(true);
+  };
+
+  const handleSaveClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSaveOpen(false);
+  };
 
   const handleWarningClick = () => {
     setWarningOpen(true);
@@ -55,21 +70,21 @@ export default function UserHomepage() {
   };
 
   const saveJob = async (id) => {
-    const data = await getDocs(userProfile);
+    const data = await getDocs(UserCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userProf = profiles.filter((i) => i.Role == "User");
     const i = userProf[0].id;
 
     const jobSave = doc(db, "UserProfile", i);
 
-    const nf = { savedJob: userProf[0].savedJob.concat(job) };
+    const nf = { savedJob: userProf[0].savedJob.concat(user?.email) };
     updateDoc(jobSave, nf);
   };
 
   const applyJob = async (k, id) => {
-    const data = await getDocs(UserCollection);
-    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
-    const users = profiles.filter((i) => i.Email == user?.email);
+    const data = await getDocs(jobCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const j = profiles.filter((i) => i.id == id);
 
     if (
       j[0].Applicants?.filter((a) => a == user.email) &&
@@ -185,7 +200,7 @@ export default function UserHomepage() {
               <div style={{ padding: "10px" }}>
                 <h3>Systems Limited</h3>
                 <Button size="small" variant="outlined">
-                  Follow
+                  View Profile
                 </Button>
               </div>
             </div>
@@ -232,7 +247,7 @@ export default function UserHomepage() {
                     <h2 style={{ color: "green" }}> {job.Salary} pkr</h2>
                     <Button
                       style={{ margin: "10px" }}
-                      variant="outlined"
+                      variant="contained"
                       onClick={() => applyJob(key, job.id)}
                     >
                       Apply now
@@ -242,7 +257,8 @@ export default function UserHomepage() {
                         margin: "10px",
                       }}
                       variant="outlined"
-                      onClick={() => saveJob(job.id)}
+                      onClick={() => saveJob(job.id).then(handleSaveClick())}
+                      color="success"
                     >
                       Save
                     </Button>
@@ -275,6 +291,20 @@ export default function UserHomepage() {
                 severity="success"
               >
                 Applied Successfully!
+              </Alert>
+            </Snackbar>
+
+            <Snackbar
+              open={saveOpen}
+              autoHideDuration={2000}
+              onClose={handleSaveClose}
+            >
+              <Alert
+                onClose={handleSaveClose}
+                sx={{ width: "100%" }}
+                severity="success"
+              >
+                Job Saved
               </Alert>
             </Snackbar>
           </div>
