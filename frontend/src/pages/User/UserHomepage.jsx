@@ -60,7 +60,6 @@ export default function UserHomepage() {
     const userProf = profiles.filter((i) => i.Role == "User");
     const i = userProf[0].id;
 
-    const job = jobs.filter((i) => i.id == id);
     const jobSave = doc(db, "UserProfile", i);
 
     const nf = { savedJob: userProf[0].savedJob.concat(job) };
