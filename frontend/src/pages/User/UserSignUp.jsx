@@ -35,7 +35,6 @@ export default function UserSignUp() {
           LastName: lastName,
           Email: email,
           Role: "User",
-          savedJob: [],
           skills: [],
           experience: [],
           education: [],

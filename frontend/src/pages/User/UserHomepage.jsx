@@ -32,6 +32,7 @@ export default function UserHomepage() {
   const [successOpen, setSuccessOpen] = useState(false);
 
   const [saveOpen, setSaveOpen] = useState(false);
+  const [alreadySaveOpen, setAlreadySaveOpen] = useState(false);
 
   const handleSaveClick = () => {
     setSaveOpen(true);
@@ -43,6 +44,18 @@ export default function UserHomepage() {
     }
 
     setSaveOpen(false);
+  };
+
+  const handleAlreadySaveClick = () => {
+    setAlreadySaveOpen(true);
+  };
+
+  const handleAlreadySaveClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setAlreadySaveOpen(false);
   };
 
   const handleWarningClick = () => {
@@ -70,15 +83,21 @@ export default function UserHomepage() {
   };
 
   const saveJob = async (id) => {
-    const data = await getDocs(UserCollection);
-    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    const userProf = profiles.filter((i) => i.Role == "User");
-    const i = userProf[0].id;
+    const data = await getDocs(jobCollection);
+    const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
-    const jobSave = doc(db, "UserProfile", i);
-
-    const nf = { savedJob: userProf[0].savedJob.concat(user?.email) };
-    updateDoc(jobSave, nf);
+    if (
+      job[0].savedby.length != 0 &&
+      job[0].savedby?.filter((j) => j == user.email)
+    ) {
+      console.log("job already saved");
+      handleAlreadySaveClick();
+    } else {
+      const jobSave = doc(db, "Job", id);
+      const nf = { savedby: job[0].savedby.concat(user?.email) };
+      updateDoc(jobSave, nf);
+      handleSaveClick();
+    }
   };
 
   const applyJob = async (k, id) => {
@@ -257,7 +276,7 @@ export default function UserHomepage() {
                         margin: "10px",
                       }}
                       variant="outlined"
-                      onClick={() => saveJob(job.id).then(handleSaveClick())}
+                      onClick={() => saveJob(job.id)}
                       color="success"
                     >
                       Save
@@ -305,6 +324,20 @@ export default function UserHomepage() {
                 severity="success"
               >
                 Job Saved
+              </Alert>
+            </Snackbar>
+
+            <Snackbar
+              open={alreadySaveOpen}
+              autoHideDuration={2000}
+              onClose={handleAlreadySaveClose}
+            >
+              <Alert
+                onClose={handleAlreadySaveClose}
+                sx={{ width: "100%" }}
+                severity="warning"
+              >
+                Job is already saved
               </Alert>
             </Snackbar>
           </div>
