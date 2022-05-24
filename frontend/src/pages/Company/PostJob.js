@@ -12,6 +12,13 @@ import { collection, addDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { forwardRef } from "react";
+
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function PostJob() {
   const navigate = useNavigate();
@@ -25,6 +32,20 @@ export default function PostJob() {
   const [city, setCity] = useState("");
   const jobCollection = collection(db, "Job");
   const [loading, setLoading] = useState(true);
+
+  const [postOpen, setPostOpen] = useState(false);
+
+  const handlePostClick = () => {
+    setPostOpen(true);
+  };
+
+  const handlePostClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setPostOpen(false);
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -52,6 +73,7 @@ export default function PostJob() {
 
     navigate("/CompanyHomepage");
   };
+
   if (loading) {
     return <div>loading...</div>;
   } else {
@@ -235,7 +257,7 @@ export default function PostJob() {
                 <div style={{ marginTop: "25px", marginBottom: "25px" }}>
                   <Button
                     color="success"
-                    onClick={() => createPost()}
+                    onClick={() => createPost().then(handlePostClick())}
                     variant="contained"
                   >
                     Post
@@ -249,6 +271,19 @@ export default function PostJob() {
                   </Button>
                 </div>
               </div>
+              <Snackbar
+                open={postOpen}
+                autoHideDuration={2000}
+                onClose={handlePostClose}
+              >
+                <Alert
+                  onClose={handlePostClose}
+                  sx={{ width: "100%" }}
+                  severity="success"
+                >
+                  Job Posted!
+                </Alert>
+              </Snackbar>
             </div>
           </div>
         </div>

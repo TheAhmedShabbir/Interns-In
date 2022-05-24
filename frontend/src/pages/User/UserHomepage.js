@@ -7,6 +7,13 @@ import { db, auth } from "../../firebase-config";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { forwardRef } from "react";
+
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function UserHomepage() {
   const navigate = useNavigate();
@@ -19,6 +26,33 @@ export default function UserHomepage() {
 
   const jobCollection = collection(db, "Job");
   const UserCollection = collection(db, "UserProfile");
+
+  const [warningOpen, setWarningOpen] = useState(false);
+  const [successOpen, setSuccessOpen] = useState(false);
+
+  const handleWarningClick = () => {
+    setWarningOpen(true);
+  };
+
+  const handleWarningClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setWarningOpen(false);
+  };
+
+  const handleSuccessClick = () => {
+    setSuccessOpen(true);
+  };
+
+  const handleSuccessClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccessOpen(false);
+  };
 
   const saveJob = async (id) => {
     const data = await getDocs(userProfile);
@@ -42,17 +76,15 @@ export default function UserHomepage() {
       j[0].Applicants?.filter((a) => a == user.email) &&
       j[0].Applicants.length != 0
     ) {
-      console.log(
-        j[0].Applicants?.filter(
-          (a) => a == user.email && j[0].Applicants.length != 0
-        )
-      );
       console.log("user already exists");
+      handleWarningClick();
     } else {
       const jobApply = doc(db, "Job", id);
       const nf = { Applicants: jobs[k].Applicants.concat(user.email) };
       console.log(nf);
+
       updateDoc(jobApply, nf);
+      handleSuccessClick();
     }
   };
 
@@ -229,6 +261,33 @@ export default function UserHomepage() {
                 );
               })}
             </div>
+            <Snackbar
+              open={warningOpen}
+              autoHideDuration={2000}
+              onClose={handleWarningClose}
+            >
+              <Alert
+                onClose={handleWarningClose}
+                sx={{ width: "100%" }}
+                severity="warning"
+              >
+                You have already applied to this Job
+              </Alert>
+            </Snackbar>
+
+            <Snackbar
+              open={successOpen}
+              autoHideDuration={2000}
+              onClose={handleSuccessClose}
+            >
+              <Alert
+                onClose={handleSuccessClose}
+                sx={{ width: "100%" }}
+                severity="success"
+              >
+                Applied Successfully!
+              </Alert>
+            </Snackbar>
           </div>
         </div>
       </div>

@@ -44,7 +44,7 @@ export default function ViewApplicants({ id, open, close, applicant }) {
                       <img width="80px" height="80px" src={img} />
                     </div>
                     <p style={{ marginLeft: "15px" }}>
-                      {app.FirstName} {app.LastName}
+                      {app.FirstName + " " + app.LastName}
                     </p>
                   </div>
                   <div

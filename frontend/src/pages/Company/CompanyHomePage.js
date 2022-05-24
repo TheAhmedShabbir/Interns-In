@@ -8,6 +8,13 @@ import FormEdit from "../../Components/Company/FormEdit";
 import ViewApplicants from "../../Components/Company/ViewApplicants";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { forwardRef } from "react";
+
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function CompanyHomePage() {
   const navigate = useNavigate();
@@ -18,12 +25,26 @@ export default function CompanyHomePage() {
   const [UserInfo, setUserInfo] = useState([]);
   const [open, setOpen] = useState(false);
   const [applicantOpen, setApplicantOpen] = useState(false);
+  const [jobId, setJobId] = useState(0);
   let [editJob, setEditJob] = useState([]);
   let [appJob, setAppJob] = useState([]);
-  const [num, setNum] = useState(0);
+
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const jobCollection = collection(db, "Job");
   const UserCollection = collection(db, "UserProfile");
+
+  const handleDeleteClick = () => {
+    setDeleteOpen(true);
+  };
+
+  const handleDeleteClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setDeleteOpen(false);
+  };
 
   const closeModal = () => {
     setOpen(false);
@@ -33,9 +54,14 @@ export default function CompanyHomePage() {
     setOpen(true);
   };
 
-  const openApplicantModal = (id) => {
-    setAppJob(jobs[id]);
-    console.log(jobs);
+  const openApplicantModal = async (id) => {
+    const data = await getDocs(UserCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
+    const userData = profiles.filter((i) => i.Email == jobs[id].Applicants);
+
+    setAppJob(userData);
+    setJobId(jobs[id].id);
+
     if (jobs[id].Applicants.length == 0) {
       setApplicantOpen(false);
     } else setApplicantOpen(true);
@@ -60,22 +86,23 @@ export default function CompanyHomePage() {
     const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const jobFilter = job.filter((i) => i.company == user?.email);
 
-    // jobFilter.map((item) => {
-    //   setNum(num + item?.Applicants.length);
-    //   console.log(item?.Applicants.length);
-    // });
     setJobs(jobFilter);
 
     setLoading(false);
   };
-
+  //////////pending
   const getUserInfo = async () => {
     const data = await getDocs(UserCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
-
     const userData = profiles.filter((i) => i.Email == user?.email);
 
+    const d = await getDocs(UserCollection);
+    const job = data.docs.map((doc) => ({ ...doc.data() }));
+    // const jobFilter = job.filter((i) => i.company == user?.email);
+
     setUserInfo(userData[0]);
+    // console.log(userData);
+
     setLoading(false);
   };
 
@@ -91,7 +118,7 @@ export default function CompanyHomePage() {
         getJobs();
       }
     });
-  }, [user, open]);
+  }, [user, open, jobs]);
 
   if (loading) {
     return <div>loading...</div>;
@@ -174,11 +201,7 @@ export default function CompanyHomePage() {
                       }}
                     >
                       <div style={{ padding: "10px" }}>
-                        <h4>
-                          {j.Applicants[k]?.FirstName +
-                            " " +
-                            j.Applicants[k]?.LastName}
-                        </h4>
+                        <h4></h4>
                         <Button size="small" variant="outlined">
                           View Profile
                         </Button>
@@ -302,7 +325,7 @@ export default function CompanyHomePage() {
                         }}
                         variant="outlined"
                         color="error"
-                        onClick={() => deleteJob(key)}
+                        onClick={() => deleteJob(key).then(handleDeleteClick())}
                       >
                         Delete
                       </Button>
@@ -327,10 +350,24 @@ export default function CompanyHomePage() {
           <ViewApplicants
             open={applicantOpen}
             close={closeApplicantModal}
-            applicant={appJob.Applicants}
-            id={appJob.id}
-            key={"apps123" + appJob.id}
+            applicant={appJob}
+            id={jobId}
+            key={"apps123" + jobId}
           />
+
+          <Snackbar
+            open={deleteOpen}
+            autoHideDuration={2000}
+            onClose={handleDeleteClose}
+          >
+            <Alert
+              onClose={handleDeleteClose}
+              sx={{ width: "100%" }}
+              severity="error"
+            >
+              Job Deleted!
+            </Alert>
+          </Snackbar>
         </div>
       </div>
     );

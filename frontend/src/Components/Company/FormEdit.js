@@ -7,6 +7,13 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import { updateDoc, doc, collection } from "firebase/firestore";
 import { db } from "../../firebase-config";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { forwardRef } from "react";
+
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function FormEdit({
   open,
@@ -25,6 +32,20 @@ export default function FormEdit({
   const [newCity, setNewCity] = useState();
   const [newJobType, setNewJobType] = useState();
   const [newMode, setNewMode] = useState();
+
+  const [editOpen, setEditOpen] = useState(false);
+
+  const handleEditClick = () => {
+    setEditOpen(true);
+  };
+
+  const handleEditClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setEditOpen(false);
+  };
 
   const updateTitle = async (id, nTitle) => {
     if (nTitle == undefined) {
@@ -253,7 +274,7 @@ export default function FormEdit({
                 sx={{ marginTop: "30px" }}
                 color="success"
                 variant="contained"
-                onClick={() => editJob()}
+                onClick={() => editJob().then(handleEditClick())}
               >
                 Save
               </Button>
@@ -268,6 +289,19 @@ export default function FormEdit({
           </div>
         </Box>
       </Modal>
+      <Snackbar
+        open={editOpen}
+        autoHideDuration={2000}
+        onClose={handleEditClose}
+      >
+        <Alert
+          onClose={handleEditClose}
+          sx={{ width: "100%" }}
+          severity="success"
+        >
+          Job Updated!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
