@@ -10,6 +10,14 @@ import { Link } from "react-router-dom";
 import { auth } from "../../firebase-config";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
+import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
+import ContactPageOutlinedIcon from '@mui/icons-material/ContactPageOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import BookmarkAddedOutlinedIcon from '@mui/icons-material/BookmarkAddedOutlined';
+
+
 
 export default function UserHeader() {
   const navigate = useNavigate();
@@ -49,31 +57,31 @@ export default function UserHeader() {
             to="/UserNotifications"
             style={{ color: "white", textDecoration: "none" }}
           >
-            <Button color="inherit">Notifications</Button>
+            <Button color="inherit"><NotificationsNoneOutlinedIcon/> Notification</Button>
           </Link>
           <Link to="/Forums" style={{ color: "white", textDecoration: "none" }}>
-            <Button color="inherit">Forums</Button>
+            <Button color="inherit"><ArticleOutlinedIcon/> Forums</Button>
           </Link>
           <Link
             to="/SavedJobs"
             style={{ color: "white", textDecoration: "none" }}
           >
-            <Button color="inherit">Saved Jobs</Button>
+            <Button color="inherit"><BookmarkAddedOutlinedIcon/> Saved Jobs</Button>
           </Link>
           <Link
             to="/UserProfile"
             style={{ color: "white", textDecoration: "none" }}
           >
-            <Button color="inherit">Profile</Button>
+            <Button color="inherit"><PermIdentityOutlinedIcon/> Profile</Button>
           </Link>
           <Link
             to="/UserAbout"
             style={{ color: "white", textDecoration: "none" }}
           >
-            <Button color="inherit">Me</Button>
+            <Button color="inherit"><ContactPageOutlinedIcon/> About</Button>
           </Link>
           <Button color="inherit" onClick={logout}>
-            Logout
+            <LogoutOutlinedIcon/> Logout
           </Button>
         </Toolbar>
       </AppBar>
