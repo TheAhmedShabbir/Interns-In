@@ -49,6 +49,12 @@ export default function CompanyHeader() {
           >
             <Button color="inherit">Notifications</Button>
           </Link> */}
+          <Link
+            to="/shortlisted"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            <Button color="inherit">Shortlisted</Button>
+          </Link>
           <Link to="/Forums" style={{ color: "white", textDecoration: "none" }}>
             <Button color="inherit">Forums</Button>
           </Link>

@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import SignIn from "./pages/SignIn";
 import UserSignUp from "./pages/User/UserSignUp";
 import CompanySignUp from "./pages/Company/CompanySignUp";
+import Shortlisted from "./pages/Company/Shortlisted";
 import AdminProfile from "./pages/Admin/AdminProfile";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import UserAbout from "./pages/User/UserAbout";
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="/UserAbout" element={<UserAbout />}></Route>
           <Route path="/UserProfile" element={<UserProfile />}></Route>
           <Route path="/CompanyProfile" element={<CompanyProfile />}></Route>
+          <Route path="/shortlisted" element={<Shortlisted />}></Route>
           <Route path="/UserHomePage" element={<UserHomepage />}></Route>
           <Route path="/CompanyHomePage" element={<CompanyHomePage />}></Route>
           <Route path="/Forums" element={<Forums />}></Route>
