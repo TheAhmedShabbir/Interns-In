@@ -19,6 +19,8 @@ import CompanyNotifications from "./pages/Company/CompanyNotifications";
 import AdminNotifications from "./pages/Admin/AdminNotifications";
 import PostJob from "./pages/Company/PostJob";
 import SavedJobs from "./pages/User/SavedJobs";
+import CompanyForums from "./pages/Company/CompanyForum";
+import CompanyForumTopic from "./pages/Company/CompanyForumTopic";
 import "./App.css";
 
 export default function App() {
@@ -38,6 +40,8 @@ export default function App() {
           <Route path="/shortlisted" element={<Shortlisted />}></Route>
           <Route path="/UserHomePage" element={<UserHomepage />}></Route>
           <Route path="/CompanyHomePage" element={<CompanyHomePage />}></Route>
+          <Route path="/CompanyForums" element={<CompanyForums />}></Route>
+          <Route path="/CompanyForumTopic" element={<CompanyForumTopic/>}></Route>
           <Route path="/Forums" element={<Forums />}></Route>
           <Route path="/ForumTopic/:id" element={<ForumTopic />}></Route>
           <Route

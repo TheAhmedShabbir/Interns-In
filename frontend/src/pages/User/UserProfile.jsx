@@ -212,7 +212,7 @@ export default function UserProfile() {
                 >
                   <h2>Username</h2>
                   <Button size="small" variant="outlined" onClick={updateProf}>
-                    Edit
+                    <EditIcon/>
                   </Button>
                 </div>
                 <Typography style={{ marginBottom: "15px" }}>
@@ -232,9 +232,9 @@ export default function UserProfile() {
                   }}
                 >
                   <h2>Password</h2>
-                  <Button size="small" variant="outlined">
+                  {/* <Button size="small" variant="outlined">
                     Edit
-                  </Button>
+                  </Button> */}
                 </div>
                 <Typography style={{ marginBottom: "15px" }}>******</Typography>
               </div>
@@ -251,14 +251,15 @@ export default function UserProfile() {
                   }}
                 >
                   <h2>Email</h2>
-                  <Button size="small" variant="outlined">
+                  {/* <Button size="small" variant="outlined">
                     Edit
-                  </Button>
+                  </Button> */}
                 </div>
                 <Typography>{UserInfo?.Email}</Typography>
               </div>
             </Paper>
           </Box>
+          
           <ProfEdit
             id={Edit?.id}
             key={Edit?.id}
@@ -266,8 +267,8 @@ export default function UserProfile() {
             close={handleClose2}
             first_name={Edit?.FirstName}
             second_name={Edit?.LastName}
-            email={Edit?.Email}
             password={Edit?.Password}
+            email={Edit?.Email}
           />
         </div>
       </div>

@@ -1,14 +1,13 @@
 import { Button, TextField, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import UserHeader from "../Components/User/Userheader";
-import { db, auth } from "../firebase-config";
+import { db, auth } from "../../firebase-config";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { onAuthStateChanged } from "firebase/auth";
-import CompanyHeader from "../Components/Company/CompanyHeader";
+import CompanyHeader from "../../Components/Company/CompanyHeader";
 
-export default function Forums() {
+export default function CompanyForums() {
   const [NewTopic, setNewTopic] = useState("");
   const [NewDescription, setNewDescription] = useState("");
   const [Usermail, setUsermail] = useState("");
@@ -57,6 +56,7 @@ export default function Forums() {
 
   return (
     <div>
+        <CompanyHeader/>
       <div
         style={{
           display: "flex",
@@ -150,7 +150,7 @@ export default function Forums() {
                 <Typography>Total posts: 1000</Typography>
                 <Typography>Views: 2300</Typography>
                 <Button
-                  href={`/ForumTopic/${forum?.id}`}
+                  href={`/CompanyForumTopic/${forum?.id}`}
                   style={{ margin: "15px" }}
                   variant="outlined"
                 >

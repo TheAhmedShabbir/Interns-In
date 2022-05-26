@@ -1,15 +1,14 @@
 import { Button, TextField, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import UserHeader from "../Components/User/Userheader";
-import { db } from "../firebase-config";
+import { db } from "../../firebase-config";
 import { collection, getDocs,getDoc,doc, addDoc, updateDoc } from "firebase/firestore";
-import img from "../assets/images/Userpfp.jpg";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import UserPostEdit from "../Components/User/UserPostEdit";
 import { Link, useParams } from "react-router-dom";
+import CompanyHeader from "../../Components/Company/CompanyHeader";
+
 
 const style = {
   position: "absolute",
@@ -24,7 +23,7 @@ const style = {
   p: 4,
 };
 
-export default function Forumtopic() {
+export default function CompanyForumTopic() {
   //Database variables
   const [forumTopic, setForumTopic] = useState();
   const [Userposts, setUserposts] = useState([]);
@@ -112,9 +111,8 @@ const getDescription = async () => {
   }, []);
 
   return (
-    
     <div style={{ backgroundColor: "#f3f2ef" }}>
-      <UserHeader />
+      <CompanyHeader />
       {/* <button
         onClick={() => {
           console.log(forumTopic.TopicDescription);

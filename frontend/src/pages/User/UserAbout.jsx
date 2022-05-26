@@ -178,7 +178,12 @@ export default function UserAbout() {
 
   const [UserSkills, setUserSkills] = useState([]);
   const [Skills, setSkills] = useState([]);
-
+  const [skill1, setSkill1] = useState("");
+  const [skill2, setSkill2] = useState("");
+  const [skill3, setSkill3] = useState("");
+  const [skill4, setSkill4] = useState("");
+  const [skill5, setSkill5] = useState("");
+  const [skill6, setSkill6] = useState("");
   const SkillCollection = collection(db, "UserSkills");
 
   //Get User skills From Firestore database
@@ -187,7 +192,20 @@ export default function UserAbout() {
     const data = await getDocs(SkillCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userProf = profiles.filter((i) => i.User_Email == user?.email);
+    console.log(userProf);
     setUserSkills(userProf);
+  };
+  // post skills
+  const postskill = async () => {
+    await addDoc(SkillCollection, {
+      Skill1: skill1,
+      Skill2: skill2,
+      Skill3: skill3,
+      Skill4: skill4,
+      Skill5: skill5,
+      Skill6: skill6,
+      User_ID: user?.email,
+    });
   };
 
   // Skills Modal
@@ -196,9 +214,9 @@ export default function UserAbout() {
   const handleClose2 = () => setOpen2(false);
 
   //Post User skills into Firestore database
-  const postSkills = async (id) => {
-    await addDoc(UserInfoCollection, { Skills: Skills, id: id });
-  };
+  // const postSkills = async (id) => {
+  //   await addDoc(UserInfoCollection, { Skills: Skills, id: id });
+  // };
 
   //Upload CV-----------------------------------------------------------------------------------------------------------
 
@@ -239,20 +257,16 @@ export default function UserAbout() {
     // }
   };
 
-
   //About edit modal
   const [open6, setOpen6] = React.useState(false);
   const handleOpen6 = () => setOpen6(true);
   const handleClose6 = () => setOpen6(false);
   let [editAbout, setEditAbout] = useState([]);
- 
+
   const updateAbt = async (id) => {
     setEditAbout(userProfile[id]);
     handleOpen6();
   };
-
-
-
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -340,15 +354,15 @@ export default function UserAbout() {
                     <h4>{item.About}</h4>
                   </div>
                   <AbtEdit
-                  id={editAbout.id}
-                  key={editAbout.id}
-                  open={open6}
-                  close={handleClose6}
-                  address={editAbout.Address}
-                  city={editAbout.City}
-                  province={editAbout.Province}
-                  main={editAbout.Main}
-                  about={editAbout.About}
+                    id={editAbout.id}
+                    key={editAbout.id}
+                    open={open6}
+                    close={handleClose6}
+                    address={editAbout.Address}
+                    city={editAbout.City}
+                    province={editAbout.Province}
+                    main={editAbout.Main}
+                    about={editAbout.About}
                   />
                   <div
                     style={{
@@ -375,7 +389,7 @@ export default function UserAbout() {
                     </Modal>
 
                     <Button>
-                      <EditIcon onClick = {() => updateAbt(key)}/>
+                      <EditIcon onClick={() => updateAbt(key)} />
                     </Button>
 
                     {/* Upload CV */}
@@ -677,152 +691,12 @@ export default function UserAbout() {
               />
             </div>
 
-            <div
-              style={{
-                // height: "300px",
-                width: "1200px",
-                borderRadius: "10px",
-                backgroundColor: "#fff",
-                margin: "10px",
-                padding: "15px",
-                backgroundColor: "white",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignContent: "flex-start",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                  justifyContent: "space-between",
-                  backgroundColor: "white",
-                }}
-              >
-                <h2 style={{ margin: "10px", padding: "10px" }}>Skills</h2>
-                <div style={{ padding: "10px", margin: "10px" }}>
-                  <Button style={{ margin: "10px" }} onClick={handleOpen2}>
-                    <AddCircleOutlineIcon />
-                  </Button>
-                </div>
-              </div>
-
-              {/*User Skills Block*/}
-              {userProfile.map((item, key) => {
-                return (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      border: "2px solid #548CCB",
-                      borderRadius: "15px",
-                    }}
-                    key={key}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                        alignItems: "start",
-                        margin: "25px",
-                        paddingLeft: "25px",
-                        backgroundColor: "white",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                          // alignItems : 'start',
-                          backgroundColor: "#f3f2ef",
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                          }}
-                        >
-                          <h3>{item.Skill_Name}</h3>
-                          <Button>
-                            <DeleteIcon />
-                          </Button>
-                        </div>
-                      </div>
-                      <Modal
-                        open={open2}
-                        onClose={handleClose2}
-                        // aria-labelledby="modal-modal-title"
-                        // aria-describedby="modal-modal-description"
-                      >
-                        <Box sx={style}>
-                          {/* <Form> */}
-                          <h2>Add Skills</h2>
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "row",
-                              justifyContent: "space-between",
-                              backgroundColor: "red",
-                            }}
-                          >
-                            <FormControl>
-                              <input
-                                type="checkbox"
-                                name="Skill 1"
-                                value="Skill 1"
-                                onChange={(event) => {
-                                  setSkills(event.target.value);
-                                }}
-                              />
-                              Skill 1
-                              <input
-                                type="checkbox"
-                                name="Skill 2"
-                                value="Skill 2"
-                                onChange={(event) => {
-                                  setSkills(event.target.value);
-                                }}
-                              />
-                              Skill 2
-                              <input
-                                type="checkbox"
-                                name="Skill 3"
-                                value="Skill 3"
-                                onChange={(event) => {
-                                  setSkills(event.target.value);
-                                }}
-                              />
-                              Skill 3
-                              <input
-                                type="checkbox"
-                                name="Skill 4"
-                                value="Skill 4"
-                                onChange={(event) => {
-                                  setSkills(event.target.value);
-                                }}
-                              />
-                              Skill 4
-                            </FormControl>
-                          </div>
-                          <Button onClick={handleClose2}>Cancel</Button>
-                          <Button>Add</Button>
-
-                          {/* </Form> */}
-                        </Box>
-                      </Modal>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+           
           </div>
         </div>
       </div>
     );
   }
 }
+
+

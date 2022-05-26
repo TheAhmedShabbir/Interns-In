@@ -63,6 +63,7 @@ export default function ProfEdit({
 
   return (
     <div>
+      {console.log(first_name, second_name, email, password)}
       <Modal
         open={open}
         onClose={close}
