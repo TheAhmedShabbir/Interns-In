@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button, Checkbox, FormControl, TextField } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
-import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
 import FormControlLabel from "@mui/material/FormControlLabel";
-
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
 import {
   collection,
   getDocs,
@@ -31,7 +27,7 @@ import { ref, uploadBytesResumable } from "firebase/storage";
 import EduEdit from "../../Components/User/EducatinModal";
 import ExpEdit from "../../Components/User/ExperienceModal";
 import { getDownloadURL } from "firebase/storage";
-import UserProfile from "./UserProfile";
+import AbtEdit from "../../Components/User/EditAbout";
 
 const style = {
   position: "absolute",
@@ -243,6 +239,21 @@ export default function UserAbout() {
     // }
   };
 
+
+  //About edit modal
+  const [open6, setOpen6] = React.useState(false);
+  const handleOpen6 = () => setOpen6(true);
+  const handleClose6 = () => setOpen6(false);
+  let [editAbout, setEditAbout] = useState([]);
+ 
+  const updateAbt = async (id) => {
+    setEditAbout(userProfile[id]);
+    handleOpen6();
+  };
+
+
+
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -328,6 +339,17 @@ export default function UserAbout() {
                     <h4>{item.Main}</h4>
                     <h4>{item.About}</h4>
                   </div>
+                  <AbtEdit
+                  id={editAbout.id}
+                  key={editAbout.id}
+                  open={open6}
+                  close={handleClose6}
+                  address={editAbout.Address}
+                  city={editAbout.City}
+                  province={editAbout.Province}
+                  main={editAbout.Main}
+                  about={editAbout.About}
+                  />
                   <div
                     style={{
                       display: "flex",
@@ -353,7 +375,7 @@ export default function UserAbout() {
                     </Modal>
 
                     <Button>
-                      <EditIcon />
+                      <EditIcon onClick = {() => updateAbt(key)}/>
                     </Button>
 
                     {/* Upload CV */}
