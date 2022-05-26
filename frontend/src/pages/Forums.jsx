@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { onAuthStateChanged } from "firebase/auth";
 import CompanyHeader from "../Components/Company/CompanyHeader";
+import { useNavigate } from "react-router-dom";
 
 export default function Forums() {
   const [NewTopic, setNewTopic] = useState("");
@@ -15,7 +16,10 @@ export default function Forums() {
   const [forums, setForums] = useState([]);
   const forumsCollection = collection(db, "Forums");
   const forumTopicCollection = collection(db, "Forum Topic");
+  const UserCollection = collection(db, "UserProfile");
   const [user, setUser] = useState({});
+  const [UserInfo, setUserInfo] = useState([]);
+  const navigate = useNavigate();
 
   const StartTopic = async () => {
     await addDoc(forumsCollection, {
@@ -34,29 +38,44 @@ export default function Forums() {
     setForums(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
-  // get User information
-  const getUserInfo = async () => {
+
+
+  const getUserEmail = async () => {
     const data = await getDocs(forumsCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
-    const userData = profiles.filter((i) => i.Role == "Company");
+    const userData = profiles.filter((i) => i.Email == user?.email);
+    
+  };
+
+  // get User information
+  const getUserInfo = async () => {
+    const data = await getDocs(UserCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
+    const userData = profiles.filter((i) => i.Email == user?.email);
+    setUserInfo(userData);
+    console.log(UserInfo);
   };
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log(user);
+      // console.log(user);
+      if (currentUser) {
+        getUserInfo();
+        getForums();
+        getUserEmail();
+      } else {
+        navigate("/SignIn");
+      }
     });
-    if (user) {
-      getForums();
-    } else {
-      navigate("/SignIn");
-    }
-    getForums();
-    getUserInfo();
+   
+    
   }, [user]);
 
   return (
     <div>
+      {UserInfo[0]?.Role == "Company" ? <div><CompanyHeader /></div> : <UserHeader />}
+
       <div
         style={{
           display: "flex",
@@ -71,26 +90,30 @@ export default function Forums() {
       >
         <div
           style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
             marginTop: "30px",
             padding: "15px",
             minWidth: "300px",
-            width: "1100px",
+            maxWidth: "700px",
             backgroundColor: "white",
             borderRadius: "10px",
           }}
         >
           <h3>Start a New Topic</h3>
           <TextField
-            style={{ marginBottom: "15px" }}
-            fullWidth
+            style={{ marginBottom: "15px", minWidth : "500px"}}
+            
             label="Topic Title"
             onChange={(event) => {
               setNewTopic(event.target.value);
             }}
           ></TextField>
+          
           <TextField
-            style={{ marginBottom: "15px" }}
-            fullWidth
+            style={{ marginBottom: "15px",  minWidth : "500px"}}
+            
             label="Topic Description"
             onChange={(event) => {
               setNewDescription(event.target.value);
@@ -148,7 +171,7 @@ export default function Forums() {
               >
                 <h2>{forum.TopicTitle}</h2>
                 <Typography>Total posts: 1000</Typography>
-                <Typography>Views: 2300</Typography>
+                {/* <Typography>Views: 2300</Typography> */}
                 <Button
                   href={`/ForumTopic/${forum?.id}`}
                   style={{ margin: "15px" }}
@@ -157,7 +180,7 @@ export default function Forums() {
                   View Discussion
                 </Button>
                 <div>
-                  {user.email == forum.Post_Email ? (
+                  {user?.email == forum.Post_Email ? (
                     <button
                       style={{ border: "none", backgroundColor: "white" }}
                     >
@@ -170,7 +193,7 @@ export default function Forums() {
                   {user.email == forum.Post_Email ? (
                     <button
                       style={{ border: "none", backgroundColor: "white" }}
-                      onClick
+                      
                     >
                       <DeleteIcon />
                     </button>

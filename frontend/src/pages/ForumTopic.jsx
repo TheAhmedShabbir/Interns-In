@@ -1,7 +1,7 @@
 import { Button, TextField, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import UserHeader from "../Components/User/Userheader";
-import { db } from "../firebase-config";
+import { db , auth} from "../firebase-config";
 import { collection, getDocs,getDoc,doc, addDoc, updateDoc } from "firebase/firestore";
 import img from "../assets/images/Userpfp.jpg";
 import Box from "@mui/material/Box";
@@ -10,6 +10,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import UserPostEdit from "../Components/User/UserPostEdit";
 import { Link, useParams } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import CompanyHeader from "../Components/Company/CompanyHeader";
 
 const style = {
   position: "absolute",
@@ -31,7 +33,10 @@ export default function Forumtopic() {
   const [NewPost, setNewPost] = useState("");
   const [Dscrption, setDscrption] = useState([]);
   const { id } = useParams();
-
+  const UserCollection = collection(db, "UserProfile"); 
+  const [UserInfo, setUserInfo] = useState([]);
+  const [user, setUser] = useState({});
+  
 // Get Description
 const getDescription = async () => {
   const data = await getDocs(forumsCollection);
@@ -46,19 +51,28 @@ const getDescription = async () => {
   // console.log(userProf);
 };
 
+//Get User
+const getUserInfo = async () => {
+  const data = await getDocs(UserCollection);
+  const profiles = data.docs.map((doc) => ({ ...doc.data() }));
+  const userData = profiles.filter((i) => i.Email == user?.email);
+  setUserInfo(userData);
+  console.log(UserInfo);
+};
+
 
 
   //Update Post
   const [updatedPost, setUpdatedPost] = useState([]);
   const [postId, setPostId] = useState("");
 
-  const closeModal = () => setOpen(false);
+  // const closeModal = () => setOpen(false);
 
-  const updatePost = async (id) => {
-    setUpdatedPost(Userposts[id]);
-    setPostId(Userposts[id].id);
-    openModal();
-  };
+  // const updatePost = async (id) => {
+  //   setUpdatedPost(Userposts[id]);
+  //   setPostId(Userposts[id].id);
+  //   openModal();
+  // };
 
   //data fetch from database
   const forumTopicCollection = collection(db, "Forum Topic");
@@ -79,42 +93,52 @@ const getDescription = async () => {
 
   useEffect(() => {
     // get forums topic
-    const getForumDescription = async () => {
+    // const getForumDescription = async () => {
 
-      let x = await getDoc(doc(db, `Forums/${id}`)).then((res)=>{console.log(res)})
-      // console.log({
-      //   id: x.id,
-      //   ...x.data(),
-      // });
-      setForumTopic({ id: x.id, ...x.data() });
-      console.log(forumTopic);
-    };
+    //   let x = await getDoc(doc(db, `Forums/${id}`)).then((res)=>{console.log(res)})
+    //   // console.log({
+    //   //   id: x.id,
+    //   //   ...x.data(),
+    //   // });
+    //   setForumTopic({ id: x.id, ...x.data() });
+    //   console.log(forumTopic);
+    // };
 
       // const data = await getDocs(forumsCollection);
       // setForumTopic(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       // console.log(forumTopic)
     // };?
 
-    getForumDescription();
-  }, []);
+    // getForumDescription();
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      // console.log(user);
+      if (currentUser) {
+        getUserInfo();
+        
+      } else {
+        navigate("/SignIn");
+      }
+    });
 
-  useEffect(() => {
+  }, [user]);
+  // useEffect(() => {
     
-    // const getUserPosts = async () => {
-    //   const data = await getDocs(forumTopicCollection);
-    //   setUserposts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    //   console.log(Userposts);
-    // };
+  //   // const getUserPosts = async () => {
+  //   //   const data = await getDocs(forumTopicCollection);
+  //   //   setUserposts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  //   //   console.log(Userposts);
+  //   // };
     
-    // getUserPosts();
+  //   // getUserPosts();
     
-    getDescription();
-  }, []);
+  //   getDescription();
+  // }, []);
 
   return (
     
     <div style={{ backgroundColor: "#f3f2ef" }}>
-      <UserHeader />
+      {UserInfo[0]?.Role == "Company" ? <div><CompanyHeader /></div> : <UserHeader />}
       {/* <button
         onClick={() => {
           console.log(forumTopic.TopicDescription);
