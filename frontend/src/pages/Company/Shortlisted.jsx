@@ -10,16 +10,45 @@ import { useNavigate } from "react-router-dom";
 export default function Shortlisted() {
   const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
-  const jobCollection = collection(db, "Job");
+  const shortlistedCollection = collection(db, "Shortlisted");
+  const userCollection = collection(db, "UserProfile");
+  const [applicants, setApplicants] = useState([]);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const getJobs = async () => {
-    const data = await getDocs(jobCollection);
-    const j = data.docs.map((doc) => ({ ...doc.data() }));
+  // const getJobs = async () => {
+  //   const data = await getDocs(jobCollection);
+  //   const j = data.docs.map((doc) => ({ ...doc.data() }));
 
-    const applicant = j.map((a) => a.Applicants);
-    setJobs(applicant);
+  //   const applicant = j.map((a) => a.Applicants);
+  //   setJobs(applicant);
+
+  //   const d = await getDocs(userCollection);
+  //   const app = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+  //   const applicantProfile = applicant.filter((a) => a.Applicants == app.Email);
+  //   const prof = app.filter((p) => p.Email == applicantProfile);
+
+  //   if (applicantProfile == app) {
+  //     // console.log(app);
+  //   }
+  //   console.log(prof);
+  //   // setApplicants(userData);
+
+  //   setLoading(false);
+  // };
+
+  const getShortlisted = async () => {
+    const data = await getDocs(shortlistedCollection);
+    const s = data.docs.map((doc) => ({ ...doc.data() }));
+
+    const d = await getDocs(userCollection);
+    const profiles = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const user = profiles.filter((p) => p.Role == "User");
+
+    const userData = user.filter((u) => u[0]?.id == s.id);
+    setApplicants(userData);
+    // console.log(userData);
     setLoading(false);
   };
 
@@ -30,7 +59,8 @@ export default function Shortlisted() {
 
     if (user) {
       // get jobs
-      getJobs();
+      // getJobs();
+      getShortlisted();
     } else {
       navigate("/SignIn");
     }
@@ -56,67 +86,37 @@ export default function Shortlisted() {
             padding: "15px",
           }}
         >
-          <h1>Notifications</h1>
-          {jobs.map((job, key) => {
-            if (job.length == 0) {
+          <h1>Shortlisted</h1>
+          {applicants.map((a, key) => {
+            if (a.length == 0) {
               <div></div>;
             } else {
               return (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                  }}
-                  key={key}
-                >
+                <div key={key}>
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "row",
-                      backgroundColor: "white",
-                      padding: "15px",
-                      width: "700px",
-                      borderRadius: "10px",
+                      alignItems: "center",
+                      justifyContent: "space-between",
                       margin: "10px",
+                      padding: "10px",
+                      backgroundColor: "white",
+                      minWidth: "500px",
+                      borderRadius: "5px",
                     }}
                   >
-                    <div>
-                      <img width="150px" height="150px" src={img} />
-                    </div>
                     <div
                       style={{
                         display: "flex",
-                        flexDirection: "column",
-                        padding: "15px",
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                        marginTop: "10px",
+                        alignItems: "center",
                       }}
                     >
-                      <Typography style={{ padding: "10px" }}>
-                        {job[0].FirstName + " " + job[0].LastName + " "}
-                        has applied to your job for
-                        {console.log(job)}
-                      </Typography>
                       <div>
-                        <Button
-                          style={{ margin: "10px" }}
-                          size="small"
-                          variant="outlined"
-                        >
-                          View Details
-                        </Button>
-                        <Button
-                          style={{ margin: "10px" }}
-                          size="small"
-                          variant="outlined"
-                        >
-                          Apply now
-                        </Button>
+                        <img width="80px" height="80px" src={img} />
                       </div>
+                      <p style={{ marginLeft: "15px" }}>
+                        {a?.FirstName + " " + a?.LastName}
+                      </p>
                     </div>
                   </div>
                 </div>

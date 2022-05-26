@@ -18,7 +18,9 @@ const Alert = forwardRef(function Alert(props, ref) {
 export default function UserHomepage() {
   const navigate = useNavigate();
 
+  const [searchJob, setSearchJob] = useState([]);
   const [jobs, setJobs] = useState([]);
+  const [jobsShown, setJobsShown] = useState([]);
   const [user, setUser] = useState(null);
   const [UserInfo, setUserInfo] = useState([]);
 
@@ -27,7 +29,7 @@ export default function UserHomepage() {
   const jobCollection = collection(db, "Job");
   const UserCollection = collection(db, "UserProfile");
 
-  //apply now snackbars
+  // apply now snackbars
   const [warningOpen, setWarningOpen] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
 
@@ -86,11 +88,10 @@ export default function UserHomepage() {
     const data = await getDocs(UserCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userData = profiles.filter((u) => u.Email == user?.email);
-    console.log(id);
 
     if (
-      userData[0].savedJobs.length != 0 &&
-      userData[0].savedJobs?.filter((j) => j == id)
+      userData[0].savedJobs?.length == 0 ||
+      userData[0].savedJobs?.filter((j) => j == id) == id
     ) {
       handleAlreadySaveClick();
     } else {
@@ -121,9 +122,25 @@ export default function UserHomepage() {
     }
   };
 
+  const search = async () => {
+    if (searchJob !== "") {
+      const results = jobs.filter((job) => {
+        return job?.Title?.toLowerCase().startsWith(searchJob.toLowerCase());
+        // Use the toLowerCase() method to make it case-insensitive
+      });
+      console.log(results);
+      setJobsShown(results);
+    } else {
+      setJobsShown(jobs);
+      // If the text field is empty, show all jobs
+    }
+  };
+
   const getJobs = async () => {
     const data = await getDocs(jobCollection);
-    setJobs(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    const x = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    setJobs(x);
+    setJobsShown(x);
     setLoading(false);
   };
 
@@ -131,7 +148,9 @@ export default function UserHomepage() {
     const data = await getDocs(UserCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
     const userData = profiles.filter((i) => i.Email == user?.email);
+
     setUserInfo(userData[0]);
+
     setLoading(false);
   };
 
@@ -147,7 +166,7 @@ export default function UserHomepage() {
         getJobs();
       }
     });
-  }, [user, jobs]);
+  }, [user]);
 
   if (loading) {
     return <div>loading...</div>;
@@ -235,20 +254,33 @@ export default function UserHomepage() {
               }}
             >
               <div style={{ marginBottom: "20px" }}>
-                <TextField fullWidth label="search jobs" />
+                <input
+                  type="search"
+                  value={searchJob}
+                  onChange={(e) => {
+                    setSearchJob(e.target.value);
+                  }}
+                  className="input"
+                  placeholder="Search Jobs"
+                  style={{ width: "700px", height: "50px" }}
+                />
               </div>
               <div>
                 <FormControlLabel control={<Checkbox />} label="Full Time" />
                 <FormControlLabel control={<Checkbox />} label="Part Time" />
                 <FormControlLabel control={<Checkbox />} label="Internship" />
-                <Button size="small" variant="outlined">
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => search()}
+                >
                   Search
                 </Button>
               </div>
             </div>
             <div>
               <h2>Posts</h2>
-              {jobs.map((job, key) => {
+              {jobsShown.map((job, key) => {
                 return (
                   <div
                     style={{

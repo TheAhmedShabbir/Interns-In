@@ -11,15 +11,36 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { forwardRef } from "react";
+
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function SavedJobs() {
   const navigate = useNavigate();
   const [savedJobs, setSavedJobs] = useState([]);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
-
+  const [jobs, setJobs] = useState([]);
   const jobCollection = collection(db, "Job");
   const userCollection = collection(db, "UserProfile");
+
+  const [successOpen, setSuccessOpen] = useState(false);
+
+  const handleSuccessClick = () => {
+    setSuccessOpen(true);
+  };
+
+  const handleSuccessClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccessOpen(false);
+  };
 
   const deleteSaveJob = async (key, id) => {
     const data = await getDocs(userCollection);
@@ -34,24 +55,49 @@ export default function SavedJobs() {
 
     window.location.reload(false);
   };
+
   /////////pending
   const getSavedJobs = async () => {
     const data = await getDocs(userCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userData = profiles.filter((i) => i.Email == user?.email);
 
+    const sj = jobs.filter((j) => userData[0]?.savedJobs[1] == j.id);
+    // console.log(sj);
+
+    if (!userData[0].savedJobs) {
+      setLoading(true);
+    } else {
+      setSavedJobs(userData[0].savedJobs);
+      setLoading(false);
+    }
+    console.log(sj);
+  };
+
+  const applyJob = async (k, id) => {
+    const data = await getDocs(jobCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const j = profiles.filter((i) => i.id == id);
+
+    if (
+      j[0].Applicants?.filter((a) => a == user.email) &&
+      j[0].Applicants.length != 0
+    ) {
+      handleWarningClick();
+    } else {
+      const jobApply = doc(db, "Job", id);
+      const nf = { Applicants: jobs[k].Applicants.concat(user.email) };
+      console.log(nf);
+
+      updateDoc(jobApply, nf);
+      handleSuccessClick();
+    }
+  };
+
+  const getJobs = async () => {
     const d = await getDocs(jobCollection);
     const job = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-
-    const sj = job.filter((j) => j.id == j.id);
-    console.log(sj);
-
-    // if (!userProf[0].savedJob) {
-    //   setLoading(false);
-    // } else {
-    //   setSavedJobs(userProf[0].savedJob);
-    //   setLoading(false);
-    // }
+    setJobs(job);
   };
 
   useEffect(() => {
@@ -59,6 +105,7 @@ export default function SavedJobs() {
       setUser(currentUser);
 
       if (currentUser) {
+        getJobs();
         // Function Calls
         getSavedJobs();
       } else {
@@ -88,7 +135,7 @@ export default function SavedJobs() {
           }}
         >
           <h1>Saved Jobs</h1>
-          {savedJobs.map((job, key) => {
+          {jobs.map((job, key) => {
             return (
               <div
                 style={{
@@ -122,20 +169,21 @@ export default function SavedJobs() {
                     }}
                   >
                     <Typography style={{ padding: "10px" }}>
-                      XYZ added a new job for {job.Title}
+                      {job.postedby} added a new job for {job.Title}
                     </Typography>
                     <div>
-                      <Button
+                      {/* <Button
                         style={{ margin: "10px" }}
                         size="small"
                         variant="outlined"
                       >
                         View Details
-                      </Button>
+                      </Button> */}
                       <Button
                         style={{ margin: "10px" }}
                         size="small"
                         variant="outlined"
+                        onClick={() => applyJob(key, job.id)}
                       >
                         Apply now
                       </Button>
@@ -154,6 +202,19 @@ export default function SavedJobs() {
                     </div>
                   </div>
                 </div>
+                <Snackbar
+                  open={successOpen}
+                  autoHideDuration={2000}
+                  onClose={handleSuccessClose}
+                >
+                  <Alert
+                    onClose={handleSuccessClose}
+                    sx={{ width: "100%" }}
+                    severity="success"
+                  >
+                    Applied Successfully!
+                  </Alert>
+                </Snackbar>
               </div>
             );
           })}

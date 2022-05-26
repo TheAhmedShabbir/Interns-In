@@ -56,7 +56,7 @@ export default function CompanyHomePage() {
 
   const openApplicantModal = async (id) => {
     const data = await getDocs(UserCollection);
-    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userData = profiles.filter((i) => i.Email == jobs[id].Applicants);
 
     setAppJob(userData);
@@ -93,11 +93,11 @@ export default function CompanyHomePage() {
   //////////pending
   const getUserInfo = async () => {
     const data = await getDocs(UserCollection);
-    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userData = profiles.filter((i) => i.Email == user?.email);
 
     const d = await getDocs(UserCollection);
-    const job = data.docs.map((doc) => ({ ...doc.data() }));
+    const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     // const jobFilter = job.filter((i) => i.company == user?.email);
 
     setUserInfo(userData[0]);

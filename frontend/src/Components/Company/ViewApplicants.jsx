@@ -2,8 +2,24 @@ import React, { useState, useEffect } from "react";
 import { Button, Modal, TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import img from "../../assets/images/Userpfp.jpg";
+import { db, auth } from "../../firebase-config";
+import {
+  collection,
+  getDocs,
+  deleteDoc,
+  doc,
+  addDoc,
+} from "firebase/firestore";
 
 export default function ViewApplicants({ id, open, close, applicant }) {
+  const shortlistedCollection = collection(db, "Shortlisted");
+
+  const shortlist = (id) => {
+    addDoc(shortlistedCollection, {
+      id: id,
+    });
+  };
+
   return (
     <div>
       <Modal open={open}>
@@ -61,6 +77,7 @@ export default function ViewApplicants({ id, open, close, applicant }) {
                       color="success"
                       size="small"
                       variant="outlined"
+                      onClick={() => shortlist(app.id)}
                     >
                       ShortList
                     </Button>
