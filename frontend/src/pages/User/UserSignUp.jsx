@@ -37,11 +37,8 @@ export default function UserSignUp() {
           Role: "User",
           savedJobs: [],
           skills: [],
-          Address,
-          City,
-          Province,
-          About,
-          Main,          
+          experience: [],
+          education: [],
         });
       }
       console.log(user);

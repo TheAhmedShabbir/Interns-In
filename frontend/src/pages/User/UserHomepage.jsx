@@ -35,6 +35,19 @@ export default function UserHomepage() {
 
   const [saveOpen, setSaveOpen] = useState(false);
   const [alreadySaveOpen, setAlreadySaveOpen] = useState(false);
+  const [searchResult, setSearchResult] = useState(false);
+
+  const handleSearchResult = () => {
+    setSearchResult(true);
+  };
+
+  const handleSearchResultClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSearchResult(false);
+  };
 
   const handleSaveClick = () => {
     setSaveOpen(true);
@@ -125,13 +138,19 @@ export default function UserHomepage() {
   const search = async () => {
     if (searchJob !== "") {
       const results = jobs.filter((job) => {
-        return job?.Title?.toLowerCase().startsWith(searchJob.toLowerCase());
+        return job?.Title?.toLowerCase().startsWith(searchJob);
         // Use the toLowerCase() method to make it case-insensitive
       });
-      console.log(results);
+
       setJobsShown(results);
+      console.log(results);
+
+      if (results.length == 0) {
+        handleSearchResult();
+      }
     } else {
       setJobsShown(jobs);
+
       // If the text field is empty, show all jobs
     }
   };
@@ -222,7 +241,7 @@ export default function UserHomepage() {
                 }}
               >
                 <h3>{UserInfo?.FirstName + " " + UserInfo?.LastName}</h3>
-                <Typography>{UserInfo?.MainField}</Typography>
+                <Typography>{UserInfo?.Main}</Typography>
               </div>
             </div>
             <div
@@ -243,17 +262,24 @@ export default function UserHomepage() {
               </div>
             </div>
           </div>
-          <div style={{ padding: "15px", width: "950px" }}>
+          <div style={{ padding: "10px", width: "950px" }}>
             <div
               style={{
-                padding: "25px",
+                padding: "20px",
                 backgroundColor: "#fff",
                 borderRadius: "10px",
                 display: "flex",
                 flexDirection: "column",
               }}
             >
-              <div style={{ marginBottom: "20px" }}>
+              <div
+                style={{
+                  margin: "10px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <input
                   type="search"
                   value={searchJob}
@@ -262,14 +288,16 @@ export default function UserHomepage() {
                   }}
                   className="input"
                   placeholder="Search Jobs"
-                  style={{ width: "700px", height: "50px" }}
+                  style={{
+                    width: "650px",
+                    height: "50px",
+                  }}
                 />
-              </div>
-              <div>
-                <FormControlLabel control={<Checkbox />} label="Full Time" />
-                <FormControlLabel control={<Checkbox />} label="Part Time" />
-                <FormControlLabel control={<Checkbox />} label="Internship" />
                 <Button
+                  style={{
+                    marginLeft: "15px",
+                    height: "40px",
+                  }}
                   size="small"
                   variant="outlined"
                   onClick={() => search()}
@@ -328,6 +356,20 @@ export default function UserHomepage() {
                 severity="warning"
               >
                 You have already applied to this Job
+              </Alert>
+            </Snackbar>
+
+            <Snackbar
+              open={searchResult}
+              autoHideDuration={2000}
+              onClose={handleSearchResultClose}
+            >
+              <Alert
+                onClose={handleSearchResultClose}
+                sx={{ width: "100%" }}
+                severity="warning"
+              >
+                No jobs Found
               </Alert>
             </Snackbar>
 
