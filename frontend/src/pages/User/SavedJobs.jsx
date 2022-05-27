@@ -1,4 +1,4 @@
-import { Button, formLabelClasses, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import UserHeader from "../../Components/User/Userheader";
 import { db, auth } from "../../firebase-config";
@@ -7,7 +7,7 @@ import {
   getDocs,
   updateDoc,
   doc,
-  arrayRemove,
+  deleteDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -42,36 +42,45 @@ export default function SavedJobs() {
     setSuccessOpen(false);
   };
 
-  const deleteSaveJob = async (key, id) => {
+  const deleteSaveJob = async (id) => {
     const data = await getDocs(userCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    const userProf = profiles.filter((i) => i.Role == "User");
+    const userData = profiles.filter((u) => u.Email == user?.email);
 
-    const deleteSavedJob = doc(db, "UserProfile", userProf[0].id);
-    const sj = userProf[0].savedJob[key];
-    await updateDoc(deleteSavedJob, {
-      savedJob: arrayRemove(sj),
-    });
+    const savedJobCollection = collection(
+      db,
+      `UserProfile/${userData[0].id}/savejobs`
+    );
+    const d = await getDocs(savedJobCollection);
+    const savedjobs = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const deleteJob = savedjobs.filter((u) => u.jobid == id);
+    // console.log(deleteJob);
 
-    window.location.reload(false);
+    const dj = deleteDoc(
+      doc(db, `UserProfile/${userData[0]?.id}/savejobs`, deleteJob[0].id)
+    );
+
+    getSavedJobs();
   };
 
-  /////////pending
   const getSavedJobs = async () => {
     const data = await getDocs(userCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userData = profiles.filter((i) => i.Email == user?.email);
 
-    const sj = jobs.filter((j) => userData[0]?.savedJobs[1] == j.id);
-    // console.log(sj);
+    const saveJobRef = collection(
+      db,
+      `UserProfile/${userData[0]?.id}/savejobs`
+    );
+    const d = await getDocs(saveJobRef);
+    const savejobs = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 
-    if (!userData[0].savedJobs) {
+    if (!savejobs) {
       setLoading(true);
     } else {
-      setSavedJobs(userData[0].savedJobs);
+      setSavedJobs(savejobs);
       setLoading(false);
     }
-    console.log(sj);
   };
 
   const applyJob = async (k, id) => {
@@ -94,18 +103,11 @@ export default function SavedJobs() {
     }
   };
 
-  const getJobs = async () => {
-    const d = await getDocs(jobCollection);
-    const job = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    setJobs(job);
-  };
-
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
 
       if (currentUser) {
-        getJobs();
         // Function Calls
         getSavedJobs();
       } else {
@@ -134,91 +136,58 @@ export default function SavedJobs() {
             padding: "15px",
           }}
         >
-          <h1>Saved Jobs</h1>
-          {jobs.map((job, key) => {
+          <h1 style={{ marginBottom: "30px" }}>Saved Jobs</h1>
+          {savedJobs.map((job, key) => {
             return (
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  marginLeft: "auto",
-                  marginRight: "auto",
+                  backgroundColor: "white",
+                  padding: "20px",
+                  margin: "20px",
+                  borderRadius: "8px",
+                  width: "700px",
                 }}
                 key={key}
               >
-                <div
+                <h2>
+                  {job.title}, {job.type}, {job.mode}, {job.city}
+                </h2>
+                <Typography>{job.Description}</Typography>
+                <h2 style={{ color: "green" }}> {job.salary} pkr</h2>
+                <Button
+                  style={{ margin: "10px" }}
+                  variant="contained"
+                  onClick={() => applyJob(key, job.id)}
+                >
+                  Apply now
+                </Button>
+                <Button
                   style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    backgroundColor: "white",
-                    padding: "15px",
-                    width: "700px",
-                    borderRadius: "10px",
                     margin: "10px",
                   }}
+                  variant="outlined"
+                  onClick={() => deleteSaveJob(job.jobid)}
+                  color="error"
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      padding: "15px",
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      marginTop: "10px",
-                    }}
-                  >
-                    <Typography style={{ padding: "10px" }}>
-                      {job.postedby} added a new job for {job.Title}
-                    </Typography>
-                    <div>
-                      {/* <Button
-                        style={{ margin: "10px" }}
-                        size="small"
-                        variant="outlined"
-                      >
-                        View Details
-                      </Button> */}
-                      <Button
-                        style={{ margin: "10px" }}
-                        size="small"
-                        variant="outlined"
-                        onClick={() => applyJob(key, job.id)}
-                      >
-                        Apply now
-                      </Button>
-
-                      <Button
-                        style={{
-                          margin: "10px",
-                        }}
-                        variant="outlined"
-                        color="error"
-                        size="small"
-                        onClick={() => deleteSaveJob(key, job.id)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-                <Snackbar
-                  open={successOpen}
-                  autoHideDuration={2000}
-                  onClose={handleSuccessClose}
-                >
-                  <Alert
-                    onClose={handleSuccessClose}
-                    sx={{ width: "100%" }}
-                    severity="success"
-                  >
-                    Applied Successfully!
-                  </Alert>
-                </Snackbar>
+                  Delete
+                </Button>
               </div>
             );
           })}
         </div>
+        {/* <Snackbar
+          open={successOpen}
+          autoHideDuration={2000}
+          onClose={handleSuccessClose}
+        >
+          <Alert
+            onClose={handleSuccessClose}
+            sx={{ width: "100%" }}
+            severity="success"
+          >
+            Applied Successfully!
+          </Alert>
+        </Snackbar> */}
       </div>
     );
   }
