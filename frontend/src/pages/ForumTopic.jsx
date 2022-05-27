@@ -8,6 +8,8 @@ import {
   getDoc,
   doc,
   addDoc,
+  query,
+  where,
   updateDoc,
 } from "firebase/firestore";
 import img from "../assets/images/Userpfp.jpg";
@@ -41,32 +43,42 @@ export default function Forumtopic() {
   const [Dscrption, setDscrption] = useState([]);
   const { id } = useParams();
   const UserCollection = collection(db, "UserProfile");
+  const PostCollection = collection(db, "UserPosts");
   const [UserInfo, setUserInfo] = useState([]);
   const [user, setUser] = useState({});
+  const [Posts, setPosts] = useState([]);
 
-  // Get Description
-  // const getDescription = async () => {
-  //   const data = await getDocs(forumsCollection);
-  //   const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-  //   const Fdata = await getDocs(forumTopicCollection);
-  //   const Fprofiles = Fdata.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-  //   const userProf = Fprofiles.filter(
-  //     (i) => i.Description == profiles.TopicDescription
-  //   );
-  //   // const i = userProf[0].Description;
-  //   // setForumDesc(userProf);
-  //   // console.log(profiles);
-  //   // console.log(Fprofiles);
-  //   // console.log(userProf);
-  // };
-
-  //Get User
+  
+  // Get User/Company To render respective header
   const getUserInfo = async () => {
     const data = await getDocs(UserCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
     const userData = profiles.filter((i) => i.Email == user?.email);
     setUserInfo(userData);
     // console.log(UserInfo);
+  };
+
+  // Get User Posts from database
+
+  // const getPosts = async () => {
+  //   const data = await getDocs(PostCollection);
+  //   const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  //   const userProf = profiles.filter((i) => i.Forum_ID == forumTopic.id);
+  //   setPosts(userProf);
+  //   // setPosts(
+  //   //   queryResults.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+  //   // );
+  //   console.log(userProf);
+  // };
+
+  // Post user posts in the database.
+
+    const PostQuery = async () => {
+    await addDoc(PostCollection, {
+       post: NewPost ,
+        Forum_ID: forumTopic?.id,
+        User_Email: user?.email,      
+      });
   };
 
   //Update Post
@@ -85,18 +97,16 @@ export default function Forumtopic() {
   const forumTopicCollection = collection(db, "Forum Topic");
   const forumsCollection = collection(db, "Forums");
 
-  // Modal states
+  // User Post Modal states
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const openModal = () => {
-    setOpen(true);
-  };
+  // const openModal = () => {
+  //   setOpen(true);
+  // };
 
-  const PostQuery = async () => {
-    await addDoc(forumTopicCollection, { userPost: NewPost });
-  };
+ 
   
   
   useEffect(() => {
@@ -106,22 +116,24 @@ export default function Forumtopic() {
       if (currentUser) {
         getUserInfo();
         const getForums = async () => {
-          let x = await getDoc(doc(db, `Forums/${id}`)).then((x) => {
-            console.log(x.data());
-            console.log({
-              id: x.id,
-              ...x.data(),
-            });
+          await getDoc(doc(db, `Forums/${id}`)).then((x) => {
+            // console.log(x.data());
+            // console.log({
+            //   id: x.id,
+            //   ...x.data(),
+            // });
+            setForumTopic({ id: x.id, ...x.data() });
           });
           // console.log("id:", x.id, ...x.data())
-          setForumTopic({ id: x.id, ...x.data() });
+        
         };
         getForums();
+        getPosts();
       } else {
         navigate("/SignIn");
       }
     });
-  }, [user]);
+  }, [user,forumTopic]);
   // useEffect(() => {
 
   //   // const getUserPosts = async () => {
@@ -163,9 +175,7 @@ export default function Forumtopic() {
             margin: "50px",
             minHeight: "200px",
           }}
-        >
-          {forumTopic?.map((item, key) => {
-            return (
+        >                    
               <div
                 style={{
                   display: "flex",
@@ -173,11 +183,10 @@ export default function Forumtopic() {
                   margin: "50px",
                   borderRadius: "10px",
                 }}
-                key={key}
               >
-                <h1>{item.TopicDescription}</h1>
+                 <h1>{forumTopic?.TopicDescription}</h1>  
 
-                {/* Modal Div */}
+                 {/* Modal Div  */}
                 <div style={{ alignContent: "baseline" }}>
                   <Button onClick={handleOpen}>Add an Answer</Button>
                   <Modal
@@ -207,15 +216,14 @@ export default function Forumtopic() {
                         </div>
                         <div>
                           <Button onClick={PostQuery}>Post</Button>
-                          <Button onClick={closeModal}>Cancel</Button>
+                          <Button onClick={handleClose}>Cancel</Button>
                         </div>
                       </div>
                     </Box>
                   </Modal>
                 </div>
               </div>
-            );
-          })}
+
         </div>
 
         <div
@@ -230,7 +238,7 @@ export default function Forumtopic() {
           }}
         >
           <h1>User posts</h1>
-          {Userposts.map((item, key) => {
+          {Posts.map((item, key) => {
             return (
               <div
                 style={{
@@ -273,9 +281,9 @@ export default function Forumtopic() {
                     alignItems: "flex-start",
                   }}
                 >
-                  <h4 style={{ marginLeft: "5px" }}>Test user</h4>
+                  <h4 style={{ marginLeft: "5px" }}>{item.User_Email}</h4>
                   <p style={{ marginLeft: "5px", textAlign: "justify" }}>
-                    {item.userPost}
+                    {item.post}
                   </p>
                   <Button style={{ marginLeft: "5px" }}>reply</Button>
                 </div>
@@ -295,7 +303,7 @@ export default function Forumtopic() {
                       backgroundColor: "white",
                       cursor: "pointer",
                     }}
-                    onClick={() => updatePost(key)}
+                    // onClick={() => updatePost(key)}
                   >
                     <EditIcon />
                   </button>
