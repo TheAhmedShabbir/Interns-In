@@ -35,14 +35,7 @@ export default function UserSignUp() {
           LastName: lastName,
           Email: email,
           Role: "User",
-<<<<<<< HEAD
           Pfp: "",
-=======
-          savedJobs: [],
-          skills: [],
-          experience: [],
-          education: [],
->>>>>>> 5b475961b4efd44d6c0c32918a8df17c9b8b5432
         });
       }
       console.log(user);
