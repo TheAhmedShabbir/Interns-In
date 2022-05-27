@@ -55,7 +55,7 @@ export default function Notifications() {
           }}
         >
           <h1>Notifications</h1>
-          {jobs.map((job) => {
+          {jobs.map((job, key) => {
             return (
               <div
                 style={{
@@ -65,6 +65,7 @@ export default function Notifications() {
                   marginLeft: "auto",
                   marginRight: "auto",
                 }}
+                key={key}
               >
                 <div
                   style={{
