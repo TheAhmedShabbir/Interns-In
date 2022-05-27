@@ -30,7 +30,7 @@ export default function UserHeader() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar style = {{position : "static" , top : 0  , left : 0}}>
         <Toolbar>
           {/* <IconButton
             size="large"
