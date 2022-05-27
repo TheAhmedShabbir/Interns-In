@@ -35,17 +35,19 @@ export default function UserSignUp() {
           LastName: lastName,
           Email: email,
           Role: "User",
-          savedJobs: [],
-          skills: [],
-          experience: [],
-          education: [],
+          Pfp: "",
         });
       }
       console.log(user);
       navigate("/UserHomepage");
     } catch (error) {
       console.log(error.message);
-      console.log("error creating user");
+      if (error.message) {
+        handleInvalidDetails();
+        console.log("error creating user");
+      } else {
+        handleInvalidEmail();
+      }
     }
   };
 

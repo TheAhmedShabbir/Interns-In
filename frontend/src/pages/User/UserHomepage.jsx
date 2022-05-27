@@ -4,12 +4,20 @@ import { FormControlLabel } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  updateDoc,
+  setDoc,
+  addDoc,
+} from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { forwardRef } from "react";
+import SavedJobs from "./SavedJobs";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -102,15 +110,27 @@ export default function UserHomepage() {
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userData = profiles.filter((u) => u.Email == user?.email);
 
-    if (
-      userData[0].savedJobs?.length == 0 ||
-      userData[0].savedJobs?.filter((j) => j == id) == id
-    ) {
+    const saveJobRef = collection(db, `UserProfile/${userData[0].id}/savejobs`);
+    const d = await getDocs(saveJobRef);
+    const saveJobs = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+    const jobDetails = jobs?.filter((j) => j.id == id);
+
+    if (saveJobs[0].jobid == id) {
       handleAlreadySaveClick();
     } else {
-      const jobSave = doc(db, "UserProfile", userData[0].id);
-      const nf = { savedJobs: userData[0].savedJobs.concat(id) };
-      updateDoc(jobSave, nf);
+      await addDoc(collection(db, `UserProfile/${userData[0].id}/savejobs`), {
+        title: jobDetails[0].Title,
+        city: jobDetails[0].City,
+        description: jobDetails[0].Description,
+        mode: jobDetails[0].Mode,
+        salary: jobDetails[0].Salary,
+        type: jobDetails[0].Type,
+        company: jobDetails[0].company,
+        postedby: jobDetails[0].postedby,
+        jobid: id,
+      });
+
       handleSaveClick();
     }
   };
@@ -219,19 +239,44 @@ export default function UserHomepage() {
                 marginBottom: "5px",
               }}
             >
-              <div
-                style={{
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
-              >
-                <img
-                  style={{ borderRadius: "110px", marginTop: "-75px" }}
-                  width="150px"
-                  height="150px"
-                  src={UserInfo.Pfp}
-                />
-              </div>
+              {UserInfo?.Pfp ? (
+                <div
+                  style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}
+                >
+                  <img
+                    style={{
+                      borderRadius: "110px",
+                      marginTop: "-75px",
+                      backgroundColor: "white",
+                    }}
+                    width="150px"
+                    height="150px"
+                    src={UserInfo?.Pfp}
+                  />
+                </div>
+              ) : (
+                <div
+                  style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}
+                >
+                  <img
+                    style={{
+                      borderRadius: "110px",
+                      marginTop: "-75px",
+                      backgroundColor: "white",
+                      border: "blue 2px solid",
+                    }}
+                    width="150px"
+                    height="150px"
+                  />
+                </div>
+              )}
+
               <div
                 style={{
                   display: "flex",
