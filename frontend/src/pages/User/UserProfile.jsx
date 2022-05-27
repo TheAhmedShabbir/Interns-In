@@ -71,7 +71,7 @@ export default function UserProfile() {
     );
     // }
   };
-
+  
   //Update User Profile Picture
 
   const updateProfilePic = async () => {

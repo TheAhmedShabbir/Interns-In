@@ -8,11 +8,10 @@ import {
   getDocs,
   addDoc,
   deleteDoc,
+  updateDoc,
+  doc,
   query,
   where,
-  getDoc,
-  doc,
-  getFirestore,
 } from "firebase/firestore";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -225,7 +224,7 @@ export default function UserAbout() {
   const handleOpen3 = () => setOpen3(true);
   const handleClose3 = () => setOpen3(false);
 
-  const [uploadFile, setUploadFile] = useState(true);
+  const [Url, setUrl] = useState();
   const [progress, setProgress] = useState(0);
 
   const formHandler = (e) => {
@@ -251,11 +250,23 @@ export default function UserAbout() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           console.log(url);
+          setUrl(url);
         });
       }
     );
     // }
   };
+  
+  
+  // Update CV
+  const updateCV = async () => {
+    console.log(userProfile);
+    const updatedDoc = doc(db, "UserProfile", userProfile[0].id);
+    await updateDoc(updatedDoc, {
+      cv: Url,
+    });
+  };
+
 
   //About edit modal
   const [open6, setOpen6] = React.useState(false);
@@ -379,9 +390,10 @@ export default function UserAbout() {
                         <form onSubmit={formHandler}>
                           <input type="file" onChange={HandleUpload} />
                           <Button type="submit">upload</Button>
-                          <Button>Download</Button>
+                          <Button onClick = {updateCV}>Download</Button>
 
-                          <Button onClick={handleClose3}>Cancel</Button>
+                          <Button onClick={()=>{console.log(userProfile[0].id)}}>Cancel</Button>
+                          {/* <Button onClick={handleClose3}>Cancel</Button> */}
 
                           <h3>uploaded{progress}%</h3>
                         </form>
