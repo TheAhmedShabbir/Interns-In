@@ -14,13 +14,6 @@ import { useNavigate } from "react-router-dom";
 import { db, auth } from "../../firebase-config";
 import { collection, addDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
-import { forwardRef } from "react";
-
-const Alert = forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 const theme = createTheme();
 
@@ -32,32 +25,6 @@ export default function UserSignUp() {
   const [password, setPassword] = useState("");
   const userProfile = collection(db, "UserProfile");
   const [user, setUser] = useState({});
-  const [invalidDetails, setInvalidDetails] = useState(false);
-  const [invalidEmail, setInvalidEmail] = useState(false);
-
-  const handleInvalidDetails = () => {
-    setInvalidDetails(true);
-  };
-
-  const handleInvalidDetailsClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setInvalidDetails(false);
-  };
-
-  const handleInvalidEmail = () => {
-    setInvalidEmail(true);
-  };
-
-  const handleInvalidEmailClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setInvalidEmail(false);
-  };
 
   const signUp = async () => {
     try {
@@ -68,7 +35,14 @@ export default function UserSignUp() {
           LastName: lastName,
           Email: email,
           Role: "User",
+<<<<<<< HEAD
           Pfp: "",
+=======
+          savedJobs: [],
+          skills: [],
+          experience: [],
+          education: [],
+>>>>>>> 5b475961b4efd44d6c0c32918a8df17c9b8b5432
         });
       }
       console.log(user);
@@ -119,6 +93,7 @@ export default function UserSignUp() {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  required
                   fullWidth
                   id="lastName"
                   label="Last Name"
@@ -173,33 +148,6 @@ export default function UserSignUp() {
               </Grid>
             </Grid>
           </Box>
-          <Snackbar
-            open={invalidDetails}
-            autoHideDuration={2000}
-            onClose={handleInvalidDetailsClose}
-          >
-            <Alert
-              onClose={handleInvalidDetailsClose}
-              sx={{ width: "100%" }}
-              severity="warning"
-            >
-              Invalid Details
-            </Alert>
-          </Snackbar>
-
-          <Snackbar
-            open={invalidEmail}
-            autoHideDuration={2000}
-            onClose={handleInvalidEmailClose}
-          >
-            <Alert
-              onClose={handleInvalidEmailClose}
-              sx={{ width: "100%" }}
-              severity="warning"
-            >
-              Invalid Details
-            </Alert>
-          </Snackbar>
         </Box>
       </Container>
     </ThemeProvider>
