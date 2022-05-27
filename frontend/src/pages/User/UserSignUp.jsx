@@ -62,14 +62,13 @@ export default function UserSignUp() {
   const signUp = async () => {
     try {
       const user = await createUserWithEmailAndPassword(auth, email, password);
-      if (password == " ") {
-        console.log(password);
-      } else if (user != null) {
+      if (user != null) {
         addDoc(userProfile, {
           FirstName: firstName,
           LastName: lastName,
           Email: email,
           Role: "User",
+          Pfp: "",
         });
       }
       console.log(user);
@@ -77,10 +76,11 @@ export default function UserSignUp() {
     } catch (error) {
       console.log(error.message);
       if (error.message) {
+        handleInvalidDetails();
+        console.log("error creating user");
+      } else {
         handleInvalidEmail();
       }
-      console.log("error creating user");
-      handleInvalidDetails();
     }
   };
 
