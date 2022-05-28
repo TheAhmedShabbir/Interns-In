@@ -79,7 +79,6 @@ export default function PostJob() {
       Mode: mode,
       Salary: salary,
       City: city,
-      Applicants: [],
       company: user?.email,
       postedby: companyName,
     });

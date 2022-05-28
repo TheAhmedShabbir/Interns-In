@@ -256,8 +256,7 @@ export default function UserAbout() {
     );
     // }
   };
-  
-  
+
   // Update CV
   const updateCV = async () => {
     console.log(userProfile);
@@ -266,7 +265,6 @@ export default function UserAbout() {
       cv: Url,
     });
   };
-
 
   //About edit modal
   const [open6, setOpen6] = React.useState(false);
@@ -390,10 +388,10 @@ export default function UserAbout() {
                         <form onSubmit={formHandler}>
                           <input type="file" onChange={HandleUpload} />
                           <Button type="submit">upload</Button>
-                          <Button onClick = {updateCV}>Download</Button>
+                          <Button onClick={updateCV}>Download</Button>
 
-                          <Button onClick={()=>{console.log(userProfile[0].id)}}>Cancel</Button>
-                          {/* <Button onClick={handleClose3}>Cancel</Button> */}
+                          {/* <Button onClick={()=>{console.log(userProfile[0].id)}}>Cancel</Button> */}
+                          <Button onClick={handleClose3}>Cancel</Button>
 
                           <h3>uploaded{progress}%</h3>
                         </form>
@@ -702,13 +700,9 @@ export default function UserAbout() {
                 certified={editExperience.Certified}
               />
             </div>
-
-           
           </div>
         </div>
       </div>
     );
   }
 }
-
-

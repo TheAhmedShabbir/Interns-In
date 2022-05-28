@@ -28,10 +28,23 @@ export default function CompanyHomePage() {
   let [editJob, setEditJob] = useState([]);
   let [appJob, setAppJob] = useState([]);
 
+  const [warningOpen, setWarningOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const jobCollection = collection(db, "Job");
   const UserCollection = collection(db, "UserProfile");
+
+  const handleWarningClick = () => {
+    setWarningOpen(true);
+  };
+
+  const handleWarningClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setWarningOpen(false);
+  };
 
   const handleDeleteClick = () => {
     setDeleteOpen(true);
@@ -60,9 +73,11 @@ export default function CompanyHomePage() {
       ...doc.data(),
       id: doc.id,
     }));
+    console.log(applicants);
 
-    if (!applicants) {
+    if (applicants.length == 0) {
       setApplicantOpen(false);
+      handleWarningClick();
     } else {
       setAppJob(applicants);
       setApplicantOpen(true);
@@ -354,6 +369,20 @@ export default function CompanyHomePage() {
             applicant={appJob}
             companyId={UserInfo?.id}
           />
+
+          <Snackbar
+            open={warningOpen}
+            autoHideDuration={2000}
+            onClose={handleWarningClose}
+          >
+            <Alert
+              onClose={handleWarningClose}
+              sx={{ width: "100%" }}
+              severity="warning"
+            >
+              No Applicants
+            </Alert>
+          </Snackbar>
 
           <Snackbar
             open={deleteOpen}

@@ -15,6 +15,10 @@ import { db, auth } from "../../firebase-config";
 import { collection, addDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 
 const theme = createTheme();
 
@@ -31,9 +35,8 @@ export default function UserSignUp() {
 
   const signUp = async () => {
     try {
-      const user = await createUserWithEmailAndPassword(auth, email, password)
+      const user = await createUserWithEmailAndPassword(auth, email, password);
       if (user != null) {
-
         await sendEmailVerification(user.user);
         addDoc(userProfile, {
           FirstName: firstName,
@@ -41,6 +44,12 @@ export default function UserSignUp() {
           Email: email.toLowerCase(),
           Role: "User",
           Pfp: "",
+          cv: "",
+          bio: "",
+          address: "",
+          about: "",
+          city: "",
+          province: "",
         });
       }
       console.log(user);

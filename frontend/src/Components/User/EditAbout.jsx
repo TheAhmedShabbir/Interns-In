@@ -19,31 +19,31 @@ export default function AbtEdit({
   const [newProvince, setNewProvince] = useState();
   const [newMain, setNewMain] = useState();
   const [newAbout, setNewAbout] = useState();
-  
+
   const updateAddress = async (id, nAddress) => {
     if (nAddress == undefined) {
-        nAddress = address;
+      nAddress = address;
     }
     const Usercollection = doc(db, "UserProfile", id);
-    const nf = { Address: nAddress };
+    const nf = { address: nAddress };
     updateDoc(Usercollection, nf);
   };
 
   const updateCity = async (id, nCity) => {
     if (nCity == undefined) {
-        nCity = city;
+      nCity = city;
     }
     const Usercollection = doc(db, "UserProfile", id);
-    const nf = { City: nCity };
+    const nf = { city: nCity };
     updateDoc(Usercollection, nf);
   };
 
   const updateProvince = async (id, nProvince) => {
     if (nProvince == undefined) {
-        nProvince = province;
+      nProvince = province;
     }
     const Usercollection = doc(db, "UserProfile", id);
-    const nf = { Province: nProvince };
+    const nf = { province: nProvince };
     updateDoc(Usercollection, nf);
   };
 
@@ -52,16 +52,16 @@ export default function AbtEdit({
       nMain = main;
     }
     const Usercollection = doc(db, "UserProfile", id);
-    const nf = { Main: nMain };
+    const nf = { bio: nMain };
     updateDoc(Usercollection, nf);
   };
 
   const updateAbout = async (id, nAbout) => {
     if (nAbout == undefined) {
-        nAbout = about;
+      nAbout = about;
     }
     const Usercollection = doc(db, "UserProfile", id);
-    const nf = { About: nAbout };
+    const nf = { about: nAbout };
     updateDoc(Usercollection, nf);
   };
 
