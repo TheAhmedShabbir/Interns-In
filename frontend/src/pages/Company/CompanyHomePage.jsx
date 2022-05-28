@@ -20,6 +20,7 @@ export default function CompanyHomePage() {
   const navigate = useNavigate();
 
   const [user, setUser] = useState({});
+  const [pending, setPending] = useState([]);
   const [loading, setLoading] = useState(true);
   const [jobs, setJobs] = useState([]);
   const [UserInfo, setUserInfo] = useState([]);
@@ -117,6 +118,17 @@ export default function CompanyHomePage() {
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userData = profiles.filter((i) => i.Email == user?.email);
 
+    const shortlistCollectionRef = collection(
+      db,
+      `UserProfile/${userData[0]?.id}/shortlisted`
+    );
+    const d = await getDocs(shortlistCollectionRef);
+    const shortlisted = d.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+
+    setPending(shortlisted);
     setUserInfo(userData[0]);
 
     setLoading(false);
@@ -283,7 +295,9 @@ export default function CompanyHomePage() {
                 }}
               >
                 <h2 style={{ margin: "10px" }}>Pending Interviews</h2>
-                <Typography style={{ marginTop: "5px" }}>1</Typography>
+                <Typography style={{ marginTop: "5px" }}>
+                  {pending.length}
+                </Typography>
               </div>
               <div
                 style={{
