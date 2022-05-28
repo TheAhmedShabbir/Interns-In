@@ -40,6 +40,7 @@ export default function UserHomepage() {
   // apply now snackbars
   const [warningOpen, setWarningOpen] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
+  const [applyOpen, setApplyOpen] = useState(false);
 
   const [saveOpen, setSaveOpen] = useState(false);
   const [alreadySaveOpen, setAlreadySaveOpen] = useState(false);
@@ -91,6 +92,18 @@ export default function UserHomepage() {
     }
 
     setWarningOpen(false);
+  };
+
+  const handleApplyClick = () => {
+    setApplyOpen(true);
+  };
+
+  const handleApplyClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setApplyOpen(false);
   };
 
   const handleSuccessClick = () => {
@@ -168,7 +181,7 @@ export default function UserHomepage() {
         about: userData[0]?.About,
         city: userData[0]?.City,
         province: userData[0]?.Province,
-        applicantid: applicantFilter[0]?.id,
+        applicantid: userData[0]?.id,
       });
 
       await addDoc(
@@ -239,6 +252,7 @@ export default function UserHomepage() {
     const userData = profiles.filter((i) => i.Email == user?.email);
 
     setUserInfo(userData[0]);
+    console.log(UserInfo);
 
     setLoading(false);
   };
@@ -451,6 +465,20 @@ export default function UserHomepage() {
                 severity="warning"
               >
                 You have already applied to this Job
+              </Alert>
+            </Snackbar>
+
+            <Snackbar
+              open={applyOpen}
+              autoHideDuration={2000}
+              onClose={handleApplyClose}
+            >
+              <Alert
+                onClose={handleApplyClose}
+                sx={{ width: "100%" }}
+                severity="warning"
+              >
+                Please complete your Profile first
               </Alert>
             </Snackbar>
 
