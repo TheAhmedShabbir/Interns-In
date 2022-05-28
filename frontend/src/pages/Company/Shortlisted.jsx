@@ -41,25 +41,44 @@ export default function Shortlisted() {
 
     const shortlistedFilter = shortlisted.filter((i) => i.id == id);
 
-    const h = await addDoc(
-      collection(db, `UserProfile/${userInfo?.id}/employees`),
-      {
-        applicantEmail: shortlistedFilter[0]?.applicantEmail,
-        employeename: shortlistedFilter[0]?.firstname,
-        lastname: shortlistedFilter[0]?.lastname,
-        pfp: shortlistedFilter[0]?.pfp,
-        resume: shortlistedFilter[0]?.resume,
-        bio: shortlistedFilter[0]?.bio,
-        address: shortlistedFilter[0]?.address,
-        about: shortlistedFilter[0]?.about,
-        city: shortlistedFilter[0]?.city,
-        province: shortlistedFilter[0]?.province,
-        applicantid: shortlistedFilter[0]?.applicantid,
-      }
+    const employeesCollectionRef = collection(
+      db,
+      `UserProfile/${userInfo?.id}/employees`
+    );
+    const employeesData = await getDocs(employeesCollectionRef);
+    const employeesProfiles = employeesData.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    const employeeFilter = employeesProfiles.filter(
+      (i) => i.applicantid == shortlistedFilter[0]?.applicantid
     );
 
-    setLoading(false);
-    console.log(shortlistedFilter);
+    if (employeeFilter[0].applicantid == shortlistedFilter[0]?.applicantid) {
+      console.log("already hired");
+      setLoading(false);
+    } else {
+      const h = await addDoc(
+        collection(db, `UserProfile/${userInfo?.id}/employees`),
+        {
+          applicantEmail: shortlistedFilter[0]?.applicantEmail,
+          employeename: shortlistedFilter[0]?.firstname,
+          lastname: shortlistedFilter[0]?.lastname,
+          pfp: shortlistedFilter[0]?.pfp,
+          resume: shortlistedFilter[0]?.resume,
+          bio: shortlistedFilter[0]?.bio,
+          address: shortlistedFilter[0]?.address,
+          about: shortlistedFilter[0]?.about,
+          city: shortlistedFilter[0]?.city,
+          province: shortlistedFilter[0]?.province,
+          applicantid: shortlistedFilter[0]?.applicantid,
+        }
+      );
+      setLoading(false);
+    }
+
+    // console.log(shortlistedFilter[0]?.applicantid);
+    // console.log(shortlistedFilter[0]?.applicantid);
   };
 
   const getUserInfo = async () => {
