@@ -150,6 +150,7 @@ export default function UserHomepage() {
     const applicantFilter = applicants.filter(
       (j) => j.applicantEmail == user?.email
     );
+    console.log(applicants);
 
     const jobDetails = jobs?.filter((j) => j.id == id);
 
@@ -167,6 +168,7 @@ export default function UserHomepage() {
         about: userData[0]?.About,
         city: userData[0]?.City,
         province: userData[0]?.Province,
+        applicantid: applicantFilter[0]?.id,
       });
 
       await addDoc(

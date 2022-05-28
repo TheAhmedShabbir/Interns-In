@@ -25,7 +25,6 @@ export default function CompanyHomePage() {
   const [UserInfo, setUserInfo] = useState([]);
   const [open, setOpen] = useState(false);
   const [applicantOpen, setApplicantOpen] = useState(false);
-  const [jobId, setJobId] = useState(0);
   let [editJob, setEditJob] = useState([]);
   let [appJob, setAppJob] = useState([]);
 
@@ -55,16 +54,19 @@ export default function CompanyHomePage() {
   };
 
   const openApplicantModal = async (id) => {
-    const data = await getDocs(UserCollection);
-    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    const userData = profiles.filter((i) => i.Email == jobs[id].Applicants);
+    const applicantsReference = collection(db, `Job/${id}/applicants`);
+    const applicantsData = await getDocs(applicantsReference);
+    const applicants = applicantsData.docs?.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
 
-    setAppJob(userData);
-    setJobId(jobs[id].id);
-
-    if (jobs[id].Applicants.length == 0) {
+    if (!applicants) {
       setApplicantOpen(false);
-    } else setApplicantOpen(true);
+    } else {
+      setAppJob(applicants);
+      setApplicantOpen(true);
+    }
   };
 
   const closeApplicantModal = () => {
@@ -79,7 +81,11 @@ export default function CompanyHomePage() {
   const deleteJob = async (id) => {
     const jobDoc = doc(db, "Job", jobs[id].id);
     await deleteDoc(jobDoc);
+
+    getJobs();
   };
+
+  // const getEmployees = async () => {};
 
   const getJobs = async () => {
     const data = await getDocs(jobCollection);
@@ -90,18 +96,13 @@ export default function CompanyHomePage() {
 
     setLoading(false);
   };
-  //////////pending
+
   const getUserInfo = async () => {
     const data = await getDocs(UserCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userData = profiles.filter((i) => i.Email == user?.email);
 
-    const d = await getDocs(UserCollection);
-    const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    // const jobFilter = job.filter((i) => i.company == user?.email);
-
     setUserInfo(userData[0]);
-    // console.log(userData);
 
     setLoading(false);
   };
@@ -118,7 +119,7 @@ export default function CompanyHomePage() {
         getJobs();
       }
     });
-  }, [user, open, jobs]);
+  }, [user, open]);
 
   if (loading) {
     return <div>loading...</div>;
@@ -177,7 +178,7 @@ export default function CompanyHomePage() {
                 <Typography>{UserInfo?.Headline}</Typography>
               </div>
             </div>
-            <h3>Pending Interviews</h3>
+            {/* <h3>Pending Interviews</h3> */}
             {/* {jobs.map((j, k) => {
               if (j.Applicants[k] == undefined) {
                 <div></div>;
@@ -307,7 +308,7 @@ export default function CompanyHomePage() {
                       <Button
                         style={{ margin: "10px" }}
                         variant="outlined"
-                        onClick={() => openApplicantModal(key)}
+                        onClick={() => openApplicantModal(job.id)}
                       >
                         View Applicants
                       </Button>
@@ -351,8 +352,7 @@ export default function CompanyHomePage() {
             open={applicantOpen}
             close={closeApplicantModal}
             applicant={appJob}
-            id={jobId}
-            key={"apps123" + jobId}
+            companyId={UserInfo?.id}
           />
 
           <Snackbar
