@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -25,6 +25,7 @@ export default function CompanySignUp() {
   const [taxNumber, setTaxNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const userProfile = collection(db, "UserProfile");
 
   const signUp = async () => {
@@ -45,6 +46,17 @@ export default function CompanySignUp() {
       console.log("error creating user");
     }
   };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+
+      if (currentUser) {
+        // get user info
+        getUser();
+      }
+    });
+  }, [user]);
 
   return (
     <ThemeProvider theme={theme}>
