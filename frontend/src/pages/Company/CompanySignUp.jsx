@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../../firebase-config";
 import { collection, addDoc } from "firebase/firestore";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {createUserWithEmailAndPassword, sendEmailVerification} from "firebase/auth";
 
 const theme = createTheme();
 
@@ -25,6 +25,7 @@ export default function CompanySignUp() {
   const [taxNumber, setTaxNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState(null);
 
   const userProfile = collection(db, "UserProfile");
 
@@ -32,6 +33,7 @@ export default function CompanySignUp() {
     try {
       const user = await createUserWithEmailAndPassword(auth, email, password);
       if (user != null) {
+        await sendEmailVerification(user.user);
         addDoc(userProfile, {
           CompanyName: companyName,
           TaxNumber: taxNumber,
@@ -39,24 +41,13 @@ export default function CompanySignUp() {
           Role: "Company",
         });
       }
-      navigate("/CompanyHomePage");
+      navigate("/verify");
       console.log(user);
     } catch (error) {
       console.log(error.message);
       console.log("error creating user");
     }
   };
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-
-      if (currentUser) {
-        // get user info
-        getUser();
-      }
-    });
-  }, [user]);
 
   return (
     <ThemeProvider theme={theme}>
