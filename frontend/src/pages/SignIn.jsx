@@ -66,6 +66,7 @@ export default function SignIn() {
         password
     ).then(res => {
       console.log(res.user);
+      localStorage.setItem("access_token", res.user.accessToken);
       sendEmailVerification(res.user).then(res => {
         console.log(res)
       }).catch(err => {

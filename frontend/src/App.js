@@ -25,6 +25,7 @@ import AppliedJobs from "./pages/User/AppliedJobs";
 import "./App.css";
 import {AccountVerify} from "./pages/verify";
 import {AccountNotVerified} from "./pages/account-not-verified";
+import {AuthorizedRoute, EnrouteToDashboard} from "./authorization/authorized-routes";
 
 export default function App() {
   return (
@@ -32,27 +33,27 @@ export default function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Mainpage />}></Route>
-          <Route path="/SignIn" element={<SignIn />}></Route>
-          <Route path="/UserSignUp" element={<UserSignUp />}></Route>
+          <Route path="/SignIn" element={<EnrouteToDashboard><SignIn /></EnrouteToDashboard>}></Route>
+          <Route path="/UserSignUp" element={<EnrouteToDashboard><UserSignUp /></EnrouteToDashboard>}></Route>
           <Route path="/CompanySignUp" element={<CompanySignUp />}></Route>
           <Route path="/AdminProfile" element={<AdminProfile />}></Route>
-          <Route path="/AdminDashboard" element={<AdminDashboard />}></Route>
-          <Route path="/UserAbout" element={<UserAbout />}></Route>
-          <Route path="/UserProfile" element={<UserProfile />}></Route>
-          <Route path="/CompanyProfile" element={<CompanyProfile />}></Route>
-          <Route path="/shortlisted" element={<Shortlisted />}></Route>
-          <Route path="/UserHomePage" element={<UserHomepage />}></Route>
-          <Route path="/CompanyHomePage" element={<CompanyHomePage />}></Route>
-          <Route path="/AppliedJobs" element={<AppliedJobs />}></Route>
+          <Route path="/AdminDashboard" element={<AuthorizedRoute><AdminDashboard /></AuthorizedRoute>}></Route>
+          <Route path="/UserAbout" element={<AuthorizedRoute><UserAbout /></AuthorizedRoute>}></Route>
+          <Route path="/UserProfile" element={<AuthorizedRoute><UserProfile /></AuthorizedRoute>}></Route>
+          <Route path="/CompanyProfile" element={<AuthorizedRoute><CompanyProfile /></AuthorizedRoute>}></Route>
+          <Route path="/shortlisted" element={<AuthorizedRoute><Shortlisted /></AuthorizedRoute>}></Route>
+          <Route path="/UserHomePage" element={<AuthorizedRoute><UserHomepage /></AuthorizedRoute>}></Route>
+          <Route path="/CompanyHomePage" element={<AuthorizedRoute><CompanyHomePage /></AuthorizedRoute>}></Route>
+          <Route path="/AppliedJobs" element={<AuthorizedRoute><AppliedJobs /></AuthorizedRoute>}></Route>
           <Route path="verify" element={<AccountVerify/>}></Route>
           <Route path="unverified" element={<AccountNotVerified/>}></Route>
           {/* <Route path="/CompanyForums" element={<CompanyForums />}></Route>
           <Route path="/CompanyForumTopic" element={<CompanyForumTopic/>}></Route> */}
-          <Route path="/Forums" element={<Forums />}></Route>
-          <Route path="/ForumTopic/:id" element={<ForumTopic />}></Route>
+          <Route path="/Forums" element={<AuthorizedRoute><Forums /></AuthorizedRoute>}></Route>
+          <Route path="/ForumTopic/:id" element={<AuthorizedRoute><ForumTopic /></AuthorizedRoute>}></Route>
           <Route
             path="/UserNotifications"
-            element={<UserNotifications />}
+            element={<AuthorizedRoute><UserNotifications /></AuthorizedRoute>}
           ></Route>
           {/* <Route
             path="/CompanyNotifications"
@@ -62,8 +63,8 @@ export default function App() {
             path="/AdminNotifications"
             element={<AdminNotifications />}
           ></Route> */}
-          <Route path="/savedJobs" element={<SavedJobs />}></Route>
-          <Route path="/PostJob" element={<PostJob />}></Route>
+          <Route path="/savedJobs" element={<AuthorizedRoute><SavedJobs /></AuthorizedRoute>}></Route>
+          <Route path="/PostJob" element={<AuthorizedRoute><PostJob /></AuthorizedRoute>}></Route>
         </Routes>
       </div>
     </Router>

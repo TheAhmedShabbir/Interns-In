@@ -14,6 +14,7 @@ import { signOut } from "firebase/auth";
 export default function CompanyHeader() {
   const navigate = useNavigate();
   const logout = async () => {
+    localStorage.clear();
     await signOut(auth);
     navigate("/SignIn");
   };
