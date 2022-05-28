@@ -53,14 +53,15 @@ export default function Forumtopic() {
   const [user, setUser] = useState({});
   const [Posts, setPosts] = useState([]);
   const [reply, setreply] = useState(false);
+  const navigate = useNavigate();
   
   // Get User/Company To render respective header
   const getUserInfo = async () => {
     const data = await getDocs(UserCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
-    const userData = profiles.filter((i) => i.Email == user?.email);
+    const userData = profiles.filter((i) => i.Email == user.email);
     setUserInfo(userData);
-    // console.log(UserInfo);
+    // console.log(userData);
   };
 
   // Get User Posts from database
@@ -70,10 +71,7 @@ export default function Forumtopic() {
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userProf = profiles.filter((i) => i.Forum_ID == forumTopic.id);
     setPosts(userProf);
-    // setPosts(
-    //   queryResults.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-    // );
-    console.log(userProf);
+    console.log(Posts);
   };
 
   // Post user posts in the database.
@@ -82,7 +80,8 @@ export default function Forumtopic() {
     await addDoc(PostCollection, {
        post: NewPost ,
         Forum_ID: forumTopic?.id,
-        User_Email: user?.email,      
+        User_Email: user?.email,
+        User_Pfp: UserInfo[0].Pfp      
       });
   };
 
@@ -116,8 +115,7 @@ export default function Forumtopic() {
   // const openModal = () => {
   //   setOpen(true);
   // };
-
- 
+  
   
   
   useEffect(() => {
@@ -125,38 +123,22 @@ export default function Forumtopic() {
       setUser(currentUser);
       // console.log(user);
       if (currentUser) {
-        getUserInfo();
         const getForums = async () => {
           await getDoc(doc(db, `Forums/${id}`)).then((x) => {
-            // console.log(x.data());
-            // console.log({
-            //   id: x.id,
-            //   ...x.data(),
-            // });
             setForumTopic({ id: x.id, ...x.data() });
+            console.log(forumTopic);
           });
-          // console.log("id:", x.id, ...x.data())
-        
         };
+
         getForums();
+        getUserInfo();
         getPosts();
       } else {
         navigate("/SignIn");
       }
     });
   }, [user,forumTopic]);
-  // useEffect(() => {
-
-  //   // const getUserPosts = async () => {
-  //   //   const data = await getDocs(forumTopicCollection);
-  //   //   setUserposts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  //   //   console.log(Userposts);
-  //   // };
-
-  //   // getUserPosts();
-
-  //   getDescription();
-  // }, []);
+ 
 
   return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
@@ -167,13 +149,7 @@ export default function Forumtopic() {
       ) : (
         <UserHeader />
       )}
-      {/* <button
-        onClick={() => {
-          console.log(forumTopic.TopicDescription);
-        }}
-      >
-        Click
-      </button> */}
+      
       <div>
         <div
           style={{
@@ -278,7 +254,7 @@ export default function Forumtopic() {
                       borderRadius: "50px",
                       marginLeft: "25px",
                     }}
-                    src={img}
+                    src={item.User_Pfp}
                     alt=""
                   />
                 </div>
@@ -296,7 +272,7 @@ export default function Forumtopic() {
                   <p style={{ marginLeft: "5px", textAlign: "justify" }}>
                     {item.post}
                   </p>
-                  <Button style={{ marginLeft: "5px" }}>reply</Button>
+                  {/* <Button style={{ marginLeft: "5px" }}>reply</Button> */}
                 </div>
 
                 <div
