@@ -9,7 +9,7 @@ export const AuthorizedRoute = ({ children }) => {
 
 export const EnrouteToDashboard = ({ children }) => {
   if (localStorage.getItem('access_token')) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to={`/${localStorage.getItem("page")}`} replace />;
   }
   return children ? children : <Outlet />;
 };

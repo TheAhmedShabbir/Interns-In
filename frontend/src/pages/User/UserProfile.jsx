@@ -82,7 +82,7 @@ export default function UserProfile() {
   };
   //Update User Profile
   const updateProf = async (id) => {
-    setEdit(UserProfile[id]);
+    setEdit(UserInfo[id]);
     handleOpen2();
   };
   // Profile pic modal -----------------------------------------------------------------------------------------------------------------------
@@ -94,6 +94,23 @@ export default function UserProfile() {
   const handleOpen2 = () => setOpen2(true);
   const handleClose2 = () => setOpen2(false);
 
+
+  // Get User Info 
+  
+
+  const getUserInfo = async () => {
+    const data = await getDocs(UserCollection);
+    const profiles = data.docs.map((doc) => ({...doc.data(),id: doc.id}));
+    const userData = profiles.filter((i) => i.Email == user?.email);
+    // const q = await query(UserCollection, where("Email", "==", user?.email));
+    // const queryResults = await getDocs(q);
+    setUserInfo(userData);
+    console.log(userData);
+    setLoading(false);
+  };
+
+
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -101,20 +118,7 @@ export default function UserProfile() {
 
     if (user) {
       // get User information
-      const getUserInfo = async () => {
-        const data = await getDocs(UserCollection);
-        const profiles = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-
-        const userData = profiles.filter((i) => i.Email == user?.email);
-        // const q = await query(UserCollection, where("Email", "==", user?.email));
-        // const queryResults = await getDocs(q);
-
-        setUserInfo(userData[0]);
-        setLoading(false);
-      };
+      
 
       // Function Calls
       getUserInfo();
@@ -129,7 +133,11 @@ export default function UserProfile() {
     return (
       <div style={{ backgroundColor: "#f3f2ef" }}>
         <UserHeader />
+        {UserInfo && UserInfo.map((item, key) => {
+          return(
+            <div key = {key}>
 
+            
         <div
           style={{
             marginTop: "40px",
@@ -140,7 +148,7 @@ export default function UserProfile() {
               style={{ borderRadius: "110px", border: "2px solid #548CCB" }}
               width="200px"
               height="200px"
-              src={UserInfo?.Pfp}
+              src={item.Pfp}
             />
           </div>
 
@@ -211,12 +219,12 @@ export default function UserProfile() {
                   }}
                 >
                   <h2>Username</h2>
-                  <Button size="small" variant="outlined" onClick={updateProf}>
+                  <Button size="small" variant="outlined"  onClick={() => updateProf(key)}>
                     <EditIcon/>
                   </Button>
                 </div>
                 <Typography style={{ marginBottom: "15px" }}>
-                  {UserInfo?.FirstName + " " + UserInfo?.LastName}
+                  {item.FirstName + " " + item.LastName}
                 </Typography>
               </div>
               <div>
@@ -255,7 +263,7 @@ export default function UserProfile() {
                     Edit
                   </Button> */}
                 </div>
-                <Typography>{UserInfo?.Email}</Typography>
+                <Typography>{item.Email}</Typography>
               </div>
             </Paper>
           </Box>
@@ -271,6 +279,9 @@ export default function UserProfile() {
             email={Edit?.Email}
           />
         </div>
+        </div>
+          )
+        })}
       </div>
     );
   }

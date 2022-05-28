@@ -33,16 +33,19 @@ export default function SignIn() {
     let verifyRole = checkUser.Role;
 
     if (verifyRole == "User") {
+      localStorage.setItem("page", "UserHomepage")
       navigate("/UserHomepage");
       // console.log("/userHomepage");
     }
 
     if (verifyRole == "Company") {
+      localStorage.setItem("page", "CompanyHomepage")
       navigate("/CompanyHomepage");
       // console.log("/CompanyHomepage");
     }
 
     if (verifyRole == "Admin") {
+      localStorage.setItem("page", "AdminDashboard")
       navigate("/AdminDashboard");
       // console.log("/AdminDashboard");
     }
