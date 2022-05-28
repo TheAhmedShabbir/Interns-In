@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -26,8 +26,9 @@ export default function SignIn() {
   const userProfile = collection(db, "UserProfile");
   const [checkUser, setCheckUser] = useState({});
 
-  const verifyUser = (item) => {
-    let verifyRole = item.Role;
+  const verifyUser = () => {
+    console.log(checkUser);
+    let verifyRole = checkUser.Role;
 
     if (verifyRole == "User") {
       navigate("/UserHomepage");
@@ -46,17 +47,20 @@ export default function SignIn() {
   };
 
   const getData = async (email) => {
-    const q = query(userProfile, where("Email", "==", email))
+    const q = query(userProfile, where("Email", "==", email.toLowerCase()))
     const data = await getDocs(q);
     let docsData = data.docs.map((doc) => ({ ...doc.data() }));
     setCheckUser(docsData[0]);
-    verifyUser(checkUser);
   };
+
+  useEffect(() => {
+    verifyUser();
+  }, [checkUser])
 
   const login = async () => {
     signInWithEmailAndPassword(
         auth,
-        email,
+        email.toLowerCase(),
         password
     ).then(res => {
       console.log(res.user);

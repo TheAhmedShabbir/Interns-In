@@ -35,7 +35,7 @@ export default function UserSignUp() {
         addDoc(userProfile, {
           FirstName: firstName,
           LastName: lastName,
-          Email: email,
+          Email: email.toLowerCase(),
           Role: "User",
           Pfp: "",
         });
