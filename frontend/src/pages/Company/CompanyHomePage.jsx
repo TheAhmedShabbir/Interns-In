@@ -178,7 +178,7 @@ export default function CompanyHomePage() {
               </div>
             </div>
             <h3>Pending Interviews</h3>
-            {jobs.map((j, k) => {
+            {/* {jobs.map((j, k) => {
               if (j.Applicants[k] == undefined) {
                 <div></div>;
               } else
@@ -209,7 +209,7 @@ export default function CompanyHomePage() {
                     </div>
                   </div>
                 );
-            })}
+            })} */}
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div

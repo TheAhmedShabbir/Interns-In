@@ -19,6 +19,7 @@ import CompanyNotifications from "./pages/Company/CompanyNotifications";
 import AdminNotifications from "./pages/Admin/AdminNotifications";
 import PostJob from "./pages/Company/PostJob";
 import SavedJobs from "./pages/User/SavedJobs";
+import AppliedJobs from "./pages/User/AppliedJobs";
 // import CompanyForums from "./pages/Company/CompanyForum";
 // import CompanyForumTopic from "./pages/Company/CompanyForumTopic";
 import "./App.css";
@@ -42,6 +43,7 @@ export default function App() {
           <Route path="/shortlisted" element={<Shortlisted />}></Route>
           <Route path="/UserHomePage" element={<UserHomepage />}></Route>
           <Route path="/CompanyHomePage" element={<CompanyHomePage />}></Route>
+          <Route path="/AppliedJobs" element={<AppliedJobs />}></Route>
           <Route path="verify" element={<AccountVerify/>}></Route>
           <Route path="unverified" element={<AccountNotVerified/>}></Route>
           {/* <Route path="/CompanyForums" element={<CompanyForums />}></Route>

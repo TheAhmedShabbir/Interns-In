@@ -135,24 +135,73 @@ export default function UserHomepage() {
     }
   };
 
-  const applyJob = async (k, id) => {
-    const data = await getDocs(jobCollection);
-    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    const j = profiles.filter((i) => i.id == id);
+  const applyJob = async (id) => {
+    const d = await getDocs(UserCollection);
+    const profiles = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userData = profiles.filter((u) => u.Email == user?.email);
 
-    if (
-      j[0].Applicants?.filter((a) => a == user.email) &&
-      j[0].Applicants.length != 0
-    ) {
+    const applicantsReference = collection(db, `Job/${id}/applicants`);
+    const applicantsData = await getDocs(applicantsReference);
+    const applicants = applicantsData.docs?.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+
+    const applicantFilter = applicants.filter(
+      (j) => j.applicantEmail == user?.email
+    );
+
+    const jobDetails = jobs?.filter((j) => j.id == id);
+
+    if (applicantFilter[0]?.applicantEmail == user?.email) {
       handleWarningClick();
     } else {
-      const jobApply = doc(db, "Job", id);
-      const nf = { Applicants: jobs[k].Applicants.concat(user.email) };
-      console.log(nf);
+      const a = await addDoc(collection(db, `Job/${id}/applicants`), {
+        applicantEmail: user?.email,
+        firstname: userData[0]?.FirstName,
+        lastname: userData[0]?.LastName,
+        pfp: userData[0]?.Pfp,
+        resume: userData[0]?.cv,
+        bio: userData[0]?.Main,
+        address: userData[0]?.Address,
+        about: userData[0]?.About,
+        city: userData[0]?.City,
+        province: userData[0]?.Province,
+      });
 
-      updateDoc(jobApply, nf);
+      await addDoc(
+        collection(db, `UserProfile/${userData[0]?.id}/appliedJobs`),
+        {
+          title: jobDetails[0].Title,
+          city: jobDetails[0].City,
+          description: jobDetails[0].Description,
+          mode: jobDetails[0].Mode,
+          salary: jobDetails[0].Salary,
+          type: jobDetails[0].Type,
+          company: jobDetails[0].company,
+          postedby: jobDetails[0].postedby,
+          jobid: id,
+        }
+      );
+
       handleSuccessClick();
     }
+
+    // console.log();
+
+    // if (
+    //   j[0].Applicants?.filter((a) => a == user.email) &&
+    //   j[0].Applicants.length != 0
+    // ) {
+    //   handleWarningClick();
+    // } else {
+    //   const jobApply = doc(db, "Job", id);
+    //   const nf = { Applicants: jobs[k].Applicants.concat(user.email) };
+    //   console.log(nf);
+
+    //   updateDoc(jobApply, nf);
+    //   handleSuccessClick();
+    // }
   };
 
   const search = async () => {
@@ -371,7 +420,7 @@ export default function UserHomepage() {
                     <Button
                       style={{ margin: "10px" }}
                       variant="contained"
-                      onClick={() => applyJob(key, job.id)}
+                      onClick={() => applyJob(job.id)}
                     >
                       Apply now
                     </Button>
