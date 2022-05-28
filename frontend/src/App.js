@@ -35,9 +35,30 @@ export default function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<EnrouteToDashboard><Mainpage /></EnrouteToDashboard>}></Route>
-          <Route path="/SignIn" element={<EnrouteToDashboard><SignIn /></EnrouteToDashboard>}></Route>
-          <Route path="/UserSignUp" element={<EnrouteToDashboard><UserSignUp /></EnrouteToDashboard>}></Route>
+          <Route
+            path="/"
+            element={
+              <EnrouteToDashboard>
+                <Mainpage />
+              </EnrouteToDashboard>
+            }
+          ></Route>
+          <Route
+            path="/SignIn"
+            element={
+              <EnrouteToDashboard>
+                <SignIn />
+              </EnrouteToDashboard>
+            }
+          ></Route>
+          <Route
+            path="/UserSignUp"
+            element={
+              <EnrouteToDashboard>
+                <UserSignUp />
+              </EnrouteToDashboard>
+            }
+          ></Route>
           <Route path="/CompanySignUp" element={<CompanySignUp />}></Route>
           <Route path="/AdminProfile" element={<AdminProfile />}></Route>
           <Route
