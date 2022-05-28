@@ -116,7 +116,7 @@ export default function UserHomepage() {
 
     const jobDetails = jobs?.filter((j) => j.id == id);
 
-    if (saveJobs[0].jobid == id) {
+    if (saveJobs[0]?.jobid == id) {
       handleAlreadySaveClick();
     } else {
       await addDoc(collection(db, `UserProfile/${userData[0].id}/savejobs`), {
@@ -163,7 +163,6 @@ export default function UserHomepage() {
       });
 
       setJobsShown(results);
-      console.log(results);
 
       if (results.length == 0) {
         handleSearchResult();
