@@ -72,7 +72,7 @@ export default function SignIn() {
         getData(res.user.email);
       }
     }).catch(err => {
-      setError("Username or password is incorrect");
+      setError(err.message);
       console.log(err);
     })
   };
