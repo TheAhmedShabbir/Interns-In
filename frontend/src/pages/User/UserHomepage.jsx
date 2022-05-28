@@ -176,11 +176,11 @@ export default function UserHomepage() {
         lastname: userData[0]?.LastName,
         pfp: userData[0]?.Pfp,
         resume: userData[0]?.cv,
-        bio: userData[0]?.Main,
-        address: userData[0]?.Address,
-        about: userData[0]?.About,
-        city: userData[0]?.City,
-        province: userData[0]?.Province,
+        bio: userData[0]?.bio,
+        address: userData[0]?.address,
+        about: userData[0]?.about,
+        city: userData[0]?.city,
+        province: userData[0]?.province,
         applicantid: userData[0]?.id,
       });
 
@@ -350,7 +350,7 @@ export default function UserHomepage() {
                 }}
               >
                 <h3>{UserInfo?.FirstName + " " + UserInfo?.LastName}</h3>
-                <Typography>{UserInfo?.Main}</Typography>
+                <Typography>{UserInfo?.bio}</Typography>
               </div>
             </div>
             <div

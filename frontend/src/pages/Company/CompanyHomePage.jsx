@@ -32,7 +32,7 @@ export default function CompanyHomePage() {
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const jobCollection = collection(db, "Job");
-  const UserCollection = collection(db, "UserProfile");
+  const userCollection = collection(db, "UserProfile");
 
   const handleWarningClick = () => {
     setWarningOpen(true);
@@ -113,7 +113,7 @@ export default function CompanyHomePage() {
   };
 
   const getUserInfo = async () => {
-    const data = await getDocs(UserCollection);
+    const data = await getDocs(userCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userData = profiles.filter((i) => i.Email == user?.email);
 
