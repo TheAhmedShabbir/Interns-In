@@ -17,10 +17,6 @@ import { db, auth } from "../../firebase-config";
 import { collection, addDoc } from "firebase/firestore";
 import {createUserWithEmailAndPassword, sendEmailVerification} from "firebase/auth";
 import {TextValidator, ValidatorForm} from "react-material-ui-form-validator";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
 
 const theme = createTheme();
 
