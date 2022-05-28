@@ -60,16 +60,16 @@ export default function Forumtopic() {
 
   // Get User Posts from database
 
-  // const getPosts = async () => {
-  //   const data = await getDocs(PostCollection);
-  //   const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-  //   const userProf = profiles.filter((i) => i.Forum_ID == forumTopic.id);
-  //   setPosts(userProf);
-  //   // setPosts(
-  //   //   queryResults.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-  //   // );
-  //   console.log(userProf);
-  // };
+  const getPosts = async () => {
+    const data = await getDocs(PostCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userProf = profiles.filter((i) => i.Forum_ID == forumTopic.id);
+    setPosts(userProf);
+    // setPosts(
+    //   queryResults.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    // );
+    console.log(userProf);
+  };
 
   // Post user posts in the database.
 
