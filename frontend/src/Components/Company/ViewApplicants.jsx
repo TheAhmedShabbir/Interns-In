@@ -11,13 +11,39 @@ import {
   addDoc,
 } from "firebase/firestore";
 
-export default function ViewApplicants({ id, open, close, applicant }) {
-  const shortlistedCollection = collection(db, "Shortlisted");
+export default function ViewApplicants({ companyId, open, close, applicant }) {
+  const shortlistCollectionRef = collection(
+    db,
+    `UserProfile/${companyId}/shortlisted`
+  );
 
-  const shortlist = (id) => {
-    addDoc(shortlistedCollection, {
-      id: id,
-    });
+  const shortlist = async (id) => {
+    const data = await getDocs(shortlistCollectionRef);
+    const shortlisted = data.docs?.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+
+    // if (applicantFilter[0]?.applicantEmail == user?.email) {
+    //   handleWarningClick();
+    // } else {
+    //   const a = await addDoc(collection(db, `Job/${id}/applicants`), {
+    //     applicantEmail: user?.email,
+    //     firstname: userData[0]?.FirstName,
+    //     lastname: userData[0]?.LastName,
+    //     pfp: userData[0]?.Pfp,
+    //     resume: userData[0]?.cv,
+    //     bio: userData[0]?.Main,
+    //     address: userData[0]?.Address,
+    //     about: userData[0]?.About,
+    //     city: userData[0]?.City,
+    //     province: userData[0]?.Province,
+    //   });
+
+    //   handleSuccessClick();
+    // }
+
+    console.log(id);
   };
 
   return (
@@ -60,7 +86,7 @@ export default function ViewApplicants({ id, open, close, applicant }) {
                       <img width="80px" height="80px" src={img} />
                     </div>
                     <p style={{ marginLeft: "15px" }}>
-                      {app.FirstName + " " + app.LastName}
+                      {app?.firstname + " " + app?.lastname}
                     </p>
                   </div>
                   <div
@@ -111,138 +137,4 @@ export default function ViewApplicants({ id, open, close, applicant }) {
       </Modal>
     </div>
   );
-}
-
-{
-  /* <div
-        style={{
-          height: "500px",
-          maxWidth: "900px",
-          backgroundColor: "#fff",
-          padding: "20px",
-          borderRadius: "10px",
-          marginLeft: "auto",
-          marginRight: "auto",
-          marginTop: "30px",
-        }}
-      >
-        <h2>View Applicants</h2>
-        <div>
-          <Button variant="outlined">Vew Shortlisted Candidates</Button>
-        </div>
-        <div
-          style={{
-            backgroundColor: "white",
-            display: "flex",
-            flexDirection: "row",
-            padding: "15px",
-            borderRadius: "10px",
-            justifyContent: "space-between",
-            alignItems: "center",
-            margin: "10px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <img
-              style={{
-                height: "100px",
-                width: "100px",
-                // backgroundColor: "red",
-                borderRadius: "50px",
-                marginRight: "10px",
-              }}
-              src={Userpfp}
-              alt="img"
-            />
-            <Typography style={{ marginLeft: "15px" }}>User 123</Typography>
-          </div>
-          <div>
-            <Button>Shortlist</Button>
-            <Button>Visit Profile</Button>
-            <Button variant="contained">View CV</Button>
-          </div>
-        </div>
-        <div
-          style={{
-            backgroundColor: "white",
-            display: "flex",
-            flexDirection: "row",
-            padding: "15px",
-            borderRadius: "10px",
-            justifyContent: "space-between",
-            alignItems: "center",
-            margin: "10px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <img
-              style={{
-                height: "100px",
-                width: "100px",
-                // backgroundColor: "red",
-                borderRadius: "50px",
-                marginRight: "10px",
-              }}
-              src={Userpfp}
-              alt="img"
-            />
-            <Typography style={{ marginLeft: "15px" }}>User 456</Typography>
-          </div>
-          <div>
-            <Button>Shortlist</Button>
-            <Button>Visit Profile</Button>
-            <Button variant="contained">View CV</Button>
-          </div>
-        </div>
-        <div
-          style={{
-            backgroundColor: "white",
-            display: "flex",
-            flexDirection: "row",
-            padding: "15px",
-            borderRadius: "10px",
-            justifyContent: "space-between",
-            alignItems: "center",
-            margin: "10px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <img
-              style={{
-                height: "100px",
-                width: "100px",
-                // backgroundColor: "red",
-                borderRadius: "50px",
-                marginRight: "10px",
-              }}
-              src={Userpfp}
-              alt="img"
-            />
-            <Typography style={{ marginLeft: "15px" }}>User 789</Typography>
-          </div>
-          <div>
-            <Button>Shortlist</Button>
-            <Button>Visit Profile</Button>
-            <Button variant="contained">View CV</Button>
-          </div>
-        </div>
-      </div> */
 }

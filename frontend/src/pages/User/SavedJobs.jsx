@@ -82,7 +82,7 @@ export default function SavedJobs() {
       setLoading(false);
     }
   };
-
+  //////////pending
   const applyJob = async (k, id) => {
     const data = await getDocs(jobCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
