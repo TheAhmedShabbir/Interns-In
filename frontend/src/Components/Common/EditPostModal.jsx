@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import { Button, Modal, TextField, Typography } from "@mui/material";
@@ -26,6 +27,7 @@ export default function PostEdit({
   const editPost = async () => {
     updatePost(id, newPost);
     
+    
   };
 
   return (
@@ -48,7 +50,7 @@ export default function PostEdit({
             p: 4,
           }}
         >
-          {/* <Form> */}
+          
           <h2>Add Education</h2>
           <TextField
             fullWidth
@@ -59,7 +61,7 @@ export default function PostEdit({
           
           <Button onClick={close}>Cancel</Button>
           <Button onClick={() => editPost()}>Update</Button>
-          {/* </Form> */}
+          
         </Box>
       </Modal>
     </div>

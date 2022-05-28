@@ -8,6 +8,7 @@ import {
   getDoc,
   doc,
   addDoc,
+  deleteDoc,
   query,
   where,
   updateDoc,
@@ -21,6 +22,10 @@ import UserPostEdit from "../Components/User/UserPostEdit";
 import { Link, useParams } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import CompanyHeader from "../Components/Company/CompanyHeader";
+import PostEdit from "../Components/Common/EditPostModal";
+import FlagIcon from '@mui/icons-material/Flag';
+import { useNavigate } from "react-router-dom";
+
 
 const style = {
   position: "absolute",
@@ -47,7 +52,7 @@ export default function Forumtopic() {
   const [UserInfo, setUserInfo] = useState([]);
   const [user, setUser] = useState({});
   const [Posts, setPosts] = useState([]);
-
+  const [reply, setreply] = useState(false);
   
   // Get User/Company To render respective header
   const getUserInfo = async () => {
@@ -81,21 +86,27 @@ export default function Forumtopic() {
       });
   };
 
-  //Update Post
-  const [updatedPost, setUpdatedPost] = useState([]);
-  const [postId, setPostId] = useState("");
+  // Update Post
+  
+  let [updatedPost, setUpdatedPost] = useState([]);
 
-  // const closeModal = () => setOpen(false);
+  const updatePost = async (id) => {
+    setUpdatedPost(Posts[id]);
+    handleOpen2();
+  };
 
-  // const updatePost = async (id) => {
-  //   setUpdatedPost(Userposts[id]);
-  //   setPostId(Userposts[id].id);
-  //   openModal();
-  // };
+  // Modal for update post
+  const [open2, setOpen2] = React.useState(false);
+  const handleOpen2 = () => setOpen2(true);
+  const handleClose2 = () => setOpen2(false);
 
-  //data fetch from database
-  const forumTopicCollection = collection(db, "Forum Topic");
-  const forumsCollection = collection(db, "Forums");
+  // Delete Post
+  const deletePost = async (id) => {
+    const PostCollection = doc(db, "UserPosts", Posts[id].id);
+    await deleteDoc(PostCollection);
+  };
+
+  
 
   // User Post Modal states
   const [open, setOpen] = React.useState(false);
@@ -297,38 +308,65 @@ export default function Forumtopic() {
                     margin: "20px",
                   }}
                 >
+                  {item.User_Email == user.email ? (
+                    <div style={{
+                      justifyContent: "center",
+                      margin: "20px",
+                    }}>
+                      <button
+                      style={{
+                        border: "none",
+                        backgroundColor: "white",
+                        color : '#4F18FB',
+                        cursor: "pointer",
+                      }}
+                      onClick={() => updatePost(key)}
+                    >
+                      <EditIcon />
+                    </button>
+                    <button
+                      style={{
+                        border: "none",
+                        backgroundColor: "white",
+                        color : '#FB1871 ',
+                        cursor: "pointer",
+                      }}
+                      onClick={() => deletePost(key)}
+                    >
+                      <DeleteIcon />
+                    </button>
+                    </div>
+                  ) : (  
+                  <div style={{
+                    justifyContent: "center",
+                    margin: "20px",
+                  }}>
                   <button
                     style={{
                       border: "none",
                       backgroundColor: "white",
-                      cursor: "pointer",
-                    }}
-                    // onClick={() => updatePost(key)}
-                  >
-                    <EditIcon />
-                  </button>
-                  <button
-                    style={{
-                      border: "none",
-                      backgroundColor: "white",
+                      color: "red",
                       cursor: "pointer",
                     }}
                   >
-                    <DeleteIcon />
+                    <FlagIcon />
                   </button>
+                  </div>
+                  )}
                 </div>
               </div>
             );
           })}
+                   
         </div>
-        {/* <UserPostEdit
-      id = {postId}
-      key = {postId}
-      open = {open}
-      setOpen = {setOpen}
-      close = {closeModal}
-      Userposts = {updatedPost.userPost}
-      /> */}
+        <PostEdit
+      id = {updatedPost.id}
+      key = {updatedPost.id}
+      open = {open2}
+      setOpen = {setOpen2}
+      close = {handleClose2}
+      Post = {updatedPost.post}
+      />
       </div>
     </div>
   );
