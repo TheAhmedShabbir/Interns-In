@@ -16,6 +16,7 @@ import Generalheader from "../Components/Common/header";
 import { db, auth } from "../firebase-config";
 import { collection, getDocs, doc, query, where } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 const theme = createTheme();
 
@@ -25,6 +26,7 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const userProfile = collection(db, "UserProfile");
   const [checkUser, setCheckUser] = useState({});
+  const [error, setError] = useState('');
 
   const verifyUser = () => {
     console.log(checkUser);
@@ -70,9 +72,20 @@ export default function SignIn() {
         getData(res.user.email);
       }
     }).catch(err => {
+      setError("Username or password is incorrect");
       console.log(err);
     })
   };
+
+  useEffect(() => {
+    setError('');
+    ValidatorForm.addValidationRule('isPassword6Char', (value) => {
+      if (password.length < 6) {
+        return false;
+      }
+      return true;
+    });
+  }, [password]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -92,45 +105,51 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-              sx={{ marginRight: 32, marginTop: 2 }}
-            />
-            <Button
-              // type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={login}
-            >
-              Sign In
-            </Button>
+          <Box sx={{ mt: 1 }}>
+            <ValidatorForm className="space-y-6" onSubmit={login}>
+              <TextValidator
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email"
+                  type="email"
+                  autoComplete="current-email"
+                  validators={['required', 'isEmail']}
+                  errorMessages={['This field is required', 'Email is not valid']}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoFocus
+              />
+              <TextValidator
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="password"
+                  label="Password"
+                  type="password"
+                  autoComplete="current-password"
+                  variant="outlined"
+                  validators={['required', 'isPassword6Char']}
+                  errorMessages={['This field is required', 'Password must be 6 characters long']}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+              />
+              <div style={{"color": "red", "textAlign": "left"}}>{error}</div>
+              <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                  sx={{ marginRight: 32, marginTop: 2 }}
+              />
+              <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+            </ValidatorForm>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
