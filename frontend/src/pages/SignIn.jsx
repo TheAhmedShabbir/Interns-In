@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import Generalheader from "../Components/Common/header";
 import { db, auth } from "../firebase-config";
-import { collection, getDocs, doc } from "firebase/firestore";
+import { collection, getDocs, doc, query, where } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 const theme = createTheme();
@@ -24,47 +24,50 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const userProfile = collection(db, "UserProfile");
-  const [checkUser, setCheckUser] = useState([]);
+  const [checkUser, setCheckUser] = useState({});
 
-  let verifyEmail, verifyRole;
+  const verifyUser = (item) => {
+    let verifyRole = item.Role;
 
-  const verifyUser = (item, index) => {
-    verifyEmail = item.Email;
-    verifyRole = item.Role;
-
-    if (email == verifyEmail && verifyRole == "User") {
+    if (verifyRole == "User") {
       navigate("/UserHomepage");
       // console.log("/userHomepage");
     }
 
-    if (email == verifyEmail && verifyRole == "Company") {
+    if (verifyRole == "Company") {
       navigate("/CompanyHomepage");
       // console.log("/CompanyHomepage");
     }
 
-    if (email == verifyEmail && verifyRole == "Admin") {
+    if (verifyRole == "Admin") {
       navigate("/AdminDashboard");
-
       // console.log("/AdminDashboard");
     }
   };
 
-  const getData = async () => {
-    const data = await getDocs(userProfile);
-    setCheckUser(data.docs.map((doc) => ({ ...doc.data() })));
+  const getData = async (email) => {
+    const q = query(userProfile, where("Email", "==", email))
+    const data = await getDocs(q);
+    let docsData = data.docs.map((doc) => ({ ...doc.data() }));
+    setCheckUser(docsData[0]);
+    verifyUser(checkUser);
   };
 
   const login = async () => {
-    try {
-      const LoggedInUser = await signInWithEmailAndPassword(
+    signInWithEmailAndPassword(
         auth,
         email,
         password
-      );
-      checkUser.forEach(verifyUser);
-    } catch (error) {
-      console.log(error);
-    }
+    ).then(res => {
+      console.log(res.user);
+      if (!res.user.emailVerified) {
+        navigate("/unverified");
+      } else {
+        getData(res.user.email);
+      }
+    }).catch(err => {
+      console.log(err);
+    })
   };
 
   return (
@@ -96,7 +99,6 @@ export default function SignIn() {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              onFocus={getData}
               autoFocus
             />
             <TextField

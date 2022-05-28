@@ -22,6 +22,8 @@ import SavedJobs from "./pages/User/SavedJobs";
 // import CompanyForums from "./pages/Company/CompanyForum";
 // import CompanyForumTopic from "./pages/Company/CompanyForumTopic";
 import "./App.css";
+import {AccountVerify} from "./pages/verify";
+import {AccountNotVerified} from "./pages/account-not-verified";
 
 export default function App() {
   return (
@@ -40,6 +42,8 @@ export default function App() {
           <Route path="/shortlisted" element={<Shortlisted />}></Route>
           <Route path="/UserHomePage" element={<UserHomepage />}></Route>
           <Route path="/CompanyHomePage" element={<CompanyHomePage />}></Route>
+          <Route path="verify" element={<AccountVerify/>}></Route>
+          <Route path="unverified" element={<AccountNotVerified/>}></Route>
           {/* <Route path="/CompanyForums" element={<CompanyForums />}></Route>
           <Route path="/CompanyForumTopic" element={<CompanyForumTopic/>}></Route> */}
           <Route path="/Forums" element={<Forums />}></Route>

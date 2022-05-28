@@ -13,7 +13,7 @@ import Header from "../../Components/Common/header";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../../firebase-config";
 import { collection, addDoc } from "firebase/firestore";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 const theme = createTheme();
 
@@ -28,8 +28,10 @@ export default function UserSignUp() {
 
   const signUp = async () => {
     try {
-      const user = await createUserWithEmailAndPassword(auth, email, password);
+      const user = await createUserWithEmailAndPassword(auth, email, password)
       if (user != null) {
+
+        await sendEmailVerification(user.user);
         addDoc(userProfile, {
           FirstName: firstName,
           LastName: lastName,
@@ -39,7 +41,7 @@ export default function UserSignUp() {
         });
       }
       console.log(user);
-      navigate("/UserHomepage");
+      navigate("/verify");
     } catch (error) {
       console.log(error.message);
       if (error.message) {
