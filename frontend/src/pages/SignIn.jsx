@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import Generalheader from "../Components/Common/header";
 import { db, auth } from "../firebase-config";
 import { collection, getDocs, doc, query, where } from "firebase/firestore";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {sendEmailVerification, signInWithEmailAndPassword} from "firebase/auth";
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 const theme = createTheme();
@@ -66,6 +66,11 @@ export default function SignIn() {
         password
     ).then(res => {
       console.log(res.user);
+      sendEmailVerification(res.user).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err);
+      })
       if (!res.user.emailVerified) {
         navigate("/unverified");
       } else {
