@@ -21,6 +21,7 @@ export default function CompanyHomePage() {
 
   const [user, setUser] = useState({});
   const [pending, setPending] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [jobs, setJobs] = useState([]);
   const [UserInfo, setUserInfo] = useState([]);
@@ -128,6 +129,17 @@ export default function CompanyHomePage() {
       id: doc.id,
     }));
 
+    const employeesCollectionRef = collection(
+      db,
+      `UserProfile/${userData[0]?.id}/employees`
+    );
+    const employeesData = await getDocs(employeesCollectionRef);
+    const employeesProfiles = employeesData.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+
+    setEmployees(employeesProfiles);
     setPending(shortlisted);
     setUserInfo(userData[0]);
 
@@ -262,6 +274,7 @@ export default function CompanyHomePage() {
                   border: "2px solid blue",
                   margin: "10px",
                   width: "200px",
+                  minHeight: "137px",
                 }}
               >
                 <h2>Post a Job</h2>
@@ -277,11 +290,11 @@ export default function CompanyHomePage() {
                   border: "2px solid blue",
                   margin: "10px",
                   width: "200px",
-                  height: "100px",
+                  minHeight: "137px",
                 }}
               >
                 <h2>Jobs Posted</h2>
-                <Typography>{jobs.length}</Typography>
+                <Typography>{jobs?.length}</Typography>
               </div>
               <div
                 style={{
@@ -291,12 +304,12 @@ export default function CompanyHomePage() {
                   border: "2px solid blue",
                   margin: "10px",
                   width: "200px",
-                  height: "100px",
+                  minHeight: "137px",
                 }}
               >
                 <h2 style={{ margin: "10px" }}>Pending Interviews</h2>
                 <Typography style={{ marginTop: "5px" }}>
-                  {pending.length}
+                  {pending?.length}
                 </Typography>
               </div>
               <div
@@ -307,11 +320,11 @@ export default function CompanyHomePage() {
                   border: "2px solid blue",
                   margin: "10px",
                   width: "200px",
-                  height: "100px",
+                  minHeight: "137px",
                 }}
               >
                 <h2>Employees</h2>
-                <Typography>125</Typography>
+                <Typography>{employees?.length}</Typography>
               </div>
             </div>
             <div>
