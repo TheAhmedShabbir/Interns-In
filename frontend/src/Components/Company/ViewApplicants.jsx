@@ -10,40 +10,86 @@ import {
   doc,
   addDoc,
 } from "firebase/firestore";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { forwardRef } from "react";
+
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function ViewApplicants({ companyId, open, close, applicant }) {
+  const [warningOpen, setWarningOpen] = useState(false);
+  const [successOpen, setSuccessOpen] = useState(false);
+
   const shortlistCollectionRef = collection(
     db,
     `UserProfile/${companyId}/shortlisted`
   );
 
+  const userCollection = collection(db, "UserProfile");
+
+  const handleWarningClick = () => {
+    setWarningOpen(true);
+  };
+
+  const handleWarningClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setWarningOpen(false);
+  };
+
+  const handleSuccessClick = () => {
+    setSuccessOpen(true);
+  };
+
+  const handleSuccessClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccessOpen(false);
+  };
+
   const shortlist = async (id) => {
+    const d = await getDocs(userCollection);
+    const profiles = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userData = profiles.filter((i) => i.id == applicant[0]?.applicantid);
+
     const data = await getDocs(shortlistCollectionRef);
     const shortlisted = data.docs?.map((doc) => ({
       ...doc.data(),
       id: doc.id,
     }));
 
-    // if (applicantFilter[0]?.applicantEmail == user?.email) {
-    //   handleWarningClick();
-    // } else {
-    //   const a = await addDoc(collection(db, `Job/${id}/applicants`), {
-    //     applicantEmail: user?.email,
-    //     firstname: userData[0]?.FirstName,
-    //     lastname: userData[0]?.LastName,
-    //     pfp: userData[0]?.Pfp,
-    //     resume: userData[0]?.cv,
-    //     bio: userData[0]?.Main,
-    //     address: userData[0]?.Address,
-    //     about: userData[0]?.About,
-    //     city: userData[0]?.City,
-    //     province: userData[0]?.Province,
-    //   });
+    const shortlistedFilter = shortlisted.filter(
+      (i) => i.applicantid == userData[0].id
+    );
 
-    //   handleSuccessClick();
-    // }
+    if (applicant[0]?.applicantid == shortlistedFilter[0]?.applicantid) {
+      handleWarningClick();
+    } else {
+      const a = await addDoc(
+        collection(db, `UserProfile/${companyId}/shortlisted`),
+        {
+          applicantEmail: userData[0]?.Email,
+          firstname: userData[0]?.FirstName,
+          lastname: userData[0]?.LastName,
+          pfp: userData[0]?.pfp,
+          resume: userData[0]?.cv,
+          bio: userData[0]?.bio,
+          address: userData[0]?.address,
+          about: userData[0]?.about,
+          city: userData[0]?.city,
+          province: userData[0]?.province,
+          applicantid: applicant[0]?.applicantid,
+        }
+      );
 
-    console.log(id);
+      handleSuccessClick();
+    }
   };
 
   return (
@@ -135,6 +181,33 @@ export default function ViewApplicants({ companyId, open, close, applicant }) {
           </div>
         </Box>
       </Modal>
+      <Snackbar
+        open={warningOpen}
+        autoHideDuration={2000}
+        onClose={handleWarningClose}
+      >
+        <Alert
+          onClose={handleWarningClose}
+          sx={{ width: "100%" }}
+          severity="warning"
+        >
+          You have already Shortlisted this Candidate
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={successOpen}
+        autoHideDuration={2000}
+        onClose={handleSuccessClose}
+      >
+        <Alert
+          onClose={handleSuccessClose}
+          sx={{ width: "100%" }}
+          severity="success"
+        >
+          Applicant Shortlisted
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
