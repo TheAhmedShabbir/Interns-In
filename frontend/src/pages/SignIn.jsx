@@ -14,8 +14,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import Generalheader from "../Components/Common/header";
 import { db, auth } from "../firebase-config";
-import { collection, getDocs, doc } from "firebase/firestore";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { collection, getDocs, doc, query, where } from "firebase/firestore";
+import {sendEmailVerification, signInWithEmailAndPassword} from "firebase/auth";
+import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 const theme = createTheme();
 
@@ -24,48 +25,73 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const userProfile = collection(db, "UserProfile");
-  const [checkUser, setCheckUser] = useState([]);
+  const [checkUser, setCheckUser] = useState({});
+  const [error, setError] = useState('');
 
-  let verifyEmail, verifyRole;
+  const verifyUser = () => {
+    console.log(checkUser);
+    let verifyRole = checkUser.Role;
 
-  const verifyUser = (item, index) => {
-    verifyEmail = item.Email;
-    verifyRole = item.Role;
-
-    if (email == verifyEmail && verifyRole == "User") {
+    if (verifyRole == "User") {
       navigate("/UserHomepage");
       // console.log("/userHomepage");
     }
 
-    if (email == verifyEmail && verifyRole == "Company") {
+    if (verifyRole == "Company") {
       navigate("/CompanyHomepage");
       // console.log("/CompanyHomepage");
     }
 
-    if (email == verifyEmail && verifyRole == "Admin") {
+    if (verifyRole == "Admin") {
       navigate("/AdminDashboard");
-
       // console.log("/AdminDashboard");
     }
   };
 
-  const getData = async () => {
-    const data = await getDocs(userProfile);
-    setCheckUser(data.docs.map((doc) => ({ ...doc.data() })));
+  const getData = async (email) => {
+    const q = query(userProfile, where("Email", "==", email.toLowerCase()))
+    const data = await getDocs(q);
+    let docsData = data.docs.map((doc) => ({ ...doc.data() }));
+    setCheckUser(docsData[0]);
   };
 
+  useEffect(() => {
+    verifyUser();
+  }, [checkUser])
+
   const login = async () => {
-    try {
-      const LoggedInUser = await signInWithEmailAndPassword(
+    signInWithEmailAndPassword(
         auth,
-        email,
+        email.toLowerCase(),
         password
-      );
-      checkUser.forEach(verifyUser);
-    } catch (error) {
-      console.log(error);
-    }
+    ).then(res => {
+      console.log(res.user);
+      localStorage.setItem("access_token", res.user.accessToken);
+      sendEmailVerification(res.user).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err);
+      })
+      if (!res.user.emailVerified) {
+        navigate("/unverified");
+      } else {
+        getData(res.user.email);
+      }
+    }).catch(err => {
+      setError(err.message);
+      console.log(err);
+    })
   };
+
+  useEffect(() => {
+    setError('');
+    ValidatorForm.addValidationRule('isPassword6Char', (value) => {
+      if (password.length < 6) {
+        return false;
+      }
+      return true;
+    });
+  }, [password]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -85,46 +111,51 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onFocus={getData}
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-              sx={{ marginRight: 32, marginTop: 2 }}
-            />
-            <Button
-              // type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={login}
-            >
-              Sign In
-            </Button>
+          <Box sx={{ mt: 1 }}>
+            <ValidatorForm className="space-y-6" onSubmit={login}>
+              <TextValidator
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email"
+                  type="email"
+                  autoComplete="current-email"
+                  validators={['required', 'isEmail']}
+                  errorMessages={['This field is required', 'Email is not valid']}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoFocus
+              />
+              <TextValidator
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="password"
+                  label="Password"
+                  type="password"
+                  autoComplete="current-password"
+                  variant="outlined"
+                  validators={['required', 'isPassword6Char']}
+                  errorMessages={['This field is required', 'Password must be 6 characters long']}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+              />
+              <div style={{"color": "red", "textAlign": "left"}}>{error}</div>
+              <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                  sx={{ marginRight: 32, marginTop: 2 }}
+              />
+              <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+            </ValidatorForm>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">

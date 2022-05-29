@@ -92,7 +92,7 @@ export default function Notifications() {
                     }}
                   >
                     <Typography style={{ padding: "10px" }}>
-                      XYZ added a new job for {job.Title}
+                      {job.postedby} added a new job for {job.Title}
                     </Typography>
                     <div>
                       <Button

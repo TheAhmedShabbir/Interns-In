@@ -8,7 +8,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import DatePicker from "react-datepicker";
 import { Button } from "@mui/material";
 import { db, auth } from "../../firebase-config";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
@@ -30,10 +30,13 @@ export default function PostJob() {
   const [mode, setMode] = useState("");
   const [salary, setSalary] = useState(0);
   const [city, setCity] = useState("");
-  const jobCollection = collection(db, "Job");
-  const [loading, setLoading] = useState(true);
+  const [companyName, setCompanyName] = useState("");
 
+  const [loading, setLoading] = useState(true);
   const [postOpen, setPostOpen] = useState(false);
+
+  const userCollection = collection(db, "UserProfile");
+  const jobCollection = collection(db, "Job");
 
   const handlePostClick = () => {
     setPostOpen(true);
@@ -47,11 +50,20 @@ export default function PostJob() {
     setPostOpen(false);
   };
 
+  const getUser = async () => {
+    const data = await getDocs(userCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userData = profiles.filter((i) => i.Email == user?.email);
+
+    setCompanyName(userData[0]?.CompanyName);
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
 
       if (currentUser) {
+        getUser();
         setLoading(false);
       } else {
         navigate("/SignIn");
@@ -67,8 +79,8 @@ export default function PostJob() {
       Mode: mode,
       Salary: salary,
       City: city,
-      Applicants: [],
       company: user?.email,
+      postedby: companyName,
     });
 
     navigate("/CompanyHomepage");
@@ -93,7 +105,7 @@ export default function PostJob() {
               margin: "50px",
             }}
           >
-            <h2 style={{ padding: "10px", margin: "20px" }}>Add A New Post</h2>
+            <h2 style={{ padding: "10px", margin: "20px" }}>Add A New Job</h2>
             <div
               style={{
                 display: "flex",
