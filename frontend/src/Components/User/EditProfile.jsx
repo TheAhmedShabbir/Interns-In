@@ -114,7 +114,7 @@ export default function ProfEdit({
             onChange={(e) => setNewPassword(e.target.value)}
           />
           <Button onClick={close}>Cancel</Button>
-          <Button onClick={() => editProf()}>Add</Button>
+          <Button onClick={() => editProf()}>Update</Button>
           {/* </Form> */}
         </Box>
       </Modal>
