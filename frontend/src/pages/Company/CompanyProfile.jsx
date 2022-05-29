@@ -47,8 +47,7 @@ export default function CompanyProfile() {
 
   const getUserInfo = async () => {
     const data = await getDocs(UserCollection);
-    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
-
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userData = profiles.filter((i) => i.Email == user?.email);
     setUserInfo(userData);
     
