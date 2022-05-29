@@ -9,62 +9,54 @@ import { useNavigate } from "react-router-dom";
 
 export default function Shortlisted() {
   const navigate = useNavigate();
-  const [jobs, setJobs] = useState([]);
-  const shortlistedCollection = collection(db, "Shortlisted");
-  const userCollection = collection(db, "UserProfile");
+
   const [applicants, setApplicants] = useState([]);
   const [user, setUser] = useState({});
+  const [userInfo, setUserInfo] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // const getJobs = async () => {
-  //   const data = await getDocs(jobCollection);
-  //   const j = data.docs.map((doc) => ({ ...doc.data() }));
-
-  //   const applicant = j.map((a) => a.Applicants);
-  //   setJobs(applicant);
-
-  //   const d = await getDocs(userCollection);
-  //   const app = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-
-  //   const applicantProfile = applicant.filter((a) => a.Applicants == app.Email);
-  //   const prof = app.filter((p) => p.Email == applicantProfile);
-
-  //   if (applicantProfile == app) {
-  //     // console.log(app);
-  //   }
-  //   console.log(prof);
-  //   // setApplicants(userData);
-
-  //   setLoading(false);
-  // };
+  const userCollection = collection(db, "UserProfile");
 
   const getShortlisted = async () => {
-    const data = await getDocs(shortlistedCollection);
-    const s = data.docs.map((doc) => ({ ...doc.data() }));
+    const shortlistCollectionRef = collection(
+      db,
+      `UserProfile/${userInfo?.id}/shortlisted`
+    );
+    const data = await getDocs(shortlistCollectionRef);
+    const shortlisted = data.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
 
-    const d = await getDocs(userCollection);
-    const profiles = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    const user = profiles.filter((p) => p.Role == "User");
+    setApplicants(shortlisted);
+    setLoading(false);
 
-    const userData = user.filter((u) => u[0]?.id == s.id);
-    setApplicants(userData);
-    // console.log(userData);
+    console.log("shortlisted");
+  };
+
+  const getUserInfo = async () => {
+    const data = await getDocs(userCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userData = profiles.filter((i) => i.Email == user?.email);
+
+    setUserInfo(userData[0]);
+    console.log("userInfo");
+
     setLoading(false);
   };
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-    });
 
-    if (user) {
-      // get jobs
-      // getJobs();
-      getShortlisted();
-    } else {
-      navigate("/SignIn");
-    }
-  }, [user]);
+      if (currentUser) {
+        getUserInfo();
+        getShortlisted();
+      } else {
+        navigate("/SignIn");
+      }
+    });
+  }, [user, userInfo?.id]);
 
   if (loading) {
     return <div>loading...</div>;
@@ -87,41 +79,57 @@ export default function Shortlisted() {
           }}
         >
           <h1>Shortlisted</h1>
-          {applicants.map((a, key) => {
-            if (a.length == 0) {
-              <div></div>;
-            } else {
-              return (
-                <div key={key}>
+          {applicants?.map((a, key) => {
+            // if (a.length == 0) {
+            //   <div></div>;
+            // } else {
+            return (
+              <div key={key}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    margin: "10px",
+                    padding: "10px",
+                    backgroundColor: "white",
+                    width: "700px",
+                    borderRadius: "5px",
+                  }}
+                >
                   <div
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "space-between",
-                      margin: "10px",
-                      padding: "10px",
-                      backgroundColor: "white",
-                      minWidth: "500px",
-                      borderRadius: "5px",
                     }}
                   >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <div>
-                        <img width="80px" height="80px" src={img} />
-                      </div>
-                      <p style={{ marginLeft: "15px" }}>
-                        {a?.FirstName + " " + a?.LastName}
-                      </p>
+                    <div>
+                      <img width="80px" height="80px" src={img} />
                     </div>
+                    <p style={{ marginLeft: "15px" }}>
+                      {a?.firstname + " " + a?.lastname}
+                    </p>
+                  </div>
+                  <div>
+                    <Button
+                      style={{ margin: "10px" }}
+                      size="small"
+                      variant="outlined"
+                      color="success"
+                    >
+                      Interview
+                    </Button>
+                    <Button
+                      style={{ margin: "10px" }}
+                      size="small"
+                      variant="outlined"
+                    >
+                      View Profile
+                    </Button>
                   </div>
                 </div>
-              );
-            }
+              </div>
+            );
           })}
         </div>
       </div>
