@@ -22,7 +22,7 @@ export default function UserHeader() {
 
   const logout = async () => {
     await signOut(auth);
-
+    localStorage.clear();
     navigate("/SignIn");
   };
 
