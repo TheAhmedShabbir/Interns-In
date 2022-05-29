@@ -63,14 +63,14 @@ export default function UserProfile() {
       (error) => console.log(error),
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          // console.log("url is:",url)
+          console.log(url);
           setUrl(url);
-          console.log(Url);
         });
       }
     );
     // }
   };
+  
   
   //Update User Profile Picture
 
@@ -105,7 +105,7 @@ export default function UserProfile() {
     // const q = await query(UserCollection, where("Email", "==", user?.email));
     // const queryResults = await getDocs(q);
     setUserInfo(userData);
-    console.log(userData);
+    console.log(UserInfo);
     setLoading(false);
   };
 
@@ -175,6 +175,7 @@ export default function UserProfile() {
             </Button>
           </div>
         </div>
+        
         <div
           style={{
             display: "flex",
