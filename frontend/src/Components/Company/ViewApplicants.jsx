@@ -77,7 +77,7 @@ export default function ViewApplicants({ companyId, open, close, applicant }) {
           applicantEmail: userData[0]?.Email,
           firstname: userData[0]?.FirstName,
           lastname: userData[0]?.LastName,
-          pfp: userData[0]?.pfp,
+          pfp: userData[0]?.Pfp,
           resume: userData[0]?.cv,
           bio: userData[0]?.bio,
           address: userData[0]?.address,
