@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import CompanyHeader from "../../Components/Company/CompanyHeader";
 import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -16,12 +16,12 @@ export default function Shortlisted() {
   const [loading, setLoading] = useState(true);
 
   const userCollection = collection(db, "UserProfile");
+  const shortlistCollectionRef = collection(
+    db,
+    `UserProfile/${userInfo?.id}/shortlisted`
+  );
 
   const getShortlisted = async () => {
-    const shortlistCollectionRef = collection(
-      db,
-      `UserProfile/${userInfo?.id}/shortlisted`
-    );
     const data = await getDocs(shortlistCollectionRef);
     const shortlisted = data.docs.map((doc) => ({
       ...doc.data(),
@@ -30,8 +30,36 @@ export default function Shortlisted() {
 
     setApplicants(shortlisted);
     setLoading(false);
+  };
 
-    console.log("shortlisted");
+  const hireApplicant = async (id) => {
+    const data = await getDocs(shortlistCollectionRef);
+    const shortlisted = data.docs?.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+
+    const shortlistedFilter = shortlisted.filter((i) => i.id == id);
+
+    const h = await addDoc(
+      collection(db, `UserProfile/${userInfo?.id}/employees`),
+      {
+        applicantEmail: shortlistedFilter[0]?.applicantEmail,
+        employeename: shortlistedFilter[0]?.firstname,
+        lastname: shortlistedFilter[0]?.lastname,
+        pfp: shortlistedFilter[0]?.pfp,
+        resume: shortlistedFilter[0]?.resume,
+        bio: shortlistedFilter[0]?.bio,
+        address: shortlistedFilter[0]?.address,
+        about: shortlistedFilter[0]?.about,
+        city: shortlistedFilter[0]?.city,
+        province: shortlistedFilter[0]?.province,
+        applicantid: shortlistedFilter[0]?.applicantid,
+      }
+    );
+
+    setLoading(false);
+    console.log(shortlistedFilter);
   };
 
   const getUserInfo = async () => {
@@ -40,7 +68,6 @@ export default function Shortlisted() {
     const userData = profiles.filter((i) => i.Email == user?.email);
 
     setUserInfo(userData[0]);
-    console.log("userInfo");
 
     setLoading(false);
   };
@@ -80,56 +107,58 @@ export default function Shortlisted() {
         >
           <h1>Shortlisted</h1>
           {applicants?.map((a, key) => {
-            // if (a.length == 0) {
-            //   <div></div>;
-            // } else {
-            return (
-              <div key={key}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    margin: "10px",
-                    padding: "10px",
-                    backgroundColor: "white",
-                    width: "700px",
-                    borderRadius: "5px",
-                  }}
-                >
+            if (applicants?.length == 0) {
+              <div></div>;
+            } else {
+              return (
+                <div key={key}>
                   <div
                     style={{
                       display: "flex",
                       alignItems: "center",
+                      justifyContent: "space-between",
+                      margin: "10px",
+                      padding: "10px",
+                      backgroundColor: "white",
+                      width: "700px",
+                      borderRadius: "5px",
                     }}
                   >
-                    <div>
-                      <img width="80px" height="80px" src={img} />
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div>
+                        <img width="80px" height="80px" src={img} />
+                      </div>
+                      <p style={{ marginLeft: "15px" }}>
+                        {a?.firstname + " " + a?.lastname}
+                      </p>
                     </div>
-                    <p style={{ marginLeft: "15px" }}>
-                      {a?.firstname + " " + a?.lastname}
-                    </p>
-                  </div>
-                  <div>
-                    <Button
-                      style={{ margin: "10px" }}
-                      size="small"
-                      variant="outlined"
-                      color="success"
-                    >
-                      Interview
-                    </Button>
-                    <Button
-                      style={{ margin: "10px" }}
-                      size="small"
-                      variant="outlined"
-                    >
-                      View Profile
-                    </Button>
+                    <div>
+                      <Button
+                        style={{ margin: "10px" }}
+                        size="small"
+                        variant="outlined"
+                        color="success"
+                      >
+                        Interview
+                      </Button>
+                      <Button
+                        style={{ margin: "10px" }}
+                        size="small"
+                        variant="outlined"
+                        onClick={() => hireApplicant(a.id)}
+                      >
+                        Hire
+                      </Button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
+              );
+            }
           })}
         </div>
       </div>
