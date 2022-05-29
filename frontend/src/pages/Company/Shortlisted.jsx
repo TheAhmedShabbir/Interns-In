@@ -29,7 +29,7 @@ export default function Shortlisted() {
     }));
   
     setApplicants(shortlisted);
-    console.log(applicants[0].resume);
+    // console.log(applicants);
     setLoading(false);
   };
 
