@@ -96,7 +96,7 @@ export default function CmpProfEdit({
           />
           <TextField
             fullWidth
-            label="Email"
+            label="Location"
             defaultValue={location}
             onChange={(e) => setNewLocation(e.target.value)}
           />
