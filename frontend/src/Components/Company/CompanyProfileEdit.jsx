@@ -4,35 +4,35 @@ import { Button, Modal, TextField, Typography } from "@mui/material";
 import { updateDoc, doc, collection } from "firebase/firestore";
 import { db } from "../../firebase-config";
 
-export default function ProfEdit({
-  first_name,
-  second_name,
+export default function CmpProfEdit({
+  companyname,
   email,
-  password,
+  location,
+  about,
   open,
   close,
   id,
 }) {
-  const [newFirstName, setNewFirstName] = useState();
-  const [newScndName, setNewScndName] = useState();
+  const [newCompanyname, setNewCompanyname] = useState();
+  const [newLocation, setNewLocation] = useState();
   const [newEmail, setNewEmail] = useState();
-  const [newPassword, setNewPassword] = useState();
+  const [newAbout, setNewAbout] = useState();
 
-  const updateFName = async (id, nFName) => {
-    if (nFName == undefined) {
-      nFName = first_name;
+  const updateCompanyname = async (id, nCName) => {
+    if (nCName == undefined) {
+        nCName = companyname;
     }
     const UserCollection = doc(db, "UserProfile", id);
-    const nf = { FirstName: nFName };
+    const nf = { CompanyName: nCName };
     updateDoc(UserCollection, nf);
   };
 
-  const updateSName = async (id, nSName) => {
-    if (nSName == undefined) {
-      nSName = second_name;
+  const updatelocation = async (id, nLocation) => {
+    if (nLocation == undefined) {
+        nLocation = location;
     }
     const UserCollection = doc(db, "UserProfile", id);
-    const nf = { LastName: nSName };
+    const nf = { Location: nLocation };
     updateDoc(UserCollection, nf);
   };
 
@@ -45,25 +45,24 @@ export default function ProfEdit({
     updateDoc(UserCollection, nf);
   };
 
-  const updatePassword = async (id, nPass) => {
+  const updateAbout = async (id, nAbout) => {
     if (nPass == undefined) {
-      nPass = password;
+        nAbout = about;
     }
     const UserCollection = doc(db, "UserProfile", id);
-    const nf = { Password: nPass };
+    const nf = { About: nAbout };
     updateDoc(UserCollection, nf);
   };
 
-  const editProf = async () => {
-    updateFName(id, newFirstName);
-    updateSName(id, newScndName);
+  const editCmpProf = async () => {
+    updateFName(id, newCompanyname);
+    updateSName(id, newLocation);
     updateEmail(id, newEmail);
-    updatePassword(id, newPassword);
+    updatePassword(id, newAbout);
   };
 
   return (
     <div>
-      {console.log(first_name, second_name, email, password)}
       <Modal
         open={open}
         onClose={close}
@@ -71,7 +70,7 @@ export default function ProfEdit({
         <Box
           sx={{
             position: "absolute",
-            top: "80%",
+            top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: 400,
@@ -83,18 +82,11 @@ export default function ProfEdit({
         >
           {/* <Form> */}
           <h2>Edit User Information</h2>
-          <div style = {{display : 'flex', flexDirection: 'column', justifyContent: 'space-evenly'}}>
           <TextField
             fullWidth
-            label="First Name"
-            defaultValue={first_name}
-            onChange={(e) => setNewFirstName(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            label="Last Name"
-            defaultValue={second_name}
-            onChange={(e) => setNewScndName(e.target.value)}
+            label="Company Name"
+            defaultValue={companyname}
+            onChange={(e) => setNewCompanyname(e.target.value)}
           />
           <TextField
             fullWidth
@@ -102,19 +94,18 @@ export default function ProfEdit({
             defaultValue={email}
             onChange={(e) => setNewEmail(e.target.value)}
           />
-          {/* <TextField
+          <TextField
             fullWidth
-            label="Enter password to save changes"
-            // defaultValue={}
-            onChange={(e) => setNewPassword(e.target.value)}
+            label="Email"
+            defaultValue={location}
+            onChange={(e) => setNewLocation(e.target.value)}
           />
           <TextField
             fullWidth
-            label="Enter new password if you want o change your default password"
-            // defaultValue={}
-            onChange={(e) => setNewPassword(e.target.value)}
-          /> */}
-          </div>
+            label="About"
+            defaultValue={about}
+            onChange={(e) => setNewAbout(e.target.value)}
+          />
           <Button onClick={close}>Cancel</Button>
           <Button onClick={() => editProf()}>Update</Button>
           {/* </Form> */}

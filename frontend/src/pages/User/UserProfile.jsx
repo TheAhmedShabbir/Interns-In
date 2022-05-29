@@ -102,8 +102,6 @@ export default function UserProfile() {
     const data = await getDocs(UserCollection);
     const profiles = data.docs.map((doc) => ({...doc.data(),id: doc.id}));
     const userData = profiles.filter((i) => i.Email == user?.email);
-    // const q = await query(UserCollection, where("Email", "==", user?.email));
-    // const queryResults = await getDocs(q);
     setUserInfo(userData);
     console.log(UserInfo);
     setLoading(false);
@@ -276,7 +274,7 @@ export default function UserProfile() {
             close={handleClose2}
             first_name={Edit?.FirstName}
             second_name={Edit?.LastName}
-            password={Edit?.Password}
+            // password={Edit?.Password}
             email={Edit?.Email}
           />
         </div>

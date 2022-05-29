@@ -181,16 +181,17 @@ export default function Forums() {
                 </Button>
                 <div>
                   {user?.email == forum.Post_Email ? (
-                    <button
-                      style={{ border: "none", backgroundColor: "white" }}
-                    >
-                      <EditIcon />
-                    </button>
+                    <div></div>
+                    // <button
+                    //   style={{ border: "none", backgroundColor: "white" }}
+                    // >
+                    //   <EditIcon />
+                    // </button>
                   ) : (
                     <div></div>
                   )}
 
-                  {user.email == forum.Post_Email ? (
+                  {/* {user.email == forum.Post_Email ? (
                     <button
                       style={{ border: "none", backgroundColor: "white" }}
                       
@@ -199,7 +200,7 @@ export default function Forums() {
                     </button>
                   ) : (
                     <div></div>
-                  )}
+                  )} */}
                 </div>
               </div>
             );

@@ -6,14 +6,41 @@ import { Button } from "@mui/material";
 import CompanyHeader from "../../Components/Company/CompanyHeader";
 import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs,
+  addDoc,
+  deleteDoc,
+  updateDoc,
+  doc, } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import CompanyProfileEdit from "../../Components/Company/CompanyProfileEdit";
+import EditIcon from "@mui/icons-material/Edit";
+import Modal from "@mui/material/Modal";
+import { ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../firebase-config";
+import { getDownloadURL } from "firebase/storage";
+
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #548CCB",
+  boxShadow: 24,
+  p: 4,
+};
+
+
+
 
 export default function CompanyProfile() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [UserInfo, setUserInfo] = useState([]);
+  
 
   const UserCollection = collection(db, "UserProfile");
   const [loading, setLoading] = useState(true);
@@ -23,10 +50,72 @@ export default function CompanyProfile() {
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
 
     const userData = profiles.filter((i) => i.Email == user?.email);
-
-    setUserInfo(userData[0]);
+    setUserInfo(userData);
+    
     setLoading(false);
   };
+  
+
+// edit data
+let [editDetails, setEditDetails] = useState([]);
+
+const updateCmpProf = async (id) => {
+  setEditDetails(UserInfo[id]);
+  handleOpen();
+};
+// Modal
+const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+
+  // Update Profile Picture
+  const [open2, setOpen2] = React.useState(false);
+  const handleOpen2 = () => setOpen2(true);
+  const handleClose2 = () => setOpen2(false);
+
+  const [Url, setUrl] = useState();
+  const [progress, setProgress] = useState(0);
+
+  const formHandler = (e) => {
+    e.preventDefault();
+    const file = e.target[0].files[0];
+    HandleUpload(file);
+  };
+
+  const HandleUpload = (file) => {
+    if (!file) return;
+
+    const storageRef = ref(storage, `files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const prog = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+        setProgress(prog);
+      },
+      (error) => console.log(error),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          console.log(url);
+          setUrl(url);
+        });
+      }
+    );
+  };
+  
+  //Update User Profile Picture
+  const updateProfilePic = async () => {
+    const updatedDoc = doc(db, "UserProfile", UserInfo?.id);
+    await updateDoc(updatedDoc, {
+      Pfp: Url,
+    });
+  };
+
+
+
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -45,12 +134,16 @@ export default function CompanyProfile() {
     return <div>loading...</div>;
   } else {
     return (
+      
       <div style={{ backgroundColor: "#f3f2ef" }}>
         <CompanyHeader />
+        {UserInfo && UserInfo.map((item, key) => {
+          return(
         <div
           style={{
             marginTop: "40px",
           }}
+          key = {key}
         >
           <div style={{ zIndex: 1, position: "relative" }}>
             <img
@@ -60,12 +153,34 @@ export default function CompanyProfile() {
               src={img}
             />
           </div>
+          <div>
+            <Modal open={open2} onClose={handleClose2}>
+              <Box sx={style}>
+                {/* <Form> */}
+                <h2>Update Profile Picture</h2>
+                <form onSubmit={formHandler}>
+                  <input type="file" onChange={HandleUpload} />
+                  <Button type="submit">upload</Button>
+                  <Button onClick={updateProfilePic}>Save</Button>
+
+                  <Button onClick={handleClose2}>Cancel</Button>
+
+                  <h3>uploaded{progress}%</h3>
+                </form>
+              </Box>
+            </Modal>
+
+            <Button onClick={handleOpen2}>
+              <EditIcon />
+            </Button>
+          </div>
           <div
             style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              marginTop: "-110px",
+              marginTop: "-110px", 
+              paddingTop : '10px' 
             }}
           >
             <Box
@@ -103,12 +218,12 @@ export default function CompanyProfile() {
                     }}
                   >
                     <h2>Company Name</h2>
-                    <Button size="small" variant="outlined">
+                    <Button size="small" variant="outlined" onClick = {() => {updateCmpProf(key)}}>
                       Edit
                     </Button>
                   </div>
                   <Typography style={{ marginBottom: "15px" }}>
-                    {UserInfo?.CompanyName}
+                    {item?.CompanyName}
                   </Typography>
                 </div>
                 <div>
@@ -124,9 +239,9 @@ export default function CompanyProfile() {
                     }}
                   >
                     <h2>Password</h2>
-                    <Button size="small" variant="outlined">
+                    {/* <Button size="small" variant="outlined">
                       Edit
-                    </Button>
+                    </Button> */}
                   </div>
                   <Typography style={{ marginBottom: "15px" }}>
                     {UserInfo?.Password}
@@ -145,11 +260,11 @@ export default function CompanyProfile() {
                     }}
                   >
                     <h2>Email</h2>
-                    <Button size="small" variant="outlined">
+                    {/* <Button size="small" variant="outlined">
                       Edit
-                    </Button>
+                    </Button> */}
                   </div>
-                  <Typography> {user?.email}</Typography>
+                  <Typography> {item.Email}</Typography>
                 </div>
 
                 <div>
@@ -165,12 +280,12 @@ export default function CompanyProfile() {
                     }}
                   >
                     <h2>Location</h2>
-                    <Button size="small" variant="outlined">
+                    {/* <Button size="small" variant="outlined">
                       Edit
-                    </Button>
+                    </Button> */}
                   </div>
                   <Typography style={{ marginBottom: "15px" }}>
-                    {UserInfo?.Location}
+                    {item?.Location}
                   </Typography>
                 </div>
 
@@ -187,16 +302,29 @@ export default function CompanyProfile() {
                     }}
                   >
                     <h2>About </h2>
-                    <Button size="small" variant="outlined">
+                    {/* <Button size="small" variant="outlined">
                       Edit
-                    </Button>
+                    </Button> */}
                   </div>
-                  <Typography> {UserInfo?.About}</Typography>
+                  <Typography> {item?.About}</Typography>
                 </div>
               </Paper>
             </Box>
           </div>
+          <CompanyProfileEdit
+          id = {editDetails?.id}
+          key={editDetails?.id}
+          open = {open}
+          setOpen = {setOpen}
+          close = {handleClose}
+          companyname = {editDetails.CompanyName}
+          location = {editDetails.Location}
+          email = {editDetails.Email}
+          about = {editDetails.About}
+          />
         </div>
+         )
+        })}
       </div>
     );
   }
