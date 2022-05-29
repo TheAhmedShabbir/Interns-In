@@ -104,7 +104,7 @@ export default function Forums() {
           <h3>Start a New Topic</h3>
           <TextField
             style={{ marginBottom: "15px", minWidth : "500px"}}
-            
+            required
             label="Topic Title"
             onChange={(event) => {
               setNewTopic(event.target.value);
@@ -113,7 +113,7 @@ export default function Forums() {
           
           <TextField
             style={{ marginBottom: "15px",  minWidth : "500px"}}
-            
+            required
             label="Topic Description"
             onChange={(event) => {
               setNewDescription(event.target.value);
