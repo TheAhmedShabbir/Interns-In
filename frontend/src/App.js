@@ -29,6 +29,9 @@ import {
   AuthorizedRoute,
   EnrouteToDashboard,
 } from "./authorization/authorized-routes";
+import Live from './pages/Company/Live';
+
+
 
 export default function App() {
   return (
@@ -98,6 +101,14 @@ export default function App() {
             element={
               <AuthorizedRoute>
                 <Shortlisted />
+              </AuthorizedRoute>
+            }
+          ></Route>
+        <Route
+            path="/Live"
+            element={
+              <AuthorizedRoute>
+                <Live />
               </AuthorizedRoute>
             }
           ></Route>

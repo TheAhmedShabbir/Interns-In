@@ -65,6 +65,12 @@ export default function CompanyHeader() {
           >
             <Button color="inherit">Me</Button>
           </Link>
+          <Link
+            to="/Live"
+            style={{ color: "white", textDecoration: "none" }}
+          >
+            <Button color="inherit">VideoCall</Button>
+          </Link>
           <Button color="inherit" onClick={logout}>
             Logout
           </Button>
