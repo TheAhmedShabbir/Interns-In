@@ -20,8 +20,6 @@ import AdminNotifications from "./pages/Admin/AdminNotifications";
 import PostJob from "./pages/Company/PostJob";
 import SavedJobs from "./pages/User/SavedJobs";
 import AppliedJobs from "./pages/User/AppliedJobs";
-// import CompanyForums from "./pages/Company/CompanyForum";
-// import CompanyForumTopic from "./pages/Company/CompanyForumTopic";
 import "./App.css";
 import { AccountVerify } from "./pages/verify";
 import { AccountNotVerified } from "./pages/account-not-verified";

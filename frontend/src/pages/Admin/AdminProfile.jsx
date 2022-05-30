@@ -11,15 +11,30 @@ import UpdatePassword from "../../Components/Admin/UpdatePassword";
 import { onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
+import AdminProfEdit from "../../Components/Admin/AdminProfileEdit";
+import EditIcon from "@mui/icons-material/Edit";
+
+
 
 export default function AdminProfile() {
   let [adminInfo, setAdminInfo] = useState();
   const [user, setUser] = useState({});
-  let [editName, setEditName] = useState();
-  let [editPassword, setEditPassword] = useState();
-  const [open, setOpen] = useState(false);
+  
+
   const userProfile = collection(db, "UserProfile");
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
+
+  let [Edit, setEdit] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const updateAdminProf = async (id) => {
+    setEdit(adminInfo[id]);
+    handleOpen();
+  };
 
   // const closeModal = () => setOpen(false);
 
@@ -41,8 +56,7 @@ export default function AdminProfile() {
     const data = await getDocs(userProfile);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const admin = profiles.filter((i) => i.Role == "Admin");
-
-    setAdminInfo(admin[0]);
+    setAdminInfo(admin);
     setLoading(false);
   };
 
@@ -65,135 +79,128 @@ export default function AdminProfile() {
     return (
       <div style={{ backgroundColor: "#f3f2ef" }}>
         <AdminHeader />
-        <div
-          style={{
-            marginTop: "20px",
-          }}
-        >
-          <div style={{ zIndex: 1, position: "relative" }}>
-            <img
-              style={{ borderRadius: "110px" }}
-              width="200px"
-              height="200px"
-              src={img}
-            />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              minHeight: "50vh",
-              marginTop: "-110px",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                "& > :not(style)": {
-                  m: 1,
-                  width: 550,
-                  height: 300,
-                },
+
+        {adminInfo.map((item, key) => {
+          return (
+            <div
+              style={{
+                marginTop: "20px",
               }}
+              key={key}
             >
-              <Paper
-                elevation={2}
+              <div style={{ zIndex: 1, position: "relative" }}>
+                <img
+                  style={{ borderRadius: "110px" }}
+                  width="200px"
+                  height="200px"
+                  src={img}
+                />
+              </div>
+              <div
                 style={{
-                  paddingTop: "90px",
                   display: "flex",
-                  flexDirection: "column",
                   justifyContent: "center",
-                  borderRadius: "10px",
-                  paddingBottom: "30px",
-                  marginBottom: "30px",
+                  alignItems: "center",
+                  minHeight: "50vh",
+                  marginTop: "-110px",
                 }}
               >
-                <div>
-                  <div
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    "& > :not(style)": {
+                      m: 1,
+                      minWidth: 550,
+                      minHeight: 300,
+                    },
+                  }}
+                >
+                  <Paper
+                    elevation={2}
                     style={{
+                      paddingTop: "90px",
                       display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      alignContent: "center",
-                      paddingLeft: "50px",
-                      paddingRight: "70px",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      borderRadius: "10px",
+                      paddingBottom: "30px",
+                      marginBottom: "30px",
                     }}
                   >
-                    <h2>Name</h2>
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      // onClick={() => updateName()}
-                    >
-                      Edit
-                    </Button>
-                  </div>
-                  <p style={{ marginBottom: "15px" }}>
-                    {adminInfo?.FirstName + " " + adminInfo?.LastName}
-                  </p>
-                </div>
-                <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      alignContent: "center",
-                      paddingLeft: "50px",
-                      paddingRight: "70px",
-                    }}
-                  >
-                    <h2>Password</h2>
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      // onClick={() => updatePassword()}
-                    >
-                      Edit
-                    </Button>
-                  </div>
-                  <Typography style={{ marginBottom: "15px" }}>
-                    {"*******"}
-                  </Typography>
-                </div>
-                <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      alignContent: "center",
-                      paddingLeft: "50px",
-                      paddingRight: "70px",
-                    }}
-                  >
-                    <h2>Email</h2>
-                  </div>
-                  <Typography>{adminInfo?.Email}</Typography>
-                </div>
-              </Paper>
-            </Box>
-          </div>
-          {/* <UpdateName
-            id={adminInfo.id}
-            open={open}
-            setOpen={setOpen}
-            close={closeModal}
-            name={editName}
-          />
-          <UpdatePassword
-            id={adminInfo.id}
-            open={open}
-            setOpen={setOpen}
-            close={closeModal}
-            password={editPassword}
-          /> */}
-        </div>
+                    <div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          alignContent: "center",
+                          paddingLeft: "50px",
+                          paddingRight: "70px",
+                        }}
+                      >
+                        <h2>Name</h2>
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          onClick={() => updateAdminProf(key)}
+                        >
+                          Edit
+                        </Button>
+                      </div>
+                      <p style={{ marginBottom: "15px" }}>
+                        {item?.FirstName + " " + item?.LastName}
+                      </p>
+                    </div>
+                    <div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          alignContent: "center",
+                          paddingLeft: "50px",
+                          paddingRight: "70px",
+                        }}
+                      >
+                        <h2>Password</h2>
+                      </div>
+                      <Typography style={{ marginBottom: "15px" }}>
+                        {"*******"}
+                      </Typography>
+                    </div>
+                    <div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          alignContent: "center",
+                          paddingLeft: "50px",
+                          paddingRight: "70px",
+                        }}
+                      >
+                        <h2>Email</h2>
+                      </div>
+                      <Typography>{item?.Email}</Typography>
+                    </div>
+                  </Paper>
+                </Box>
+              </div>
+              <AdminProfEdit
+                id={Edit.id}
+                open={open}
+                name={Edit.FirstName}
+                email={Edit.Email}
+                setOpen={handleOpen}
+                close={handleClose}
+              />
+            </div>
+          );
+        })}
       </div>
     );
   }

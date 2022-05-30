@@ -9,17 +9,13 @@ import {
   doc,
   addDoc,
   deleteDoc,
-  query,
-  where,
-  updateDoc,
 } from "firebase/firestore";
-import img from "../assets/images/Userpfp.jpg";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import UserPostEdit from "../Components/User/UserPostEdit";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import CompanyHeader from "../Components/Company/CompanyHeader";
 import PostEdit from "../Components/Common/EditPostModal";
@@ -43,16 +39,13 @@ const style = {
 export default function Forumtopic() {
   //Database variables
   const [forumTopic, setForumTopic] = useState();
-  const [Userposts, setUserposts] = useState([]);
   const [NewPost, setNewPost] = useState("");
-  const [Dscrption, setDscrption] = useState([]);
   const { id } = useParams();
   const UserCollection = collection(db, "UserProfile");
   const PostCollection = collection(db, "UserPosts");
   const [UserInfo, setUserInfo] = useState([]);
   const [user, setUser] = useState({});
   const [Posts, setPosts] = useState([]);
-  const [reply, setreply] = useState(false);
   const navigate = useNavigate();
   
   // Get User/Company To render respective header
@@ -137,7 +130,7 @@ export default function Forumtopic() {
         navigate("/SignIn");
       }
     });
-  }, [user,forumTopic]);
+  }, [user]);
  
 
   return (
