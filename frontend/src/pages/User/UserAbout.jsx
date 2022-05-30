@@ -259,11 +259,12 @@ export default function UserAbout() {
   
   // Update CV
   const updateCV = async () => {
-    console.log(userProfile);
-    const updatedDoc = doc(db, "UserProfile", userProfile[0].id);
+    
+    const updatedDoc = doc(db, "UserProfile", userProfile[0]?.id);
     await updateDoc(updatedDoc, {
       cv: Url,
     });
+    // console.log(userProfile);
   };
 
 

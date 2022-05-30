@@ -39,6 +39,7 @@ const style = {
 export default function Forumtopic() {
   //Database variables
   const [forumTopic, setForumTopic] = useState();
+  const [forumID, setForumID] = useState();
   const [NewPost, setNewPost] = useState("");
   const { id } = useParams();
   const UserCollection = collection(db, "UserProfile");
@@ -52,20 +53,19 @@ export default function Forumtopic() {
   const getUserInfo = async () => {
     const data = await getDocs(UserCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
-    const userData = profiles.filter((i) => i.Email == user.email);
+    const userData = profiles.filter((i) => i.Email == user?.email);
     setUserInfo(userData);
-    // console.log(userData);
   };
 
   // Get User Posts from database
 
-  const getPosts = async () => {
-    const data = await getDocs(PostCollection);
-    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    const userProf = profiles.filter((i) => i.Forum_ID == forumTopic.id);
-    setPosts(userProf);
-    console.log(Posts);
-  };
+    // const getPosts = async () => {
+    //   const data = await getDocs(PostCollection);
+    //   const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    
+    //   console.log(Posts);
+      
+    // };
 
   // Post user posts in the database.
 
@@ -108,7 +108,17 @@ export default function Forumtopic() {
   // const openModal = () => {
   //   setOpen(true);
   // };
-  
+  const getForums = async () => {
+    await getDoc(doc(db, `Forums/${id}`)).then((x) => {
+      setForumTopic({ id: x.id, ...x.data() });
+      
+    });
+    const d = await getDocs(PostCollection);
+    const posts = d.docs.map((doc) => ({ ...doc.data(),id: doc.id }));
+    const userProf = posts.filter((i) => i?.Forum_ID == forumTopic?.id);
+    
+    setPosts(userProf);
+  };
   
   
   useEffect(() => {
@@ -116,21 +126,14 @@ export default function Forumtopic() {
       setUser(currentUser);
       // console.log(user);
       if (currentUser) {
-        const getForums = async () => {
-          await getDoc(doc(db, `Forums/${id}`)).then((x) => {
-            setForumTopic({ id: x.id, ...x.data() });
-            console.log(forumTopic);
-          });
-        };
 
-        getForums();
         getUserInfo();
-        getPosts();
+        getForums();
       } else {
         navigate("/SignIn");
       }
     });
-  }, [user]);
+  }, [user,forumTopic?.id]);
  
 
   return (
