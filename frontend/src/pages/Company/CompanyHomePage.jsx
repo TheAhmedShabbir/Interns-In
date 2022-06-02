@@ -214,7 +214,7 @@ export default function CompanyHomePage() {
                 }}
               >
                 <h3>{UserInfo?.CompanyName}</h3>
-                <Typography>{UserInfo?.Headline}</Typography>
+                <Typography>{UserInfo?.bio}</Typography>
               </div>
             </div>
             {/* <h3>Pending Interviews</h3> */}

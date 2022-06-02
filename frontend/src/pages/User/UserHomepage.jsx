@@ -386,7 +386,6 @@ export default function UserHomepage() {
                   margin: "10px",
                   display: "flex",
                   justifyContent: "center",
-                  alignItems: "center",
                 }}
               >
                 <input
@@ -400,10 +399,12 @@ export default function UserHomepage() {
                   style={{
                     width: "650px",
                     height: "50px",
+                    border: "black 2px solid",
                   }}
                 />
                 <Button
                   style={{
+                    marginTop: "5px",
                     marginLeft: "15px",
                     height: "40px",
                   }}

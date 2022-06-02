@@ -13,8 +13,11 @@ import Header from "../../Components/Common/header";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../../firebase-config";
 import { collection, addDoc } from "firebase/firestore";
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
-import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
 const theme = createTheme();
 
@@ -26,8 +29,8 @@ export default function UserSignUp() {
   const [password, setPassword] = useState("");
   const userProfile = collection(db, "UserProfile");
   const [user, setUser] = useState({});
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
 
   const signUp = async () => {
     try {
@@ -56,19 +59,19 @@ export default function UserSignUp() {
   };
 
   useEffect(() => {
-    ValidatorForm.addValidationRule('isPassword6Char', (value) => {
+    ValidatorForm.addValidationRule("isPassword6Char", (value) => {
       if (password.length < 6) {
         return false;
       }
       return true;
     });
-    ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
+    ValidatorForm.addValidationRule("isPasswordMatch", (value) => {
       if (value !== password) {
         return false;
       }
       return true;
     });
-  }, [password, confirmPassword])
+  }, [password, confirmPassword]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -92,83 +95,92 @@ export default function UserSignUp() {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextValidator
-                      autoComplete="given-name"
-                      name="firstName"
-                      validators={['required']}
-                      errorMessages={['This field is required']}
-                      fullWidth
-                      id="firstName"
-                      label="First Name"
-                      autoFocus
-                      value={firstName}
-                      onChange={(e) => {
-                        setFirstName(e.target.value);
-                      }}
+                    autoComplete="given-name"
+                    name="firstName"
+                    validators={["required"]}
+                    errorMessages={["This field is required"]}
+                    fullWidth
+                    id="firstName"
+                    label="First Name"
+                    autoFocus
+                    value={firstName}
+                    onChange={(e) => {
+                      setFirstName(e.target.value);
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextValidator
-                      validators={['required']}
-                      errorMessages={['This field is required']}
-                      fullWidth
-                      id="lastName"
-                      label="Last Name"
-                      name="lastName"
-                      autoComplete="family-name"
-                      value={lastName}
-                      onChange={(e) => {
-                        setLastName(e.target.value);
-                      }}
+                    validators={["required"]}
+                    errorMessages={["This field is required"]}
+                    fullWidth
+                    id="lastName"
+                    label="Last Name"
+                    name="lastName"
+                    autoComplete="family-name"
+                    value={lastName}
+                    onChange={(e) => {
+                      setLastName(e.target.value);
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextValidator
-                      fullWidth
-                      id="email"
-                      label="Email"
-                      type="email"
-                      autoComplete="current-email"
-                      validators={['required', 'isEmail']}
-                      errorMessages={['This field is required', 'Email is not valid']}
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                    fullWidth
+                    id="email"
+                    label="Email"
+                    type="email"
+                    autoComplete="current-email"
+                    validators={["required", "isEmail"]}
+                    errorMessages={[
+                      "This field is required",
+                      "Email is not valid",
+                    ]}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextValidator
-                      margin="normal"
-                      fullWidth
-                      id="password"
-                      label="Password"
-                      type="password"
-                      autoComplete="current-password"
-                      variant="outlined"
-                      validators={['required', 'isPassword6Char']}
-                      errorMessages={['This field is required', 'Password must be 6 characters long']}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                    margin="normal"
+                    fullWidth
+                    id="password"
+                    label="Password"
+                    type="password"
+                    autoComplete="current-password"
+                    variant="outlined"
+                    validators={["required", "isPassword6Char"]}
+                    errorMessages={[
+                      "This field is required",
+                      "Password must be 6 characters long",
+                    ]}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextValidator
-                      value={confirmPassword}
-                      onChange={event => setConfirmPassword(event.target.value)}
-                      fullWidth
-                      id="confirm-password"
-                      label="Confirm Password"
-                      type="password"
-                      variant="outlined"
-                      validators={['isPasswordMatch', 'required']}
-                      errorMessages={['Password does not match', 'This field is required']}
+                    value={confirmPassword}
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                    fullWidth
+                    id="confirm-password"
+                    label="Confirm Password"
+                    type="password"
+                    variant="outlined"
+                    validators={["isPasswordMatch", "required"]}
+                    errorMessages={[
+                      "Password does not match",
+                      "This field is required",
+                    ]}
                   />
-                  <div style={{"color": "red", "textAlign": "left"}}>{error}</div>
+                  <div style={{ color: "red", textAlign: "left" }}>{error}</div>
                 </Grid>
               </Grid>
               <Button
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                  type={"submit"}
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                type={"submit"}
               >
                 Sign Up
               </Button>

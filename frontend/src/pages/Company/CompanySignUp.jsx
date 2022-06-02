@@ -45,6 +45,11 @@ export default function CompanySignUp() {
           TaxNumber: taxNumber,
           Email: email,
           Role: "Company",
+          pfp: "",
+          bio: "",
+          city: "",
+          about: "",
+          province: "",
         });
       }
       navigate("/verify");
@@ -88,7 +93,7 @@ export default function CompanySignUp() {
           <Typography component="h1" variant="h5">
             Company SignUp
           </Typography>
-          <Box sx={{ mt: 3 }}>
+          <Box sx={{ mt: 6 }}>
             <ValidatorForm className="space-y-6" onSubmit={signUp}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
