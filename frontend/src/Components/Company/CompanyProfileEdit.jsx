@@ -107,7 +107,7 @@ export default function CmpProfEdit({
             onChange={(e) => setNewAbout(e.target.value)}
           />
           <Button onClick={close}>Cancel</Button>
-          <Button onClick={() => editProf()}>Update</Button>
+          <Button onClick={() => editCmpProf()}>Update</Button>
           {/* </Form> */}
         </Box>
       </Modal>

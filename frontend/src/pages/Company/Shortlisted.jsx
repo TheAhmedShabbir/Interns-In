@@ -5,7 +5,7 @@ import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useHref, useNavigate } from "react-router-dom";
 
 export default function Shortlisted() {
   const navigate = useNavigate();
@@ -27,8 +27,9 @@ export default function Shortlisted() {
       ...doc.data(),
       id: doc.id,
     }));
-
+  
     setApplicants(shortlisted);
+    // console.log(applicants);
     setLoading(false);
   };
 
@@ -85,7 +86,7 @@ export default function Shortlisted() {
     const data = await getDocs(userCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userData = profiles.filter((i) => i.Email == user?.email);
-
+    
     setUserInfo(userData[0]);
 
     setLoading(false);
@@ -164,7 +165,7 @@ export default function Shortlisted() {
                         color="success"
                       >
                         Interview
-                      </Button>
+                      </Button>                      
                       <Button
                         style={{ margin: "10px" }}
                         size="small"

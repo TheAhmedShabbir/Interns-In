@@ -75,7 +75,7 @@ export default function UserProfile() {
   //Update User Profile Picture
 
   const updateProfilePic = async () => {
-    const updatedDoc = doc(db, "UserProfile", UserInfo?.id);
+    const updatedDoc = doc(db, "UserProfile", UserInfo[0]?.id);
     await updateDoc(updatedDoc, {
       Pfp: Url,
     });

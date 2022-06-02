@@ -47,8 +47,7 @@ export default function CompanyProfile() {
 
   const getUserInfo = async () => {
     const data = await getDocs(UserCollection);
-    const profiles = data.docs.map((doc) => ({ ...doc.data() }));
-
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userData = profiles.filter((i) => i.Email == user?.email);
     setUserInfo(userData);
     
@@ -108,7 +107,8 @@ const [open, setOpen] = React.useState(false);
   
   //Update User Profile Picture
   const updateProfilePic = async () => {
-    const updatedDoc = doc(db, "UserProfile", UserInfo?.id);
+    console.log(UserInfo);
+    const updatedDoc = doc(db, "UserProfile", UserInfo[0]?.id);
     await updateDoc(updatedDoc, {
       Pfp: Url,
     });
@@ -150,7 +150,7 @@ const [open, setOpen] = React.useState(false);
               style={{ borderRadius: "110px" }}
               width="200px"
               height="200px"
-              src={img}
+              src={item.Pfp}
             />
           </div>
           <div>

@@ -9,17 +9,13 @@ import {
   doc,
   addDoc,
   deleteDoc,
-  query,
-  where,
-  updateDoc,
 } from "firebase/firestore";
-import img from "../assets/images/Userpfp.jpg";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import UserPostEdit from "../Components/User/UserPostEdit";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import CompanyHeader from "../Components/Company/CompanyHeader";
 import PostEdit from "../Components/Common/EditPostModal";
@@ -43,36 +39,33 @@ const style = {
 export default function Forumtopic() {
   //Database variables
   const [forumTopic, setForumTopic] = useState();
-  const [Userposts, setUserposts] = useState([]);
+  const [forumID, setForumID] = useState();
   const [NewPost, setNewPost] = useState("");
-  const [Dscrption, setDscrption] = useState([]);
   const { id } = useParams();
   const UserCollection = collection(db, "UserProfile");
   const PostCollection = collection(db, "UserPosts");
   const [UserInfo, setUserInfo] = useState([]);
   const [user, setUser] = useState({});
   const [Posts, setPosts] = useState([]);
-  const [reply, setreply] = useState(false);
   const navigate = useNavigate();
   
   // Get User/Company To render respective header
   const getUserInfo = async () => {
     const data = await getDocs(UserCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
-    const userData = profiles.filter((i) => i.Email == user.email);
+    const userData = profiles.filter((i) => i.Email == user?.email);
     setUserInfo(userData);
-    // console.log(userData);
   };
 
   // Get User Posts from database
 
-  const getPosts = async () => {
-    const data = await getDocs(PostCollection);
-    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    const userProf = profiles.filter((i) => i.Forum_ID == forumTopic.id);
-    setPosts(userProf);
-    console.log(Posts);
-  };
+    // const getPosts = async () => {
+    //   const data = await getDocs(PostCollection);
+    //   const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    
+    //   console.log(Posts);
+      
+    // };
 
   // Post user posts in the database.
 
@@ -115,7 +108,17 @@ export default function Forumtopic() {
   // const openModal = () => {
   //   setOpen(true);
   // };
-  
+  const getForums = async () => {
+    await getDoc(doc(db, `Forums/${id}`)).then((x) => {
+      setForumTopic({ id: x.id, ...x.data() });
+      
+    });
+    const d = await getDocs(PostCollection);
+    const posts = d.docs.map((doc) => ({ ...doc.data(),id: doc.id }));
+    const userProf = posts.filter((i) => i?.Forum_ID == forumTopic?.id);
+    
+    setPosts(userProf);
+  };
   
   
   useEffect(() => {
@@ -123,21 +126,14 @@ export default function Forumtopic() {
       setUser(currentUser);
       // console.log(user);
       if (currentUser) {
-        const getForums = async () => {
-          await getDoc(doc(db, `Forums/${id}`)).then((x) => {
-            setForumTopic({ id: x.id, ...x.data() });
-            console.log(forumTopic);
-          });
-        };
 
-        getForums();
         getUserInfo();
-        getPosts();
+        getForums();
       } else {
         navigate("/SignIn");
       }
     });
-  }, [user,forumTopic]);
+  }, [user,forumTopic?.id]);
  
 
   return (
