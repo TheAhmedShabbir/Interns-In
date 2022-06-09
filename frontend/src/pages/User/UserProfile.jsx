@@ -70,8 +70,7 @@ export default function UserProfile() {
     );
     // }
   };
-  
-  
+
   //Update User Profile Picture
 
   const updateProfilePic = async () => {
@@ -94,20 +93,16 @@ export default function UserProfile() {
   const handleOpen2 = () => setOpen2(true);
   const handleClose2 = () => setOpen2(false);
 
-
-  // Get User Info 
-  
+  // Get User Info
 
   const getUserInfo = async () => {
     const data = await getDocs(UserCollection);
-    const profiles = data.docs.map((doc) => ({...doc.data(),id: doc.id}));
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userData = profiles.filter((i) => i.Email == user?.email);
     setUserInfo(userData);
     console.log(UserInfo);
     setLoading(false);
   };
-
-
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -116,7 +111,6 @@ export default function UserProfile() {
 
     if (user) {
       // get User information
-      
 
       // Function Calls
       getUserInfo();
@@ -131,156 +125,164 @@ export default function UserProfile() {
     return (
       <div style={{ backgroundColor: "#f3f2ef" }}>
         <UserHeader />
-        {UserInfo && UserInfo.map((item, key) => {
-          return(
-            <div key = {key}>
-
-            
-        <div
-          style={{
-            marginTop: "40px",
-          }}
-        >
-          <div style={{ zIndex: 1, position: "relative" }}>
-            <img
-              style={{ borderRadius: "110px", border: "2px solid #548CCB" }}
-              width="200px"
-              height="200px"
-              src={item.Pfp}
-            />
-          </div>
-
-          {/* Upload Profile picture */}
-          <div>
-            <Modal open={open3} onClose={handleClose3}>
-              <Box sx={style}>
-                {/* <Form> */}
-                <h2>Upload / Download files</h2>
-                <form onSubmit={formHandler}>
-                  <input type="file" onChange={HandleUpload} />
-                  <Button type="submit">upload</Button>
-                  <Button onClick={updateProfilePic}>Save</Button>
-
-                  <Button onClick={handleClose3}>Cancel</Button>
-
-                  <h3>uploaded{progress}%</h3>
-                </form>
-              </Box>
-            </Modal>
-
-            <Button onClick={handleOpen3}>
-              <EditIcon />
-            </Button>
-          </div>
-        </div>
-        
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: "50vh",
-            marginTop: "-110px",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              "& > :not(style)": {
-                m: 1,
-                width: 550,
-              },
-            }}
-          >
-            <Paper
-              elevation={2}
-              style={{
-                paddingTop: "130px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                borderRadius: "20px",
-                paddingBottom: "30px",
-                marginBottom: "30px",
-              }}
-            >
-              <div>
+        {UserInfo &&
+          UserInfo.map((item, key) => {
+            return (
+              <div key={key}>
                 <div
                   style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    alignContent: "center",
-                    paddingLeft: "50px",
-                    paddingRight: "70px",
+                    marginTop: "40px",
                   }}
                 >
-                  <h2>Username</h2>
-                  <Button size="small" variant="outlined"  onClick={() => updateProf(key)}>
-                    <EditIcon/>
-                  </Button>
+                  <div style={{ zIndex: 1, position: "relative" }}>
+                    <img
+                      style={{
+                        borderRadius: "110px",
+                        border: "2px solid #548CCB",
+                      }}
+                      width="200px"
+                      height="200px"
+                      src={item.Pfp}
+                    />
+                  </div>
+
+                  {/* Upload Profile picture */}
+                  <div>
+                    <Modal open={open3} onClose={handleClose3}>
+                      <Box sx={style}>
+                        {/* <Form> */}
+                        <h2>Upload / Download files</h2>
+                        <form onSubmit={formHandler}>
+                          <input type="file" onChange={HandleUpload} />
+                          <Button type="submit">upload</Button>
+                          <Button onClick={updateProfilePic}>Save</Button>
+
+                          <Button onClick={handleClose3}>Cancel</Button>
+
+                          <h3>uploaded{progress}%</h3>
+                        </form>
+                      </Box>
+                    </Modal>
+
+                    <Button onClick={handleOpen3}>
+                      <EditIcon />
+                    </Button>
+                  </div>
                 </div>
-                <Typography style={{ marginBottom: "15px" }}>
-                  {item.FirstName + " " + item.LastName}
-                </Typography>
-              </div>
-              <div>
+
                 <div
                   style={{
                     display: "flex",
-                    flexDirection: "row",
+                    justifyContent: "center",
                     alignItems: "center",
-                    justifyContent: "space-between",
-                    alignContent: "center",
-                    paddingLeft: "50px",
-                    paddingRight: "70px",
+                    minHeight: "50vh",
+                    marginTop: "-110px",
                   }}
                 >
-                  <h2>Password</h2>
-                  {/* <Button size="small" variant="outlined">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      "& > :not(style)": {
+                        m: 1,
+                        width: 550,
+                      },
+                    }}
+                  >
+                    <Paper
+                      elevation={2}
+                      style={{
+                        paddingTop: "130px",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        borderRadius: "20px",
+                        paddingBottom: "30px",
+                        marginBottom: "30px",
+                      }}
+                    >
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            alignContent: "center",
+                            paddingLeft: "50px",
+                            paddingRight: "70px",
+                          }}
+                        >
+                          <h2>Username</h2>
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            onClick={() => updateProf(key)}
+                          >
+                            <EditIcon />
+                          </Button>
+                        </div>
+                        <Typography style={{ marginBottom: "15px" }}>
+                          {item.FirstName + " " + item.LastName}
+                        </Typography>
+                      </div>
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            alignContent: "center",
+                            paddingLeft: "50px",
+                            paddingRight: "70px",
+                          }}
+                        >
+                          <h2>Password</h2>
+                          {/* <Button size="small" variant="outlined">
                     Edit
                   </Button> */}
-                </div>
-                <Typography style={{ marginBottom: "15px" }}>******</Typography>
-              </div>
-              <div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    alignContent: "center",
-                    paddingLeft: "50px",
-                    paddingRight: "70px",
-                  }}
-                >
-                  <h2>Email</h2>
-                  {/* <Button size="small" variant="outlined">
+                        </div>
+                        <Typography style={{ marginBottom: "15px" }}>
+                          ******
+                        </Typography>
+                      </div>
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            alignContent: "center",
+                            paddingLeft: "50px",
+                            paddingRight: "70px",
+                          }}
+                        >
+                          <h2>Email</h2>
+                          {/* <Button size="small" variant="outlined">
                     Edit
                   </Button> */}
+                        </div>
+                        <Typography>{item.Email}</Typography>
+                      </div>
+                    </Paper>
+                  </Box>
+
+                  <ProfEdit
+                    id={Edit?.id}
+                    key={Edit?.id}
+                    open={open2}
+                    close={handleClose2}
+                    first_name={Edit?.FirstName}
+                    second_name={Edit?.LastName}
+                    // password={Edit?.Password}
+                    email={Edit?.Email}
+                  />
                 </div>
-                <Typography>{item.Email}</Typography>
               </div>
-            </Paper>
-          </Box>
-          
-          <ProfEdit
-            id={Edit?.id}
-            key={Edit?.id}
-            open={open2}
-            close={handleClose2}
-            first_name={Edit?.FirstName}
-            second_name={Edit?.LastName}
-            // password={Edit?.Password}
-            email={Edit?.Email}
-          />
-        </div>
-        </div>
-          )
-        })}
+            );
+          })}
       </div>
     );
   }

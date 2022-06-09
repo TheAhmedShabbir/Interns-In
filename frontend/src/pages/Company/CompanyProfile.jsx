@@ -6,11 +6,14 @@ import { Button } from "@mui/material";
 import CompanyHeader from "../../Components/Company/CompanyHeader";
 import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
-import { collection, getDocs,
+import {
+  collection,
+  getDocs,
   addDoc,
   deleteDoc,
   updateDoc,
-  doc, } from "firebase/firestore";
+  doc,
+} from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import CompanyProfileEdit from "../../Components/Company/CompanyProfileEdit";
@@ -19,7 +22,6 @@ import Modal from "@mui/material/Modal";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase-config";
 import { getDownloadURL } from "firebase/storage";
-
 
 const style = {
   position: "absolute",
@@ -33,14 +35,10 @@ const style = {
   p: 4,
 };
 
-
-
-
 export default function CompanyProfile() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [UserInfo, setUserInfo] = useState([]);
-  
 
   const UserCollection = collection(db, "UserProfile");
   const [loading, setLoading] = useState(true);
@@ -50,23 +48,21 @@ export default function CompanyProfile() {
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userData = profiles.filter((i) => i.Email == user?.email);
     setUserInfo(userData);
-    
+
     setLoading(false);
   };
-  
 
-// edit data
-let [editDetails, setEditDetails] = useState([]);
+  // edit data
+  let [editDetails, setEditDetails] = useState([]);
 
-const updateCmpProf = async (id) => {
-  setEditDetails(UserInfo[id]);
-  handleOpen();
-};
-// Modal
-const [open, setOpen] = React.useState(false);
+  const updateCmpProf = async (id) => {
+    setEditDetails(UserInfo[id]);
+    handleOpen();
+  };
+  // Modal
+  const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
 
   // Update Profile Picture
   const [open2, setOpen2] = React.useState(false);
@@ -104,7 +100,7 @@ const [open, setOpen] = React.useState(false);
       }
     );
   };
-  
+
   //Update User Profile Picture
   const updateProfilePic = async () => {
     console.log(UserInfo);
@@ -113,9 +109,6 @@ const [open, setOpen] = React.useState(false);
       Pfp: Url,
     });
   };
-
-
-
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -134,197 +127,203 @@ const [open, setOpen] = React.useState(false);
     return <div>loading...</div>;
   } else {
     return (
-      
       <div style={{ backgroundColor: "#f3f2ef" }}>
         <CompanyHeader />
-        {UserInfo && UserInfo.map((item, key) => {
-          return(
-        <div
-          style={{
-            marginTop: "40px",
-          }}
-          key = {key}
-        >
-          <div style={{ zIndex: 1, position: "relative" }}>
-            <img
-              style={{ borderRadius: "110px" }}
-              width="200px"
-              height="200px"
-              src={item.Pfp}
-            />
-          </div>
-          <div>
-            <Modal open={open2} onClose={handleClose2}>
-              <Box sx={style}>
-                {/* <Form> */}
-                <h2>Update Profile Picture</h2>
-                <form onSubmit={formHandler}>
-                  <input type="file" onChange={HandleUpload} />
-                  <Button type="submit">upload</Button>
-                  <Button onClick={updateProfilePic}>Save</Button>
-
-                  <Button onClick={handleClose2}>Cancel</Button>
-
-                  <h3>uploaded{progress}%</h3>
-                </form>
-              </Box>
-            </Modal>
-
-            <Button onClick={handleOpen2}>
-              <EditIcon />
-            </Button>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "-110px", 
-              paddingTop : '10px' 
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                "& > :not(style)": {
-                  m: 1,
-                  width: 550,
-                  height: 600,
-                },
-              }}
-            >
-              <Paper
-                elevation={2}
+        {UserInfo &&
+          UserInfo.map((item, key) => {
+            return (
+              <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  borderRadius: "20px",
-                  marginBottom: "30px",
-                  paddingTop: "30px",
+                  marginTop: "40px",
                 }}
+                key={key}
               >
-                <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      alignContent: "center",
-                      paddingLeft: "50px",
-                      paddingRight: "70px",
-                    }}
-                  >
-                    <h2>Company Name</h2>
-                    <Button size="small" variant="outlined" onClick = {() => {updateCmpProf(key)}}>
-                      Edit
-                    </Button>
-                  </div>
-                  <Typography style={{ marginBottom: "15px" }}>
-                    {item?.CompanyName}
-                  </Typography>
+                <div style={{ zIndex: 1, position: "relative" }}>
+                  <img
+                    style={{ borderRadius: "110px" }}
+                    width="200px"
+                    height="200px"
+                    src={item.Pfp}
+                  />
                 </div>
                 <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      alignContent: "center",
-                      paddingLeft: "50px",
-                      paddingRight: "70px",
-                    }}
-                  >
-                    <h2>Password</h2>
-                    {/* <Button size="small" variant="outlined">
-                      Edit
-                    </Button> */}
-                  </div>
-                  <Typography style={{ marginBottom: "15px" }}>
-                    {UserInfo?.Password}
-                  </Typography>
-                </div>
-                <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      alignContent: "center",
-                      paddingLeft: "50px",
-                      paddingRight: "70px",
-                    }}
-                  >
-                    <h2>Email</h2>
-                    {/* <Button size="small" variant="outlined">
-                      Edit
-                    </Button> */}
-                  </div>
-                  <Typography> {item.Email}</Typography>
-                </div>
+                  <Modal open={open2} onClose={handleClose2}>
+                    <Box sx={style}>
+                      {/* <Form> */}
+                      <h2>Update Profile Picture</h2>
+                      <form onSubmit={formHandler}>
+                        <input type="file" onChange={HandleUpload} />
+                        <Button type="submit">upload</Button>
+                        <Button onClick={updateProfilePic}>Save</Button>
 
-                <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      alignContent: "center",
-                      paddingLeft: "50px",
-                      paddingRight: "70px",
-                    }}
-                  >
-                    <h2>Location</h2>
-                    {/* <Button size="small" variant="outlined">
-                      Edit
-                    </Button> */}
-                  </div>
-                  <Typography style={{ marginBottom: "15px" }}>
-                    {item?.Location}
-                  </Typography>
-                </div>
+                        <Button onClick={handleClose2}>Cancel</Button>
 
-                <div>
-                  <div
-                    style={{
+                        <h3>uploaded{progress}%</h3>
+                      </form>
+                    </Box>
+                  </Modal>
+
+                  <Button onClick={handleOpen2}>
+                    <EditIcon />
+                  </Button>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "-110px",
+                    paddingTop: "10px",
+                  }}
+                >
+                  <Box
+                    sx={{
                       display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      alignContent: "center",
-                      paddingLeft: "50px",
-                      paddingRight: "70px",
+                      flexWrap: "wrap",
+                      "& > :not(style)": {
+                        m: 1,
+                        width: 550,
+                        height: 600,
+                      },
                     }}
                   >
-                    <h2>About </h2>
-                    {/* <Button size="small" variant="outlined">
+                    <Paper
+                      elevation={2}
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        borderRadius: "20px",
+                        marginBottom: "30px",
+                        paddingTop: "30px",
+                      }}
+                    >
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            alignContent: "center",
+                            paddingLeft: "50px",
+                            paddingRight: "70px",
+                          }}
+                        >
+                          <h2>Company Name</h2>
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            onClick={() => {
+                              updateCmpProf(key);
+                            }}
+                          >
+                            Edit
+                          </Button>
+                        </div>
+                        <Typography style={{ marginBottom: "15px" }}>
+                          {item?.CompanyName}
+                        </Typography>
+                      </div>
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            alignContent: "center",
+                            paddingLeft: "50px",
+                            paddingRight: "70px",
+                          }}
+                        >
+                          <h2>Password</h2>
+                          {/* <Button size="small" variant="outlined">
                       Edit
                     </Button> */}
-                  </div>
-                  <Typography> {item?.About}</Typography>
+                        </div>
+                        <Typography style={{ marginBottom: "15px" }}>
+                          {UserInfo?.Password}
+                        </Typography>
+                      </div>
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            alignContent: "center",
+                            paddingLeft: "50px",
+                            paddingRight: "70px",
+                          }}
+                        >
+                          <h2>Email</h2>
+                          {/* <Button size="small" variant="outlined">
+                      Edit
+                    </Button> */}
+                        </div>
+                        <Typography> {item.Email}</Typography>
+                      </div>
+
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            alignContent: "center",
+                            paddingLeft: "50px",
+                            paddingRight: "70px",
+                          }}
+                        >
+                          <h2>Location</h2>
+                          {/* <Button size="small" variant="outlined">
+                      Edit
+                    </Button> */}
+                        </div>
+                        <Typography style={{ marginBottom: "15px" }}>
+                          {item?.Location}
+                        </Typography>
+                      </div>
+
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            alignContent: "center",
+                            paddingLeft: "50px",
+                            paddingRight: "70px",
+                          }}
+                        >
+                          <h2>About </h2>
+                          {/* <Button size="small" variant="outlined">
+                      Edit
+                    </Button> */}
+                        </div>
+                        <Typography> {item?.About}</Typography>
+                      </div>
+                    </Paper>
+                  </Box>
                 </div>
-              </Paper>
-            </Box>
-          </div>
-          <CompanyProfileEdit
-          id = {editDetails?.id}
-          key={editDetails?.id}
-          open = {open}
-          setOpen = {setOpen}
-          close = {handleClose}
-          companyname = {editDetails.CompanyName}
-          location = {editDetails.Location}
-          email = {editDetails.Email}
-          about = {editDetails.About}
-          />
-        </div>
-         )
-        })}
+                <CompanyProfileEdit
+                  id={editDetails?.id}
+                  key={editDetails?.id}
+                  open={open}
+                  setOpen={setOpen}
+                  close={handleClose}
+                  companyname={editDetails.CompanyName}
+                  location={editDetails.Location}
+                  email={editDetails.Email}
+                  about={editDetails.About}
+                />
+              </div>
+            );
+          })}
       </div>
     );
   }

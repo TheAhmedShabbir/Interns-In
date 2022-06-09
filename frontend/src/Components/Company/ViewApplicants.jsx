@@ -153,8 +153,14 @@ export default function ViewApplicants({ companyId, open, close, applicant }) {
                     >
                       ShortList
                     </Button>
-                    <Button size="small" variant="outlined" >
-                      <a style = {{textDecoration: 'none'}} href = {app.resume} target = "_blank" >View CV</a>
+                    <Button size="small" variant="outlined">
+                      <a
+                        style={{ textDecoration: "none" }}
+                        href={app.resume}
+                        target="_blank"
+                      >
+                        View CV
+                      </a>
                     </Button>
                   </div>
                 </div>

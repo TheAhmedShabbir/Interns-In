@@ -19,9 +19,8 @@ import { useParams } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import CompanyHeader from "../Components/Company/CompanyHeader";
 import PostEdit from "../Components/Common/EditPostModal";
-import FlagIcon from '@mui/icons-material/Flag';
+import FlagIcon from "@mui/icons-material/Flag";
 import { useNavigate } from "react-router-dom";
-
 
 const style = {
   position: "absolute",
@@ -48,7 +47,7 @@ export default function Forumtopic() {
   const [user, setUser] = useState({});
   const [Posts, setPosts] = useState([]);
   const navigate = useNavigate();
-  
+
   // Get User/Company To render respective header
   const getUserInfo = async () => {
     const data = await getDocs(UserCollection);
@@ -59,27 +58,27 @@ export default function Forumtopic() {
 
   // Get User Posts from database
 
-    // const getPosts = async () => {
-    //   const data = await getDocs(PostCollection);
-    //   const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    
-    //   console.log(Posts);
-      
-    // };
+  // const getPosts = async () => {
+  //   const data = await getDocs(PostCollection);
+  //   const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+  //   console.log(Posts);
+
+  // };
 
   // Post user posts in the database.
 
-    const PostQuery = async () => {
+  const PostQuery = async () => {
     await addDoc(PostCollection, {
-       post: NewPost ,
-        Forum_ID: forumTopic?.id,
-        User_Email: user?.email,
-        User_Pfp: UserInfo[0].Pfp      
-      });
+      post: NewPost,
+      Forum_ID: forumTopic?.id,
+      User_Email: user?.email,
+      User_Pfp: UserInfo[0].Pfp,
+    });
   };
 
   // Update Post
-  
+
   let [updatedPost, setUpdatedPost] = useState([]);
 
   const updatePost = async (id) => {
@@ -98,8 +97,6 @@ export default function Forumtopic() {
     await deleteDoc(PostCollection);
   };
 
-  
-
   // User Post Modal states
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -111,30 +108,26 @@ export default function Forumtopic() {
   const getForums = async () => {
     await getDoc(doc(db, `Forums/${id}`)).then((x) => {
       setForumTopic({ id: x.id, ...x.data() });
-      
     });
     const d = await getDocs(PostCollection);
-    const posts = d.docs.map((doc) => ({ ...doc.data(),id: doc.id }));
+    const posts = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userProf = posts.filter((i) => i?.Forum_ID == forumTopic?.id);
-    
+
     setPosts(userProf);
   };
-  
-  
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       // console.log(user);
       if (currentUser) {
-
         getUserInfo();
         getForums();
       } else {
         navigate("/SignIn");
       }
     });
-  }, [user,forumTopic?.id]);
- 
+  }, [user, forumTopic?.id]);
 
   return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
@@ -145,7 +138,7 @@ export default function Forumtopic() {
       ) : (
         <UserHeader />
       )}
-      
+
       <div>
         <div
           style={{
@@ -158,55 +151,54 @@ export default function Forumtopic() {
             margin: "50px",
             minHeight: "200px",
           }}
-        >                    
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  margin: "50px",
-                  borderRadius: "10px",
-                }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              margin: "50px",
+              borderRadius: "10px",
+            }}
+          >
+            <h1>{forumTopic?.TopicDescription}</h1>
+
+            {/* Modal Div  */}
+            <div style={{ alignContent: "baseline" }}>
+              <Button onClick={handleOpen}>Add an Answer</Button>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
               >
-                 <h1>{forumTopic?.TopicDescription}</h1>  
-
-                 {/* Modal Div  */}
-                <div style={{ alignContent: "baseline" }}>
-                  <Button onClick={handleOpen}>Add an Answer</Button>
-                  <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
+                <Box sx={style}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-evenly",
+                      alignItems: "center",
+                      backgroundColor: "white",
+                    }}
                   >
-                    <Box sx={style}>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "space-evenly",
-                          alignItems: "center",
-                          backgroundColor: "white",
+                    <div>
+                      <TextField
+                        style={{ width: "350px" }}
+                        label="What's on your mind?"
+                        onChange={(event) => {
+                          setNewPost(event.target.value);
                         }}
-                      >
-                        <div>
-                          <TextField
-                            style={{ width: "350px" }}
-                            label="What's on your mind?"
-                            onChange={(event) => {
-                              setNewPost(event.target.value);
-                            }}
-                          />
-                        </div>
-                        <div>
-                          <Button onClick={PostQuery}>Post</Button>
-                          <Button onClick={handleClose}>Cancel</Button>
-                        </div>
-                      </div>
-                    </Box>
-                  </Modal>
-                </div>
-              </div>
-
+                      />
+                    </div>
+                    <div>
+                      <Button onClick={PostQuery}>Post</Button>
+                      <Button onClick={handleClose}>Cancel</Button>
+                    </div>
+                  </div>
+                </Box>
+              </Modal>
+            </div>
+          </div>
         </div>
 
         <div
@@ -281,64 +273,67 @@ export default function Forumtopic() {
                   }}
                 >
                   {item.User_Email == user.email ? (
-                    <div style={{
-                      justifyContent: "center",
-                      margin: "20px",
-                    }}>
+                    <div
+                      style={{
+                        justifyContent: "center",
+                        margin: "20px",
+                      }}
+                    >
                       <button
-                      style={{
-                        border: "none",
-                        backgroundColor: "white",
-                        color : '#4F18FB',
-                        cursor: "pointer",
-                      }}
-                      onClick={() => updatePost(key)}
-                    >
-                      <EditIcon />
-                    </button>
-                    <button
-                      style={{
-                        border: "none",
-                        backgroundColor: "white",
-                        color : '#FB1871 ',
-                        cursor: "pointer",
-                      }}
-                      onClick={() => deletePost(key)}
-                    >
-                      <DeleteIcon />
-                    </button>
+                        style={{
+                          border: "none",
+                          backgroundColor: "white",
+                          color: "#4F18FB",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => updatePost(key)}
+                      >
+                        <EditIcon />
+                      </button>
+                      <button
+                        style={{
+                          border: "none",
+                          backgroundColor: "white",
+                          color: "#FB1871 ",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => deletePost(key)}
+                      >
+                        <DeleteIcon />
+                      </button>
                     </div>
-                  ) : (  
-                  <div style={{
-                    justifyContent: "center",
-                    margin: "20px",
-                  }}>
-                  <button
-                    style={{
-                      border: "none",
-                      backgroundColor: "white",
-                      color: "red",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <FlagIcon />
-                  </button>
-                  </div>
+                  ) : (
+                    <div
+                      style={{
+                        justifyContent: "center",
+                        margin: "20px",
+                      }}
+                    >
+                      <button
+                        style={{
+                          border: "none",
+                          backgroundColor: "white",
+                          color: "red",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <FlagIcon />
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
             );
           })}
-                   
         </div>
         <PostEdit
-      id = {updatedPost.id}
-      key = {updatedPost.id}
-      open = {open2}
-      setOpen = {setOpen2}
-      close = {handleClose2}
-      Post = {updatedPost.post}
-      />
+          id={updatedPost.id}
+          key={updatedPost.id}
+          open={open2}
+          setOpen={setOpen2}
+          close={handleClose2}
+          Post={updatedPost.post}
+        />
       </div>
     </div>
   );

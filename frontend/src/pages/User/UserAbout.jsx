@@ -67,7 +67,6 @@ export default function UserAbout() {
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userProf = profiles.filter((i) => i.Email == user?.email);
     setUserProfile(userProf);
-    
   };
 
   // Database variable
@@ -255,18 +254,15 @@ export default function UserAbout() {
     );
     // }
   };
-  
-  
+
   // Update CV
   const updateCV = async () => {
-    
     const updatedDoc = doc(db, "UserProfile", userProfile[0]?.id);
     await updateDoc(updatedDoc, {
       cv: Url,
     });
     // console.log(userProfile);
   };
-
 
   //About edit modal
   const [open6, setOpen6] = React.useState(false);
@@ -390,9 +386,15 @@ export default function UserAbout() {
                         <form onSubmit={formHandler}>
                           <input type="file" onChange={HandleUpload} />
                           <Button type="submit">upload</Button>
-                          <Button onClick = {updateCV}>Save</Button>
+                          <Button onClick={updateCV}>Save</Button>
 
-                          <Button onClick={()=>{console.log(userProfile[0].id)}}>Cancel</Button>
+                          <Button
+                            onClick={() => {
+                              console.log(userProfile[0].id);
+                            }}
+                          >
+                            Cancel
+                          </Button>
                           {/* <Button onClick={handleClose3}>Cancel</Button> */}
 
                           <h3>uploaded{progress}%</h3>
@@ -702,13 +704,9 @@ export default function UserAbout() {
                 certified={editExperience.Certified}
               />
             </div>
-
-           
           </div>
         </div>
       </div>
     );
   }
 }
-
-
