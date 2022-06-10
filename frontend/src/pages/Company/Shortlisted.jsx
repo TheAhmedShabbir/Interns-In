@@ -5,7 +5,14 @@ import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import { Link, useHref, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { forwardRef } from "react";
+
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function Shortlisted() {
   const navigate = useNavigate();
@@ -14,6 +21,33 @@ export default function Shortlisted() {
   const [user, setUser] = useState({});
   const [userInfo, setUserInfo] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [warningOpen, setWarningOpen] = useState(false);
+  const [successOpen, setSuccessOpen] = useState(false);
+
+  const handleSuccessClick = () => {
+    setSuccessOpen(true);
+  };
+
+  const handleSuccessClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccessOpen(false);
+  };
+
+  const handleWarningClick = () => {
+    setWarningOpen(true);
+  };
+
+  const handleWarningClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setWarningOpen(false);
+  };
 
   const userCollection = collection(db, "UserProfile");
   const shortlistCollectionRef = collection(
@@ -27,7 +61,7 @@ export default function Shortlisted() {
       ...doc.data(),
       id: doc.id,
     }));
-  
+
     setApplicants(shortlisted);
     // console.log(applicants);
     setLoading(false);
@@ -55,8 +89,8 @@ export default function Shortlisted() {
       (i) => i.applicantid == shortlistedFilter[0]?.applicantid
     );
 
-    if (employeeFilter[0].applicantid == shortlistedFilter[0]?.applicantid) {
-      console.log("already hired");
+    if (employeeFilter[0]?.applicantid == shortlistedFilter[0]?.applicantid) {
+      handleWarningClick();
       setLoading(false);
     } else {
       const h = await addDoc(
@@ -75,18 +109,16 @@ export default function Shortlisted() {
           applicantid: shortlistedFilter[0]?.applicantid,
         }
       );
+      handleSuccessClick();
       setLoading(false);
     }
-
-    // console.log(shortlistedFilter[0]?.applicantid);
-    // console.log(shortlistedFilter[0]?.applicantid);
   };
 
   const getUserInfo = async () => {
     const data = await getDocs(userCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userData = profiles.filter((i) => i.Email == user?.email);
-    
+
     setUserInfo(userData[0]);
 
     setLoading(false);
@@ -165,7 +197,7 @@ export default function Shortlisted() {
                         color="success"
                       >
                         Interview
-                      </Button>                      
+                      </Button>
                       <Button
                         style={{ margin: "10px" }}
                         size="small"
@@ -181,6 +213,33 @@ export default function Shortlisted() {
             }
           })}
         </div>
+        <Snackbar
+          open={warningOpen}
+          autoHideDuration={2000}
+          onClose={handleWarningClose}
+        >
+          <Alert
+            onClose={handleWarningClose}
+            sx={{ width: "100%" }}
+            severity="warning"
+          >
+            You have already Hired this Applicant!
+          </Alert>
+        </Snackbar>
+
+        <Snackbar
+          open={successOpen}
+          autoHideDuration={2000}
+          onClose={handleSuccessClose}
+        >
+          <Alert
+            onClose={handleSuccessClose}
+            sx={{ width: "100%" }}
+            severity="success"
+          >
+            Applicant Hired!
+          </Alert>
+        </Snackbar>
       </div>
     );
   }
