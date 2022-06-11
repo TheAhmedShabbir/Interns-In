@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 export default function Generalheader() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: "#1d4ed8" }}>
+      <AppBar position="static" sx={{ backgroundColor: "#2563eb" }}>
         <Toolbar>
           {/* <IconButton
             size="large"
@@ -37,7 +37,7 @@ export default function Generalheader() {
                   borderRadius: "2px",
                 }}
               >
-                in
+                <b>in</b>
               </span>
             </Typography>
           </Link>
@@ -71,21 +71,9 @@ export default function Generalheader() {
             style={{
               color: "white",
               textDecoration: "none",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
             }}
           >
-            <WorkIcon></WorkIcon>
-            <p
-              style={{
-                fontSize: "small",
-                marginTop: "5px",
-                marginBottom: "2px",
-              }}
-            >
-              Post Job
-            </p>
+            Join as Company
           </Link>
         </Toolbar>
       </AppBar>

@@ -4,8 +4,11 @@ import Generalheader from "../Components/Common/header";
 import TextField from "@mui/material/TextField";
 import img from "../assets/images/mainpage_img.jpg";
 import Typewriter from "typewriter-effect";
+import { useNavigate } from "react-router-dom";
 
 export default function Mainpage() {
+  const navigate = useNavigate();
+
   return (
     <div>
       <Generalheader />
@@ -15,7 +18,7 @@ export default function Mainpage() {
           flexDirection: "row",
           justifyContent: "space-between",
           padding: "50px",
-          flexWrap: "wrap",
+          flexWrap: "nowrap",
           alignItems: "center",
         }}
       >
@@ -63,11 +66,11 @@ export default function Mainpage() {
               <Typewriter
                 onInit={(typewriter) => {
                   typewriter
-                    .typeString('<span style="color: #1e40af">Job</span>')
+                    .typeString('<span style="color: #2563eb">Job</span>')
                     .pauseFor(1500)
                     .deleteAll()
                     .typeString(
-                      '<span style="color: #1e40af">internship</span>'
+                      '<span style="color: #2563eb">internship</span>'
                     )
                     .pauseFor(1000)
                     .typeString(" ?")
@@ -134,7 +137,7 @@ export default function Mainpage() {
           Explore topics you are interested{" "}
           <span
             style={{
-              backgroundColor: "#1e40af",
+              backgroundColor: "#2563eb",
               color: "white",
               padding: "5px",
               borderRadius: "5px",
@@ -239,7 +242,7 @@ export default function Mainpage() {
           Find the right{" "}
           <span
             style={{
-              backgroundColor: "#1d4ed8",
+              backgroundColor: "#2563eb",
               color: "white",
               padding: "5px",
               borderRadius: "5px",
@@ -250,7 +253,7 @@ export default function Mainpage() {
           or <br></br>
           <span
             style={{
-              backgroundColor: "#1d4ed8",
+              backgroundColor: "#2563eb",
               color: "white",
               padding: "5px",
               borderRadius: "5px",
@@ -365,40 +368,93 @@ export default function Mainpage() {
       <div
         style={{
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-evenly",
-          backgroundColor: "#548CCB",
+          alignItems: "center",
+          backgroundColor: "#2563eb",
           padding: "40px",
           color: "white",
-          height: "400px",
-          marginTop: "150px",
+          minHeight: "700px",
         }}
       >
         <Typography
           style={{
-            fontSize: "40px",
-            marginBottom: "30px",
+            fontSize: "50px",
+            fontFamily: "ubuntu",
+            width: "800px",
+            margin: "40px",
           }}
         >
-          <b>Who Is Interns-In For?</b>
+          Who is interns{" "}
+          <span
+            style={{
+              backgroundColor: "white",
+              color: "#2563eb",
+              padding: "5px",
+              borderRadius: "5px",
+            }}
+          >
+            <b>in</b>{" "}
+          </span>
+          for?
         </Typography>
-        <p>Anyone looking to start a professional career</p>
+        <Typography
+          sx={{
+            fontSize: "16px",
+            padding: "100px",
+          }}
+        >
+          Anyone looking to start a professional career. <br></br> Interns in is
+          a job and internship portal where numerous users can apply for jobs
+          and internships that are posted by numerous companies. The users will
+          have to create their profile and upload their cv. The companies can
+          easily pick applicants based on their qualifications and send them
+          interview calls.
+        </Typography>
       </div>
       <div
         style={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: "column",
           justifyContent: "space-evenly",
           alignItems: "center",
           padding: "40px",
-          height: "400px",
+          minHeight: "700px",
         }}
       >
-        <p style={{ fontSize: "35px" }}>
-          <b>Post Your Jobs For Millions of People to See</b>
-        </p>
-        <Button size="large" variant="contained">
-          Post Now
+        <Typography style={{ fontSize: "35px" }}>
+          Post your{" "}
+          <span
+            style={{
+              backgroundColor: "#2563eb",
+              color: "white",
+              padding: "5px",
+              borderRadius: "5px",
+            }}
+          >
+            <b>Jobs</b>
+          </span>{" "}
+          or{" "}
+          <span
+            style={{
+              backgroundColor: "#2563eb",
+              color: "white",
+              padding: "5px",
+              borderRadius: "5px",
+            }}
+          >
+            <b>internships</b>
+          </span>{" "}
+          for millions of people to see
+        </Typography>
+        <Button
+          size="large"
+          variant="outlined"
+          style={{
+            border: "1px solid #2563eb",
+            color: "#1e40af",
+          }}
+          onClick={() => navigate("/SignIn")}
+        >
+          <b>Post Now</b>
         </Button>
       </div>
       <div
@@ -406,12 +462,13 @@ export default function Mainpage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-evenly",
-
-          backgroundColor: "#323233",
+          backgroundColor: "#2563eb",
           color: "white",
         }}
       >
-        <h5>Copyright @ Interns-In. All Rights Reserved</h5>
+        <h5 style={{ fontFamily: "ubuntu" }}>
+          Copyright @ Interns-In. All Rights Reserved
+        </h5>
       </div>
     </div>
   );
