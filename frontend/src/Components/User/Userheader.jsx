@@ -4,18 +4,20 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Badge from "@mui/material/Badge";
 // import IconButton from '@mui/material/IconButton';
 // import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase-config";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import BookmarkAddedOutlinedIcon from "@mui/icons-material/BookmarkAddedOutlined";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 
 export default function UserHeader() {
   const navigate = useNavigate();
@@ -43,7 +45,22 @@ export default function UserHeader() {
             to="/UserHomepage"
             style={{ color: "white", textDecoration: "none" }}
           >
-            <Typography style={{ fontSize: "25px" }}>Interns-In</Typography>
+            <Typography style={{ fontSize: "25px" }}>
+              interns
+              <span
+                style={{
+                  backgroundColor: "white",
+                  color: "blue",
+                  marginLeft: "5px",
+                  paddingLeft: "2px",
+                  paddingRight: "2px",
+                  // border: "2px solid blue",
+                  borderRadius: "2px",
+                }}
+              >
+                <b>in</b>
+              </span>
+            </Typography>
           </Link>
           <Typography
             variant="h6"
@@ -51,52 +68,82 @@ export default function UserHeader() {
             sx={{ flexGrow: 1 }}
           ></Typography>
 
-          <Link
-            to="/UserNotifications"
-            style={{ color: "white", textDecoration: "none" }}
-          >
-            <Button color="inherit">
-              <NotificationsNoneOutlinedIcon />
-              Notification
-            </Button>
-          </Link>
-          <Link to="/Forums" style={{ color: "white", textDecoration: "none" }}>
-            <Button color="inherit">
-              <ArticleOutlinedIcon /> Forums
-            </Button>
-          </Link>
-          <Link
-            to="/SavedJobs"
-            style={{ color: "white", textDecoration: "none" }}
-          >
-            <Button color="inherit">
-              <BookmarkAddedOutlinedIcon /> Saved Jobs
-            </Button>
-          </Link>
-          <Link
-            to="/AppliedJobs"
-            style={{ color: "white", textDecoration: "none" }}
-          >
-            <Button color="inherit">Applied Jobs</Button>
-          </Link>
-          <Link
-            to="/UserProfile"
-            style={{ color: "white", textDecoration: "none" }}
-          >
-            <Button color="inherit">
-              <PermIdentityOutlinedIcon /> Profile
-            </Button>
-          </Link>
-          <Link
-            to="/UserAbout"
-            style={{ color: "white", textDecoration: "none" }}
-          >
-            <Button color="inherit">
-              <ContactPageOutlinedIcon /> About
-            </Button>
-          </Link>
+          <Button color="inherit">
+            <Link
+              to="/UserNotifications"
+              style={{
+                color: "white",
+                textDecoration: "none",
+              }}
+            >
+              {/* <Button
+              color="inherit"
+              style={{ display: "flex", flexDirection: "column" }}
+            > */}
+              <Badge color="error" badgeContent={3}>
+                <NotificationsNoneIcon />
+              </Badge>
+              <Typography fontSize="small">Notifications</Typography>
+              {/* </Button> */}
+            </Link>
+          </Button>
+          <Button color="inherit">
+            <Link
+              to="/Forums"
+              style={{
+                color: "white",
+                textDecoration: "none",
+              }}
+            >
+              <ArticleOutlinedIcon />{" "}
+              <Typography fontSize="small">Forums</Typography>
+            </Link>
+          </Button>
+          <Button color="inherit">
+            <Link
+              to="/SavedJobs"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <Badge color="warning" badgeContent={1}>
+                <BookmarkAddedOutlinedIcon />
+              </Badge>{" "}
+              <Typography fontSize="small">Saved Jobs</Typography>
+            </Link>
+          </Button>
+          <Button color="inherit">
+            <Link
+              to="/AppliedJobs"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <Badge color="success" badgeContent={2}>
+                <AssignmentTurnedInIcon />
+              </Badge>
+              <Typography fontSize="small"> Applied Jobs</Typography>
+            </Link>
+          </Button>
+          <Button color="inherit">
+            <Link
+              to="/UserProfile"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <PermIdentityOutlinedIcon />{" "}
+              <Typography fontSize="small">Profile</Typography>
+            </Link>
+          </Button>
+          <Button color="inherit">
+            <Link
+              to="/UserAbout"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <ContactPageOutlinedIcon />{" "}
+              <Typography fontSize="small">About</Typography>
+            </Link>
+          </Button>
           <Button color="inherit" onClick={logout}>
-            <LogoutOutlinedIcon /> Logout
+            <Link to="#" style={{ color: "white", textDecoration: "none" }}>
+              <LogoutOutlinedIcon />
+              <Typography fontSize="small">Logout</Typography>
+            </Link>
           </Button>
         </Toolbar>
       </AppBar>

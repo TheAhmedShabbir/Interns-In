@@ -2,7 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { Button, Checkbox, TextField, Typography } from "@mui/material";
 import { FormControlLabel } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
+import SearchIcon from "@mui/icons-material/Search";
 import img from "../../assets/images/Userpfp.jpg";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import { db, auth } from "../../firebase-config";
 import { Link } from "react-router-dom";
 import {
@@ -26,7 +30,7 @@ import MuiAlert from "@mui/material/Alert";
 import { forwardRef } from "react";
 import SavedJobs from "./SavedJobs";
 import VideocamIcon from "@mui/icons-material/Videocam";
-import "../Company/index.css"
+import "../Company/index.css";
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -190,12 +194,12 @@ function Videos({ mode, callId, setPage }) {
       // className="flex items-center whitespace-nowrap bg-whitetext-black"
     >
       <video ref={localRef} autoPlay playsInline className="local" muted />
-      <video ref={remoteRef} autoPlay playsInline className="remote"/>
+      <video ref={remoteRef} autoPlay playsInline className="remote" />
 
       <div className="buttonsContainer">
         <Button
           variant="contained"
-          style = {{backgroundColor: "red"}}
+          style={{ backgroundColor: "red" }}
           type="button"
           onClick={hangUp}
           disabled={!webcamActive}
@@ -203,7 +207,12 @@ function Videos({ mode, callId, setPage }) {
         >
           <CallIcon />
         </Button>
-        <div style = {{backgroundColor: '#401F86'}} tabIndex={0} role="button" className="more button">
+        <div
+          style={{ backgroundColor: "#401F86" }}
+          tabIndex={0}
+          role="button"
+          className="more button"
+        >
           <MoreVertIcon />
           <div
             className="popover"
@@ -228,19 +237,27 @@ function Videos({ mode, callId, setPage }) {
 
       {!webcamActive && (
         <div className="modalContainer">
-          <div className="modal" style = {{display : 'flex', flexDirection : 'column', color : 'black'}}>
+          <div
+            className="modal"
+            style={{ display: "flex", flexDirection: "column", color: "black" }}
+          >
             <h3>By pressing start your camera and microphone will turn on</h3>
             <div
-            style = {{display : 'flex', flexDirection : 'row', justifyContent : 'space-around', margin : '25px'}}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-around",
+                margin: "25px",
+              }}
               // className="container"
               color="primary"
               // className="flex gap-4 mt-8"
             >
-               <Button
+              <Button
                 type="button"
                 variant="contained"
                 onClick={setupSources}
-                style = {{backgroundColor: 'green'}}
+                style={{ backgroundColor: "green" }}
                 // fullWidth
               >
                 Start
@@ -251,12 +268,11 @@ function Videos({ mode, callId, setPage }) {
                 // fullWidth
                 variant="contained"
                 onClick={() => setPage("home")}
-                style = {{backgroundColor: 'red'}}
+                style={{ backgroundColor: "red" }}
                 // className="secondary"
               >
                 Cancel
               </Button>
-             
             </div>
           </div>
         </div>
@@ -267,13 +283,19 @@ function Videos({ mode, callId, setPage }) {
 
 function Menu({ joinCode, setJoinCode, setPage }) {
   return (
-    <div style = {{display : 'flex', flexDirection: 'column', justifyContent: 'space-evenly'}}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-evenly",
+      }}
+    >
       <input
         required
         value={joinCode}
         onChange={(e) => setJoinCode(e.target.value)}
         placeholder="Join with code"
-        style = {{marginBottom : '10px'}}
+        style={{ marginBottom: "10px" }}
       />
       <Button style={{ color: "white" }} onClick={() => setPage("join")}>
         Join
@@ -520,7 +542,11 @@ export default function UserHomepage() {
   }, [user]);
 
   if (loading) {
-    return <div>loading...</div>;
+    return (
+      <div>
+        <CircularProgress />
+      </div>
+    );
   } else {
     return (
       <div style={{ backgroundColor: "#f3f2ef" }}>
@@ -530,6 +556,7 @@ export default function UserHomepage() {
             display: "flex",
             flexDirection: "row",
             marginTop: "40px",
+            justifyContent: "center",
           }}
         >
           <div
@@ -538,7 +565,7 @@ export default function UserHomepage() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              marginLeft: "10px",
+              marginRight: "40px",
               // width: "300px",
             }}
           >
@@ -612,7 +639,7 @@ export default function UserHomepage() {
                 borderRadius: "8px",
                 width: "250px",
                 color: "white",
-                backgroundColor: "#401F86",
+                backgroundColor: "#2563eb",
               }}
             >
               <h4>Video Conference</h4>
@@ -652,7 +679,7 @@ export default function UserHomepage() {
               </div>
             </div>
           </div>
-          <div style={{ padding: "10px", width: "950px" }}>
+          <div style={{ padding: "10px" }}>
             <div
               style={{
                 padding: "20px",
@@ -680,20 +707,18 @@ export default function UserHomepage() {
                   style={{
                     width: "650px",
                     height: "50px",
-                    border: "black 2px solid",
+                    border: "2px solid #2563eb",
                   }}
-                />
+                ></input>
                 <Button
                   style={{
                     marginTop: "5px",
-                    marginLeft: "15px",
                     height: "40px",
                   }}
                   size="small"
-                  variant="outlined"
                   onClick={() => search()}
                 >
-                  Search
+                  <SearchIcon />
                 </Button>
               </div>
             </div>
@@ -726,11 +751,12 @@ export default function UserHomepage() {
                       style={{
                         margin: "10px",
                       }}
-                      variant="outlined"
                       onClick={() => saveJob(job.id)}
                       color="success"
+                      variant="outlined"
                     >
-                      Save
+                      <BookmarkIcon sx={{ marginRight: "3px" }}></BookmarkIcon>{" "}
+                      save
                     </Button>
                   </div>
                 );

@@ -84,6 +84,7 @@ export default function CompanySignUp() {
         <CssBaseline />
         <Box
           sx={{
+            marginTop: 5,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",

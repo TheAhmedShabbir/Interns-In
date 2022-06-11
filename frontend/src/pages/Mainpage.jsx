@@ -390,7 +390,8 @@ export default function Mainpage() {
             style={{
               backgroundColor: "white",
               color: "#2563eb",
-              padding: "5px",
+              paddingLeft: "3px",
+              paddingRight: "3px",
               borderRadius: "5px",
             }}
           >
