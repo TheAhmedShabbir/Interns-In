@@ -6,12 +6,13 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 // import IconButton from '@mui/material/IconButton';
 // import MenuIcon from '@mui/icons-material/Menu';
+import WorkIcon from "@mui/icons-material/Work";
 import { Link } from "react-router-dom";
 
 export default function Generalheader() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: "#1d4ed8" }}>
         <Toolbar>
           {/* <IconButton
             size="large"
@@ -23,7 +24,22 @@ export default function Generalheader() {
             <MenuIcon />
           </IconButton> */}
           <Link to={"/"} style={{ color: "white", textDecoration: "none" }}>
-            <Typography style={{ fontSize: "25px" }}>Interns-In</Typography>
+            <Typography style={{ fontSize: "25px" }}>
+              interns
+              <span
+                style={{
+                  backgroundColor: "white",
+                  color: "blue",
+                  marginLeft: "5px",
+                  paddingLeft: "2px",
+                  paddingRight: "2px",
+                  // border: "2px solid blue",
+                  borderRadius: "2px",
+                }}
+              >
+                in
+              </span>
+            </Typography>
           </Link>
           <Typography
             variant="h6"
@@ -35,26 +51,41 @@ export default function Generalheader() {
             style={{
               color: "white",
               textDecoration: "none",
-              marginRight: "15px",
+              marginRight: "25px",
             }}
           >
-            SignIn
+            Sign In
           </Link>
           <Link
             to="/UserSignUp"
             style={{
               color: "white",
               textDecoration: "none",
-              marginRight: "15px",
+              marginRight: "25px",
             }}
           >
-            SignUp
+            Join
           </Link>
           <Link
             to="/CompanySignUp"
-            style={{ color: "white", textDecoration: "none" }}
+            style={{
+              color: "white",
+              textDecoration: "none",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            SignUp as Company
+            <WorkIcon></WorkIcon>
+            <p
+              style={{
+                fontSize: "small",
+                marginTop: "5px",
+                marginBottom: "2px",
+              }}
+            >
+              Post Job
+            </p>
           </Link>
         </Toolbar>
       </AppBar>

@@ -16,7 +16,8 @@
     "react-material-ui-form-validator": "^3.0.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.0",
-    "semantic-ui-react": "^2.1.2"
+    "semantic-ui-react": "^2.1.2",
+    "typewriter-effect": "^2.18.2"
   },
   "scripts": {
     "start": "react-scripts start",
