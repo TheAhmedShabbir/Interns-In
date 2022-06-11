@@ -3,6 +3,7 @@ import { Button, Checkbox, TextField, Typography } from "@mui/material";
 import { FormControlLabel } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import SearchIcon from "@mui/icons-material/Search";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import img from "../../assets/images/Userpfp.jpg";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -549,7 +550,7 @@ export default function UserHomepage() {
     );
   } else {
     return (
-      <div style={{ backgroundColor: "#f3f2ef" }}>
+      <div style={{ backgroundColor: "#f3f2ef", fontFamily: "ubuntu" }}>
         <UserHeader />
         <div
           style={{
@@ -691,7 +692,7 @@ export default function UserHomepage() {
             >
               <div
                 style={{
-                  margin: "10px",
+                  // margin: "10px",
                   display: "flex",
                   justifyContent: "center",
                 }}
@@ -735,11 +736,41 @@ export default function UserHomepage() {
                     }}
                     key={key}
                   >
-                    <h2>
-                      {job.Title}, {job.Type}, {job.Mode}, {job.City}
-                    </h2>
-                    <Typography>{job.Description}</Typography>
-                    <h2 style={{ color: "green" }}> {job.Salary} pkr</h2>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <h2 style={{ marginLeft: "20px" }}>
+                        {job.Title},{" "}
+                        <span style={{ color: "green" }}>{job.Salary}pkr</span>
+                      </h2>
+
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <LocationOnOutlinedIcon color="primary" />
+                        <h4>{job.City}</h4>
+                      </div>
+                    </div>
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        marginLeft: "20px",
+                      }}
+                    >
+                      {job.Description}
+                    </Typography>
+                    <br></br>
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        marginLeft: "23px",
+                        fontSize: "small",
+                      }}
+                    >
+                      {job.Type} {"— "}
+                      {job.Mode}
+                    </Typography>
                     <Button
                       style={{ margin: "10px" }}
                       variant="contained"

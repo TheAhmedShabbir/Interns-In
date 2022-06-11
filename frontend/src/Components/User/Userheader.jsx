@@ -45,7 +45,7 @@ export default function UserHeader() {
             to="/UserHomepage"
             style={{ color: "white", textDecoration: "none" }}
           >
-            <Typography style={{ fontSize: "25px" }}>
+            <Typography style={{ fontSize: "27px" }}>
               interns
               <span
                 style={{
