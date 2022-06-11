@@ -216,11 +216,7 @@ function Videos({ mode, callId, setPage }) {
         >
           <MoreVertIcon />
           <div
-            className="popover"
-            style={{
-              backgroundColor: "blue",
-            }}
-          >
+            className="popover"          >
             <Button
               variant="contained"
               type="button"
