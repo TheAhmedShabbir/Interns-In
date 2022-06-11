@@ -24,7 +24,7 @@ export default function Generalheader() {
             <MenuIcon />
           </IconButton> */}
           <Link to={"/"} style={{ color: "white", textDecoration: "none" }}>
-            <Typography style={{ fontSize: "25px" }}>
+            <Typography style={{ fontSize: "27px" }}>
               interns
               <span
                 style={{

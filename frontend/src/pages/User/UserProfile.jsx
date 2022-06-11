@@ -15,6 +15,7 @@ import { ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase-config";
 import { getDownloadURL } from "firebase/storage";
 import ProfEdit from "../../Components/User/EditProfile";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const style = {
   position: "absolute",
@@ -23,9 +24,9 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #548CCB",
   boxShadow: 24,
   p: 4,
+  borderRadius: "5px",
 };
 
 export default function UserProfile() {
@@ -120,7 +121,20 @@ export default function UserProfile() {
   }, [user]);
 
   if (loading) {
-    return <div>loading...</div>;
+    return (
+      <div>
+        <CircularProgress
+          sx={{
+            position: "absolute",
+            left: "50%",
+            top: "40%",
+            zIndex: "1000",
+            height: "35px",
+            width: "35px",
+          }}
+        />
+      </div>
+    );
   } else {
     return (
       <div style={{ backgroundColor: "#f3f2ef" }}>
@@ -134,17 +148,42 @@ export default function UserProfile() {
                     marginTop: "40px",
                   }}
                 >
-                  <div style={{ zIndex: 1, position: "relative" }}>
-                    <img
+                  {item?.Pfp ? (
+                    <div>
+                      <img
+                        style={{
+                          borderRadius: "110px",
+                          border: "2px solid #2563eb",
+                          boxShadow: "0 0 10px #ccc",
+                          zIndex: 1000,
+                          position: "relative",
+                        }}
+                        width="150px"
+                        height="150px"
+                        src={item.Pfp}
+                      />
+                    </div>
+                  ) : (
+                    <div
                       style={{
-                        borderRadius: "110px",
-                        border: "2px solid #548CCB",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        zIndex: 1000,
+                        position: "relative",
                       }}
-                      width="200px"
-                      height="200px"
-                      src={item.Pfp}
-                    />
-                  </div>
+                    >
+                      <img
+                        style={{
+                          borderRadius: "110px",
+                          backgroundColor: "white",
+                          border: "2px solid #2563eb",
+                          boxShadow: "0 0 10px #ccc",
+                        }}
+                        width="150px"
+                        height="150px"
+                      />
+                    </div>
+                  )}
 
                   {/* Upload Profile picture */}
                   <div>
@@ -175,7 +214,6 @@ export default function UserProfile() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    minHeight: "50vh",
                     marginTop: "-110px",
                   }}
                 >
@@ -185,12 +223,12 @@ export default function UserProfile() {
                       flexWrap: "wrap",
                       "& > :not(style)": {
                         m: 1,
-                        width: 550,
+                        width: 470,
+                        boxShadow: "0 0 10px #ccc",
                       },
                     }}
                   >
                     <Paper
-                      elevation={2}
                       style={{
                         paddingTop: "130px",
                         display: "flex",
@@ -214,11 +252,7 @@ export default function UserProfile() {
                           }}
                         >
                           <h2>Username</h2>
-                          <Button
-                            size="small"
-                            variant="outlined"
-                            onClick={() => updateProf(key)}
-                          >
+                          <Button size="small" onClick={() => updateProf(key)}>
                             <EditIcon />
                           </Button>
                         </div>
@@ -243,9 +277,7 @@ export default function UserProfile() {
                     Edit
                   </Button> */}
                         </div>
-                        <Typography style={{ marginBottom: "15px" }}>
-                          ******
-                        </Typography>
+                        <Typography>******</Typography>
                       </div>
                       <div>
                         <div

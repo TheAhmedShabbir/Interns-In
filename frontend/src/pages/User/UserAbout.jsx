@@ -3,6 +3,7 @@ import { Button, Checkbox, FormControl, TextField } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import { db, auth } from "../../firebase-config";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import CircularProgress from "@mui/material/CircularProgress";
 import {
   collection,
   getDocs,
@@ -20,7 +21,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import Loader from "../../Components/Common/Loader";
 import { storage } from "../../firebase-config";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import EduEdit from "../../Components/User/EducatinModal";
@@ -67,6 +67,7 @@ export default function UserAbout() {
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userProf = profiles.filter((i) => i.Email == user?.email);
     setUserProfile(userProf);
+    setLoading(false);
   };
 
   // Database variable
@@ -79,6 +80,7 @@ export default function UserAbout() {
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userProf = profiles.filter((i) => i.User_Email == user?.email);
     setUserEducation(userProf);
+    setLoading(false);
   };
 
   // Post User Education into Firestore database
@@ -132,6 +134,7 @@ export default function UserAbout() {
     const userProf = profiles.filter((i) => i.User_Email == user?.email);
     setUserExperience(userProf);
     // console.log(UserEdxperience)
+    setLoading(false);
   };
 
   // Experience Modal
@@ -191,6 +194,7 @@ export default function UserAbout() {
     const userProf = profiles.filter((i) => i.User_Email == user?.email);
     console.log(userProf);
     setUserSkills(userProf);
+    setLoading(false);
   };
   // post skills
   const postskill = async () => {
@@ -278,8 +282,6 @@ export default function UserAbout() {
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log(user);
-      setLoading(false);
     });
     if (user) {
       // Function Calls
@@ -290,13 +292,21 @@ export default function UserAbout() {
     } else {
       navigate("/SignIn");
     }
-    getUser();
   }, [user]);
 
   if (loading) {
     return (
       <div>
-        <Loader />
+        <CircularProgress
+          sx={{
+            position: "absolute",
+            left: "50%",
+            top: "40%",
+            zIndex: "1000",
+            height: "35px",
+            width: "35px",
+          }}
+        />
       </div>
     );
   } else {
@@ -320,6 +330,7 @@ export default function UserAbout() {
                     marginLeft: "auto",
                     marginRight: "auto",
                     borderRadius: "10px",
+                    boxShadow: "0 0 10px #ccc",
                   }}
                   key={key}
                 >
@@ -439,6 +450,7 @@ export default function UserAbout() {
                 margin: "10px",
                 padding: "15px",
                 backgroundColor: "white",
+                boxShadow: "0 0 10px #ccc",
               }}
             >
               <div
@@ -573,6 +585,7 @@ export default function UserAbout() {
                 margin: "10px",
                 padding: "15px",
                 backgroundColor: "white",
+                boxShadow: "0 0 10px #ccc",
               }}
             >
               <div

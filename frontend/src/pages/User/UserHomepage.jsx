@@ -7,20 +7,8 @@ import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import img from "../../assets/images/Userpfp.jpg";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import CircularProgress from "@mui/material/CircularProgress";
-
 import { db, auth } from "../../firebase-config";
 import { Link } from "react-router-dom";
-import {
-  collection,
-  doc,
-  addDoc,
-  setDoc,
-  getDoc,
-  onSnapshot,
-  updateDoc,
-  getDocs,
-  deleteDoc,
-} from "firebase/firestore";
 import CallIcon from "@mui/icons-material/Call";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -32,6 +20,18 @@ import { forwardRef } from "react";
 import SavedJobs from "./SavedJobs";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import "../Company/index.css";
+import {
+  collection,
+  doc,
+  addDoc,
+  setDoc,
+  getDoc,
+  onSnapshot,
+  updateDoc,
+  getDocs,
+  deleteDoc,
+} from "firebase/firestore";
+
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -545,7 +545,16 @@ export default function UserHomepage() {
   if (loading) {
     return (
       <div>
-        <CircularProgress />
+        <CircularProgress
+          sx={{
+            position: "absolute",
+            left: "50%",
+            top: "40%",
+            zIndex: "1000",
+            height: "35px",
+            width: "35px",
+          }}
+        />
       </div>
     );
   } else {
@@ -567,6 +576,7 @@ export default function UserHomepage() {
               flexDirection: "column",
               alignItems: "center",
               marginRight: "40px",
+
               // width: "300px",
             }}
           >
@@ -578,6 +588,7 @@ export default function UserHomepage() {
                 marginTop: "40px",
                 borderRadius: "8px",
                 marginBottom: "5px",
+                boxShadow: "0 0 10px #ccc",
               }}
             >
               {UserInfo?.Pfp ? (
@@ -641,6 +652,7 @@ export default function UserHomepage() {
                 width: "250px",
                 color: "white",
                 backgroundColor: "#2563eb",
+                boxShadow: "0 0 10px #ccc",
               }}
             >
               <h4>Video Conference</h4>
@@ -669,6 +681,7 @@ export default function UserHomepage() {
                 width: "200px",
                 borderRadius: "8px",
                 width: "250px",
+                boxShadow: "0 0 10px #ccc",
               }}
             >
               <h2>Top companies</h2>
@@ -688,6 +701,7 @@ export default function UserHomepage() {
                 borderRadius: "10px",
                 display: "flex",
                 flexDirection: "column",
+                boxShadow: "0 0 10px #ccc",
               }}
             >
               <div
@@ -724,15 +738,17 @@ export default function UserHomepage() {
               </div>
             </div>
             <div>
-              <h2>Posts</h2>
+              <h2 style={{ marginTop: "30px" }}>Posts</h2>
               {jobsShown.map((job, key) => {
                 return (
                   <div
                     style={{
+                      maxWidth: "650px",
                       backgroundColor: "white",
                       padding: "20px",
                       margin: "50px",
                       borderRadius: "8px",
+                      boxShadow: "0 0 10px #ccc",
                     }}
                     key={key}
                   >
@@ -756,6 +772,7 @@ export default function UserHomepage() {
                       sx={{
                         display: "flex",
                         marginLeft: "20px",
+                        fontSize: "small",
                       }}
                     >
                       {job.Description}

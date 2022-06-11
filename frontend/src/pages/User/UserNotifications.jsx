@@ -6,6 +6,7 @@ import { db, auth } from "../../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function Notifications() {
   const navigate = useNavigate();
@@ -35,10 +36,23 @@ export default function Notifications() {
   }, [user]);
 
   if (loading) {
-    return <div>loading...</div>;
+    return (
+      <div>
+        <CircularProgress
+          sx={{
+            position: "absolute",
+            left: "50%",
+            top: "40%",
+            zIndex: "1000",
+            height: "35px",
+            width: "35px",
+          }}
+        />
+      </div>
+    );
   } else {
     return (
-      <div style={{ backgroundColor: "#f3f2ef" }}>
+      <div style={{ backgroundColor: "#f3f2ef", fontFamily: "ubuntu" }}>
         <UserHeader />
         <div
           style={{
@@ -70,46 +84,59 @@ export default function Notifications() {
                 <div
                   style={{
                     display: "flex",
-                    flexDirection: "row",
+                    flexDirection: "column",
                     backgroundColor: "white",
                     padding: "15px",
-                    width: "700px",
+                    width: "650px",
                     borderRadius: "10px",
                     margin: "10px",
+                    boxShadow: "0 0 10px #ccc",
                   }}
                 >
-                  <div>
-                    <img width="150px" height="150px" src={img} />
-                  </div>
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "column",
-                      padding: "15px",
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      marginTop: "10px",
+                      flexDirection: "row",
                     }}
                   >
-                    <Typography style={{ padding: "10px" }}>
-                      {job.postedby} added a new job for {job.Title}
-                    </Typography>
-                    <div>
-                      <Button
-                        style={{ margin: "10px" }}
-                        size="small"
-                        variant="outlined"
-                      >
-                        View Details
-                      </Button>
-                      <Button
-                        style={{ margin: "10px" }}
-                        size="small"
-                        variant="outlined"
-                      >
-                        Apply now
-                      </Button>
+                    <div style={{ marginLeft: "20px" }}>
+                      <img width="120px" height="120px" src={img} />
                     </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        padding: "15px",
+                        marginTop: "10px",
+                        marginLeft: "20px",
+                      }}
+                    >
+                      <Typography style={{ padding: "10px" }}>
+                        <span style={{ fontSize: "18px" }}>
+                          <b>{job.postedby}</b>
+                        </span>{" "}
+                        posted a new job for{" "}
+                        <span style={{ fontSize: "18px" }}>
+                          <b>{job.Title}</b>
+                        </span>{" "}
+                      </Typography>
+                    </div>
+                  </div>
+                  <div style={{ marginTop: "-20px" }}>
+                    <Button
+                      style={{ margin: "10px" }}
+                      size="small"
+                      variant="outlined"
+                      color="success"
+                    >
+                      Apply now
+                    </Button>
+                    <Button
+                      style={{ margin: "10px" }}
+                      size="small"
+                      variant="outlined"
+                    >
+                      View Details
+                    </Button>
                   </div>
                 </div>
               </div>

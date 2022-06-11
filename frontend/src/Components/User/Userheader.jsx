@@ -30,7 +30,14 @@ export default function UserHeader() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar style={{ position: "static", top: 0, left: 0 }}>
+      <AppBar
+        style={{
+          position: "static",
+          top: 0,
+          left: 0,
+          backgroundColor: "#2563eb",
+        }}
+      >
         <Toolbar>
           {/* <IconButton
             size="large"
@@ -50,11 +57,10 @@ export default function UserHeader() {
               <span
                 style={{
                   backgroundColor: "white",
-                  color: "blue",
+                  color: "#2563eb",
                   marginLeft: "5px",
                   paddingLeft: "2px",
                   paddingRight: "2px",
-                  // border: "2px solid blue",
                   borderRadius: "2px",
                 }}
               >
@@ -63,8 +69,6 @@ export default function UserHeader() {
             </Typography>
           </Link>
 
-
-          
           <Typography
             variant="h6"
             component="div"

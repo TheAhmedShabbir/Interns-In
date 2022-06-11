@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { forwardRef } from "react";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -89,7 +91,20 @@ export default function SavedJobs() {
   }, [user]);
 
   if (loading) {
-    return <div>loading...</div>;
+    return (
+      <div>
+        <CircularProgress
+          sx={{
+            position: "absolute",
+            left: "50%",
+            top: "40%",
+            zIndex: "1000",
+            height: "35px",
+            width: "35px",
+          }}
+        />
+      </div>
+    );
   } else {
     return (
       <div style={{ backgroundColor: "#f3f2ef" }}>
@@ -101,7 +116,8 @@ export default function SavedJobs() {
             flexDirection: "column",
             alignItems: "center",
             width: "900px",
-            minHeight: "500px",
+            minHeight: "540px",
+            maxHeight: "900px",
             marginLeft: "auto",
             marginRight: "auto",
             borderRadius: "10px",
@@ -113,19 +129,68 @@ export default function SavedJobs() {
             return (
               <div
                 style={{
+                  maxWidth: "650px",
+                  minWidth: "650px",
                   backgroundColor: "white",
                   padding: "20px",
-                  margin: "20px",
                   borderRadius: "8px",
-                  width: "700px",
+                  boxShadow: "0 0 10px #ccc",
                 }}
                 key={key}
               >
-                <h2>
-                  {job.title}, {job.type}, {job.mode}, {job.city}
-                </h2>
-                <Typography>{job.Description}</Typography>
-                <h2 style={{ color: "green" }}> {job.salary} pkr</h2>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <h2 style={{ marginLeft: "20px" }}>
+                    {job.title},{" "}
+                    <span style={{ color: "green" }}>{job.salary}pkr</span>
+                  </h2>
+
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <LocationOnOutlinedIcon color="primary" />
+                    <h4>{job.city}</h4>
+                  </div>
+                </div>
+                <Typography
+                  sx={{
+                    display: "flex",
+                    marginLeft: "20px",
+                    fontSize: "small",
+                  }}
+                >
+                  {job.description}
+                </Typography>
+                <br></br>
+                <Typography
+                  sx={{
+                    display: "flex",
+                    marginLeft: "23px",
+                    fontSize: "small",
+                  }}
+                >
+                  {job.type} {"— "}
+                  {job.mode}
+                </Typography>
+                <Button
+                  style={{ margin: "10px" }}
+                  variant="contained"
+                  onClick={() => applyJob(job.id)}
+                >
+                  Take Test
+                </Button>
+                {/* <Button
+                  style={{
+                    margin: "10px",
+                  }}
+                  onClick={() => deleteSaveJob(job.jobid)}
+                  color="error"
+                  variant="outlined"
+                >
+                  Delete
+                </Button> */}
               </div>
             );
           })}
