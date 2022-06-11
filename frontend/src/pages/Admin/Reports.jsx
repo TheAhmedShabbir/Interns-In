@@ -7,6 +7,9 @@ export default function Forums() {
   return (
       <div>
           <Adminheader />
+          <div>
+            
+          </div>
       </div>
     
   )
