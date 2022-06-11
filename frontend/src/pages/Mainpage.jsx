@@ -133,7 +133,9 @@ export default function Mainpage() {
           marginRight: "40px",
         }}
       >
-        <Typography style={{ fontSize: "45px", fontFamily: "ubuntu" }}>
+        <Typography
+          style={{ fontSize: "45px", fontFamily: "ubuntu", width: "600px" }}
+        >
           Explore topics you are interested{" "}
           <span
             style={{
@@ -420,7 +422,7 @@ export default function Mainpage() {
           minHeight: "700px",
         }}
       >
-        <Typography style={{ fontSize: "35px" }}>
+        <Typography style={{ fontSize: "35px", fontFamily: "ubuntu" }}>
           Post your{" "}
           <span
             style={{
@@ -467,7 +469,7 @@ export default function Mainpage() {
         }}
       >
         <h5 style={{ fontFamily: "ubuntu" }}>
-          Copyright @ Interns-In. All Rights Reserved
+          Copyright @ interns-in. All Rights Reserved
         </h5>
       </div>
     </div>
