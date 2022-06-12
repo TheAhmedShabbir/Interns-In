@@ -15,8 +15,6 @@ import CompanyHomePage from "./pages/Company/CompanyHomePage";
 import Forums from "./pages/Forums";
 import ForumTopic from "./pages/ForumTopic";
 import UserNotifications from "./pages/User/UserNotifications";
-import CompanyNotifications from "./pages/Company/CompanyNotifications";
-import AdminNotifications from "./pages/Admin/AdminNotifications";
 import PostJob from "./pages/Company/PostJob";
 import SavedJobs from "./pages/User/SavedJobs";
 import AppliedJobs from "./pages/User/AppliedJobs";
