@@ -10,6 +10,11 @@ import { Link } from "react-router-dom";
 import { auth } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import Badge from "@mui/material/Badge";
 
 export default function CompanyHeader() {
   const navigate = useNavigate();
@@ -32,11 +37,26 @@ export default function CompanyHeader() {
           >
             <MenuIcon />
           </IconButton> */}
-          <Link
-            to={"/CompanyHomePage"}
+         <Link
+            to="/CompanyHomepage"
             style={{ color: "white", textDecoration: "none" }}
           >
-            <Typography style={{ fontSize: "30px" }}>Interns-In</Typography>
+            <Typography style={{ fontSize: "25px" }}>
+              interns
+              <span
+                style={{
+                  backgroundColor: "white",
+                  color: "blue",
+                  marginLeft: "5px",
+                  paddingLeft: "2px",
+                  paddingRight: "2px",
+                  // border: "2px solid blue",
+                  borderRadius: "2px",
+                }}
+              >
+                <b>in</b>
+              </span>
+            </Typography>
           </Link>
           <Typography
             variant="h6"
@@ -50,29 +70,50 @@ export default function CompanyHeader() {
           >
             <Button color="inherit">Notifications</Button>
           </Link> */}
+          <Button color="inherit">
           <Link
             to="/shortlisted"
             style={{ color: "white", textDecoration: "none" }}
           >
-            <Button color="inherit">Shortlisted</Button>
+            <Badge color="warning" badgeContent={1}>
+           <ListAltIcon/>
+           </Badge>{""}
+           <Typography fontSize="small">Shortlisted</Typography>
           </Link>
-          <Link to="/Forums" style={{ color: "white", textDecoration: "none" }}>
-            <Button color="inherit">Forums</Button>
-          </Link>
+          </Button>
+
+          <Button color="inherit">
           <Link
-            to="/CompanyProfile"
-            style={{ color: "white", textDecoration: "none" }}
-          >
-            <Button color="inherit">Me</Button>
-          </Link>
-          <Link
-            to="/Live"
-            style={{ color: "white", textDecoration: "none" }}
-          >
-            <Button color="inherit">VideoCall</Button>
-          </Link>
+              to="/Forums"
+              style={{
+                color: "white",
+                textDecoration: "none",
+              }}
+            >
+              <ArticleOutlinedIcon />{" "}
+              <Typography fontSize="small">Forums</Typography>
+            </Link>
+            </Button>
+
+
+          
+
+            <Button color="inherit">
+            <Link
+              to="/CompanyProfile"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <PermIdentityOutlinedIcon />{" "}
+              <Typography fontSize="small">Profile</Typography>
+            </Link>
+          </Button>
+
+
           <Button color="inherit" onClick={logout}>
-            Logout
+            <Link to="#" style={{ color: "white", textDecoration: "none" }}>
+              <LogoutOutlinedIcon />
+              <Typography fontSize="small">Logout</Typography>
+            </Link>
           </Button>
         </Toolbar>
       </AppBar>

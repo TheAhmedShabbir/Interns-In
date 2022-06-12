@@ -1,9 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CompanyHeader from "../../Components/Company/CompanyHeader";
 import { Button, TextField, Typography } from "@mui/material";
 import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { collection,
+  doc,
+  addDoc,
+  setDoc,
+  getDoc,
+  onSnapshot,
+  updateDoc,
+  getDocs,
+  deleteDoc, } from "firebase/firestore";
+import CallIcon from "@mui/icons-material/Call";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import FormEdit from "../../Components/Company/FormEdit";
 import ViewApplicants from "../../Components/Company/ViewApplicants";
 import { onAuthStateChanged } from "firebase/auth";
@@ -11,10 +22,263 @@ import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { forwardRef } from "react";
-
+import "./index.css";
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
+
+
+
+//video call code----------------------------------------------------------------------------------------------------------------------------------------------
+
+const servers = {
+  iceServers: [
+    {
+      urls: ["stun:stun1.l.google.com:19302", "stun:stun2.l.google.com:19302"],
+    },
+  ],
+  iceCandidatePoolSize: 10,
+};
+
+const pc = new RTCPeerConnection(servers);
+
+function Videos({ mode, callId, setPage }) {
+  const [webcamActive, setWebcamActive] = useState(false);
+  const [roomId, setRoomId] = useState(callId);
+
+  const localRef = useRef();
+  const remoteRef = useRef();
+
+  const hangUp = async () => {
+    pc.close();
+
+    if (roomId) {
+      const roomRef = doc(db, "calls", roomId);
+      await getDocs(collection(roomRef, "answerCandidates")).then(
+        (querySnapshot) => {
+          querySnapshot.forEach((d) => {
+            deleteDoc(d.ref);
+          });
+        }
+      );
+
+      await getDocs(collection(roomRef, "offerCandidates")).then(
+        (querySnapshot) => {
+          querySnapshot.forEach((d) => {
+            deleteDoc(d.ref);
+          });
+        }
+      );
+
+      await deleteDoc(roomRef);
+    }
+
+    window.location.reload();
+  };
+
+  const setupSources = async () => {
+    const localStream = await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true,
+    });
+    const remoteStream = new MediaStream();
+
+    localStream.getTracks().forEach((track) => {
+      pc.addTrack(track, localStream);
+    });
+
+    pc.ontrack = (event) => {
+      event.streams[0].getTracks().forEach((track) => {
+        remoteStream.addTrack(track);
+      });
+    };
+
+    localRef.current.srcObject = localStream;
+    remoteRef.current.srcObject = remoteStream;
+
+    setWebcamActive(true);
+
+    if (mode === "create") {
+      const callDoc = doc(collection(db, "calls"));
+      const offerCandidates = collection(callDoc, "offerCandidates");
+      const answerCandidates = collection(callDoc, "answerCandidates");
+
+      setRoomId(callDoc.id);
+      // console.log()
+
+      pc.onicecandidate = (event) => {
+        if (event.candidate) {
+          addDoc(offerCandidates, event.candidate.toJSON());
+        }
+      };
+
+      const offerDescription = await pc.createOffer();
+      await pc.setLocalDescription(offerDescription);
+
+      const offer = {
+        sdp: offerDescription.sdp,
+        type: offerDescription.type,
+      };
+
+      await setDoc(callDoc, { offer });
+
+      onSnapshot(callDoc, (snapshot) => {
+        const data = snapshot.data();
+        if (!pc.currentRemoteDescription && data?.answer) {
+          const answerDescription = new RTCSessionDescription(data.answer);
+          pc.setRemoteDescription(answerDescription);
+        }
+      });
+
+      onSnapshot(answerCandidates, (snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          if (change.type === "added") {
+            const candidate = new RTCIceCandidate(change.doc.data());
+            pc.addIceCandidate(candidate);
+          }
+        });
+      });
+    } else if (mode === "join") {
+      const callDoc = doc(db, "calls", callId);
+      const answerCandidates = collection(callDoc, "answerCandidates");
+      const offerCandidates = collection(callDoc, "offerCandidates");
+
+      pc.onicecandidate = (event) => {
+        event.candidate && addDoc(answerCandidates, event.candidate.toJSON());
+      };
+
+      const callData = (await getDoc(callDoc)).data();
+
+      const offerDescription = callData.offer;
+      await pc.setRemoteDescription(
+        new RTCSessionDescription(offerDescription)
+      );
+
+      const answerDescription = await pc.createAnswer();
+      await pc.setLocalDescription(answerDescription);
+
+      const answer = {
+        type: answerDescription.type,
+        sdp: answerDescription.sdp,
+      };
+
+      await updateDoc(callDoc, { answer });
+
+      onSnapshot(offerCandidates, (snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          if (change.type === "added") {
+            const data = change.doc.data();
+            pc.addIceCandidate(new RTCIceCandidate(data));
+          }
+        });
+      });
+    }
+
+    pc.onconnectionstatechange = () => {
+      if (pc.connectionState === "disconnected") {
+        hangUp();
+      }
+    };
+  };
+
+  return (
+    <div
+      className="videos"
+      // style = {{display : 'flex', backgroundColor: 'white', height :'100%'}}
+      // className="flex items-center whitespace-nowrap bg-whitetext-black"
+    >
+      <video ref={localRef} autoPlay playsInline className="local" muted />
+      <video ref={remoteRef} autoPlay playsInline className="remote"/>
+
+      <div className="buttonsContainer">
+        <Button
+          variant="contained"
+          style = {{backgroundColor: "red"}}
+          type="button"
+          onClick={hangUp}
+          disabled={!webcamActive}
+          className="hangup button"
+        >
+          <CallIcon />
+        </Button>
+        <div style = {{backgroundColor: '#2563eb'}} tabIndex={0} role="button" className="more button">
+          <MoreVertIcon />
+          <div
+            className="popover"
+            style={{
+              backgroundColor: "blue",
+            }}
+          >
+            <Button
+              variant="contained"
+              type="button"
+              onClick={() => {
+                navigator.clipboard.writeText(roomId);
+                console.log(roomId);
+              }}
+            >
+              <ContentCopyIcon />
+              Copy joining code
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {!webcamActive && (
+        <div className="modalContainer">
+          <div className="modal" style = {{display : 'flex', flexDirection : 'column', color : 'black'}}>
+            <h3>By pressing start your camera and microphone will turn on</h3>
+            <div
+            style = {{display : 'flex', flexDirection : 'row', justifyContent : 'space-around', margin : '25px'}}
+              // className="container"
+              color="primary"
+              // className="flex gap-4 mt-8"
+            >
+               <Button
+                type="button"
+                variant="contained"
+                onClick={setupSources}
+                style = {{backgroundColor: 'green'}}
+                // fullWidth
+              >
+                Start
+              </Button>
+
+              <Button
+                type="button"
+                // fullWidth
+                variant="contained"
+                onClick={() => setPage("home")}
+                style = {{backgroundColor: 'red'}}
+                // className="secondary"
+              >
+                Cancel
+              </Button>
+             
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Menu({ joinCode, setJoinCode, setPage }) {
+  return (
+    <div
+    // className="create flex flox-col items-center justify-center bg-gray-200 text-600 rounded-lg"
+    // className="create box"
+  >
+    <Button style = {{color : 'white'}}onClick={() => setPage("create")}>Create Call</Button>
+  </div>
+  );
+}
+//=========================================================================================================================================
+
+
+
+
+
 
 export default function CompanyHomePage() {
   const navigate = useNavigate();
@@ -35,6 +299,11 @@ export default function CompanyHomePage() {
 
   const jobCollection = collection(db, "Job");
   const userCollection = collection(db, "UserProfile");
+
+
+  //VideoCall
+  const [currentPage, setCurrentPage] = useState("home");
+  const [joinCode, setJoinCode] = useState("");
 
   const handleWarningClick = () => {
     setWarningOpen(true);
@@ -186,7 +455,7 @@ export default function CompanyHomePage() {
               style={{
                 backgroundColor: "#fff",
                 padding: "15px",
-                width: "200px",
+                width: "250px",
                 marginTop: "40px",
                 borderRadius: "8px",
                 marginBottom: "5px",
@@ -215,6 +484,34 @@ export default function CompanyHomePage() {
               >
                 <h3>{UserInfo?.CompanyName}</h3>
                 <Typography>{UserInfo?.bio}</Typography>
+              </div>
+            </div>
+            <div
+              style={{
+                padding: "15px",
+                margin: "5px",
+                backgroundColor: "#fff",
+                borderRadius: "8px",
+                width: "250px",
+                color: "white",
+                backgroundColor: "#2563eb",
+              }}
+            >
+              <h4>Video Conference</h4>
+              <div className="app">
+                {currentPage === "home" ? (
+                  <Menu
+                    joinCode={joinCode}
+                    setJoinCode={setJoinCode}
+                    setPage={setCurrentPage}
+                  />
+                ) : (
+                  <Videos
+                    mode={currentPage}
+                    callId={joinCode}
+                    setPage={setCurrentPage}
+                  />
+                )}
               </div>
             </div>
             {/* <h3>Pending Interviews</h3> */}
@@ -270,15 +567,18 @@ export default function CompanyHomePage() {
                 style={{
                   borderRadius: "10px",
                   padding: "15px",
-                  backgroundColor: "#fff",
-                  border: "2px solid blue",
+                  backgroundColor: "#2563eb",
+                  color : 'white',
+                  // border: "2px solid blue",
                   margin: "10px",
                   width: "200px",
+                  variant : "contained",
+                  boxShadow: "0px 0px 10px black",
                   minHeight: "137px",
                 }}
               >
                 <h2>Post a Job</h2>
-                <Button href="/postjob" size="small" variant="contained">
+                <Button href="/postjob" size="small" style = {{color : 'white'}}>
                   Add
                 </Button>
               </div>
@@ -286,8 +586,10 @@ export default function CompanyHomePage() {
                 style={{
                   borderRadius: "10px",
                   padding: "15px",
-                  backgroundColor: "#fff",
-                  border: "2px solid blue",
+                  backgroundColor: "#45C44B",
+                  boxShadow: "0px 0px 10px black",
+                  variant : "contained",
+                  color : 'white',
                   margin: "10px",
                   width: "200px",
                   minHeight: "137px",
@@ -300,8 +602,10 @@ export default function CompanyHomePage() {
                 style={{
                   borderRadius: "10px",
                   padding: "15px",
-                  backgroundColor: "#fff",
-                  border: "2px solid blue",
+                  backgroundColor: "rgb(241, 143, 56)",
+                  boxShadow: "0px 0px 10px black",
+                  variant : "contained",
+                  color : 'white',
                   margin: "10px",
                   width: "200px",
                   minHeight: "137px",
@@ -316,8 +620,10 @@ export default function CompanyHomePage() {
                 style={{
                   borderRadius: "10px",
                   padding: "15px",
-                  backgroundColor: "#fff",
-                  border: "2px solid blue",
+                  backgroundColor: "#4FCD9F",
+                  boxShadow: "0px 0px 10px black",
+                  color : 'white',
+                  variant : "contained",
                   margin: "10px",
                   width: "200px",
                   minHeight: "137px",

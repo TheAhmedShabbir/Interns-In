@@ -208,7 +208,7 @@ function Videos({ mode, callId, setPage }) {
           <CallIcon />
         </Button>
         <div
-          style={{ backgroundColor: "#401F86" }}
+          style={{ backgroundColor: "#2563eb" }}
           tabIndex={0}
           role="button"
           className="more button"
