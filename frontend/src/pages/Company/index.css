@@ -32,7 +32,6 @@ input {
     font-family: inherit;
     padding: 10px;
     border-radius: 5px;
-    margin-bottom: 50px;
 }
 
 video {
@@ -45,15 +44,15 @@ video {
     background: #ffffff;
 }
 
-/* .home {
+.home {
     height: 100vh;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 10vw;
     padding: 30vh 20vw;
-} */
+}
 
-/* .home .box {
+.home .box {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -62,7 +61,7 @@ video {
     color: var(--color-primary);
     border-radius: 8px;
     padding: 40px 20px;
-} */
+}
 
 .modalContainer {
     position: absolute;
@@ -81,7 +80,7 @@ video {
     transform: translate(-50%, -50%);
     border-radius: 10px;
     padding: 30px;
-    color: var(--color-primary);
+    /* color: var(--color-primary); */
     background-color: white;
 }
 
@@ -113,11 +112,13 @@ video {
 }
 
 .videos .remote {
+    
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
+    
 }
 
 .videos .buttonsContainer {
