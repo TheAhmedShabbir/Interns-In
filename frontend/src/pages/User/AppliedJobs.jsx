@@ -107,7 +107,7 @@ export default function SavedJobs() {
     );
   } else {
     return (
-      <div style={{ backgroundColor: "#f3f2ef" }}>
+      <div style={{ backgroundColor: "#fafafa" }}>
         <UserHeader />
         <div
           style={{
@@ -116,15 +116,14 @@ export default function SavedJobs() {
             flexDirection: "column",
             alignItems: "center",
             width: "900px",
-            minHeight: "540px",
-            maxHeight: "900px",
+            minHeight: "100px",
             marginLeft: "auto",
             marginRight: "auto",
             borderRadius: "10px",
             padding: "15px",
           }}
         >
-          <h1 style={{ marginBottom: "30px" }}>Applied Jobs</h1>
+          <h1 style={{ marginBottom: "50px" }}>Applied Jobs</h1>
           {jobsApplied.map((job, key) => {
             return (
               <div

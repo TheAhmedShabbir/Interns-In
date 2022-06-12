@@ -106,10 +106,10 @@ export default function Forums() {
             flexDirection: "column",
             alignItems: "center",
             padding: "15px",
-            backgroundColor: "#f3f2ef",
+            backgroundColor: "#fafafa",
             marginLeft: "auto",
             marginRight: "auto",
-            minHeight: "600px",
+            minHeight: "100vh",
           }}
         >
           <div

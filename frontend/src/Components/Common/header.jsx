@@ -29,7 +29,7 @@ export default function Generalheader() {
               <span
                 style={{
                   backgroundColor: "white",
-                  color: "blue",
+                  color: "#2563eb",
                   marginLeft: "5px",
                   paddingLeft: "2px",
                   paddingRight: "2px",

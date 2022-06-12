@@ -215,8 +215,7 @@ function Videos({ mode, callId, setPage }) {
           className="more button"
         >
           <MoreVertIcon />
-          <div
-            className="popover"          >
+          <div className="popover">
             <Button
               variant="contained"
               type="button"
@@ -555,7 +554,12 @@ export default function UserHomepage() {
     );
   } else {
     return (
-      <div style={{ backgroundColor: "#f3f2ef", fontFamily: "ubuntu" }}>
+      <div
+        style={{
+          backgroundColor: "#fafafa",
+          fontFamily: "ubuntu, arial,sans-serif",
+        }}
+      >
         <UserHeader />
         <div
           style={{
@@ -571,7 +575,6 @@ export default function UserHomepage() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              marginRight: "40px",
 
               // width: "300px",
             }}
@@ -580,7 +583,7 @@ export default function UserHomepage() {
               style={{
                 backgroundColor: "#fff",
                 padding: "15px",
-                width: "250px",
+                width: "280px",
                 marginTop: "40px",
                 borderRadius: "8px",
                 marginBottom: "5px",
@@ -600,8 +603,8 @@ export default function UserHomepage() {
                       marginTop: "-75px",
                       backgroundColor: "white",
                     }}
-                    width="150px"
-                    height="150px"
+                    width="160px"
+                    height="160px"
                     src={UserInfo?.Pfp}
                   />
                 </div>
@@ -643,9 +646,8 @@ export default function UserHomepage() {
                 padding: "15px",
                 margin: "5px",
                 backgroundColor: "#fff",
-                width: "200px",
                 borderRadius: "8px",
-                width: "250px",
+                width: "280px",
                 color: "white",
                 backgroundColor: "#2563eb",
                 boxShadow: "0 0 10px #ccc",
@@ -674,9 +676,8 @@ export default function UserHomepage() {
                 padding: "15px",
                 margin: "5px",
                 backgroundColor: "#fff",
-                width: "200px",
+                width: "280px",
                 borderRadius: "8px",
-                width: "250px",
                 boxShadow: "0 0 10px #ccc",
               }}
             >
@@ -698,6 +699,10 @@ export default function UserHomepage() {
                 display: "flex",
                 flexDirection: "column",
                 boxShadow: "0 0 10px #ccc",
+                width: "700px",
+                alignContent: "center",
+                marginRight: "auto",
+                marginLeft: "auto",
               }}
             >
               <div
@@ -739,7 +744,7 @@ export default function UserHomepage() {
                 return (
                   <div
                     style={{
-                      maxWidth: "650px",
+                      maxWidth: "700px",
                       backgroundColor: "white",
                       padding: "20px",
                       margin: "50px",

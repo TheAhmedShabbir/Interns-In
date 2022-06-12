@@ -1,10 +1,11 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Badge from "@mui/material/Badge";
+import { onAuthStateChanged } from "firebase/auth";
 // import IconButton from '@mui/material/IconButton';
 // import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
@@ -18,8 +19,19 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import BookmarkAddedOutlinedIcon from "@mui/icons-material/BookmarkAddedOutlined";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
+import { db } from "../../firebase-config";
+import { collection, getDocs } from "firebase/firestore";
 
 export default function UserHeader() {
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState({});
+  const [savedJobs, setSavedJobs] = useState([]);
+  const [jobsApplied, setJobsApplied] = useState([]);
+
+  const jobCollection = collection(db, "Job");
+  const userCollection = collection(db, "UserProfile");
+
   const navigate = useNavigate();
 
   const logout = async () => {
@@ -27,6 +39,64 @@ export default function UserHeader() {
     localStorage.clear();
     navigate("/SignIn");
   };
+
+  const getJobs = async () => {
+    const data = await getDocs(jobCollection);
+    setJobs(data.docs.map((doc) => ({ ...doc.data() })));
+    setLoading(false);
+  };
+
+  const getSavedJobs = async () => {
+    const data = await getDocs(userCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userData = profiles.filter((i) => i.Email == user?.email);
+
+    const saveJobRef = collection(
+      db,
+      `UserProfile/${userData[0]?.id}/savejobs`
+    );
+    const d = await getDocs(saveJobRef);
+    const savejobs = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+    if (!savejobs) {
+      setLoading(true);
+    } else {
+      setSavedJobs(savejobs);
+      setLoading(false);
+    }
+  };
+
+  const getAppliedJobs = async () => {
+    const data = await getDocs(userCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userData = profiles.filter((u) => u.Email == user?.email);
+
+    const appliedJobRef = collection(
+      db,
+      `UserProfile/${userData[0]?.id}/appliedJobs`
+    );
+    const d = await getDocs(appliedJobRef);
+    const appliedJobs = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+    if (!appliedJobs) {
+      setLoading(true);
+    } else {
+      setJobsApplied(appliedJobs);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      if (currentUser) {
+        // get jobs
+        getJobs();
+        getSavedJobs();
+        getAppliedJobs();
+      }
+    });
+  }, [user, loading]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -87,7 +157,7 @@ export default function UserHeader() {
               color="inherit"
               style={{ display: "flex", flexDirection: "column" }}
             > */}
-              <Badge color="error" badgeContent={3}>
+              <Badge color="error" badgeContent={jobs?.length}>
                 <NotificationsNoneIcon />
               </Badge>
               <Typography fontSize="small">Notifications</Typography>
@@ -111,7 +181,7 @@ export default function UserHeader() {
               to="/SavedJobs"
               style={{ color: "white", textDecoration: "none" }}
             >
-              <Badge color="warning" badgeContent={1}>
+              <Badge color="warning" badgeContent={savedJobs?.length}>
                 <BookmarkAddedOutlinedIcon />
               </Badge>{" "}
               <Typography fontSize="small">Saved Jobs</Typography>
@@ -122,7 +192,7 @@ export default function UserHeader() {
               to="/AppliedJobs"
               style={{ color: "white", textDecoration: "none" }}
             >
-              <Badge color="success" badgeContent={2}>
+              <Badge color="success" badgeContent={jobsApplied?.length}>
                 <AssignmentTurnedInIcon />
               </Badge>
               <Typography fontSize="small"> Applied Jobs</Typography>

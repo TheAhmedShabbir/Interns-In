@@ -10,7 +10,7 @@ export default function Mainpage() {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div style={{ fontFamily: "ubuntu, arial, sans-serif" }}>
       <Generalheader />
       <div
         style={{
@@ -20,13 +20,13 @@ export default function Mainpage() {
           padding: "50px",
           flexWrap: "nowrap",
           alignItems: "center",
+          minHeight: "90vh",
         }}
       >
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "flex-start",
             paddingTop: "50px",
             paddingBottom: "50px",
           }}
@@ -35,7 +35,6 @@ export default function Mainpage() {
             style={{
               fontSize: "50px",
               marginLeft: "30px",
-              fontFamily: "ubuntu",
               width: "350px",
             }}
           >
@@ -128,20 +127,19 @@ export default function Mainpage() {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
-          marginTop: "150px",
           alignItems: "center",
           marginRight: "40px",
+          minHeight: "70vh",
         }}
       >
-        <Typography
-          style={{ fontSize: "45px", fontFamily: "ubuntu", width: "600px" }}
-        >
+        <Typography style={{ fontSize: "45px", width: "600px" }}>
           Explore topics you are interested{" "}
           <span
             style={{
               backgroundColor: "#2563eb",
               color: "white",
-              padding: "5px",
+              paddingLeft: "5px",
+              paddingRight: "5px",
               borderRadius: "5px",
             }}
           >
@@ -149,7 +147,13 @@ export default function Mainpage() {
           </span>
         </Typography>
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginRight: "30px",
+          }}
+        >
           <div style={{ display: "flex" }}>
             <h2>Content Topics</h2>
           </div>
@@ -228,16 +232,14 @@ export default function Mainpage() {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-evenly",
-          marginTop: "250px",
           alignItems: "center",
-          marginBottom: "250px",
+          minHeight: "100vh",
         }}
       >
         <Typography
           style={{
             fontSize: "45px",
-            fontFamily: "ubuntu",
-            width: "700px",
+            width: "100vh",
             marginLeft: "100px",
           }}
         >
@@ -269,9 +271,9 @@ export default function Mainpage() {
         <div
           style={{
             display: "flex",
-            fontFamily: "ubuntu",
             flexDirection: "column",
             marginLeft: "50px",
+            marginRight: "30px",
           }}
         >
           <div style={{ display: "flex" }}>
@@ -374,14 +376,13 @@ export default function Mainpage() {
           backgroundColor: "#2563eb",
           padding: "40px",
           color: "white",
-          minHeight: "700px",
+          minHeight: "100vh",
         }}
       >
         <Typography
           style={{
             fontSize: "50px",
-            fontFamily: "ubuntu",
-            width: "800px",
+            minWidth: "400px",
             margin: "40px",
           }}
         >
@@ -395,8 +396,8 @@ export default function Mainpage() {
               borderRadius: "5px",
             }}
           >
-            <b>in</b>{" "}
-          </span>
+            <b>in</b>
+          </span>{" "}
           for?
         </Typography>
         <Typography
@@ -417,13 +418,13 @@ export default function Mainpage() {
         style={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-evenly",
+          justifyContent: "center",
           alignItems: "center",
           padding: "40px",
-          minHeight: "700px",
+          minHeight: "100vh",
         }}
       >
-        <Typography style={{ fontSize: "35px", fontFamily: "ubuntu" }}>
+        <Typography style={{ fontSize: "35px", margin: "20px" }}>
           Post your{" "}
           <span
             style={{
@@ -453,7 +454,8 @@ export default function Mainpage() {
           variant="outlined"
           style={{
             border: "1px solid #2563eb",
-            color: "#1e40af",
+            color: "#2563eb",
+            marginTop: "40px",
           }}
           onClick={() => navigate("/SignIn")}
         >
@@ -469,9 +471,7 @@ export default function Mainpage() {
           color: "white",
         }}
       >
-        <h5 style={{ fontFamily: "ubuntu" }}>
-          Copyright @ interns-in. All Rights Reserved
-        </h5>
+        <h5>Copyright @ interns-in. All Rights Reserved</h5>
       </div>
     </div>
   );

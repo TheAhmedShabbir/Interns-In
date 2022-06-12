@@ -52,7 +52,12 @@ export default function Notifications() {
     );
   } else {
     return (
-      <div style={{ backgroundColor: "#f3f2ef", fontFamily: "ubuntu" }}>
+      <div
+        style={{
+          backgroundColor: "#fafafa",
+          fontFamily: "ubuntu,arial,sans-serif",
+        }}
+      >
         <UserHeader />
         <div
           style={{

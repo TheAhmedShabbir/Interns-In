@@ -311,10 +311,10 @@ export default function UserAbout() {
     );
   } else {
     return (
-      <div style={{ backgroundColor: "#f3f2ef" }}>
+      <div style={{ backgroundColor: "#fafafa" }}>
         <UserHeader />
 
-        <div>
+        <div style={{ minHeight: "100vh", marginTop: "50px" }}>
           {userProfile &&
             userProfile.map((item, key) => {
               return (
