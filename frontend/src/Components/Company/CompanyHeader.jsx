@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { auth } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import ListAltIcon from '@mui/icons-material/ListAlt';
+import ListAltIcon from "@mui/icons-material/ListAlt";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
@@ -37,7 +37,7 @@ export default function CompanyHeader() {
           >
             <MenuIcon />
           </IconButton> */}
-         <Link
+          <Link
             to="/CompanyHomepage"
             style={{ color: "white", textDecoration: "none" }}
           >
@@ -71,19 +71,20 @@ export default function CompanyHeader() {
             <Button color="inherit">Notifications</Button>
           </Link> */}
           <Button color="inherit">
-          <Link
-            to="/shortlisted"
-            style={{ color: "white", textDecoration: "none" }}
-          >
-            <Badge color="warning" badgeContent={1}>
-           <ListAltIcon/>
-           </Badge>{""}
-           <Typography fontSize="small">Shortlisted</Typography>
-          </Link>
+            <Link
+              to="/shortlisted"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <Badge color="warning" badgeContent={1}>
+                <ListAltIcon />
+              </Badge>
+              {""}
+              <Typography fontSize="small">Shortlisted</Typography>
+            </Link>
           </Button>
 
           <Button color="inherit">
-          <Link
+            <Link
               to="/Forums"
               style={{
                 color: "white",
@@ -93,12 +94,9 @@ export default function CompanyHeader() {
               <ArticleOutlinedIcon />{" "}
               <Typography fontSize="small">Forums</Typography>
             </Link>
-            </Button>
+          </Button>
 
-
-          
-
-            <Button color="inherit">
+          <Button color="inherit">
             <Link
               to="/CompanyProfile"
               style={{ color: "white", textDecoration: "none" }}
@@ -107,7 +105,6 @@ export default function CompanyHeader() {
               <Typography fontSize="small">Profile</Typography>
             </Link>
           </Button>
-
 
           <Button color="inherit" onClick={logout}>
             <Link to="#" style={{ color: "white", textDecoration: "none" }}>

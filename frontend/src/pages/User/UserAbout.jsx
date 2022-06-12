@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Button, Checkbox, FormControl, TextField } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import { db, auth } from "../../firebase-config";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import CircularProgress from "@mui/material/CircularProgress";
 import {
   collection,
