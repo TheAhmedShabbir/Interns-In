@@ -4,7 +4,12 @@ import { FormControlLabel } from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import SearchIcon from "@mui/icons-material/Search";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import Slider from "@mui/material/Slider";
 import img from "../../assets/images/Userpfp.jpg";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import CircularProgress from "@mui/material/CircularProgress";
 import { db, auth } from "../../firebase-config";
@@ -217,7 +222,6 @@ function Videos({ mode, callId, setPage }) {
           <MoreVertIcon />
           <div className="popover">
             <Button
-            
               variant="contained"
               type="button"
               onClick={() => {
@@ -682,19 +686,70 @@ export default function UserHomepage() {
                 boxShadow: "0 0 10px #ccc",
               }}
             >
-              <h2>Top companies</h2>
+              <h2>Filter</h2>
+              <div>
+                <FormControl fullWidth size="small">
+                  <InputLabel>City</InputLabel>
+                  <Select
+                    // value={city}
+                    label="Age"
+                    // onChange={handleChange}
+                  >
+                    <MenuItem>Lahore</MenuItem>
+                    <MenuItem>Karachi</MenuItem>
+                    <MenuItem>Rawalpindi</MenuItem>
+                    <MenuItem>Gujranwala</MenuItem>
+                    <MenuItem>Multan</MenuItem>
+                    <MenuItem>Islamabad</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
               <div style={{ padding: "10px" }}>
-                <h3>Systems Limited</h3>
-                <Button size="small" variant="outlined">
-                  View Profile
-                </Button>
+                <h3>Salary</h3>
+                <Slider
+                  defaultValue={10000}
+                  // getAriaValueText={valuetext}
+                  valueLabelDisplay="auto"
+                  step={5000}
+                  marks={true}
+                  min={5000}
+                  max={100000}
+                />
+              </div>
+            </div>
+
+            <div
+              style={{
+                padding: "15px",
+                margin: "5px",
+                backgroundColor: "#fff",
+                width: "280px",
+                borderRadius: "8px",
+                boxShadow: "0 0 10px #ccc",
+              }}
+            >
+              <h2>Categories</h2>
+              <div style={{ padding: "10px" }}>
+                <Button size="small">Software Developer</Button>
+              </div>
+              <div style={{ padding: "10px" }}>
+                <Button size="small">Accountant</Button>
+              </div>
+              <div style={{ padding: "10px" }}>
+                <Button size="small">Food Science</Button>
+              </div>
+              <div style={{ padding: "10px" }}>
+                <Button size="small">Quality Assurance</Button>
+              </div>
+              <div style={{ padding: "10px" }}>
+                <Button size="small">Supply Chain</Button>
               </div>
             </div>
           </div>
-          <div style={{ padding: "10px" }}>
+          <div style={{ padding: "10px " }}>
             <div
               style={{
-                padding: "20px",
+                padding: "20px 20px 10px 20px",
                 backgroundColor: "#fff",
                 borderRadius: "10px",
                 display: "flex",
@@ -737,6 +792,23 @@ export default function UserHomepage() {
                 >
                   <SearchIcon />
                 </Button>
+              </div>
+              <div>
+                <FormControlLabel
+                  control={<Checkbox size="small" />}
+                  label="internship"
+                  style={{ marginTop: "5px" }}
+                />
+                <FormControlLabel
+                  control={<Checkbox size="small" />}
+                  label="Remote"
+                  style={{ marginTop: "5px" }}
+                />
+                <FormControlLabel
+                  control={<Checkbox size="small" />}
+                  label="Full Time"
+                  style={{ marginTop: "5px" }}
+                />
               </div>
             </div>
             <div>

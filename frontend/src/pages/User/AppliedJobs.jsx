@@ -116,7 +116,7 @@ export default function SavedJobs() {
             flexDirection: "column",
             alignItems: "center",
             width: "900px",
-            minHeight: "100px",
+            minHeight: "100vh",
             marginLeft: "auto",
             marginRight: "auto",
             borderRadius: "10px",
