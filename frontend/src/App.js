@@ -26,10 +26,6 @@ import {
   EnrouteToDashboard,
 } from "./authorization/authorized-routes";
 
-
-
-
-
 export default function App() {
   return (
     <Router>

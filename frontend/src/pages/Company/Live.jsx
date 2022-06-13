@@ -189,9 +189,12 @@ function Videos({ mode, callId, setPage }) {
         </Button>
         <div tabIndex={0} role="button" className="more button">
           <MoreVertIcon />
-          <div className="popover" style ={{
+          <div
+            className="popover"
+            style={{
               backgroundColor: "blue",
-          }}>
+            }}
+          >
             <Button
               variant="contained"
               type="button"
@@ -243,46 +246,49 @@ function Videos({ mode, callId, setPage }) {
 
 function Menu({ joinCode, setJoinCode, setPage }) {
   return (
-      <div>
-    <CompanyHeader/>
-    <div
-      // className="home"
-      style={{
-        height: "100vh",
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-        gap: "10vw",
-        padding: "30vh 20vw",
-      }}
-    >
-       
+    <div>
+      <CompanyHeader />
       <div
-        className="create flex flox-col items-center justify-center bg-gray-200 text-600 rounded-lg"
-        // className="create box"
+        // className="home"
         style={{
-          padding: "40px 20px",
-          backgroundColor: "#401F86",
+          height: "100vh",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+          gap: "10vw",
+          padding: "30vh 20vw",
         }}
       >
-        <Button style = {{color : 'white'}}onClick={() => setPage("create")}>Create Call</Button>
-      </div>
+        <div
+          className="create flex flox-col items-center justify-center bg-gray-200 text-600 rounded-lg"
+          // className="create box"
+          style={{
+            padding: "40px 20px",
+            backgroundColor: "#401F86",
+          }}
+        >
+          <Button style={{ color: "white" }} onClick={() => setPage("create")}>
+            Create Call
+          </Button>
+        </div>
 
-      <div
-        className="answer flex flox-col items-center justify-center bg-gray-200 text-600 rounded-lg"
-        // className="answer box"
-        style={{
-          padding: "40px 20px",
-          backgroundColor: "#401F86",
-        }}
-      >
-        <input
-          value={joinCode}
-          onChange={(e) => setJoinCode(e.target.value)}
-          placeholder="Join with code"
-        />
-        <Button style = {{color : 'white'}}onClick={() => setPage("join")}>Answer</Button>
+        <div
+          className="answer flex flox-col items-center justify-center bg-gray-200 text-600 rounded-lg"
+          // className="answer box"
+          style={{
+            padding: "40px 20px",
+            backgroundColor: "#401F86",
+          }}
+        >
+          <input
+            value={joinCode}
+            onChange={(e) => setJoinCode(e.target.value)}
+            placeholder="Join with code"
+          />
+          <Button style={{ color: "white" }} onClick={() => setPage("join")}>
+            Answer
+          </Button>
+        </div>
       </div>
-    </div>
     </div>
   );
 }
