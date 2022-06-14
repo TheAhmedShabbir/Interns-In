@@ -155,7 +155,7 @@ export default function PostJob() {
                   }}
                 >
                   <FormControlLabel
-                    value={"Full Time"}
+                    value={"Full"}
                     control={<Radio required={true} />}
                     label={"Full Time"}
                     onChange={(event) => {
@@ -164,7 +164,7 @@ export default function PostJob() {
                     sx={{ marginRight: "150px" }}
                   />
                   <FormControlLabel
-                    value={"Part Time"}
+                    value={"Part"}
                     control={<Radio required={true} />}
                     label={"Part Time"}
                     onChange={(event) => {
