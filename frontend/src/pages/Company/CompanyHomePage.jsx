@@ -2,8 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import CompanyHeader from "../../Components/Company/CompanyHeader";
 import { Button, TextField, Typography } from "@mui/material";
 import img from "../../assets/images/Userpfp.jpg";
+import CircularProgress from "@mui/material/CircularProgress";
 import { db, auth } from "../../firebase-config";
-import { collection,
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import {
+  collection,
   doc,
   addDoc,
   setDoc,
@@ -11,7 +14,8 @@ import { collection,
   onSnapshot,
   updateDoc,
   getDocs,
-  deleteDoc, } from "firebase/firestore";
+  deleteDoc,
+} from "firebase/firestore";
 import CallIcon from "@mui/icons-material/Call";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -26,8 +30,6 @@ import "./index.css";
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-
-
 
 //video call code----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -188,12 +190,12 @@ function Videos({ mode, callId, setPage }) {
       // className="flex items-center whitespace-nowrap bg-whitetext-black"
     >
       <video ref={localRef} autoPlay playsInline className="local" muted />
-      <video ref={remoteRef} autoPlay playsInline className="remote"/>
+      <video ref={remoteRef} autoPlay playsInline className="remote" />
 
       <div className="buttonsContainer">
         <Button
           variant="contained"
-          style = {{backgroundColor: "red"}}
+          style={{ backgroundColor: "red" }}
           type="button"
           onClick={hangUp}
           disabled={!webcamActive}
@@ -201,11 +203,14 @@ function Videos({ mode, callId, setPage }) {
         >
           <CallIcon />
         </Button>
-        <div style = {{backgroundColor: '#2563eb'}} tabIndex={0} role="button" className="more button">
+        <div
+          style={{ backgroundColor: "#2563eb" }}
+          tabIndex={0}
+          role="button"
+          className="more button"
+        >
           <MoreVertIcon />
-          <div
-            className="popover"
-          >
+          <div className="popover">
             <Button
               variant="contained"
               type="button"
@@ -223,19 +228,27 @@ function Videos({ mode, callId, setPage }) {
 
       {!webcamActive && (
         <div className="modalContainer">
-          <div className="modal" style = {{display : 'flex', flexDirection : 'column', color : 'black'}}>
+          <div
+            className="modal"
+            style={{ display: "flex", flexDirection: "column", color: "black" }}
+          >
             <h3>By pressing start your camera and microphone will turn on</h3>
             <div
-            style = {{display : 'flex', flexDirection : 'row', justifyContent : 'space-around', margin : '25px'}}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-around",
+                margin: "25px",
+              }}
               // className="container"
               color="primary"
               // className="flex gap-4 mt-8"
             >
-               <Button
+              <Button
                 type="button"
                 variant="contained"
                 onClick={setupSources}
-                style = {{backgroundColor: 'green'}}
+                style={{ backgroundColor: "green" }}
                 // fullWidth
               >
                 Start
@@ -246,12 +259,11 @@ function Videos({ mode, callId, setPage }) {
                 // fullWidth
                 variant="contained"
                 onClick={() => setPage("home")}
-                style = {{backgroundColor: 'red'}}
+                style={{ backgroundColor: "red" }}
                 // className="secondary"
               >
                 Cancel
               </Button>
-             
             </div>
           </div>
         </div>
@@ -265,17 +277,14 @@ function Menu({ joinCode, setJoinCode, setPage }) {
     <div
     // className="create flex flox-col items-center justify-center bg-gray-200 text-600 rounded-lg"
     // className="create box"
-  >
-    <Button style = {{color : 'white'}}onClick={() => setPage("create")}>Create Call</Button>
-  </div>
+    >
+      <Button style={{ color: "white" }} onClick={() => setPage("create")}>
+        Create Call
+      </Button>
+    </div>
   );
 }
 //=========================================================================================================================================
-
-
-
-
-
 
 export default function CompanyHomePage() {
   const navigate = useNavigate();
@@ -296,7 +305,6 @@ export default function CompanyHomePage() {
 
   const jobCollection = collection(db, "Job");
   const userCollection = collection(db, "UserProfile");
-
 
   //VideoCall
   const [currentPage, setCurrentPage] = useState("home");
@@ -427,16 +435,35 @@ export default function CompanyHomePage() {
   }, [user, open]);
 
   if (loading) {
-    return <div>loading...</div>;
+    return (
+      <div>
+        <CircularProgress
+          sx={{
+            position: "absolute",
+            left: "50%",
+            top: "40%",
+            zIndex: "1000",
+            height: "35px",
+            width: "35px",
+          }}
+        />
+      </div>
+    );
   } else {
     return (
-      <div style={{ backgroundColor: "#f3f2ef" }}>
+      <div
+        style={{
+          backgroundColor: "#fafafa",
+          fontFamily: "ubuntu, arial,sans-serif",
+        }}
+      >
         <CompanyHeader />
         <div
           style={{
             display: "flex",
             flexDirection: "row",
             marginTop: "40px",
+            justifyContent: "center",
           }}
         >
           <div
@@ -452,10 +479,11 @@ export default function CompanyHomePage() {
               style={{
                 backgroundColor: "#fff",
                 padding: "15px",
-                width: "250px",
+                width: "280px",
                 marginTop: "40px",
                 borderRadius: "8px",
                 marginBottom: "5px",
+                boxShadow: "0 0 10px #ccc",
               }}
             >
               <div
@@ -465,7 +493,11 @@ export default function CompanyHomePage() {
                 }}
               >
                 <img
-                  style={{ borderRadius: "110px", marginTop: "-75px" }}
+                  style={{
+                    borderRadius: "110px",
+                    marginTop: "-75px",
+                    boxShadow: "0 0 10px #ccc",
+                  }}
                   width="150px"
                   height="150px"
                   src={img}
@@ -489,9 +521,11 @@ export default function CompanyHomePage() {
                 margin: "5px",
                 backgroundColor: "#fff",
                 borderRadius: "8px",
-                width: "250px",
+                width: "280px",
                 color: "white",
                 backgroundColor: "#2563eb",
+                minHeight: "150px",
+                boxShadow: "0 0 10px #ccc",
               }}
             >
               <h4>Video Conference</h4>
@@ -511,39 +545,6 @@ export default function CompanyHomePage() {
                 )}
               </div>
             </div>
-            {/* <h3>Pending Interviews</h3> */}
-            {/* {jobs.map((j, k) => {
-              if (j.Applicants[k] == undefined) {
-                <div></div>;
-              } else
-                return (
-                  <div
-                    style={{
-                      backgroundColor: "#fff",
-                      borderRadius: "8px",
-                      margin: "5px",
-                    }}
-                    key={k}
-                  >
-                    <div
-                      style={{
-                        backgroundColor: "#fff",
-                        padding: "15px",
-                        margin: "5px",
-                        width: "200px",
-                        borderRadius: "8px",
-                      }}
-                    >
-                      <div style={{ padding: "10px" }}>
-                        <h4></h4>
-                        <Button size="small" variant="outlined">
-                          View Profile
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                );
-            })} */}
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div
@@ -562,31 +563,26 @@ export default function CompanyHomePage() {
             >
               <div
                 style={{
-                  borderRadius: "10px",
+                  borderRadius: "8px",
                   padding: "15px",
-                  backgroundColor: "#2563eb",
-                  color : 'white',
-                  // border: "2px solid blue",
+                  border: "2px solid #2563eb",
                   margin: "10px",
                   width: "200px",
-                  variant : "contained",
-                  boxShadow: "0px 0px 10px black",
+                  boxShadow: "0 0 10px #ccc",
                   minHeight: "137px",
                 }}
               >
                 <h2>Post a Job</h2>
-                <Button href="/postjob" size="small" style = {{color : 'white'}}>
+                <Button href="/postjob" size="small" variant="contained">
                   Add
                 </Button>
               </div>
               <div
                 style={{
-                  borderRadius: "10px",
+                  borderRadius: "8px",
                   padding: "15px",
-                  backgroundColor: "#45C44B",
-                  boxShadow: "0px 0px 10px black",
-                  variant : "contained",
-                  color : 'white',
+                  boxShadow: "0 0 10px #ccc",
+                  border: "2px solid #2563eb",
                   margin: "10px",
                   width: "200px",
                   minHeight: "137px",
@@ -597,12 +593,10 @@ export default function CompanyHomePage() {
               </div>
               <div
                 style={{
-                  borderRadius: "10px",
+                  borderRadius: "8px",
                   padding: "15px",
-                  backgroundColor: "rgb(241, 143, 56)",
-                  boxShadow: "0px 0px 10px black",
-                  variant : "contained",
-                  color : 'white',
+                  border: "2px solid #2563eb",
+                  boxShadow: "0 0 10px #ccc",
                   margin: "10px",
                   width: "200px",
                   minHeight: "137px",
@@ -615,12 +609,10 @@ export default function CompanyHomePage() {
               </div>
               <div
                 style={{
-                  borderRadius: "10px",
+                  borderRadius: "8px",
+                  border: "2px solid #2563eb",
                   padding: "15px",
-                  backgroundColor: "#4FCD9F",
-                  boxShadow: "0px 0px 10px black",
-                  color : 'white',
-                  variant : "contained",
+                  boxShadow: "0 0 10px #ccc",
                   margin: "10px",
                   width: "200px",
                   minHeight: "137px",
@@ -630,24 +622,64 @@ export default function CompanyHomePage() {
                 <Typography>{employees?.length}</Typography>
               </div>
             </div>
-            <div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
               <h2>Posts</h2>
 
               {jobs.map((job, key) => {
                 return (
                   <div
                     style={{
+                      minWidth: "700px",
+                      maxWidth: "700px",
                       backgroundColor: "white",
                       padding: "20px",
-                      margin: "50px",
+                      margin: "30px",
                       borderRadius: "8px",
+                      boxShadow: "0 0 10px #ccc",
                     }}
                     key={key}
                   >
-                    <h2>
-                      {job.Title}, {job.Type}, {job.Mode}, {job.City}
-                    </h2>
-                    <Typography>{job.Description}</Typography>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <h2 style={{ marginLeft: "20px" }}>
+                        {job.Title},{" "}
+                        <span style={{ color: "green" }}>{job.Salary}pkr</span>
+                      </h2>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <LocationOnOutlinedIcon color="primary" />
+                        <h4>{job.City}</h4>
+                      </div>
+                    </div>
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        marginLeft: "20px",
+                        fontSize: "small",
+                      }}
+                    >
+                      {job.Description}
+                    </Typography>
+                    <br></br>
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        marginLeft: "23px",
+                        fontSize: "small",
+                      }}
+                    >
+                      {job.Type} {"— "}
+                      {job.Mode}
+                    </Typography>
                     <div>
                       <h2 style={{ color: "green" }}> {job.Salary} pkr</h2>
                       <Button

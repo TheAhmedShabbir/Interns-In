@@ -6,6 +6,8 @@ import { Button } from "@mui/material";
 import CompanyHeader from "../../Components/Company/CompanyHeader";
 import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import {
   collection,
   getDocs,
@@ -124,206 +126,224 @@ export default function CompanyProfile() {
   }, [user]);
 
   if (loading) {
-    return <div>loading...</div>;
+    return (
+      <div>
+        <CircularProgress
+          sx={{
+            position: "absolute",
+            left: "50%",
+            top: "40%",
+            zIndex: "1000",
+            height: "35px",
+            width: "35px",
+          }}
+        />
+      </div>
+    );
   } else {
     return (
-      <div style={{ backgroundColor: "#f3f2ef" }}>
+      <div
+        style={{
+          backgroundColor: "#fafafa",
+          fontFamily: "ubuntu, arial,sans-serif",
+        }}
+      >
         <CompanyHeader />
-        {UserInfo &&
-          UserInfo.map((item, key) => {
-            return (
-              <div
-                style={{
-                  marginTop: "40px",
-                }}
-                key={key}
-              >
-                <div style={{ zIndex: 1, position: "relative" }}>
-                  <img
-                    style={{ borderRadius: "110px" }}
-                    width="200px"
-                    height="200px"
-                    src={item.Pfp}
-                  />
-                </div>
-                <div>
-                  <Modal open={open2} onClose={handleClose2}>
-                    <Box sx={style}>
-                      {/* <Form> */}
-                      <h2>Update Profile Picture</h2>
-                      <form onSubmit={formHandler}>
-                        <input type="file" onChange={HandleUpload} />
-                        <Button type="submit">upload</Button>
-                        <Button onClick={updateProfilePic}>Save</Button>
-
-                        <Button onClick={handleClose2}>Cancel</Button>
-
-                        <h3>uploaded{progress}%</h3>
-                      </form>
-                    </Box>
-                  </Modal>
-
-                  <Button onClick={handleOpen2}>
-                    <EditIcon />
-                  </Button>
-                </div>
+        <div>
+          {UserInfo &&
+            UserInfo.map((item, key) => {
+              return (
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "-110px",
-                    paddingTop: "10px",
+                    marginTop: "40px",
                   }}
+                  key={key}
                 >
-                  <Box
-                    sx={{
+                  <div style={{ zIndex: 1, position: "relative" }}>
+                    <img
+                      style={{ borderRadius: "110px" }}
+                      width="160px"
+                      height="160px"
+                      src={item.Pfp}
+                    />
+                  </div>
+                  <div>
+                    <Modal open={open2} onClose={handleClose2}>
+                      <Box sx={style}>
+                        {/* <Form> */}
+                        <h2>Update Profile Picture</h2>
+                        <form onSubmit={formHandler}>
+                          <input type="file" onChange={HandleUpload} />
+                          <Button type="submit">upload</Button>
+                          <Button onClick={updateProfilePic}>Save</Button>
+
+                          <Button onClick={handleClose2}>Cancel</Button>
+
+                          <h3>uploaded{progress}%</h3>
+                        </form>
+                      </Box>
+                    </Modal>
+
+                    <Button onClick={handleOpen2}>
+                      <EditIcon />
+                    </Button>
+                  </div>
+                  <div
+                    style={{
                       display: "flex",
-                      flexWrap: "wrap",
-                      "& > :not(style)": {
-                        m: 1,
-                        width: 550,
-                        height: 600,
-                      },
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "-110px",
+                      paddingTop: "10px",
                     }}
                   >
-                    <Paper
-                      elevation={2}
-                      style={{
+                    <Box
+                      sx={{
                         display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        borderRadius: "20px",
-                        marginBottom: "30px",
-                        paddingTop: "30px",
+                        flexWrap: "wrap",
+                        "& > :not(style)": {
+                          m: 1,
+                          width: 550,
+                          minHeight: "70vh",
+                        },
                       }}
                     >
-                      <div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            alignContent: "center",
-                            paddingLeft: "50px",
-                            paddingRight: "70px",
-                          }}
-                        >
-                          <h2>Company Name</h2>
-                          <Button
-                            size="small"
-                            variant="outlined"
-                            onClick={() => {
-                              updateCmpProf(key);
+                      <Paper
+                        elevation={2}
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          borderRadius: "20px",
+                          marginBottom: "30px",
+                          paddingTop: "30px",
+                        }}
+                      >
+                        <div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              alignContent: "center",
+                              paddingLeft: "50px",
+                              paddingRight: "70px",
                             }}
                           >
-                            Edit
-                          </Button>
+                            <h2>Company Name</h2>
+                            <Button
+                              size="small"
+                              variant="outlined"
+                              onClick={() => {
+                                updateCmpProf(key);
+                              }}
+                            >
+                              Edit
+                            </Button>
+                          </div>
+                          <Typography>{item?.CompanyName}</Typography>
                         </div>
-                        <Typography style={{ marginBottom: "15px" }}>
-                          {item?.CompanyName}
-                        </Typography>
-                      </div>
-                      <div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            alignContent: "center",
-                            paddingLeft: "50px",
-                            paddingRight: "70px",
-                          }}
-                        >
-                          <h2>Password</h2>
-                          {/* <Button size="small" variant="outlined">
+                        <div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              alignContent: "center",
+                              paddingLeft: "50px",
+                              paddingRight: "70px",
+                            }}
+                          >
+                            <h2>Password</h2>
+                            {/* <Button size="small" variant="outlined">
                       Edit
                     </Button> */}
+                          </div>
+                          <Typography style={{ marginBottom: "15px" }}>
+                            {UserInfo?.Password}
+                          </Typography>
                         </div>
-                        <Typography style={{ marginBottom: "15px" }}>
-                          {UserInfo?.Password}
-                        </Typography>
-                      </div>
-                      <div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            alignContent: "center",
-                            paddingLeft: "50px",
-                            paddingRight: "70px",
-                          }}
-                        >
-                          <h2>Email</h2>
-                          {/* <Button size="small" variant="outlined">
+                        <div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              alignContent: "center",
+                              paddingLeft: "50px",
+                              paddingRight: "70px",
+                            }}
+                          >
+                            <h2>Email</h2>
+                            {/* <Button size="small" variant="outlined">
                       Edit
                     </Button> */}
+                          </div>
+                          <Typography> {item.Email}</Typography>
                         </div>
-                        <Typography> {item.Email}</Typography>
-                      </div>
 
-                      <div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            alignContent: "center",
-                            paddingLeft: "50px",
-                            paddingRight: "70px",
-                          }}
-                        >
-                          <h2>Location</h2>
-                          {/* <Button size="small" variant="outlined">
+                        <div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              alignContent: "center",
+                              paddingLeft: "50px",
+                              paddingRight: "70px",
+                            }}
+                          >
+                            <h2>Location</h2>
+                            {/* <Button size="small" variant="outlined">
                       Edit
                     </Button> */}
+                          </div>
+                          <Typography style={{ marginBottom: "15px" }}>
+                            {item?.Location}
+                          </Typography>
                         </div>
-                        <Typography style={{ marginBottom: "15px" }}>
-                          {item?.Location}
-                        </Typography>
-                      </div>
 
-                      <div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            alignContent: "center",
-                            paddingLeft: "50px",
-                            paddingRight: "70px",
-                          }}
-                        >
-                          <h2>About </h2>
-                          {/* <Button size="small" variant="outlined">
+                        <div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              alignContent: "center",
+                              paddingLeft: "50px",
+                              paddingRight: "70px",
+                            }}
+                          >
+                            <h2>About </h2>
+                            {/* <Button size="small" variant="outlined">
                       Edit
                     </Button> */}
+                          </div>
+                          <Typography> {item?.About}</Typography>
                         </div>
-                        <Typography> {item?.About}</Typography>
-                      </div>
-                    </Paper>
-                  </Box>
+                      </Paper>
+                    </Box>
+                  </div>
+                  <CompanyProfileEdit
+                    id={editDetails?.id}
+                    key={editDetails?.id}
+                    open={open}
+                    setOpen={setOpen}
+                    close={handleClose}
+                    companyname={editDetails.CompanyName}
+                    location={editDetails.Location}
+                    email={editDetails.Email}
+                    about={editDetails.About}
+                  />
                 </div>
-                <CompanyProfileEdit
-                  id={editDetails?.id}
-                  key={editDetails?.id}
-                  open={open}
-                  setOpen={setOpen}
-                  close={handleClose}
-                  companyname={editDetails.CompanyName}
-                  location={editDetails.Location}
-                  email={editDetails.Email}
-                  about={editDetails.About}
-                />
-              </div>
-            );
-          })}
+              );
+            })}
+        </div>
       </div>
     );
   }

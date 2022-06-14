@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { forwardRef } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -138,10 +139,28 @@ export default function Shortlisted() {
   }, [user, userInfo?.id]);
 
   if (loading) {
-    return <div>loading...</div>;
+    return (
+      <div>
+        <CircularProgress
+          sx={{
+            position: "absolute",
+            left: "50%",
+            top: "40%",
+            zIndex: "1000",
+            height: "35px",
+            width: "35px",
+          }}
+        />
+      </div>
+    );
   } else {
     return (
-      <div style={{ backgroundColor: "#f3f2ef" }}>
+      <div
+        style={{
+          backgroundColor: "#fafafa",
+          fontFamily: "ubuntu, arial,sans-serif",
+        }}
+      >
         <CompanyHeader />
         <div
           style={{
@@ -150,7 +169,7 @@ export default function Shortlisted() {
             flexDirection: "column",
             alignItems: "center",
             width: "900px",
-            minHeight: "500px",
+            minHeight: "100vh",
             marginLeft: "auto",
             marginRight: "auto",
             borderRadius: "10px",
@@ -169,11 +188,12 @@ export default function Shortlisted() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
-                      margin: "10px",
+                      margin: "15px",
                       padding: "10px",
-                      backgroundColor: "white",
+                      backgroundColor: "#fff",
                       width: "700px",
-                      borderRadius: "5px",
+                      borderRadius: "8px",
+                      boxShadow: "0 0 10px #ccc",
                     }}
                   >
                     <div

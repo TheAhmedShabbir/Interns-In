@@ -314,11 +314,13 @@ export default function UserHomepage() {
   const [jobsShown, setJobsShown] = useState([]);
   const [user, setUser] = useState(null);
   const [UserInfo, setUserInfo] = useState([]);
+  const [category, setCategory] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
   const jobCollection = collection(db, "Job");
   const UserCollection = collection(db, "UserProfile");
+  const categoriesCollection = collection(db, "categories");
 
   // apply now snackbars
   const [warningOpen, setWarningOpen] = useState(false);
@@ -517,6 +519,23 @@ export default function UserHomepage() {
     setLoading(false);
   };
 
+  const getCategoryFilter = async (name) => {
+    const data = await getDocs(jobCollection);
+    const jobs = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const categoryFilter = jobs.filter((c) => c.Title == name);
+
+    setJobsShown(categoryFilter);
+    console.log(categoryFilter);
+    setLoading(false);
+  };
+
+  const getCategories = async () => {
+    const data = await getDocs(categoriesCollection);
+    const categories = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    setCategory(categories);
+    setLoading(false);
+  };
+
   const getUserInfo = async () => {
     const data = await getDocs(UserCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
@@ -535,7 +554,7 @@ export default function UserHomepage() {
       if (user) {
         // get user info
         getUserInfo();
-
+        getCategories();
         // get jobs
         getJobs();
       }
@@ -729,7 +748,25 @@ export default function UserHomepage() {
               }}
             >
               <h2>Categories</h2>
-              <div style={{ padding: "10px" }}>
+              {category?.map((c, key) => {
+                return (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                    key={key}
+                  >
+                    <Button
+                      size="small"
+                      onClick={() => getCategoryFilter(c.name)}
+                    >
+                      {c.name}
+                    </Button>
+                  </div>
+                );
+              })}
+              {/* <div style={{ padding: "10px" }}>
                 <Button size="small">Software Developer</Button>
               </div>
               <div style={{ padding: "10px" }}>
@@ -743,7 +780,7 @@ export default function UserHomepage() {
               </div>
               <div style={{ padding: "10px" }}>
                 <Button size="small">Supply Chain</Button>
-              </div>
+              </div> */}
             </div>
           </div>
           <div style={{ padding: "10px " }}>
