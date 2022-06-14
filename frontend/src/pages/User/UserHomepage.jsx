@@ -194,6 +194,13 @@ function Videos({ mode, callId, setPage }) {
   };
 
   return (
+    <div id = "element1" name = "Video Call">
+    <div className="modalContainer">
+    
+      <div className = "modal2">
+      
+    
+      
     <div
       className="videos"
       // style = {{display : 'flex', backgroundColor: 'white', height :'100%'}}
@@ -279,6 +286,10 @@ function Videos({ mode, callId, setPage }) {
         </div>
       )}
     </div>
+    </div>
+    </div>
+    </div>
+    
   );
 }
 
@@ -535,6 +546,8 @@ export default function UserHomepage() {
       if (user) {
         // get user info
         getUserInfo();
+        // interactive('element1');
+       
 
         // get jobs
         getJobs();
