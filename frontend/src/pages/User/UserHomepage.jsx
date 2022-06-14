@@ -662,6 +662,7 @@ export default function UserHomepage() {
                       borderRadius: "110px",
                       marginTop: "-75px",
                       backgroundColor: "white",
+                      boxShadow: "0 0 10px #ccc",
                     }}
                     width="160px"
                     height="160px"
@@ -681,6 +682,7 @@ export default function UserHomepage() {
                       marginTop: "-75px",
                       backgroundColor: "white",
                       border: "blue 2px solid",
+                      boxShadow: "0 0 10px #ccc",
                     }}
                     width="150px"
                     height="150px"
@@ -893,7 +895,20 @@ export default function UserHomepage() {
               </div>
             </div>
             <div>
-              <h2 style={{ marginTop: "30px" }}>Posts</h2>
+              <h2
+                style={{
+                  marginTop: "30px",
+                }}
+              >
+                Posts
+              </h2>
+              <Button
+                size="small"
+                style={{ marginLeft: "550px" }}
+                onClick={() => setJobsShown(jobs)}
+              >
+                Clear Filters
+              </Button>
               {jobsShown
                 .filter((j) => {
                   return j.Salary >= parseInt(salaryRange, 10);
@@ -903,6 +918,7 @@ export default function UserHomepage() {
                     <div
                       style={{
                         maxWidth: "700px",
+                        minWidth: "700px",
                         backgroundColor: "white",
                         padding: "20px",
                         margin: "50px",
