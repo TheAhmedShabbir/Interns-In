@@ -316,6 +316,7 @@ export default function UserHomepage() {
   const [UserInfo, setUserInfo] = useState([]);
   const [category, setCategory] = useState([]);
   const [salaryRange, setSalaryRange] = useState(5000);
+  const [cityFilter, setCityFilter] = useState("");
 
   const [loading, setLoading] = useState(true);
 
@@ -571,6 +572,17 @@ export default function UserHomepage() {
     setSalaryRange(e);
   };
 
+  const getCityFilter = async (e) => {
+    setCityFilter(e.target.value);
+
+    const data = await getDocs(jobCollection);
+    const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const city = job.filter((c) => c.City.toLowerCase() == e.target.value);
+
+    setJobsShown(city);
+    console.log(city);
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -734,16 +746,16 @@ export default function UserHomepage() {
                 <FormControl fullWidth size="small">
                   <InputLabel>City</InputLabel>
                   <Select
-                    // value={city}
+                    value={cityFilter}
                     label="Age"
-                    // onChange={handleChange}
+                    onChange={(e) => getCityFilter(e)}
                   >
-                    <MenuItem>Lahore</MenuItem>
-                    <MenuItem>Karachi</MenuItem>
-                    <MenuItem>Rawalpindi</MenuItem>
-                    <MenuItem>Gujranwala</MenuItem>
-                    <MenuItem>Multan</MenuItem>
-                    <MenuItem>Islamabad</MenuItem>
+                    <MenuItem value={"lahore"}>Lahore</MenuItem>
+                    <MenuItem value={"karachi"}>Karachi</MenuItem>
+                    <MenuItem value={"rawalpindi"}>Rawalpindi</MenuItem>
+                    <MenuItem value={"gujranwala"}>Gujranwala</MenuItem>
+                    <MenuItem value={"multan"}>Multan</MenuItem>
+                    <MenuItem value={"islamabad"}>Islamabad</MenuItem>
                   </Select>
                 </FormControl>
               </div>
