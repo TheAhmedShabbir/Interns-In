@@ -18,6 +18,7 @@ import Badge from "@mui/material/Badge";
 
 export default function CompanyHeader() {
   const navigate = useNavigate();
+  
   const logout = async () => {
     localStorage.clear();
     await signOut(auth);
@@ -26,7 +27,14 @@ export default function CompanyHeader() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar
+        style={{
+          position: "static",
+          top: 0,
+          left: 0,
+          backgroundColor: "#2563eb",
+        }}
+      >
         <Toolbar>
           {/* <IconButton
             size="large"
@@ -46,7 +54,7 @@ export default function CompanyHeader() {
               <span
                 style={{
                   backgroundColor: "white",
-                  color: "blue",
+                  color: "#2563eb",
                   marginLeft: "5px",
                   paddingLeft: "2px",
                   paddingRight: "2px",

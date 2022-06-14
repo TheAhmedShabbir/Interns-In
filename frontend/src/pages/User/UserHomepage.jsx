@@ -325,11 +325,15 @@ export default function UserHomepage() {
   const [jobsShown, setJobsShown] = useState([]);
   const [user, setUser] = useState(null);
   const [UserInfo, setUserInfo] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [salaryRange, setSalaryRange] = useState(5000);
+  const [cityFilter, setCityFilter] = useState("");
 
   const [loading, setLoading] = useState(true);
 
   const jobCollection = collection(db, "Job");
   const UserCollection = collection(db, "UserProfile");
+  const categoriesCollection = collection(db, "categories");
 
   // apply now snackbars
   const [warningOpen, setWarningOpen] = useState(false);
@@ -528,6 +532,42 @@ export default function UserHomepage() {
     setLoading(false);
   };
 
+  const getCategoryFilter = async (name) => {
+    const data = await getDocs(jobCollection);
+    const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const categoryFilter = job.filter((c) => c.Title == name);
+
+    setJobsShown(categoryFilter);
+    console.log(categoryFilter);
+    setLoading(false);
+  };
+
+  const getCheckboxFilter = async (e, name) => {
+    const data = await getDocs(jobCollection);
+    const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+    if (e.target.checked == true) {
+      const categoryFilter = job.filter((c) => c.Type == name);
+      setJobsShown(categoryFilter);
+    } else if (e.target.checked == true) {
+      const categoryFilter = job.filter((c) => c.Mode == name);
+      setJobsShown(categoryFilter);
+    }
+    if (e.target.checked == false) {
+      setJobsShown(jobs);
+    }
+
+    console.log(name);
+    // setLoading(fxalse);
+  };
+
+  const getCategories = async () => {
+    const data = await getDocs(categoriesCollection);
+    const categories = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    setCategory(categories);
+    setLoading(false);
+  };
+
   const getUserInfo = async () => {
     const data = await getDocs(UserCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
@@ -539,6 +579,21 @@ export default function UserHomepage() {
     setLoading(false);
   };
 
+  const getSalaryFilter = async (e) => {
+    setSalaryRange(e);
+  };
+
+  const getCityFilter = async (e) => {
+    setCityFilter(e.target.value);
+
+    const data = await getDocs(jobCollection);
+    const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const city = job.filter((c) => c.City.toLowerCase() == e.target.value);
+
+    setJobsShown(city);
+    console.log(city);
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -546,9 +601,8 @@ export default function UserHomepage() {
       if (user) {
         // get user info
         getUserInfo();
-        // interactive('element1');
-       
-
+    
+        getCategories();
         // get jobs
         getJobs();
       }
@@ -620,6 +674,7 @@ export default function UserHomepage() {
                       borderRadius: "110px",
                       marginTop: "-75px",
                       backgroundColor: "white",
+                      boxShadow: "0 0 10px #ccc",
                     }}
                     width="160px"
                     height="160px"
@@ -639,6 +694,7 @@ export default function UserHomepage() {
                       marginTop: "-75px",
                       backgroundColor: "white",
                       border: "blue 2px solid",
+                      boxShadow: "0 0 10px #ccc",
                     }}
                     width="150px"
                     height="150px"
@@ -704,23 +760,24 @@ export default function UserHomepage() {
                 <FormControl fullWidth size="small">
                   <InputLabel>City</InputLabel>
                   <Select
-                    // value={city}
+                    value={cityFilter}
                     label="Age"
-                    // onChange={handleChange}
+                    onChange={(e) => getCityFilter(e)}
                   >
-                    <MenuItem>Lahore</MenuItem>
-                    <MenuItem>Karachi</MenuItem>
-                    <MenuItem>Rawalpindi</MenuItem>
-                    <MenuItem>Gujranwala</MenuItem>
-                    <MenuItem>Multan</MenuItem>
-                    <MenuItem>Islamabad</MenuItem>
+                    <MenuItem value={"lahore"}>Lahore</MenuItem>
+                    <MenuItem value={"karachi"}>Karachi</MenuItem>
+                    <MenuItem value={"rawalpindi"}>Rawalpindi</MenuItem>
+                    <MenuItem value={"gujranwala"}>Gujranwala</MenuItem>
+                    <MenuItem value={"multan"}>Multan</MenuItem>
+                    <MenuItem value={"islamabad"}>Islamabad</MenuItem>
                   </Select>
                 </FormControl>
               </div>
               <div style={{ padding: "10px" }}>
                 <h3>Salary</h3>
                 <Slider
-                  defaultValue={10000}
+                  defaultValue={5000}
+                  onChange={(e) => getSalaryFilter(e.target.value)}
                   // getAriaValueText={valuetext}
                   valueLabelDisplay="auto"
                   step={5000}
@@ -742,21 +799,24 @@ export default function UserHomepage() {
               }}
             >
               <h2>Categories</h2>
-              <div style={{ padding: "10px" }}>
-                <Button size="small">Software Developer</Button>
-              </div>
-              <div style={{ padding: "10px" }}>
-                <Button size="small">Accountant</Button>
-              </div>
-              <div style={{ padding: "10px" }}>
-                <Button size="small">Food Science</Button>
-              </div>
-              <div style={{ padding: "10px" }}>
-                <Button size="small">Quality Assurance</Button>
-              </div>
-              <div style={{ padding: "10px" }}>
-                <Button size="small">Supply Chain</Button>
-              </div>
+              {category?.map((c, key) => {
+                return (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                    key={key}
+                  >
+                    <Button
+                      size="small"
+                      onClick={() => getCategoryFilter(c.name)}
+                    >
+                      {c.name}
+                    </Button>
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div style={{ padding: "10px " }}>
@@ -808,94 +868,138 @@ export default function UserHomepage() {
               </div>
               <div>
                 <FormControlLabel
-                  control={<Checkbox size="small" />}
+                  control={
+                    <Checkbox
+                      name="internship"
+                      size="small"
+                      // value={"internship"}
+                      onChange={(e) => getCheckboxFilter(e, "internship")}
+                    />
+                  }
                   label="internship"
                   style={{ marginTop: "5px" }}
                 />
                 <FormControlLabel
-                  control={<Checkbox size="small" />}
+                  control={
+                    <Checkbox
+                      name="remote"
+                      size="small"
+                      // value={"Remote"}
+                      onChange={(e) => getCheckboxFilter(e, "remote")}
+                    />
+                  }
                   label="Remote"
                   style={{ marginTop: "5px" }}
                 />
                 <FormControlLabel
-                  control={<Checkbox size="small" />}
+                  control={
+                    <Checkbox
+                      name="Full"
+                      size="small"
+                      // value={"Full Time"}
+
+                      onChange={(e) => getCheckboxFilter(e, "Full")}
+                    />
+                  }
                   label="Full Time"
                   style={{ marginTop: "5px" }}
                 />
               </div>
             </div>
             <div>
-              <h2 style={{ marginTop: "30px" }}>Posts</h2>
-              {jobsShown.map((job, key) => {
-                return (
-                  <div
-                    style={{
-                      maxWidth: "700px",
-                      backgroundColor: "white",
-                      padding: "20px",
-                      margin: "50px",
-                      borderRadius: "8px",
-                      boxShadow: "0 0 10px #ccc",
-                    }}
-                    key={key}
-                  >
+              <h2
+                style={{
+                  marginTop: "30px",
+                }}
+              >
+                Posts
+              </h2>
+              <Button
+                size="small"
+                style={{ marginLeft: "550px" }}
+                onClick={() => setJobsShown(jobs)}
+              >
+                Clear Filters
+              </Button>
+              {jobsShown
+                .filter((j) => {
+                  return j.Salary >= parseInt(salaryRange, 10);
+                })
+                .map((job, key) => {
+                  return (
                     <div
                       style={{
-                        display: "flex",
-                        justifyContent: "space-between",
+                        maxWidth: "700px",
+                        minWidth: "700px",
+                        backgroundColor: "white",
+                        padding: "20px",
+                        margin: "50px",
+                        borderRadius: "8px",
+                        boxShadow: "0 0 10px #ccc",
                       }}
+                      key={key}
                     >
-                      <h2 style={{ marginLeft: "20px" }}>
-                        {job.Title},{" "}
-                        <span style={{ color: "green" }}>{job.Salary}pkr</span>
-                      </h2>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <h2 style={{ marginLeft: "20px" }}>
+                          {job.Title},{" "}
+                          <span style={{ color: "green" }}>
+                            {job.Salary}pkr
+                          </span>
+                        </h2>
 
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        <LocationOnOutlinedIcon color="primary" />
-                        <h4>{job.City}</h4>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <LocationOnOutlinedIcon color="primary" />
+                          <h4>{job.City}</h4>
+                        </div>
                       </div>
+                      <Typography
+                        sx={{
+                          display: "flex",
+                          marginLeft: "20px",
+                          fontSize: "small",
+                        }}
+                      >
+                        {job.Description}
+                      </Typography>
+                      <br></br>
+                      <Typography
+                        sx={{
+                          display: "flex",
+                          marginLeft: "23px",
+                          fontSize: "small",
+                        }}
+                      >
+                        {job.Type + " Time"} {"— "}
+                        {job.Mode}
+                      </Typography>
+                      <Button
+                        style={{ margin: "10px" }}
+                        variant="contained"
+                        onClick={() => applyJob(job.id)}
+                      >
+                        Apply now
+                      </Button>
+                      <Button
+                        style={{
+                          margin: "10px",
+                        }}
+                        onClick={() => saveJob(job.id)}
+                        color="success"
+                        variant="outlined"
+                      >
+                        <BookmarkIcon
+                          sx={{ marginRight: "3px" }}
+                        ></BookmarkIcon>{" "}
+                        save
+                      </Button>
                     </div>
-                    <Typography
-                      sx={{
-                        display: "flex",
-                        marginLeft: "20px",
-                        fontSize: "small",
-                      }}
-                    >
-                      {job.Description}
-                    </Typography>
-                    <br></br>
-                    <Typography
-                      sx={{
-                        display: "flex",
-                        marginLeft: "23px",
-                        fontSize: "small",
-                      }}
-                    >
-                      {job.Type} {"— "}
-                      {job.Mode}
-                    </Typography>
-                    <Button
-                      style={{ margin: "10px" }}
-                      variant="contained"
-                      onClick={() => applyJob(job.id)}
-                    >
-                      Apply now
-                    </Button>
-                    <Button
-                      style={{
-                        margin: "10px",
-                      }}
-                      onClick={() => saveJob(job.id)}
-                      color="success"
-                      variant="outlined"
-                    >
-                      <BookmarkIcon sx={{ marginRight: "3px" }}></BookmarkIcon>{" "}
-                      save
-                    </Button>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
             <Snackbar
               open={warningOpen}
