@@ -134,6 +134,7 @@ export default function SavedJobs() {
                   padding: "20px",
                   borderRadius: "8px",
                   boxShadow: "0 0 10px #ccc",
+                  margin: "15px",
                 }}
                 key={key}
               >
@@ -170,7 +171,7 @@ export default function SavedJobs() {
                     fontSize: "small",
                   }}
                 >
-                  {job.type} {"— "}
+                  {job.type + " Time"} {"— "}
                   {job.mode}
                 </Typography>
                 <Button

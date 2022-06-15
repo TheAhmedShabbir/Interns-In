@@ -8,6 +8,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import VideocamIcon from '@mui/icons-material/Videocam';
 import { forwardRef } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -215,8 +216,9 @@ export default function Shortlisted() {
                         size="small"
                         variant="outlined"
                         color="success"
+                        
                       >
-                        Interview
+                        <VideocamIcon></VideocamIcon>
                       </Button>
                       <Button
                         style={{ margin: "10px" }}

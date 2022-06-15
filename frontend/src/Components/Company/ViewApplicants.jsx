@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, TextField, Typography } from "@mui/material";
+import { Button, Modal, TextField, Typography, Link } from "@mui/material";
 import Box from "@mui/material/Box";
 import img from "../../assets/images/Userpfp.jpg";
 import { db, auth } from "../../firebase-config";
@@ -105,7 +105,7 @@ export default function ViewApplicants({ companyId, open, close, applicant }) {
             borderRadius: "8px",
             boxShadow: 0,
             p: 4,
-            width: "110vh",
+            width: "100vh",
             // height: "85vh",
             overflowY: "auto",
           }}
@@ -154,13 +154,12 @@ export default function ViewApplicants({ companyId, open, close, applicant }) {
                       ShortList
                     </Button>
                     <Button size="small" variant="outlined">
-                      <a
-                        style={{ textDecoration: "none" }}
+                      <Link
+                        style={{ textDecoration: "none", color: "#2563eb" }}
                         href={app.resume}
-                        target="_blank"
                       >
                         View CV
-                      </a>
+                      </Link>
                     </Button>
                   </div>
                 </div>

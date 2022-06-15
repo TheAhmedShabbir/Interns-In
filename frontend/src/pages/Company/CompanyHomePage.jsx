@@ -4,6 +4,9 @@ import { Button, TextField, Typography } from "@mui/material";
 import img from "../../assets/images/Userpfp.jpg";
 import CircularProgress from "@mui/material/CircularProgress";
 import { db, auth } from "../../firebase-config";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import {
   collection,
@@ -574,7 +577,7 @@ export default function CompanyHomePage() {
               >
                 <h2>Post a Job</h2>
                 <Button href="/postjob" size="small" variant="contained">
-                  Add
+                  <AddIcon></AddIcon>
                 </Button>
               </div>
               <div
@@ -639,7 +642,7 @@ export default function CompanyHomePage() {
                       maxWidth: "700px",
                       backgroundColor: "white",
                       padding: "20px",
-                      margin: "30px",
+                      margin: "20px",
                       borderRadius: "8px",
                       boxShadow: "0 0 10px #ccc",
                     }}
@@ -684,7 +687,7 @@ export default function CompanyHomePage() {
                       <h2 style={{ color: "green" }}> {job.Salary} pkr</h2>
                       <Button
                         style={{ margin: "10px" }}
-                        variant="outlined"
+                        variant="contained"
                         onClick={() => openApplicantModal(job.id)}
                       >
                         View Applicants
@@ -695,7 +698,7 @@ export default function CompanyHomePage() {
                         color="warning"
                         onClick={() => updateJob(key)}
                       >
-                        Edit
+                        <EditIcon></EditIcon>
                       </Button>
                       <Button
                         style={{
@@ -705,7 +708,7 @@ export default function CompanyHomePage() {
                         color="error"
                         onClick={() => deleteJob(key).then(handleDeleteClick())}
                       >
-                        Delete
+                        <DeleteIcon></DeleteIcon>
                       </Button>
                     </div>
                   </div>

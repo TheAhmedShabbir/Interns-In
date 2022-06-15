@@ -194,102 +194,109 @@ function Videos({ mode, callId, setPage }) {
   };
 
   return (
-    <div id = "element1" name = "Video Call">
-    <div className="modalContainer">
-    
-      <div className = "modal2">
-      
-    
-      
-    <div
-      className="videos"
-      // style = {{display : 'flex', backgroundColor: 'white', height :'100%'}}
-      // className="flex items-center whitespace-nowrap bg-whitetext-black"
-    >
-      <video ref={localRef} autoPlay playsInline className="local" muted />
-      <video ref={remoteRef} autoPlay playsInline className="remote" />
+    <div id="element1" name="Video Call">
+      <div className="modalContainer">
+        <div className="modal2">
+          <div
+            className="videos"
+            // style = {{display : 'flex', backgroundColor: 'white', height :'100%'}}
+            // className="flex items-center whitespace-nowrap bg-whitetext-black"
+          >
+            <video
+              ref={localRef}
+              autoPlay
+              playsInline
+              className="local"
+              muted
+            />
+            <video ref={remoteRef} autoPlay playsInline className="remote" />
 
-      <div className="buttonsContainer">
-        <Button
-          variant="contained"
-          style={{ backgroundColor: "red" }}
-          type="button"
-          onClick={hangUp}
-          disabled={!webcamActive}
-          className="hangup button"
-        >
-          <CallIcon />
-        </Button>
-        <div
-          style={{ backgroundColor: "#2563eb" }}
-          tabIndex={0}
-          role="button"
-          className="more button"
-        >
-          <MoreVertIcon />
-          <div className="popover">
-            <Button
-              variant="contained"
-              type="button"
-              onClick={() => {
-                navigator.clipboard.writeText(roomId);
-                console.log(roomId);
-              }}
-            >
-              <ContentCopyIcon />
-              Copy joining code
-            </Button>
+            <div className="buttonsContainer">
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "red" }}
+                type="button"
+                onClick={hangUp}
+                disabled={!webcamActive}
+                className="hangup button"
+              >
+                <CallIcon />
+              </Button>
+              <div
+                style={{ backgroundColor: "#2563eb" }}
+                tabIndex={0}
+                role="button"
+                className="more button"
+              >
+                <MoreVertIcon />
+                <div className="popover">
+                  <Button
+                    variant="contained"
+                    type="button"
+                    onClick={() => {
+                      navigator.clipboard.writeText(roomId);
+                      console.log(roomId);
+                    }}
+                  >
+                    <ContentCopyIcon />
+                    Copy joining code
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {!webcamActive && (
+              <div className="modalContainer">
+                <div
+                  className="modal"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    color: "black",
+                  }}
+                >
+                  <h3>
+                    By pressing start your camera and microphone will turn on
+                  </h3>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-around",
+                      margin: "25px",
+                    }}
+                    // className="container"
+                    color="primary"
+                    // className="flex gap-4 mt-8"
+                  >
+                    <Button
+                      type="button"
+                      variant="contained"
+                      onClick={setupSources}
+                      style={{ backgroundColor: "green" }}
+                      // fullWidth
+                    >
+                      Start
+                    </Button>
+
+                    <Button
+                      type="button"
+                      // fullWidth
+                      variant="contained"
+                      onClick={() => setPage("home")}
+                      style={{ backgroundColor: "red" }}
+                      // className="secondary"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
-
-      {!webcamActive && (
-        <div className="modalContainer">
-          <div
-            className="modal"
-            style={{ display: "flex", flexDirection: "column", color: "black" }}
-          >
-            <h3>By pressing start your camera and microphone will turn on</h3>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-around",
-                margin: "25px",
-              }}
-              // className="container"
-              color="primary"
-              // className="flex gap-4 mt-8"
-            >
-              <Button
-                type="button"
-                variant="contained"
-                onClick={setupSources}
-                style={{ backgroundColor: "green" }}
-                // fullWidth
-              >
-                Start
-              </Button>
-
-              <Button
-                type="button"
-                // fullWidth
-                variant="contained"
-                onClick={() => setPage("home")}
-                style={{ backgroundColor: "red" }}
-                // className="secondary"
-              >
-                Cancel
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
-    </div>
-    </div>
-    </div>
-    
   );
 }
 
@@ -601,7 +608,7 @@ export default function UserHomepage() {
       if (user) {
         // get user info
         getUserInfo();
-    
+
         getCategories();
         // get jobs
         getJobs();
@@ -819,7 +826,14 @@ export default function UserHomepage() {
               })}
             </div>
           </div>
-          <div style={{ padding: "10px " }}>
+          <div
+            style={{
+              padding: "10px",
+              minWidth: "700px",
+              maxWidth: "700px",
+              marginLeft: "20px",
+            }}
+          >
             <div
               style={{
                 padding: "20px 20px 10px 20px",
@@ -916,7 +930,7 @@ export default function UserHomepage() {
               </h2>
               <Button
                 size="small"
-                style={{ marginLeft: "550px" }}
+                style={{ marginLeft: "560px" }}
                 onClick={() => setJobsShown(jobs)}
               >
                 Clear Filters
@@ -933,7 +947,7 @@ export default function UserHomepage() {
                         minWidth: "700px",
                         backgroundColor: "white",
                         padding: "20px",
-                        margin: "50px",
+                        margin: "20px 0px 30px 0px",
                         borderRadius: "8px",
                         boxShadow: "0 0 10px #ccc",
                       }}
