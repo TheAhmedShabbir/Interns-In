@@ -36,12 +36,18 @@ export default function Forums() {
       Description: NewDescription,
     });
   };
+  //ge User posts
+  const posts = collection(db, "Forum Topic");
+  const [postsData, setPostsData] = useState([]);
 
   // get forums
   const getForums = async () => {
     const data = await getDocs(forumsCollection);
     setForums(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    const q = await query(posts, where("Forum_ID", "==", false?.id));
     setLoading(false);
+    setPostsData(q);
+
   };
 
   const getUserEmail = async () => {
@@ -195,8 +201,17 @@ export default function Forums() {
                   }}
                   key={key}
                 >
+                  
                   <h2>{forum.TopicTitle}</h2>
-                  <Typography>Total posts: 1000</Typography>
+                  {postsData.map((post, key) => {
+                    return (
+
+                    
+                  <div key = {key}>
+                  <Typography>Total posts: {post?.length}</Typography>
+                  </div>
+                  )
+                })}
                   {/* <Typography>Views: 2300</Typography> */}
                   <Button
                     href={`/ForumTopic/${forum?.id}`}
