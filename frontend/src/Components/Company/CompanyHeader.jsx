@@ -88,7 +88,7 @@ export default function CompanyHeader() {
         getEmployees();
       }
     });
-  }, [userInfo?.Pfp, loading]);
+  }, [user, userInfo?.id]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>

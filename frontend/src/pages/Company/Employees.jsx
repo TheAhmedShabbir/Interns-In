@@ -133,6 +133,7 @@ export default function Employees() {
           <div
             style={{
               display: "flex",
+              flexDirection: "row",
             }}
           >
             {employees?.map((e, key) => {
@@ -140,62 +141,76 @@ export default function Employees() {
                 <div></div>;
               } else {
                 return (
-                  <div style={{ margin: "20px" }} key={key}>
-                    <div
-                      style={{
-                        zIndex: 1,
-                        position: "relative",
-                      }}
-                    >
-                      <img
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      margin: "10px",
+                      flexWrap: "wrap",
+                    }}
+                    key={key}
+                  >
+                    <div style={{ margin: "10px" }}>
+                      <div
                         style={{
-                          borderRadius: "110px",
-                          boxShadow: "0 0 10px #ccc",
-                        }}
-                        width="140px"
-                        height="140px"
-                        src={e?.pfp}
-                      />
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginTop: "-80px",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          "& > :not(style)": {
-                            m: 1,
-                            width: 300,
-                            minHeight: "30vh",
-                          },
+                          zIndex: 1,
+                          position: "relative",
                         }}
                       >
-                        <div
+                        <img
                           style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            borderRadius: "8px",
-                            backgroundColor: "#fff",
+                            borderRadius: "110px",
                             boxShadow: "0 0 10px #ccc",
                           }}
+                          width="140px"
+                          height="140px"
+                          src={e?.pfp}
+                        />
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          marginTop: "-80px",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            "& > :not(style)": {
+                              m: 1,
+                              width: 300,
+                              minHeight: "30vh",
+                            },
+                          }}
                         >
-                          <div style={{ marginTop: "80px", padding: "10px" }}>
-                            <h3>
-                              <b>{e?.employeename + " " + e?.lastname}</b>
-                            </h3>
-                            <p>{e?.bio}</p>
-                            <Button size="small" variant="outlined">
-                              View Profile
-                            </Button>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              borderRadius: "8px",
+                              backgroundColor: "#fff",
+                              boxShadow: "0 0 10px #ccc",
+                            }}
+                          >
+                            <div style={{ marginTop: "80px", padding: "10px" }}>
+                              <h3>
+                                <b>{e?.employeename + " " + e?.lastname}</b>
+                              </h3>
+                              <p>{e?.bio}</p>
+                              <Button
+                                style={{ marginTop: "20px" }}
+                                size="small"
+                                variant="outlined"
+                              >
+                                View Profile
+                              </Button>
+                            </div>
                           </div>
-                        </div>
-                      </Box>
+                        </Box>
+                      </div>
                     </div>
                   </div>
                 );

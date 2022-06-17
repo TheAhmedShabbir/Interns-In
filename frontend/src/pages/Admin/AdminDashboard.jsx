@@ -5,6 +5,7 @@ import { db, auth } from "../../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function AdminDashboard() {
   // const navigate = useNavigate();
@@ -17,13 +18,13 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
 
   const userProfile = collection(db, "UserProfile");
-  const PendindCompanies = collection(db, "PendingApprovals");
+  const PendingCompanies = collection(db, "PendingApprovals");
   const jobs = collection(db, "Job");
 
   const getData = async () => {
     const data = await getDocs(userProfile);
     const d = await getDocs(jobs);
-    const e = await getDocs(PendindCompanies);
+    const e = await getDocs(PendingCompanies);
 
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
     const job = d.docs.map((doc) => ({ ...doc.data() }));
@@ -37,6 +38,7 @@ export default function AdminDashboard() {
     setJobsPosted(job);
     setCompanies(companies);
     setUsersRegistered(users);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -53,10 +55,23 @@ export default function AdminDashboard() {
   }, [user]);
 
   if (loading) {
-    return <div>loading...</div>;
+    return (
+      <div>
+        <CircularProgress
+          sx={{
+            position: "absolute",
+            left: "50%",
+            top: "40%",
+            zIndex: "1000",
+            height: "35px",
+            width: "35px",
+          }}
+        />
+      </div>
+    );
   } else {
     return (
-      <div style={{ backgroundColor: "#f3f2ef" }}>
+      <div style={{ backgroundColor: "#fafafa" }}>
         <AdminHeader />
         <div
           style={{

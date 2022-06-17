@@ -203,7 +203,7 @@ export default function UserHeader() {
               to="/UserProfile"
               style={{ color: "white", textDecoration: "none" }}
             >
-              <PermIdentityOutlinedIcon />{" "}
+              <PermIdentityOutlinedIcon />
               <Typography fontSize="small">Profile</Typography>
             </Link>
           </Button>
@@ -212,7 +212,7 @@ export default function UserHeader() {
               to="/UserAbout"
               style={{ color: "white", textDecoration: "none" }}
             >
-              <ContactPageOutlinedIcon />{" "}
+              <ContactPageOutlinedIcon />
               <Typography fontSize="small">About</Typography>
             </Link>
           </Button>

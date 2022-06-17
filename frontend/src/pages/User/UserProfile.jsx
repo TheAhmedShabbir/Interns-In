@@ -146,7 +146,6 @@ export default function UserProfile() {
                 <div key={key}>
                   <div
                     style={{
-                      
                       marginTop: "10vh",
                     }}
                   >
@@ -155,7 +154,6 @@ export default function UserProfile() {
                         <img
                           style={{
                             borderRadius: "110px",
-                            border: "2px solid #2563eb",
                             boxShadow: "0 0 10px #ccc",
                             zIndex: 1000,
                             position: "relative",
@@ -178,11 +176,10 @@ export default function UserProfile() {
                           style={{
                             borderRadius: "110px",
                             backgroundColor: "white",
-                            border: "2px solid #2563eb",
                             boxShadow: "0 0 10px #ccc",
                           }}
-                          width="150px"
-                          height="150px"
+                          width="160px"
+                          height="160px"
                         />
                       </div>
                     )}

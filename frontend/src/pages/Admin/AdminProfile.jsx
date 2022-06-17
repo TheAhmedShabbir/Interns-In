@@ -12,14 +12,12 @@ import { onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
 import AdminProfEdit from "../../Components/Admin/AdminProfileEdit";
+import CircularProgress from "@mui/material/CircularProgress";
 import EditIcon from "@mui/icons-material/Edit";
-
-
 
 export default function AdminProfile() {
   let [adminInfo, setAdminInfo] = useState();
   const [user, setUser] = useState({});
-  
 
   const userProfile = collection(db, "UserProfile");
   const [loading, setLoading] = useState(true);
@@ -74,133 +72,150 @@ export default function AdminProfile() {
   }, [user]);
 
   if (loading) {
-    return <div>loading...</div>;
+    return (
+      <div>
+        <CircularProgress
+          sx={{
+            position: "absolute",
+            left: "50%",
+            top: "40%",
+            zIndex: "1000",
+            height: "35px",
+            width: "35px",
+          }}
+        />
+      </div>
+    );
   } else {
     return (
-      <div style={{ backgroundColor: "#f3f2ef" }}>
+      <div style={{ backgroundColor: "#fafafa" }}>
         <AdminHeader />
 
-        {adminInfo.map((item, key) => {
-          return (
-            <div
-              style={{
-                marginTop: "20px",
-              }}
-              key={key}
-            >
-              <div style={{ zIndex: 1, position: "relative" }}>
-                <img
-                  style={{ borderRadius: "110px" }}
-                  width="200px"
-                  height="200px"
-                  src={img}
-                />
-              </div>
+        <div style={{ minHeight: "100vh" }}>
+          {adminInfo.map((item, key) => {
+            return (
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  minHeight: "50vh",
-                  marginTop: "-110px",
+                  marginTop: "15vh",
                 }}
+                key={key}
               >
-                <Box
-                  sx={{
+                <div style={{ zIndex: 1, position: "relative" }}>
+                  <img
+                    style={{
+                      borderRadius: "110px",
+                      backgroundColor: "white",
+                      boxShadow: "0 0 10px #ccc",
+                    }}
+                    width="160px"
+                    height="160px"
+                    src={img}
+                  />
+                </div>
+                <div
+                  style={{
                     display: "flex",
-                    flexWrap: "wrap",
-                    "& > :not(style)": {
-                      m: 1,
-                      minWidth: 550,
-                      minHeight: 300,
-                    },
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "-90px",
                   }}
                 >
-                  <Paper
-                    elevation={2}
-                    style={{
-                      paddingTop: "90px",
+                  <Box
+                    sx={{
                       display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      borderRadius: "10px",
-                      paddingBottom: "30px",
-                      marginBottom: "30px",
+                      flexWrap: "wrap",
+                      "& > :not(style)": {
+                        width: 470,
+                        boxShadow: "0 0 10px #ccc",
+                      },
                     }}
                   >
-                    <div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          alignContent: "center",
-                          paddingLeft: "50px",
-                          paddingRight: "70px",
-                        }}
-                      >
-                        <h2>Name</h2>
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          onClick={() => updateAdminProf(key)}
+                    <Paper
+                      elevation={2}
+                      style={{
+                        paddingTop: "90px",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        borderRadius: "10px",
+                        paddingBottom: "30px",
+                        marginBottom: "30px",
+                      }}
+                    >
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            alignContent: "center",
+                            paddingLeft: "50px",
+                            paddingRight: "70px",
+                          }}
                         >
-                          Edit
-                        </Button>
+                          <h2>Name</h2>
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            onClick={() => updateAdminProf(key)}
+                          >
+                            Edit
+                          </Button>
+                        </div>
+                        <p style={{ marginBottom: "15px" }}>
+                          {item?.FirstName + " " + item?.LastName}
+                        </p>
                       </div>
-                      <p style={{ marginBottom: "15px" }}>
-                        {item?.FirstName + " " + item?.LastName}
-                      </p>
-                    </div>
-                    <div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          alignContent: "center",
-                          paddingLeft: "50px",
-                          paddingRight: "70px",
-                        }}
-                      >
-                        <h2>Password</h2>
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            alignContent: "center",
+                            paddingLeft: "50px",
+                            paddingRight: "70px",
+                          }}
+                        >
+                          <h2>Password</h2>
+                        </div>
+                        <Typography style={{ marginBottom: "15px" }}>
+                          {"*******"}
+                        </Typography>
                       </div>
-                      <Typography style={{ marginBottom: "15px" }}>
-                        {"*******"}
-                      </Typography>
-                    </div>
-                    <div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          alignContent: "center",
-                          paddingLeft: "50px",
-                          paddingRight: "70px",
-                        }}
-                      >
-                        <h2>Email</h2>
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            alignContent: "center",
+                            paddingLeft: "50px",
+                            paddingRight: "70px",
+                          }}
+                        >
+                          <h2>Email</h2>
+                        </div>
+                        <Typography>{item?.Email}</Typography>
                       </div>
-                      <Typography>{item?.Email}</Typography>
-                    </div>
-                  </Paper>
-                </Box>
+                    </Paper>
+                  </Box>
+                </div>
+                <AdminProfEdit
+                  id={Edit.id}
+                  open={open}
+                  name={Edit.FirstName}
+                  email={Edit.Email}
+                  setOpen={handleOpen}
+                  close={handleClose}
+                />
               </div>
-              <AdminProfEdit
-                id={Edit.id}
-                open={open}
-                name={Edit.FirstName}
-                email={Edit.Email}
-                setOpen={handleOpen}
-                close={handleClose}
-              />
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     );
   }

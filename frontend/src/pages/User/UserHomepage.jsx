@@ -609,7 +609,9 @@ export default function UserHomepage() {
         // get user info
         getUserInfo();
 
+        // get categories
         getCategories();
+
         // get jobs
         getJobs();
       }
@@ -644,7 +646,7 @@ export default function UserHomepage() {
           style={{
             display: "flex",
             flexDirection: "row",
-            marginTop: "40px",
+            marginTop: "50px",
             justifyContent: "center",
           }}
         >
@@ -832,6 +834,7 @@ export default function UserHomepage() {
               minWidth: "700px",
               maxWidth: "700px",
               marginLeft: "20px",
+              marginTop: "40px",
             }}
           >
             <div
