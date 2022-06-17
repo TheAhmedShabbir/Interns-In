@@ -7,6 +7,7 @@ import { db, auth } from "../../firebase-config";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import {
   collection,
@@ -379,7 +380,7 @@ export default function CompanyHomePage() {
     getJobs();
   };
 
-  // const getEmployees = async () => {};
+  
 
   const getJobs = async () => {
     const data = await getDocs(jobCollection);
@@ -689,6 +690,7 @@ export default function CompanyHomePage() {
                         style={{ margin: "10px" }}
                         variant="contained"
                         onClick={() => openApplicantModal(job.id)}
+                        startIcon={<VisibilityIcon />}
                       >
                         View Applicants
                       </Button>
@@ -697,8 +699,9 @@ export default function CompanyHomePage() {
                         variant="outlined"
                         color="warning"
                         onClick={() => updateJob(key)}
+                        startIcon={<EditIcon />}
                       >
-                        <EditIcon></EditIcon>
+                        Edit
                       </Button>
                       <Button
                         style={{
@@ -707,8 +710,9 @@ export default function CompanyHomePage() {
                         variant="outlined"
                         color="error"
                         onClick={() => deleteJob(key).then(handleDeleteClick())}
+                        startIcon={<DeleteIcon />}
                       >
-                        <DeleteIcon></DeleteIcon>
+                        Delete
                       </Button>
                     </div>
                   </div>

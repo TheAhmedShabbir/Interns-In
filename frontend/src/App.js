@@ -9,6 +9,7 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import UserAbout from "./pages/User/UserAbout";
 import UserProfile from "./pages/User/UserProfile";
 import CompanyProfile from "./pages/Company/CompanyProfile";
+import Employees from "./pages/Company/Employees";
 import Mainpage from "./pages/Mainpage";
 import UserHomepage from "./pages/User/UserHomepage";
 import CompanyHomePage from "./pages/Company/CompanyHomePage";
@@ -94,6 +95,14 @@ export default function App() {
             element={
               <AuthorizedRoute>
                 <Shortlisted />
+              </AuthorizedRoute>
+            }
+          ></Route>
+          <Route
+            path="/employees"
+            element={
+              <AuthorizedRoute>
+                <Employees />
               </AuthorizedRoute>
             }
           ></Route>

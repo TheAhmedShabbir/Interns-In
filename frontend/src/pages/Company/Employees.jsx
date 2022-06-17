@@ -8,9 +8,7 @@ import { collection, getDocs, addDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
-import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import MuiAlert from "@mui/material/Alert";
-import VideocamIcon from "@mui/icons-material/Videocam";
 import { forwardRef } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -18,10 +16,10 @@ const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function Shortlisted() {
+export default function Employees() {
   const navigate = useNavigate();
 
-  const [applicants, setApplicants] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const [user, setUser] = useState({});
   const [userInfo, setUserInfo] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -54,68 +52,20 @@ export default function Shortlisted() {
   };
 
   const userCollection = collection(db, "UserProfile");
-  const shortlistCollectionRef = collection(
+  const employeesCollectionRef = collection(
     db,
-    `UserProfile/${userInfo?.id}/shortlisted`
+    `UserProfile/${userInfo?.id}/employees`
   );
 
-  const getShortlisted = async () => {
-    const data = await getDocs(shortlistCollectionRef);
-    const shortlisted = data.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-
-    setApplicants(shortlisted);
-    // console.log(applicants);
-    setLoading(false);
-  };
-
-  const hireApplicant = async (id) => {
-    const data = await getDocs(shortlistCollectionRef);
-    const shortlisted = data.docs?.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-
-    const shortlistedFilter = shortlisted.filter((i) => i.id == id);
-
-    const employeesCollectionRef = collection(
-      db,
-      `UserProfile/${userInfo?.id}/employees`
-    );
+  const getEmployees = async () => {
     const employeesData = await getDocs(employeesCollectionRef);
     const employeesProfiles = employeesData.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
     }));
-    const employeeFilter = employeesProfiles.filter(
-      (i) => i.applicantid == shortlistedFilter[0]?.applicantid
-    );
 
-    if (employeeFilter[0]?.applicantid == shortlistedFilter[0]?.applicantid) {
-      handleWarningClick();
-      setLoading(false);
-    } else {
-      const h = await addDoc(
-        collection(db, `UserProfile/${userInfo?.id}/employees`),
-        {
-          applicantEmail: shortlistedFilter[0]?.applicantEmail,
-          employeename: shortlistedFilter[0]?.firstname,
-          lastname: shortlistedFilter[0]?.lastname,
-          pfp: shortlistedFilter[0]?.pfp,
-          resume: shortlistedFilter[0]?.resume,
-          bio: shortlistedFilter[0]?.bio,
-          address: shortlistedFilter[0]?.address,
-          about: shortlistedFilter[0]?.about,
-          city: shortlistedFilter[0]?.city,
-          province: shortlistedFilter[0]?.province,
-          applicantid: shortlistedFilter[0]?.applicantid,
-        }
-      );
-      handleSuccessClick();
-      setLoading(false);
-    }
+    setEmployees(employeesProfiles);
+    setLoading(false);
   };
 
   const getUserInfo = async () => {
@@ -134,7 +84,7 @@ export default function Shortlisted() {
 
       if (currentUser) {
         getUserInfo();
-        getShortlisted();
+        getEmployees();
       } else {
         navigate("/SignIn");
       }
@@ -179,14 +129,14 @@ export default function Shortlisted() {
             padding: "15px",
           }}
         >
-          <h1>Shortlisted</h1>
+          <h1>Employees</h1>
           <div
             style={{
               display: "flex",
             }}
           >
-            {applicants?.map((a, key) => {
-              if (applicants?.length == 0) {
+            {employees?.map((e, key) => {
+              if (employees?.length == 0) {
                 <div></div>;
               } else {
                 return (
@@ -204,7 +154,7 @@ export default function Shortlisted() {
                         }}
                         width="140px"
                         height="140px"
-                        src={a?.pfp}
+                        src={e?.pfp}
                       />
                     </div>
                     <div
@@ -222,7 +172,7 @@ export default function Shortlisted() {
                           "& > :not(style)": {
                             m: 1,
                             width: 300,
-                            minHeight: "35vh",
+                            minHeight: "30vh",
                           },
                         }}
                       >
@@ -237,29 +187,12 @@ export default function Shortlisted() {
                         >
                           <div style={{ marginTop: "80px", padding: "10px" }}>
                             <h3>
-                              <b>{a?.firstname + " " + a?.lastname}</b>
+                              <b>{e?.employeename + " " + e?.lastname}</b>
                             </h3>
-                            <p>{a?.bio}</p>
-                            <div style={{ marginTop: "60px" }}>
-                              <Button
-                                style={{ margin: "10px" }}
-                                size="small"
-                                variant="outlined"
-                                color="success"
-                                startIcon={<VideocamIcon />}
-                              >
-                                Interview
-                              </Button>
-                              <Button
-                                style={{ margin: "10px" }}
-                                size="small"
-                                variant="outlined"
-                                onClick={() => hireApplicant(a.id)}
-                                startIcon={<PersonAddAlt1Icon />}
-                              >
-                                Hire
-                              </Button>
-                            </div>
+                            <p>{e?.bio}</p>
+                            <Button size="small" variant="outlined">
+                              View Profile
+                            </Button>
                           </div>
                         </div>
                       </Box>

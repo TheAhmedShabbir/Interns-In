@@ -18,7 +18,7 @@ import Badge from "@mui/material/Badge";
 
 export default function CompanyHeader() {
   const navigate = useNavigate();
-  
+
   const logout = async () => {
     localStorage.clear();
     await signOut(auth);
@@ -78,6 +78,18 @@ export default function CompanyHeader() {
           >
             <Button color="inherit">Notifications</Button>
           </Link> */}
+          <Button color="inherit">
+            <Link
+              to="/employees"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <Badge color="warning" badgeContent={1}>
+                <ListAltIcon />
+              </Badge>
+              <Typography fontSize="small">Employees</Typography>
+            </Link>
+          </Button>
+
           <Button color="inherit">
             <Link
               to="/shortlisted"
