@@ -380,8 +380,6 @@ export default function CompanyHomePage() {
     getJobs();
   };
 
-  
-
   const getJobs = async () => {
     const data = await getDocs(jobCollection);
     const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
@@ -466,7 +464,7 @@ export default function CompanyHomePage() {
           style={{
             display: "flex",
             flexDirection: "row",
-            marginTop: "40px",
+            marginTop: "60px",
             justifyContent: "center",
           }}
         >
@@ -484,9 +482,9 @@ export default function CompanyHomePage() {
                 backgroundColor: "#fff",
                 padding: "15px",
                 width: "280px",
-                marginTop: "40px",
+                marginTop: "50px",
                 borderRadius: "8px",
-                marginBottom: "5px",
+                marginBottom: "15px",
                 boxShadow: "0 0 10px #ccc",
               }}
             >
@@ -499,12 +497,12 @@ export default function CompanyHomePage() {
                 <img
                   style={{
                     borderRadius: "110px",
-                    marginTop: "-75px",
+                    marginTop: "-90px",
                     boxShadow: "0 0 10px #ccc",
                   }}
                   width="150px"
                   height="150px"
-                  src={img}
+                  src={UserInfo?.Pfp}
                 />
               </div>
               <div
@@ -563,6 +561,7 @@ export default function CompanyHomePage() {
                 margin: "10px",
                 marginLeft: "auto",
                 marginRight: "auto",
+                marginTop: "30px",
               }}
             >
               <div
@@ -639,8 +638,8 @@ export default function CompanyHomePage() {
                 return (
                   <div
                     style={{
-                      minWidth: "700px",
-                      maxWidth: "700px",
+                      minWidth: "800px",
+                      maxWidth: "800px",
                       backgroundColor: "white",
                       padding: "20px",
                       margin: "20px",
