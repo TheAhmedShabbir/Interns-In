@@ -7,6 +7,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { Line } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Doughnut } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -16,8 +17,32 @@ import {
   Title,
   Tooltip,
   Legend,
+  ArcElement,
 } from "chart.js";
+
 import faker from "faker";
+
+export const d = {
+  labels: ["Companies", "Users", "Jobs"],
+  datasets: [
+    {
+      data: [3, 3, 3],
+      backgroundColor: [
+        "rgb(255, 205, 86)",
+        // "rgba(255, 206, 86, 0.2)",
+        "#22c55e",
+        "#c084fc",
+      ],
+      borderColor: [
+        "rgba(255, 206, 86, 1)",
+        "rgba(75, 192, 192, 1)",
+        "rgba(153, 102, 255, 1)",
+      ],
+      borderWidth: 1,
+      hoverOffset: 4,
+    },
+  ],
+};
 
 ChartJS.register(
   CategoryScale,
@@ -26,7 +51,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement
 );
 
 const labels = [
@@ -158,16 +184,16 @@ export default function AdminDashboard() {
               backgroundColor: "#ef4444",
               margin: "10px",
               boxShadow: "0 0 10px #ccc",
-              width: "260px",
+              width: "280px",
               color: "white",
             }}
           >
             <Typography
-              sx={{ marginTop: "20px", marginRight: "6vh", fontSize: "18px" }}
+              sx={{ marginTop: "20px", marginRight: "8vh", fontSize: "18px" }}
             >
               Pending Approvals
             </Typography>
-            <h2 style={{ marginRight: "20vh" }}>{companiesApplied.length}</h2>
+            <h2 style={{ marginRight: "24vh" }}>{companiesApplied.length}</h2>
           </div>
           <div
             style={{
@@ -176,16 +202,16 @@ export default function AdminDashboard() {
               backgroundColor: "#a855f7",
               margin: "10px",
               boxShadow: "0 0 10px #ccc",
-              width: "260px",
+              width: "280px",
               color: "white",
             }}
           >
             <Typography
-              sx={{ marginTop: "20px", marginRight: "10vh", fontSize: "18px" }}
+              sx={{ marginTop: "20px", marginRight: "14vh", fontSize: "18px" }}
             >
               Jobs Posted
             </Typography>
-            <h2 style={{ marginRight: "20vh" }}>{jobsPosted.length}</h2>
+            <h2 style={{ marginRight: "24vh" }}>{jobsPosted.length}</h2>
           </div>
           <div
             style={{
@@ -194,16 +220,16 @@ export default function AdminDashboard() {
               backgroundColor: "#22c55e",
               margin: "10px",
               boxShadow: "0 0 10px #ccc",
-              width: "260px",
+              width: "280px",
               color: "white",
             }}
           >
             <Typography
-              sx={{ marginTop: "20px", marginRight: "6vh", fontSize: "18px" }}
+              sx={{ marginTop: "20px", marginRight: "9vh", fontSize: "18px" }}
             >
               Users Registered
             </Typography>
-            <h2 style={{ marginRight: "20vh" }}>{usersRegistered.length}</h2>
+            <h2 style={{ marginRight: "24vh" }}>{usersRegistered.length}</h2>
           </div>
           <div
             style={{
@@ -212,16 +238,16 @@ export default function AdminDashboard() {
               backgroundColor: "#f59e0b",
               margin: "10px",
               boxShadow: "0 0 10px #ccc",
-              width: "260px",
+              width: "280px",
               color: "white",
             }}
           >
             <Typography
               sx={{ marginTop: "20px", marginRight: "4vh", fontSize: "18px" }}
             >
-              Companies registered
+              Companies Registered
             </Typography>
-            <h2 style={{ marginRight: "20vh" }}>{companies.length}</h2>
+            <h2 style={{ marginRight: "24vh" }}>{companies.length}</h2>
           </div>
         </div>
         <div
@@ -241,6 +267,7 @@ export default function AdminDashboard() {
               backgroundColor: "#fff",
               boxShadow: "0 0 10px #ccc",
               padding: "15px",
+              margin: "10px",
             }}
           >
             <h3>Users and Companies Joining</h3>
@@ -249,14 +276,15 @@ export default function AdminDashboard() {
           <div
             style={{
               borderRadius: "10px",
-              height: "400px",
-              width: "400px",
+              width: "50vh",
               margin: "10px",
               backgroundColor: "#fff",
               boxShadow: "0 0 10px #ccc",
+              padding: "10px",
             }}
           >
-            <h2>Companies Joining</h2>
+            <h3> Users, Companies and Jobs stats</h3>
+            <Doughnut data={d} />
           </div>
         </div>
       </div>
