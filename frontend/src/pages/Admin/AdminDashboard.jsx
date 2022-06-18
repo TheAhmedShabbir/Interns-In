@@ -6,6 +6,8 @@ import { collection, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { Line } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
+import img from "../../assets/images/Userpfp.jpg";
+
 import CircularProgress from "@mui/material/CircularProgress";
 import { Doughnut } from "react-chartjs-2";
 import {
@@ -62,7 +64,7 @@ const options = {
 
 export default function AdminDashboard() {
   // const navigate = useNavigate();
-
+  const [adminInfo, setAdminInfo] = useState();
   const [user, setUser] = useState(null);
   let [companies, setCompanies] = useState([]);
   let [jobsPosted, setJobsPosted] = useState([]);
@@ -129,11 +131,20 @@ export default function AdminDashboard() {
     ],
   };
 
+  const getAdminInfo = async () => {
+    const data = await getDocs(userProfile);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const admin = profiles.filter((i) => i.Role == "Admin");
+    setAdminInfo(admin);
+    setLoading(false);
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
 
       if (currentUser?.email == "ahmed.shabbir1308@gmail.com") {
+        getAdminInfo();
         // setLoading(false);
       } else {
         navigate("/" + localStorage.getItem("page"));
@@ -168,10 +179,30 @@ export default function AdminDashboard() {
             flexDirection: "row",
             // justifyContent: "space-evenly",
             padding: "10px",
-            marginTop: "60px",
+            marginTop: "50px",
             justifyContent: "center",
+            alignItems: "center",
           }}
         >
+          <div
+            style={{
+              marginRight: "60px",
+            }}
+          >
+            <img
+              style={{
+                borderRadius: "110px",
+                backgroundColor: "white",
+                boxShadow: "0 0 5px #ccc",
+              }}
+              width="150px"
+              height="150px"
+              src={img}
+            ></img>
+            <Typography sx={{ marginTop: "10px" }}>
+              <b>{adminInfo[0]?.FirstName}</b>
+            </Typography>
+          </div>
           <div
             style={{
               borderRadius: "10px",
@@ -179,16 +210,16 @@ export default function AdminDashboard() {
               backgroundColor: "#ef4444",
               margin: "10px",
               boxShadow: "0 0 10px #ccc",
-              width: "280px",
+              width: "250px",
               color: "white",
             }}
           >
             <Typography
-              sx={{ marginTop: "20px", marginRight: "8vh", fontSize: "18px" }}
+              sx={{ marginTop: "20px", marginRight: "5vh", fontSize: "18px" }}
             >
               Pending Approvals
             </Typography>
-            <h2 style={{ marginRight: "24vh" }}>{companiesApplied?.length}</h2>
+            <h2 style={{ marginRight: "20vh" }}>{companiesApplied?.length}</h2>
           </div>
           <div
             style={{
@@ -197,16 +228,16 @@ export default function AdminDashboard() {
               backgroundColor: "#a855f7",
               margin: "10px",
               boxShadow: "0 0 10px #ccc",
-              width: "280px",
+              width: "250px",
               color: "white",
             }}
           >
             <Typography
-              sx={{ marginTop: "20px", marginRight: "14vh", fontSize: "18px" }}
+              sx={{ marginTop: "20px", marginRight: "10vh", fontSize: "18px" }}
             >
               Jobs Posted
             </Typography>
-            <h2 style={{ marginRight: "24vh" }}>{jobsPosted?.length}</h2>
+            <h2 style={{ marginRight: "20vh" }}>{jobsPosted?.length}</h2>
           </div>
           <div
             style={{
@@ -215,16 +246,16 @@ export default function AdminDashboard() {
               backgroundColor: "#22c55e",
               margin: "10px",
               boxShadow: "0 0 10px #ccc",
-              width: "280px",
+              width: "250px",
               color: "white",
             }}
           >
             <Typography
-              sx={{ marginTop: "20px", marginRight: "9vh", fontSize: "18px" }}
+              sx={{ marginTop: "20px", marginRight: "6vh", fontSize: "18px" }}
             >
               Users Registered
             </Typography>
-            <h2 style={{ marginRight: "24vh" }}>{usersRegistered?.length}</h2>
+            <h2 style={{ marginRight: "20vh" }}>{usersRegistered?.length}</h2>
           </div>
           <div
             style={{
@@ -233,16 +264,16 @@ export default function AdminDashboard() {
               backgroundColor: "#f59e0b",
               margin: "10px",
               boxShadow: "0 0 10px #ccc",
-              width: "280px",
+              width: "250px",
               color: "white",
             }}
           >
             <Typography
-              sx={{ marginTop: "20px", marginRight: "4vh", fontSize: "18px" }}
+              sx={{ marginTop: "20px", marginRight: "2vh", fontSize: "18px" }}
             >
               Companies Registered
             </Typography>
-            <h2 style={{ marginRight: "24vh" }}>{companies?.length}</h2>
+            <h2 style={{ marginRight: "20vh" }}>{companies?.length}</h2>
           </div>
         </div>
         <div
@@ -250,7 +281,7 @@ export default function AdminDashboard() {
             display: "flex",
             flexDirection: "row",
             flexWrap: "wrap",
-            marginTop: "40px",
+            marginTop: "30px",
             borderRadius: "10px",
             justifyContent: "center",
           }}
@@ -258,7 +289,7 @@ export default function AdminDashboard() {
           <div
             style={{
               borderRadius: "10px",
-              width: "90vh",
+              width: "100vh",
               backgroundColor: "#fff",
               boxShadow: "0 0 10px #ccc",
               padding: "15px",
