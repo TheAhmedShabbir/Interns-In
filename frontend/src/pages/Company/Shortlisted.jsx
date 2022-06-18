@@ -2,6 +2,8 @@ import { Button, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import CompanyHeader from "../../Components/Company/CompanyHeader";
 import img from "../../assets/images/Userpfp.jpg";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import SendIcon from "@mui/icons-material/Send";
 import Box from "@mui/material/Box";
 import { db, auth } from "../../firebase-config";
 import { collection, getDocs, addDoc } from "firebase/firestore";
@@ -13,6 +15,7 @@ import MuiAlert from "@mui/material/Alert";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import { forwardRef } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
+import TestModal from "../../Components/Company/TestModal";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -25,9 +28,18 @@ export default function Shortlisted() {
   const [user, setUser] = useState({});
   const [userInfo, setUserInfo] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const [warningOpen, setWarningOpen] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
+
+  const closeModal = () => {
+    setOpen(false);
+  };
+
+  const openModal = () => {
+    setOpen(true);
+  };
 
   const handleSuccessClick = () => {
     setSuccessOpen(true);
@@ -176,13 +188,25 @@ export default function Shortlisted() {
             marginLeft: "auto",
             marginRight: "auto",
             borderRadius: "10px",
-            padding: "15px",
           }}
         >
           <h1>Shortlisted</h1>
+          <Button
+            sx={{ marginLeft: "auto", marginTop: "-7vh" }}
+            variant="outlined"
+            startIcon={<AssignmentIcon />}
+            onClick={() =>
+              window.open(
+                "https://docs.google.com/forms/d/1BbUH4ZVEcVnH5n7jufLQv6MtPhZoLdml7fd4s6XZP9c/edit"
+              )
+            }
+          >
+            Make Online Test
+          </Button>
           <div
             style={{
               display: "flex",
+              marginTop: "20px",
             }}
           >
             {applicants?.map((a, key) => {
@@ -235,13 +259,13 @@ export default function Shortlisted() {
                             boxShadow: "0 0 10px #ccc",
                           }}
                         >
-                          <div style={{ marginTop: "80px", padding: "10px" }}>
+                          <div style={{ marginTop: "70px", padding: "10px" }}>
                             <h3>
                               <b>{a?.firstname + " " + a?.lastname}</b>
                             </h3>
                             <p>{a?.bio}</p>
-                            <div style={{ marginTop: "60px" }}>
-                              <Button
+                            <div style={{ marginTop: "70px" }}>
+                              {/* <Button
                                 style={{ margin: "10px" }}
                                 size="small"
                                 variant="outlined"
@@ -249,10 +273,20 @@ export default function Shortlisted() {
                                 startIcon={<VideocamIcon />}
                               >
                                 Interview
+                              </Button> */}
+                              <Button
+                                style={{ margin: "10px" }}
+                                size="small"
+                                variant="outlined"
+                                startIcon={<SendIcon />}
+                                onClick={() => openModal()}
+                              >
+                                send Test
                               </Button>
                               <Button
                                 style={{ margin: "10px" }}
                                 size="small"
+                                color="success"
                                 variant="outlined"
                                 onClick={() => hireApplicant(a.id)}
                                 startIcon={<PersonAddAlt1Icon />}
@@ -264,6 +298,12 @@ export default function Shortlisted() {
                         </div>
                       </Box>
                     </div>
+
+                    <TestModal
+                      open={open}
+                      close={closeModal}
+                      email={a?.applicantEmail}
+                    ></TestModal>
                   </div>
                 );
               }

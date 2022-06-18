@@ -146,10 +146,11 @@ export default function CompanyProfile() {
         style={{
           backgroundColor: "#fafafa",
           fontFamily: "ubuntu, arial,sans-serif",
+          height: "100vh",
         }}
       >
         <CompanyHeader />
-        <div>
+        <div style={{ marginTop: "8vh" }}>
           {UserInfo &&
             UserInfo.map((item, key) => {
               return (
@@ -203,8 +204,8 @@ export default function CompanyProfile() {
                         flexWrap: "wrap",
                         "& > :not(style)": {
                           m: 1,
-                          width: 550,
-                          minHeight: "70vh",
+                          width: "60vh",
+                          minHeight: "65vh",
                         },
                       }}
                     >
@@ -216,7 +217,7 @@ export default function CompanyProfile() {
                           justifyContent: "center",
                           borderRadius: "20px",
                           marginBottom: "30px",
-                          paddingTop: "30px",
+                          paddingTop: "70px",
                         }}
                       >
                         <div>
