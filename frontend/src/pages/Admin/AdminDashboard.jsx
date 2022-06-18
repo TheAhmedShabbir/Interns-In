@@ -22,28 +22,6 @@ import {
 
 import faker from "faker";
 
-export const d = {
-  labels: ["Companies", "Users", "Jobs"],
-  datasets: [
-    {
-      data: [3, 3, 3],
-      backgroundColor: [
-        "rgb(255, 205, 86)",
-        // "rgba(255, 206, 86, 0.2)",
-        "#22c55e",
-        "#c084fc",
-      ],
-      borderColor: [
-        "rgba(255, 206, 86, 1)",
-        "rgba(75, 192, 192, 1)",
-        "rgba(153, 102, 255, 1)",
-      ],
-      borderWidth: 1,
-      hoverOffset: 4,
-    },
-  ],
-};
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -69,24 +47,6 @@ const labels = [
   "November",
   "December",
 ];
-
-const data = {
-  labels,
-  datasets: [
-    {
-      label: "Users Joining",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 500 })),
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-    },
-    {
-      label: "Companies Joining",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 500 })),
-      borderColor: "rgb(53, 162, 235)",
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
-    },
-  ],
-};
 
 const options = {
   responsive: true,
@@ -134,15 +94,50 @@ export default function AdminDashboard() {
     setLoading(false);
   };
 
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Users Joining",
+        data: labels.map(() => usersRegistered?.length),
+        borderColor: "#22c55e",
+        backgroundColor: "#22c55e",
+      },
+      {
+        label: "Companies Joining",
+        data: labels.map(() => companies?.length),
+        borderColor: "rgb(255, 205, 86)",
+        backgroundColor: "rgb(255, 205, 86)",
+      },
+    ],
+  };
+
+  const d = {
+    labels: ["Companies", "Users", "Jobs"],
+    datasets: [
+      {
+        data: [companies?.length, usersRegistered?.length, jobsPosted?.length],
+        backgroundColor: ["rgb(255, 205, 86)", "#22c55e", "#c084fc"],
+        borderColor: [
+          "rgba(255, 206, 86, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+        ],
+        borderWidth: 1,
+        hoverOffset: 4,
+      },
+    ],
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
 
       if (currentUser?.email == "ahmed.shabbir1308@gmail.com") {
-        setLoading(false);
+        // setLoading(false);
       } else {
         navigate("/" + localStorage.getItem("page"));
-        setLoading(false);
+        // setLoading(false);
       }
     });
     getData();
@@ -155,7 +150,7 @@ export default function AdminDashboard() {
           sx={{
             position: "absolute",
             left: "50%",
-            top: "40%",
+            top: "50%",
             zIndex: "1000",
             height: "35px",
             width: "35px",
@@ -193,7 +188,7 @@ export default function AdminDashboard() {
             >
               Pending Approvals
             </Typography>
-            <h2 style={{ marginRight: "24vh" }}>{companiesApplied.length}</h2>
+            <h2 style={{ marginRight: "24vh" }}>{companiesApplied?.length}</h2>
           </div>
           <div
             style={{
@@ -211,7 +206,7 @@ export default function AdminDashboard() {
             >
               Jobs Posted
             </Typography>
-            <h2 style={{ marginRight: "24vh" }}>{jobsPosted.length}</h2>
+            <h2 style={{ marginRight: "24vh" }}>{jobsPosted?.length}</h2>
           </div>
           <div
             style={{
@@ -229,7 +224,7 @@ export default function AdminDashboard() {
             >
               Users Registered
             </Typography>
-            <h2 style={{ marginRight: "24vh" }}>{usersRegistered.length}</h2>
+            <h2 style={{ marginRight: "24vh" }}>{usersRegistered?.length}</h2>
           </div>
           <div
             style={{
@@ -247,7 +242,7 @@ export default function AdminDashboard() {
             >
               Companies Registered
             </Typography>
-            <h2 style={{ marginRight: "24vh" }}>{companies.length}</h2>
+            <h2 style={{ marginRight: "24vh" }}>{companies?.length}</h2>
           </div>
         </div>
         <div
