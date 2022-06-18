@@ -7,7 +7,6 @@ import { onAuthStateChanged } from "firebase/auth";
 import { Line } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
 import img from "../../assets/images/Userpfp.jpg";
-
 import CircularProgress from "@mui/material/CircularProgress";
 import { Doughnut } from "react-chartjs-2";
 import {
@@ -21,8 +20,6 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-
-import faker from "faker";
 
 ChartJS.register(
   CategoryScale,
