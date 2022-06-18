@@ -218,12 +218,13 @@ export default function Forumtopic() {
               <div
                 style={{
                   display: "flex",
-                  flexDirection: "row",
+                  flexDirection: "column",
                   backgroundColor: "white",
                   margin: "15px",
                   borderRadius: "20px",
                   justifyContent: "space-between",
-                  Width: "200px",
+                  // maxWidth: "200px",
+                  backgroundColor: 'red'
                 }}
                 key={key}
               >
@@ -231,32 +232,36 @@ export default function Forumtopic() {
                   style={{
                     marginright: "5px",
                     display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
+                    flexDirection: "row",
+                    justifyContent: 'initial',
+                    backgroundColor: 'blue'
                   }}
                 >
                   <img
                     style={{
-                      height: "100px",
-                      width: "100px",
+                      height: "50px",
+                      width: "50px",
                       borderRadius: "50px",
-                      marginLeft: "25px",
+                      marginRight: "15px",
                     }}
                     src={item.User_Pfp}
                     alt=""
                   />
+                  <div>
+                  <h4 style={{ marginLeft: "5px" }}>{item.User_Email}</h4>
+                  </div>
                 </div>
 
                 <div
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    marginRight: "800px",
-                    justifyContent: "space-evenly",
-                    alignItems: "flex-start",
+                    justifyContent: "initial",
+                    // alignItems: "flex-start",
+                    backgroundColor: 'green'
                   }}
                 >
-                  <h4 style={{ marginLeft: "5px" }}>{item.User_Email}</h4>
+                  
                   <p style={{ marginLeft: "5px", textAlign: "justify" }}>
                     {item.post}
                   </p>
@@ -265,11 +270,12 @@ export default function Forumtopic() {
 
                 <div
                   style={{
-                    justifyContent: "center",
+                    justifyContent: 'initial',
 
                     // marginRight:"20px",
                     // marginTop : '20px'
                     margin: "20px",
+                    backgroundColor: 'yellow'
                   }}
                 >
                   {item.User_Email == user.email ? (
