@@ -16,7 +16,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import EditIcon from "@mui/icons-material/Edit";
 
 export default function AdminProfile() {
-  let [adminInfo, setAdminInfo] = useState();
+  const [adminInfo, setAdminInfo] = useState();
   const [user, setUser] = useState({});
 
   const userProfile = collection(db, "UserProfile");

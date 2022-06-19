@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // import IconButton from '@mui/material/IconButton';
 // import MenuIcon from '@mui/icons-material/Menu';
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
@@ -185,7 +186,7 @@ export default function CompanyHeader() {
               to="/CompanyProfile"
               style={{ color: "white", textDecoration: "none" }}
             >
-              <PermIdentityOutlinedIcon />{" "}
+              <AccountCircleIcon />
               <Typography fontSize="small">Profile</Typography>
             </Link>
           </Button>

@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Badge from "@mui/material/Badge";
 import { onAuthStateChanged } from "firebase/auth";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // import IconButton from '@mui/material/IconButton';
 // import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
@@ -203,7 +204,7 @@ export default function UserHeader() {
               to="/UserProfile"
               style={{ color: "white", textDecoration: "none" }}
             >
-              <PermIdentityOutlinedIcon />
+              <AccountCircleIcon />
               <Typography fontSize="small">Profile</Typography>
             </Link>
           </Button>

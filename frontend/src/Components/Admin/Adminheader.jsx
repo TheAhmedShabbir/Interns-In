@@ -4,8 +4,11 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import WorkIcon from '@mui/icons-material/Work';
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import GroupIcon from "@mui/icons-material/Group";
+import BusinessIcon from "@mui/icons-material/Business";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase-config";
 // import IconButton from '@mui/material/IconButton';
@@ -69,10 +72,34 @@ export default function AdminHeader() {
           ></Typography>
           <Button color="inherit">
             <Link
+              to="/users"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <GroupIcon />
+              <Typography fontSize="small">Users</Typography>
+            </Link>
+          </Button>
+          <Button color="inherit">
+            <Link
+              to="/companies"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <BusinessIcon />
+              <Typography fontSize="small">Companies</Typography>
+            </Link>
+          </Button>
+          <Button color="inherit">
+            <Link to="/jobs" style={{ color: "white", textDecoration: "none" }}>
+              <WorkIcon />
+              <Typography fontSize="small">Jobs</Typography>
+            </Link>
+          </Button>
+          <Button color="inherit">
+            <Link
               to="/AdminProfile"
               style={{ color: "white", textDecoration: "none" }}
             >
-              <PermIdentityOutlinedIcon />
+              <AccountCircleIcon />
               <Typography fontSize="small">Profile</Typography>
             </Link>
           </Button>

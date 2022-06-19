@@ -4,12 +4,64 @@ import AdminHeader from "../../Components/Admin/Adminheader";
 import { db, auth } from "../../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { Line } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
+import img from "../../assets/images/Userpfp.jpg";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Doughnut } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+} from "chart.js";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement
+);
+
+const labels = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top",
+    },
+    title: {
+      display: true,
+    },
+  },
+};
 
 export default function AdminDashboard() {
   // const navigate = useNavigate();
-
+  const [adminInfo, setAdminInfo] = useState();
   const [user, setUser] = useState(null);
   let [companies, setCompanies] = useState([]);
   let [jobsPosted, setJobsPosted] = useState([]);
@@ -41,14 +93,59 @@ export default function AdminDashboard() {
     setLoading(false);
   };
 
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Users Joining",
+        data: labels.map(() => usersRegistered?.length),
+        borderColor: "#22c55e",
+        backgroundColor: "#22c55e",
+      },
+      {
+        label: "Companies Joining",
+        data: labels.map(() => companies?.length),
+        borderColor: "rgb(255, 205, 86)",
+        backgroundColor: "rgb(255, 205, 86)",
+      },
+    ],
+  };
+
+  const d = {
+    labels: ["Companies", "Users", "Jobs"],
+    datasets: [
+      {
+        data: [companies?.length, usersRegistered?.length, jobsPosted?.length],
+        backgroundColor: ["rgb(255, 205, 86)", "#22c55e", "#c084fc"],
+        borderColor: [
+          "rgba(255, 206, 86, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+        ],
+        borderWidth: 1,
+        hoverOffset: 4,
+      },
+    ],
+  };
+
+  const getAdminInfo = async () => {
+    const data = await getDocs(userProfile);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const admin = profiles.filter((i) => i.Role == "Admin");
+    setAdminInfo(admin);
+    setLoading(false);
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
 
       if (currentUser?.email == "ahmed.shabbir1308@gmail.com") {
-        setLoading(false);
+        getAdminInfo();
+        // setLoading(false);
       } else {
         navigate("/" + localStorage.getItem("page"));
+        // setLoading(false);
       }
     });
     getData();
@@ -61,7 +158,7 @@ export default function AdminDashboard() {
           sx={{
             position: "absolute",
             left: "50%",
-            top: "40%",
+            top: "50%",
             zIndex: "1000",
             height: "35px",
             width: "35px",
@@ -77,90 +174,140 @@ export default function AdminDashboard() {
           style={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "space-evenly",
-            padding: "60px",
-            margin: "10px",
+            // justifyContent: "space-evenly",
+            padding: "10px",
+            marginTop: "50px",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <div
             style={{
-              borderRadius: "10px",
-              padding: "15px",
-              backgroundColor: "#fff",
-              border: "2px solid blue",
+              marginRight: "60px",
             }}
           >
-            <h2>Pending Approvals</h2>
-            <Typography>{companiesApplied.length}</Typography>
+            <img
+              style={{
+                borderRadius: "110px",
+                backgroundColor: "white",
+                boxShadow: "0 0 5px #ccc",
+              }}
+              width="150px"
+              height="150px"
+              src={img}
+            ></img>
+            <Typography sx={{ marginTop: "10px" }}>
+              <b>{adminInfo[0]?.FirstName}</b>
+            </Typography>
           </div>
           <div
             style={{
               borderRadius: "10px",
               padding: "15px",
-              backgroundColor: "#fff",
-              border: "2px solid blue",
+              backgroundColor: "#ef4444",
+              margin: "10px",
+              boxShadow: "0 0 10px #ccc",
+              width: "250px",
+              color: "white",
             }}
           >
-            <h2>Jobs Posted</h2>
-            <Typography>{jobsPosted.length}</Typography>
+            <Typography
+              sx={{ marginTop: "20px", marginRight: "5vh", fontSize: "18px" }}
+            >
+              Pending Approvals
+            </Typography>
+            <h2 style={{ marginRight: "20vh" }}>{companiesApplied?.length}</h2>
           </div>
           <div
             style={{
               borderRadius: "10px",
               padding: "15px",
-              backgroundColor: "#fff",
-              border: "2px solid blue",
+              backgroundColor: "#a855f7",
+              margin: "10px",
+              boxShadow: "0 0 10px #ccc",
+              width: "250px",
+              color: "white",
             }}
           >
-            <h2>Users Registered</h2>
-            <p>{usersRegistered.length}</p>
+            <Typography
+              sx={{ marginTop: "20px", marginRight: "10vh", fontSize: "18px" }}
+            >
+              Jobs Posted
+            </Typography>
+            <h2 style={{ marginRight: "20vh" }}>{jobsPosted?.length}</h2>
           </div>
           <div
             style={{
               borderRadius: "10px",
               padding: "15px",
-              backgroundColor: "#fff",
-              border: "2px solid blue",
+              backgroundColor: "#22c55e",
+              margin: "10px",
+              boxShadow: "0 0 10px #ccc",
+              width: "250px",
+              color: "white",
             }}
           >
-            <h2>Companies registered</h2>
-            <Typography>{companies.length}</Typography>
+            <Typography
+              sx={{ marginTop: "20px", marginRight: "6vh", fontSize: "18px" }}
+            >
+              Users Registered
+            </Typography>
+            <h2 style={{ marginRight: "20vh" }}>{usersRegistered?.length}</h2>
+          </div>
+          <div
+            style={{
+              borderRadius: "10px",
+              padding: "15px",
+              backgroundColor: "#f59e0b",
+              margin: "10px",
+              boxShadow: "0 0 10px #ccc",
+              width: "250px",
+              color: "white",
+            }}
+          >
+            <Typography
+              sx={{ marginTop: "20px", marginRight: "2vh", fontSize: "18px" }}
+            >
+              Companies Registered
+            </Typography>
+            <h2 style={{ marginRight: "20vh" }}>{companies?.length}</h2>
           </div>
         </div>
         <div
           style={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "space-evenly",
             flexWrap: "wrap",
-            padding: "50px",
-            margin: "10px",
+            marginTop: "30px",
             borderRadius: "10px",
+            justifyContent: "center",
           }}
         >
           <div
             style={{
               borderRadius: "10px",
-              height: "400px",
-              width: "500px",
-              margin: "10px",
+              width: "100vh",
               backgroundColor: "#fff",
-              border: "2px solid blue",
+              boxShadow: "0 0 10px #ccc",
+              padding: "15px",
+              margin: "10px",
             }}
           >
-            <h2>Users Joining</h2>
+            <h3>Users and Companies Joining</h3>
+            <Line options={options} data={data}></Line>
           </div>
           <div
             style={{
               borderRadius: "10px",
-              height: "400px",
-              width: "500px",
+              width: "50vh",
               margin: "10px",
               backgroundColor: "#fff",
-              border: "2px solid blue",
+              boxShadow: "0 0 10px #ccc",
+              padding: "10px",
             }}
           >
-            <h2>Companies Joining</h2>
+            <h3> Users, Companies and Jobs stats</h3>
+            <Doughnut data={d} />
           </div>
         </div>
       </div>
