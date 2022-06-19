@@ -27,12 +27,12 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "#f3f2ef",
-  border: "2px solid #548CCB",
+  width: 800,
+  bgcolor: "white",
+  // border: "2px solid #548CCB",
   borderRadius: "10px",
   boxShadow: 24,
-  p: 4,
+  p: 6,
 };
 
 export default function Forumtopic() {
@@ -143,61 +143,135 @@ export default function Forumtopic() {
         <div
           style={{
             display: "flex",
+            justifyContent: "space-evenly",
             flexDirection: "column",
-            minHeight: "500px",
+            // minHeight: "500px",
             backgroundColor: "white",
-            borderRadius: "10px",
-            border: "2px solid #548CCB",
+            // borderRadius: "10px",
+            boxShadow: "0px 0px 10px black",
             margin: "50px",
-            minHeight: "200px",
+            // minHeight: "200px",
+            paddingBottom : '10px'
           }}
         >
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              margin: "50px",
-              borderRadius: "10px",
+              // margin: "50px",
+              // borderRadius: "10px",
             }}
           >
-            <h1>{forumTopic?.TopicDescription}</h1>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                paddingLeft: "20px",
+                backgroundColor: "#2563eb",
+                color: "white",
+              }}
+            >
+              <h2>{forumTopic?.TopicTitle}</h2>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                paddingLeft: "20px",
+              }}
+            >
+              <h4>{forumTopic?.TopicDescription}</h4>
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                style={{
+                  color: "white",
+                  backgroundColor: "#2563eb",
+                  boxShadow: "0px 0px 5px black",
+                }}
+                onClick={handleOpen}
+              >
+                Add Post
+              </Button>
+            </div>
 
             {/* Modal Div  */}
-            <div style={{ alignContent: "baseline" }}>
-              <Button onClick={handleOpen}>Add an Answer</Button>
-              <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+            <Modal
+              open={open}
+              onClose={handleClose}
+              // aria-labelledby="modal-modal-title"
+              // aria-describedby="modal-modal-description"
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}
               >
-                <Box sx={style}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-evenly",
+                    // alignItems: "center",
+                    backgroundColor: "white",
+                    padding: '15px',
+                    
+                  }}
+                >
+                  <div style = {{display : 'flex', justifyContent: 'initial',}}>
+                  <h3>Add Post</h3>
+                  </div>
+                  <div>
+                    <TextField
+                      style={{ width: "600px" }}
+                      label="What's on your mind?"
+                      rows={5}
+                      multiline
+                      required
+                      onChange={(event) => {
+                        setNewPost(event.target.value);
+                      }}
+                    />
+                  </div>
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-evenly",
-                      alignItems: "center",
-                      backgroundColor: "white",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      margin: "10px",
                     }}
                   >
-                    <div>
-                      <TextField
-                        style={{ width: "350px" }}
-                        label="What's on your mind?"
-                        onChange={(event) => {
-                          setNewPost(event.target.value);
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <Button onClick={PostQuery}>Post</Button>
-                      <Button onClick={handleClose}>Cancel</Button>
-                    </div>
+                    <Button
+                      style={{
+                        backgroundColor: "blue",
+                        color: "white",
+                        boxShadow: "0px 0px 5px black",
+                        marginRight: "5px",
+                      }}
+                      onClick={PostQuery}
+                    >
+                      Post
+                    </Button>
+                    <Button
+                      style={{
+                        backgroundColor: "red",
+                        color: "white",
+                        boxShadow: "0px 0px 5px black",
+                        marginLeft: "5px",
+                      }}
+                      onClick={handleClose}
+                    >
+                      Cancel
+                    </Button>
                   </div>
-                </Box>
-              </Modal>
-            </div>
+                </div>
+              </div>
+            </Modal>
           </div>
         </div>
 
@@ -206,13 +280,16 @@ export default function Forumtopic() {
             display: "flex",
             flexDirection: "column",
             minHeight: "200px",
-            backgroundColor: "#f3f2ef",
+            backgroundColor: "#2563eb",
+            
             margin: "50px",
-            border: "2px solid #548CCB",
+            // border: "2px solid #548CCB",
             borderRadius: "10px",
           }}
         >
-          <h1>User posts</h1>
+          <div style = {{color : 'white'}}>
+          <h2>Posts</h2>
+          </div>
           {Posts.map((item, key) => {
             return (
               <div
@@ -221,20 +298,22 @@ export default function Forumtopic() {
                   flexDirection: "column",
                   backgroundColor: "white",
                   margin: "15px",
-                  borderRadius: "20px",
+                  // borderRadius: "20px",
                   justifyContent: "space-between",
+                  boxShadow: "0px 0px 20px black",
                   // maxWidth: "200px",
-                  backgroundColor: 'red'
+                  // backgroundColor: 'red'
                 }}
                 key={key}
               >
                 <div
                   style={{
-                    marginright: "5px",
+                    margin: "5px",
                     display: "flex",
                     flexDirection: "row",
-                    justifyContent: 'initial',
-                    backgroundColor: 'blue'
+                    justifyContent: "initial",
+                    // backgroundColor: 'blue',
+                    borderRadius: "20px",
                   }}
                 >
                   <img
@@ -248,7 +327,7 @@ export default function Forumtopic() {
                     alt=""
                   />
                   <div>
-                  <h4 style={{ marginLeft: "5px" }}>{item.User_Email}</h4>
+                    <h4 style={{ marginLeft: "5px" }}>{item.User_Email}</h4>
                   </div>
                 </div>
 
@@ -257,11 +336,11 @@ export default function Forumtopic() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "initial",
+                    marginLeft: "10px",
                     // alignItems: "flex-start",
-                    backgroundColor: 'green'
+                    // backgroundColor: 'green'
                   }}
                 >
-                  
                   <p style={{ marginLeft: "5px", textAlign: "justify" }}>
                     {item.post}
                   </p>
@@ -270,61 +349,57 @@ export default function Forumtopic() {
 
                 <div
                   style={{
-                    justifyContent: 'initial',
-
-                    // marginRight:"20px",
-                    // marginTop : '20px'
-                    margin: "20px",
-                    backgroundColor: 'yellow'
+                    display: "flex",
+                    flexDirectio: "row",
+                    justifyContent: "initial",
+                    // backgroundColor: 'yellow'
                   }}
                 >
                   {item.User_Email == user.email ? (
                     <div
                       style={{
                         justifyContent: "center",
-                        margin: "20px",
+                        margin: "10px",
                       }}
                     >
-                      <button
+                      <Button
                         style={{
                           border: "none",
-                          backgroundColor: "white",
                           color: "#4F18FB",
                           cursor: "pointer",
                         }}
                         onClick={() => updatePost(key)}
                       >
                         <EditIcon />
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         style={{
                           border: "none",
-                          backgroundColor: "white",
+
                           color: "#FB1871 ",
                           cursor: "pointer",
                         }}
                         onClick={() => deletePost(key)}
                       >
                         <DeleteIcon />
-                      </button>
+                      </Button>
                     </div>
                   ) : (
                     <div
                       style={{
                         justifyContent: "center",
-                        margin: "20px",
+                        // margin: "20px",
                       }}
                     >
-                      <button
+                      <Button
                         style={{
                           border: "none",
-                          backgroundColor: "white",
                           color: "red",
                           cursor: "pointer",
                         }}
                       >
                         <FlagIcon />
-                      </button>
+                      </Button>
                     </div>
                   )}
                 </div>

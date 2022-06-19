@@ -128,7 +128,7 @@ export default function Forums() {
               minWidth: "750px",
               backgroundColor: "white",
               borderRadius: "10px",
-              boxShadow: "0 0 10px #ccc",
+              boxShadow: "0 0 10px black",
             }}
           >
             <h3>Start a new Topic</h3>
@@ -169,7 +169,7 @@ export default function Forums() {
               <Button>Document</Button> */}
               </div>
               <div>
-                <Button onClick={StartTopic} variant="contained">
+                <Button onClick={StartTopic} variant="contained" style = {{boxShadow : "0px 0px 5px black"}}>
                   Post
                 </Button>
               </div>
@@ -179,9 +179,11 @@ export default function Forums() {
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "center",
+              justifyContent: "flex-start",
               flexWrap: "wrap",
               padding: "15px",
+              marginTop : '20px',
+              backgroundColor : '#2563eb',
             }}
           >
             {forums.map((forum, key) => {
@@ -197,7 +199,7 @@ export default function Forums() {
                     width: "300px",
                     borderRadius: "10px",
                     margin: "8px",
-                    boxShadow: "0 0 10px #ccc",
+                    boxShadow: "0 0 10px black",
                   }}
                   key={key}
                 >
@@ -213,13 +215,15 @@ export default function Forums() {
                   )
                 })}
                   {/* <Typography>Views: 2300</Typography> */}
+                  <div>
                   <Button
                     href={`/ForumTopic/${forum?.id}`}
-                    style={{ margin: "15px" }}
-                    variant="outlined"
+                    style={{ margin: "15px", backgroundColor: "#3ECB2B", color : 'white', boxShadow: "0 0 5px black" }}
+                    variant="contained"
                   >
                     View Discussion
                   </Button>
+                </div>
                   <div>
                     {user?.email == forum.Post_Email ? (
                       <div></div>

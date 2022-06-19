@@ -25,20 +25,34 @@ export default function UserPostEdit({post, id, open, close}) {
                   aria-labelledby="modal-modal-title"
                   aria-describedby="modal-modal-description"
                 >
-                  <Box sx={style}>
+                  <div style = {{
+                  display: "flex",
+                  flexDirection: "column",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",}}>
+
                     <div
                       style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-evenly",
-                        alignItems: "center",
-                        backgroundColor: "white",
-                      }}
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-evenly",
+                    // alignItems: "center",
+                    backgroundColor: "white",
+                    padding: '15px',
+                  }}
                     >
+                      <div style = {{display : 'flex', justifyContent: 'initial',}}>
+                  <h3>Edit Post</h3>
+                  </div>
                       <div>
                         <TextField
-                          style={{ width: "350px" }}
+                         fullWidth
                           label="What's on your mind?"
+                          rows={5}
+                          multiline
+                          required
                           defaultValue={post}
                           onChange={(event) => {
                             updateUserPost(id, event.target.value);
@@ -50,7 +64,7 @@ export default function UserPostEdit({post, id, open, close}) {
                         <Button  onClick={close}>Cancel</Button>
                       </div>
                     </div>
-                  </Box>
+                  </div>
                 </Modal>
               </div>
     </div>

@@ -71,7 +71,7 @@ export default function ExpEdit({
                       open={open}
                       onClose={close}
                        >
-                         <Box sx={{ position: 'absolute',
+                         <div style={{ position: 'absolute',
                                     top: '50%',
                                     left: '50%',
                                     transform: 'translate(-50%, -50%)',
@@ -79,9 +79,10 @@ export default function ExpEdit({
                                     bgcolor: 'background.paper',
                                     border: '2px solid #548CCB',
                                     boxShadow: 24,
-                                    p: 4,}}>
+                                    p: 4,
+                                    }}>
                           {/* <Form> */}
-                            <h2>Add Education</h2>
+                            <h2>Edit Post</h2>
                             <TextField
                             fullWidth 
                             label = "Company Name"
@@ -109,7 +110,7 @@ export default function ExpEdit({
                             <Button onClick = {close}>Cancel</Button>
                             <Button onClick={() => editExp()}>Add</Button>
                           {/* </Form> */}
-                        </Box>
+                        </div>
                        </Modal>
 
     </div>
