@@ -218,7 +218,7 @@ export default function Forums() {
                   <div>
                   <Button
                     href={`/ForumTopic/${forum?.id}`}
-                    style={{ margin: "15px", backgroundColor: "#3ECB2B", color : 'white', boxShadow: "0 0 5px black" }}
+                    style={{ margin: "15px", backgroundColor: "#2BAE66FF", color : 'white', boxShadow: "0 0 5px black" }}
                     variant="contained"
                   >
                     View Discussion

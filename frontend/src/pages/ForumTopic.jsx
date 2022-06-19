@@ -9,6 +9,7 @@ import {
   doc,
   addDoc,
   deleteDoc,
+  Timestamp,
 } from "firebase/firestore";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -21,19 +22,10 @@ import CompanyHeader from "../Components/Company/CompanyHeader";
 import PostEdit from "../Components/Common/EditPostModal";
 import FlagIcon from "@mui/icons-material/Flag";
 import { useNavigate } from "react-router-dom";
+import moment from 'moment';
+import ReplyIcon from '@mui/icons-material/Reply';
+import SendIcon from '@mui/icons-material/Send';
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 800,
-  bgcolor: "white",
-  // border: "2px solid #548CCB",
-  borderRadius: "10px",
-  boxShadow: 24,
-  p: 6,
-};
 
 export default function Forumtopic() {
   //Database variables
@@ -74,6 +66,7 @@ export default function Forumtopic() {
       Forum_ID: forumTopic?.id,
       User_Email: user?.email,
       User_Pfp: UserInfo[0].Pfp,
+      Time: moment().format('MMMM Do YYYY, h:mm a'),
     });
   };
 
@@ -113,7 +106,11 @@ export default function Forumtopic() {
     const posts = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userProf = posts.filter((i) => i?.Forum_ID == forumTopic?.id);
 
-    setPosts(userProf);
+    // const sortedMessages = userProf.sort((a, b) => {
+    //  let 
+    //   })
+    // console.log(sortedMessages);
+     setPosts(userProf);
   };
 
   useEffect(() => {
@@ -311,11 +308,12 @@ export default function Forumtopic() {
                     margin: "5px",
                     display: "flex",
                     flexDirection: "row",
-                    justifyContent: "initial",
+                    justifyContent: "flex-start",
                     // backgroundColor: 'blue',
                     borderRadius: "20px",
                   }}
                 >
+                  {/* <div style = {{display : 'flex', flexDirection : 'row', justifyContent: 'initial'}}> */}
                   <img
                     style={{
                       height: "50px",
@@ -326,9 +324,12 @@ export default function Forumtopic() {
                     src={item.User_Pfp}
                     alt=""
                   />
-                  <div>
-                    <h4 style={{ marginLeft: "5px" }}>{item.User_Email}</h4>
+                  <div style = {{display : 'flex', flexDirection : 'row'}}>
+                    <h4 style={{ marginLeft: "5px", marginRight : '10px' }}>{item.User_Email}</h4>
+                    <h5 style = {{color : "gray"}}>{item.Time}</h5>
                   </div>
+                  {/* </div> */}
+                  
                 </div>
 
                 <div
@@ -367,6 +368,7 @@ export default function Forumtopic() {
                           border: "none",
                           color: "#4F18FB",
                           cursor: "pointer",
+                          marginRight: '5px',
                         }}
                         onClick={() => updatePost(key)}
                       >
@@ -375,7 +377,7 @@ export default function Forumtopic() {
                       <Button
                         style={{
                           border: "none",
-
+                          marginLeft: '5px',
                           color: "#FB1871 ",
                           cursor: "pointer",
                         }}
@@ -396,9 +398,13 @@ export default function Forumtopic() {
                           border: "none",
                           color: "red",
                           cursor: "pointer",
+                          marginRight: '5px',
                         }}
                       >
                         <FlagIcon />
+                      </Button>
+                      <Button style = {{border : 'none',  color : '#2BAE66FF', marginLeft : '5px'}}>
+                        <SendIcon/>
                       </Button>
                     </div>
                   )}
