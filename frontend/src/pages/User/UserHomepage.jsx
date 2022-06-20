@@ -719,7 +719,19 @@ export default function UserHomepage() {
                   marginBottom: "10px",
                 }}
               >
-                <h3>{UserInfo?.FirstName + " " + UserInfo?.LastName}</h3>
+                <Link
+                  style={{
+                    color: "black",
+                    textDecoration: "none",
+                    // fontSize: "small",
+                    // marginLeft: "23px",
+                    marginTop: "15px",
+                    // marginBottom: "10px",
+                  }}
+                  to="/UserAbout"
+                >
+                  <b>{UserInfo?.FirstName + " " + UserInfo?.LastName}</b>
+                </Link>
                 <Typography>{UserInfo?.bio}</Typography>
               </div>
             </div>
@@ -969,11 +981,36 @@ export default function UserHomepage() {
                           </span>
                         </h2>
 
-                        <div style={{ display: "flex", alignItems: "center" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
                           <LocationOnOutlinedIcon color="primary" />
                           <h4>{job.City}</h4>
                         </div>
                       </div>
+                      <div
+                        style={{
+                          display: "flex",
+                        }}
+                      >
+                        <Link
+                          style={{
+                            color: "#2563eb",
+                            textDecoration: "none",
+                            fontSize: "small",
+                            marginLeft: "23px",
+                            marginTop: "-15px",
+                            marginBottom: "10px",
+                          }}
+                          to={`/${job?.companyId}`}
+                        >
+                          {job.postedby}
+                        </Link>
+                      </div>
+
                       <Typography
                         sx={{
                           display: "flex",

@@ -34,6 +34,7 @@ export default function PostJob() {
   const [salary, setSalary] = useState(5000);
   const [city, setCity] = useState("");
   const [companyName, setCompanyName] = useState("");
+  const [companyId, setCompanyId] = useState("");
 
   const [loading, setLoading] = useState(true);
   const [postOpen, setPostOpen] = useState(false);
@@ -59,6 +60,7 @@ export default function PostJob() {
     const userData = profiles.filter((i) => i.Email == user?.email);
 
     setCompanyName(userData[0]?.CompanyName);
+    setCompanyId(userData[0]?.id);
   };
 
   useEffect(() => {
@@ -84,6 +86,7 @@ export default function PostJob() {
       City: city,
       company: user?.email,
       postedby: companyName,
+      companyId: companyId,
     });
 
     navigate("/CompanyHomepage");

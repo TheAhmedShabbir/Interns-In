@@ -15,6 +15,7 @@ import UserHomepage from "./pages/User/UserHomepage";
 import CompanyHomePage from "./pages/Company/CompanyHomePage";
 import Forums from "./pages/Forums";
 import ForumTopic from "./pages/ForumTopic";
+import Profile from "./pages/Profile";
 import UserNotifications from "./pages/User/UserNotifications";
 import PostJob from "./pages/Company/PostJob";
 import SavedJobs from "./pages/User/SavedJobs";
@@ -147,6 +148,14 @@ export default function App() {
             element={
               <AuthorizedRoute>
                 <ForumTopic />
+              </AuthorizedRoute>
+            }
+          ></Route>
+          <Route
+            path="/:id"
+            element={
+              <AuthorizedRoute>
+                <Profile />
               </AuthorizedRoute>
             }
           ></Route>

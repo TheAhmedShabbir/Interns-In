@@ -176,10 +176,10 @@ export default function SavedJobs() {
                 </Typography>
                 <Button
                   style={{ margin: "10px" }}
-                  variant="contained"
+                  variant="outlined"
                   onClick={() => applyJob(job.id)}
                 >
-                  Take Test
+                  View Details
                 </Button>
                 {/* <Button
                   style={{
