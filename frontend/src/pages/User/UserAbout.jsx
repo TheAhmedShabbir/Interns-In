@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Button, Checkbox, FormControl, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControl,
+  TextField,
+  Typography,
+} from "@mui/material";
 import UserHeader from "../../Components/User/Userheader";
 import { db, auth } from "../../firebase-config";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -65,7 +71,7 @@ export default function UserAbout() {
     const data = await getDocs(UserInfoCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userProf = profiles.filter((i) => i.Email == user?.email);
-    setUserProfile(userProf);
+    setUserProfile(userProf[0]);
     setLoading(false);
   };
 
@@ -209,7 +215,7 @@ export default function UserAbout() {
   };
 
   // Skills Modal
-  const [open2, setOpen2] = React.useState(false);
+  const [open2, setOpen2] = useState(false);
   const handleOpen2 = () => setOpen2(true);
   const handleClose2 = () => setOpen2(false);
 
@@ -221,7 +227,7 @@ export default function UserAbout() {
   //Upload CV-----------------------------------------------------------------------------------------------------------
 
   // CV Modal
-  const [open3, setOpen3] = React.useState(false);
+  const [open3, setOpen3] = useState(false);
   const handleOpen3 = () => setOpen3(true);
   const handleClose3 = () => setOpen3(false);
 
@@ -260,21 +266,20 @@ export default function UserAbout() {
 
   // Update CV
   const updateCV = async () => {
-    const updatedDoc = doc(db, "UserProfile", userProfile[0]?.id);
+    const updatedDoc = doc(db, "UserProfile", userProfile?.id);
     await updateDoc(updatedDoc, {
       cv: Url,
     });
-    // console.log(userProfile);
   };
 
   //About edit modal
-  const [open6, setOpen6] = React.useState(false);
+  const [open6, setOpen6] = useState(false);
   const handleOpen6 = () => setOpen6(true);
   const handleClose6 = () => setOpen6(false);
   let [editAbout, setEditAbout] = useState([]);
 
-  const updateAbt = async (id) => {
-    setEditAbout(userProfile[id]);
+  const updateAbt = async () => {
+    setEditAbout(userProfile);
     handleOpen6();
   };
 
@@ -312,131 +317,125 @@ export default function UserAbout() {
     return (
       <div style={{ backgroundColor: "#fafafa" }}>
         <UserHeader />
+        <div style={{ minHeight: "100vh", marginTop: "50px" }}>
+          <img
+            style={{
+              borderRadius: "110px",
+              boxShadow: "0 0 10px #ccc",
+              display: "flex",
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginTop: "40px",
+              zIndex: 100,
+              position: "relative",
+            }}
+            width="150px"
+            height="150px"
+            src={userProfile?.Pfp}
+          ></img>
+          <div
+            style={{
+              backgroundColor: "#fff",
+              width: "70%",
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginTop: "-70px",
+              borderRadius: "8px",
+              boxShadow: "0 0 10px #ccc",
+              height: "60vh",
+              display: "flex",
+              flexDirection: "column",
+              padding: "20px",
+              // alignItems: "center",
+            }}
+          >
+            <div style={{ display: "flex" }}>
+              <Button
+                style={{ marginLeft: "auto", marginRight: "10px" }}
+                variant="outlined"
+                onClick={() => handleOpen3()}
+              >
+                CV
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={updateAbt}
+                startIcon={<EditIcon />}
+              >
+                Edit
+              </Button>
+            </div>
+            <div
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginTop: "20px",
+                display: "flex",
+                flexDirection: "column",
+                width: "70%",
+              }}
+            >
+              <h2>{userProfile?.FirstName + " " + userProfile?.LastName}</h2>
+              <Typography style={{ marginTop: "-15px", fontSize: "14px" }}>
+                {userProfile?.bio}
+              </Typography>
+              <Typography style={{ fontSize: "14px", margin: "5px" }}>
+                {userProfile?.address +
+                  ", " +
+                  userProfile?.city +
+                  ", " +
+                  userProfile?.province}
+              </Typography>
 
-        <div style={{ minHeight: "100vh", marginTop: "50px" }}></div>
+              <Typography style={{ fontSize: "15px", margin: "5px" }}>
+                {userProfile?.about}
+              </Typography>
+            </div>
+          </div>
+        </div>
+        <Modal open={open3} onClose={handleClose3}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              boxShadow: 24,
+              p: 4,
+              borderRadius: "8px",
+            }}
+          >
+            <h2>Upload / Download files</h2>
+            <form onSubmit={formHandler}>
+              <input type="file" onChange={HandleUpload} />
+              <Button type="submit" onClick={updateCV}>
+                upload
+              </Button>
+
+              <Button onClick={handleClose3}>Close</Button>
+              <h3>uploaded{progress}%</h3>
+            </form>
+          </Box>
+        </Modal>
+        <AbtEdit
+          id={editAbout.id}
+          // key={editAbout.id}
+          open={open6}
+          close={handleClose6}
+          address={editAbout.Address}
+          city={editAbout.City}
+          province={editAbout.Province}
+          main={editAbout.Main}
+          about={editAbout.About}
+        />
+        ;
       </div>
     );
   }
 }
 
-// {userProfile &&
-//   userProfile.map((item, key) => {
-//     return (
-//       <div
-//         style={{
-//           display: "flex",
-//           flexDirection: "row",
-//           justifyContent: "space-around",
-//           marginTop: "25px",
-//           backgroundColor: "#fff",
-//           width: "1200px",
-//           padding: "15px",
-//           marginLeft: "auto",
-//           marginRight: "auto",
-//           borderRadius: "10px",
-//           boxShadow: "0 0 10px #ccc",
-//         }}
-//         key={key}
-//       >
-//         <div>
-//           <div
-//             style={{
-//               paddingTop: "10px",
-//               paddingLeft: "10px",
-//               paddingRight: "10px",
-//               marginLeft: "10px",
-//               marginRight: "10px",
-//             }}
-//           >
-//             <img
-//               style={{ borderRadius: "110px" }}
-//               width="150px"
-//               height="150px"
-//               src={item.Pfp}
-//             />
-//           </div>
-//           <h3>{item.FirstName + "" + item.LastName}</h3>
-//         </div>
-//         <div
-//           style={{
-//             display: "flex",
-//             flexDirection: "column",
-//             JustifyContent: "center",
-//             alignItems: "baseline",
-//             width: "900px",
-//             padding: "20px",
-//             marginLeft: "20px",
-//           }}
-//         >
-//           <h4>{item.Address}</h4>
-//           <h4>
-//             {item.City},{item.Province}
-//           </h4>
-//           <h4>{item.Main}</h4>
-//           <h4>{item.About}</h4>
-//         </div>
-//         <AbtEdit
-//           id={editAbout.id}
-//           key={editAbout.id}
-//           open={open6}
-//           close={handleClose6}
-//           address={editAbout.Address}
-//           city={editAbout.City}
-//           province={editAbout.Province}
-//           main={editAbout.Main}
-//           about={editAbout.About}
-//         />
-//         <div
-//           style={{
-//             display: "flex",
-//             flexDirection: "column",
-//             justifyContent: "space-evenly",
-//             marginRight: "20px",
-//           }}
-//         >
-//           <Modal open={open3} onClose={handleClose3}>
-//             <Box sx={style}>
-//               {/* <Form> */}
-//               <h2>Upload / Download files</h2>
-//               <form onSubmit={formHandler}>
-//                 <input type="file" onChange={HandleUpload} />
-//                 <Button type="submit">upload</Button>
-//                 <Button onClick={updateCV}>Save</Button>
-
-//                 <Button
-//                   onClick={() => {
-//                     console.log(userProfile[0].id);
-//                   }}
-//                 >
-//                   Cancel
-//                 </Button>
-//                 {/* <Button onClick={handleClose3}>Cancel</Button> */}
-
-//                 <h3>uploaded{progress}%</h3>
-//               </form>
-//             </Box>
-//           </Modal>
-
-//           <Button>
-//             <EditIcon onClick={() => updateAbt(key)} />
-//           </Button>
-
-//           {/* Upload CV */}
-//           {/* {uploadFile ? ( */}
-//           <Button
-//             size="small"
-//             variant="outlined"
-//             onClick={
-//               // setUploadFile(false);
-//               handleOpen3
-//             }
-//           >
-//             CV
-//           </Button>
-//         </div>
-//       </div>
-//     );
-//   })}
 // <div
 //   style={{
 //     display: "flex",

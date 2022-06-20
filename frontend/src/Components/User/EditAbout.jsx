@@ -78,6 +78,7 @@ export default function AbtEdit({
       <Modal
         open={open}
         onClose={close}
+
         // aria-labelledby="modal-modal-title"
         // aria-describedby="modal-modal-description"
       >
@@ -89,46 +90,51 @@ export default function AbtEdit({
             transform: "translate(-50%, -50%)",
             width: 400,
             bgcolor: "background.paper",
-            border: "2px solid #548CCB",
             boxShadow: 24,
             p: 4,
+            borderRadius: "8px",
           }}
         >
           {/* <Form> */}
           <h2>Add About</h2>
           <TextField
+            style={{ marginBottom: "5px" }}
             fullWidth
             label="Address"
             defaultValue={address}
             onChange={(e) => setNewAddress(e.target.value)}
           />
           <TextField
+            style={{ marginBottom: "5px" }}
             fullWidth
             label="City"
             defaultValue={city}
             onChange={(e) => setNewCity(e.target.value)}
           />
           <TextField
+            style={{ marginBottom: "5px" }}
             fullWidth
             label="Province"
             defaultValue={province}
             onChange={(e) => setNewProvince(e.target.value)}
           />
           <TextField
+            style={{ marginBottom: "5px" }}
             fullWidth
             label="Main"
             defaultValue={main}
             onChange={(e) => setNewMain(e.target.value)}
           />
           <TextField
+            style={{ marginBottom: "5px" }}
             fullWidth
             label="About"
             defaultValue={about}
             onChange={(e) => setNewAbout(e.target.value)}
           />
-          <Button onClick={close}>Cancel</Button>
+
           <Button onClick={() => editEdu()}>Add</Button>
-          {/* </Form> */}
+          <Button onClick={close}>Cancel</Button>
         </Box>
       </Modal>
     </div>
