@@ -22,10 +22,15 @@ import CompanyHeader from "../Components/Company/CompanyHeader";
 import PostEdit from "../Components/Common/EditPostModal";
 import FlagIcon from "@mui/icons-material/Flag";
 import { useNavigate } from "react-router-dom";
-import moment from 'moment';
-import ReplyIcon from '@mui/icons-material/Reply';
-import SendIcon from '@mui/icons-material/Send';
-
+import moment from "moment";
+import ReplyIcon from "@mui/icons-material/Reply";
+import SendIcon from "@mui/icons-material/Send";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../src/firebase-config";
+import { getDownloadURL } from "firebase/storage";
 
 export default function Forumtopic() {
   //Database variables
@@ -48,7 +53,58 @@ export default function Forumtopic() {
     setUserInfo(userData);
   };
 
- 
+  // Upload Image in Post
+  const [progress, setProgress] = useState(0);
+  const [Url, setUrl] = useState("");
+  const [image, setImage] = useState(false);
+
+  const uploadImage = async () => {
+    setImage(true);
+  };
+
+  const CancelUpload = async () => {
+    setImage(false);
+  };
+  const formHandler = (e) => {
+    e.preventDefault();
+    const file = e.target[0].files[0];
+    HandleUpload(file);
+  };
+
+  const HandleUpload = (file) => {
+    if (!file) return;
+
+    const storageRef = ref(storage, `files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const prog = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+        setProgress(prog);
+      },
+      (error) => console.log(error),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          console.log(url);
+          setUrl(url);
+        });
+      }
+    );
+    // }
+  };
+  //Update User Profile Picture
+
+  // const updateProfilePic = async () => {
+  //   const updatedDoc = doc(db, "UserProfile", UserInfo[0]?.id);
+  //   await updateDoc(updatedDoc, {
+  //     Pfp: Url,
+  //   });
+  // };
+
+  const [reply, setReply] = useState("");
+  // const rep = (p) => setReply(p);
 
   const PostQuery = async () => {
     await addDoc(PostCollection, {
@@ -56,7 +112,9 @@ export default function Forumtopic() {
       Forum_ID: forumTopic?.id,
       User_Email: user?.email,
       User_Pfp: UserInfo[0].Pfp,
-      Time: moment().format('MMMM Do YYYY, h:mm a'),
+      Time: moment().format("MMMM Do YYYY, h:mm a"),
+      PostImg: Url,
+      Reply_ID: reply,
     });
   };
 
@@ -97,11 +155,17 @@ export default function Forumtopic() {
     const userProf = posts.filter((i) => i?.Forum_ID == forumTopic?.id);
 
     // const sortedMessages = userProf.sort((a, b) => {
-    //  let 
+    //  let
     //   })
     // console.log(sortedMessages);
-     setPosts(userProf);
+    setPosts(userProf);
   };
+  // Add reply Modal
+
+  // const changeVal = (p) => setReply(p);
+  const [open5, setOpen5] = React.useState(false);
+  const handleOpen5 = () => setOpen5(true);
+  const handleClose5 = () => setOpen5(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -138,7 +202,7 @@ export default function Forumtopic() {
             boxShadow: "0px 0px 10px black",
             margin: "50px",
             // minHeight: "200px",
-            paddingBottom : '10px'
+            paddingBottom: "10px",
           }}
         >
           <div
@@ -206,12 +270,11 @@ export default function Forumtopic() {
                     justifyContent: "space-evenly",
                     // alignItems: "center",
                     backgroundColor: "white",
-                    padding: '15px',
-                    
+                    padding: "15px",
                   }}
                 >
-                  <div style = {{display : 'flex', justifyContent: 'initial',}}>
-                  <h3>Add Post</h3>
+                  <div style={{ display: "flex", justifyContent: "initial" }}>
+                    <h3>Add Post</h3>
                   </div>
                   <div>
                     <TextField
@@ -225,6 +288,40 @@ export default function Forumtopic() {
                       }}
                     />
                   </div>
+                  {!image ? (
+                    <div>
+                      <Button
+                        style={{ color: "#2BAE66FF", margin: "5px" }}
+                        onClick={uploadImage}
+                      >
+                        <ExpandMoreIcon style={{ marginRight: "3px" }} />
+                        Add Image
+                      </Button>
+                    </div>
+                  ) : (
+                    <div>
+                      <Button
+                        style={{ color: "#2BAE66FF", margin: "5px" }}
+                        onClick={CancelUpload}
+                      >
+                        <ExpandLessIcon style={{ marginRight: "3px" }} />
+                        Add Image
+                      </Button>
+                      <form
+                        onSubmit={formHandler}
+                        style={{ border: "1px solid black", marginTop: "10px" }}
+                      >
+                        <h3>Add image</h3>
+                        <input type="file" onChange={HandleUpload} />
+                        <Button style={{ color: "orange" }} type="submit">
+                          <CloudUploadIcon style={{ marginRight: "3px" }} />
+                          upload
+                        </Button>
+                        <h3>Uploaded{progress}%</h3>
+                      </form>
+                    </div>
+                  )}
+
                   <div
                     style={{
                       display: "flex",
@@ -268,14 +365,14 @@ export default function Forumtopic() {
             flexDirection: "column",
             minHeight: "200px",
             backgroundColor: "#2563eb",
-            
+
             margin: "50px",
             // border: "2px solid #548CCB",
             borderRadius: "10px",
           }}
         >
-          <div style = {{color : 'white'}}>
-          <h2>Posts</h2>
+          <div style={{ color: "white" }}>
+            <h2>Posts</h2>
           </div>
           {Posts.map((item, key) => {
             return (
@@ -314,12 +411,23 @@ export default function Forumtopic() {
                     src={item.User_Pfp}
                     alt=""
                   />
-                  <div style = {{display : 'flex', flexDirection : 'row'}}>
-                    <h4 style={{ marginLeft: "5px", marginRight : '10px' }}>{item.User_Email}</h4>
-                    <h5 style = {{color : "gray"}}>{item.Time}</h5>
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    <h4 style={{ marginLeft: "5px", marginRight: "10px" }}>
+                      {item.User_Email}
+                    </h4>
+                    {item.Reply_ID ? (
+                      <div style = {{display : 'flex', flexDirection : 'row'}}>
+                        <h5 style={{ marginLeft: "5px",color : 'gray' ,marginRight: "10px" }}>
+                          
+                          replying to : {item.Reply_ID}
+                        </h5>
+                        <h5 style={{ color: "gray" }}>{item.Time}</h5>
+                      </div>
+                    ) : (
+                      <h5 style={{ color: "gray" }}>{item.Time}</h5>
+                    )}
                   </div>
                   {/* </div> */}
-                  
                 </div>
 
                 <div
@@ -337,6 +445,27 @@ export default function Forumtopic() {
                   </p>
                   {/* <Button style={{ marginLeft: "5px" }}>reply</Button> */}
                 </div>
+                {item.PostImg ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      alignContent: "left",
+                      marginLeft: "15px",
+                    }}
+                  >
+                    <img
+                      style={{
+                        height: "250px",
+                        width: "250px",
+                      }}
+                      src={item.PostImg}
+                      alt=""
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )}
 
                 <div
                   style={{
@@ -358,7 +487,7 @@ export default function Forumtopic() {
                           border: "none",
                           color: "#4F18FB",
                           cursor: "pointer",
-                          marginRight: '5px',
+                          marginRight: "5px",
                         }}
                         onClick={() => updatePost(key)}
                       >
@@ -367,7 +496,7 @@ export default function Forumtopic() {
                       <Button
                         style={{
                           border: "none",
-                          marginLeft: '5px',
+                          marginLeft: "5px",
                           color: "#FB1871 ",
                           cursor: "pointer",
                         }}
@@ -388,13 +517,22 @@ export default function Forumtopic() {
                           border: "none",
                           color: "red",
                           cursor: "pointer",
-                          marginRight: '5px',
+                          marginRight: "5px",
                         }}
                       >
                         <FlagIcon />
                       </Button>
-                      <Button style = {{border : 'none',  color : '#2BAE66FF', marginLeft : '5px'}}>
-                        <SendIcon/>
+                      <Button
+                        style={{
+                          border: "none",
+                          color: "#2BAE66FF",
+                          marginLeft: "5px",
+                        }}
+                        onClick={() => {
+                          handleOpen5(), setReply(item.User_Email);
+                        }}
+                      >
+                        <SendIcon />
                       </Button>
                     </div>
                   )}
@@ -411,6 +549,110 @@ export default function Forumtopic() {
           close={handleClose2}
           Post={updatedPost.post}
         />
+        <Modal open={open5} onClose={handleClose5}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-evenly",
+                // alignItems: "center",
+                backgroundColor: "white",
+                padding: "15px",
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "initial" }}>
+                <h3>Add Reply</h3>
+              </div>
+              <div>
+                <TextField
+                  style={{ width: "600px" }}
+                  label="What's on your mind?"
+                  rows={5}
+                  multiline
+                  required
+                  onChange={(event) => {
+                    setNewPost(event.target.value);
+                  }}
+                />
+              </div>
+              {!image ? (
+                <div>
+                  <Button
+                    style={{ color: "#2BAE66FF", margin: "5px" }}
+                    onClick={uploadImage}
+                  >
+                    <ExpandMoreIcon style={{ marginRight: "3px" }} />
+                    Add Image
+                  </Button>
+                </div>
+              ) : (
+                <div>
+                  <Button
+                    style={{ color: "#2BAE66FF", margin: "5px" }}
+                    onClick={CancelUpload}
+                  >
+                    <ExpandLessIcon style={{ marginRight: "3px" }} />
+                    Add Image
+                  </Button>
+                  <form
+                    onSubmit={formHandler}
+                    style={{ border: "1px solid black", marginTop: "10px" }}
+                  >
+                    <h3>Add image</h3>
+                    <input type="file" onChange={HandleUpload} />
+                    <Button style={{ color: "orange" }} type="submit">
+                      <CloudUploadIcon style={{ marginRight: "3px" }} />
+                      upload
+                    </Button>
+                    <h3>Uploaded{progress}%</h3>
+                  </form>
+                </div>
+              )}
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  margin: "10px",
+                }}
+              >
+                <Button
+                  style={{
+                    backgroundColor: "blue",
+                    color: "white",
+                    boxShadow: "0px 0px 5px black",
+                    marginRight: "5px",
+                  }}
+                  onClick={PostQuery}
+                >
+                  Post
+                </Button>
+                <Button
+                  style={{
+                    backgroundColor: "red",
+                    color: "white",
+                    boxShadow: "0px 0px 5px black",
+                    marginLeft: "5px",
+                  }}
+                  onClick={handleClose5}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </div>
+        </Modal>
       </div>
     </div>
   );
