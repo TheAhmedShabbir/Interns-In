@@ -416,9 +416,14 @@ export default function Forumtopic() {
                       {item.User_Email}
                     </h4>
                     {item.Reply_ID ? (
-                      <div style = {{display : 'flex', flexDirection : 'row'}}>
-                        <h5 style={{ marginLeft: "5px",color : 'gray' ,marginRight: "10px" }}>
-                          
+                      <div style={{ display: "flex", flexDirection: "row" }}>
+                        <h5
+                          style={{
+                            marginLeft: "5px",
+                            color: "gray",
+                            marginRight: "10px",
+                          }}
+                        >
                           replying to : {item.Reply_ID}
                         </h5>
                         <h5 style={{ color: "gray" }}>{item.Time}</h5>
