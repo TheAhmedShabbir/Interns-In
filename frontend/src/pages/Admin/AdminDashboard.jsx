@@ -179,11 +179,14 @@ export default function AdminDashboard() {
             marginTop: "50px",
             justifyContent: "center",
             alignItems: "center",
+            width: "100%",
+            marginLeft: "auto",
+            marginRight: "auto",
           }}
         >
           <div
             style={{
-              marginRight: "60px",
+              marginRight: "40px",
             }}
           >
             <img
@@ -203,7 +206,7 @@ export default function AdminDashboard() {
           <div
             style={{
               borderRadius: "10px",
-              padding: "15px",
+              padding: "10px",
               backgroundColor: "#ef4444",
               margin: "10px",
               boxShadow: "0 0 10px #ccc",
@@ -212,16 +215,23 @@ export default function AdminDashboard() {
             }}
           >
             <Typography
-              sx={{ marginTop: "20px", marginRight: "5vh", fontSize: "18px" }}
+              sx={{
+                display: "flex",
+                marginLeft: "10%",
+                marginTop: "20px",
+                fontSize: "18px",
+              }}
             >
               Pending Approvals
             </Typography>
-            <h2 style={{ marginRight: "20vh" }}>{companiesApplied?.length}</h2>
+            <h2 style={{ display: "flex", marginLeft: "10%" }}>
+              {companiesApplied?.length}
+            </h2>
           </div>
           <div
             style={{
               borderRadius: "10px",
-              padding: "15px",
+              padding: "10px",
               backgroundColor: "#a855f7",
               margin: "10px",
               boxShadow: "0 0 10px #ccc",
@@ -230,16 +240,23 @@ export default function AdminDashboard() {
             }}
           >
             <Typography
-              sx={{ marginTop: "20px", marginRight: "10vh", fontSize: "18px" }}
+              sx={{
+                display: "flex",
+                marginLeft: "10%",
+                marginTop: "20px",
+                fontSize: "18px",
+              }}
             >
               Jobs Posted
             </Typography>
-            <h2 style={{ marginRight: "20vh" }}>{jobsPosted?.length}</h2>
+            <h2 style={{ display: "flex", marginLeft: "10%" }}>
+              {jobsPosted?.length}
+            </h2>
           </div>
           <div
             style={{
               borderRadius: "10px",
-              padding: "15px",
+              padding: "10px",
               backgroundColor: "#22c55e",
               margin: "10px",
               boxShadow: "0 0 10px #ccc",
@@ -248,16 +265,23 @@ export default function AdminDashboard() {
             }}
           >
             <Typography
-              sx={{ marginTop: "20px", marginRight: "6vh", fontSize: "18px" }}
+              sx={{
+                display: "flex",
+                marginLeft: "10%",
+                marginTop: "20px",
+                fontSize: "18px",
+              }}
             >
               Users Registered
             </Typography>
-            <h2 style={{ marginRight: "20vh" }}>{usersRegistered?.length}</h2>
+            <h2 style={{ display: "flex", marginLeft: "10%" }}>
+              {usersRegistered?.length}
+            </h2>
           </div>
           <div
             style={{
               borderRadius: "10px",
-              padding: "15px",
+              padding: "10px",
               backgroundColor: "#f59e0b",
               margin: "10px",
               boxShadow: "0 0 10px #ccc",
@@ -266,11 +290,18 @@ export default function AdminDashboard() {
             }}
           >
             <Typography
-              sx={{ marginTop: "20px", marginRight: "2vh", fontSize: "18px" }}
+              sx={{
+                display: "flex",
+                marginLeft: "10%",
+                marginTop: "20px",
+                fontSize: "18px",
+              }}
             >
               Companies Registered
             </Typography>
-            <h2 style={{ marginRight: "20vh" }}>{companies?.length}</h2>
+            <h2 style={{ display: "flex", marginLeft: "10%" }}>
+              {companies?.length}
+            </h2>
           </div>
         </div>
         <div
@@ -281,12 +312,13 @@ export default function AdminDashboard() {
             marginTop: "30px",
             borderRadius: "10px",
             justifyContent: "center",
+            width: "100%",
           }}
         >
           <div
             style={{
               borderRadius: "10px",
-              width: "100vh",
+              width: "60%",
               backgroundColor: "#fff",
               boxShadow: "0 0 10px #ccc",
               padding: "15px",
@@ -299,7 +331,7 @@ export default function AdminDashboard() {
           <div
             style={{
               borderRadius: "10px",
-              width: "50vh",
+              width: "30%",
               margin: "10px",
               backgroundColor: "#fff",
               boxShadow: "0 0 10px #ccc",

@@ -656,7 +656,6 @@ export default function UserHomepage() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-
               // width: "300px",
             }}
           >
@@ -732,7 +731,7 @@ export default function UserHomepage() {
                 >
                   <b>{UserInfo?.FirstName + " " + UserInfo?.LastName}</b>
                 </Link>
-                <Typography>{UserInfo?.bio}</Typography>
+                <Typography fontSize="14px">{UserInfo?.bio}</Typography>
               </div>
             </div>
 
@@ -971,15 +970,34 @@ export default function UserHomepage() {
                       <div
                         style={{
                           display: "flex",
-                          justifyContent: "space-between",
+                          marginTop: "10px",
                         }}
                       >
-                        <h2 style={{ marginLeft: "20px" }}>
+                        <Link
+                          style={{
+                            color: "#2563eb",
+                            textDecoration: "none",
+                            fontSize: "18px",
+                            marginLeft: "20px",
+                          }}
+                          to={`/${job?.companyId}`}
+                        >
+                          {job.postedby}
+                        </Link>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          marginTop: "-15px",
+                        }}
+                      >
+                        <h4 style={{ marginLeft: "22px" }}>
                           {job.Title},{" "}
                           <span style={{ color: "green" }}>
                             {job.Salary}pkr
                           </span>
-                        </h2>
+                        </h4>
 
                         <div
                           style={{
@@ -990,25 +1008,6 @@ export default function UserHomepage() {
                           <LocationOnOutlinedIcon color="primary" />
                           <h4>{job.City}</h4>
                         </div>
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                        }}
-                      >
-                        <Link
-                          style={{
-                            color: "#2563eb",
-                            textDecoration: "none",
-                            fontSize: "small",
-                            marginLeft: "23px",
-                            marginTop: "-15px",
-                            marginBottom: "10px",
-                          }}
-                          to={`/${job?.companyId}`}
-                        >
-                          {job.postedby}
-                        </Link>
                       </div>
 
                       <Typography
