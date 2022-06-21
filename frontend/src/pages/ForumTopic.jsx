@@ -48,17 +48,7 @@ export default function Forumtopic() {
     setUserInfo(userData);
   };
 
-  // Get User Posts from database
-
-  // const getPosts = async () => {
-  //   const data = await getDocs(PostCollection);
-  //   const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-
-  //   console.log(Posts);
-
-  // };
-
-  // Post user posts in the database.
+ 
 
   const PostQuery = async () => {
     await addDoc(PostCollection, {

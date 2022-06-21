@@ -9,6 +9,9 @@ import { onAuthStateChanged } from "firebase/auth";
 import CompanyHeader from "../Components/Company/CompanyHeader";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import moment from 'moment';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+
 
 export default function Forums() {
   const navigate = useNavigate();
@@ -31,12 +34,14 @@ export default function Forums() {
       TopicTitle: NewTopic,
       TopicDescription: NewDescription,
       Post_Email: user.email,
+      Time :  moment().format('MMMM Do YYYY, h:mm a'),
     });
     await addDoc(forumTopicCollection, {
       Description: NewDescription,
     });
   };
-  //ge User posts
+
+  //get User posts
   const posts = collection(db, "Forum Topic");
   const [postsData, setPostsData] = useState([]);
 
@@ -193,7 +198,7 @@ export default function Forums() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    alignItems: "center",
+                    // alignItems: "center",
                     backgroundColor: "white",
                     height: "250px",
                     width: "300px",
@@ -203,8 +208,10 @@ export default function Forums() {
                   }}
                   key={key}
                 >
-                  
+                  <div style = {{display : 'flex', flexDirection: 'column', justifyContent : 'flex-start'}}>
                   <h2>{forum.TopicTitle}</h2>
+                  <h5 style = {{color : 'GrayText'}}>Posted on : {forum.Time}</h5>
+                  </div>
                   {postsData.map((post, key) => {
                     return (
 
@@ -221,6 +228,7 @@ export default function Forums() {
                     style={{ margin: "15px", backgroundColor: "#2BAE66FF", color : 'white', boxShadow: "0 0 5px black" }}
                     variant="contained"
                   >
+                    <VisibilityIcon style = {{marginRight: '5px'}}/>
                     View Discussion
                   </Button>
                 </div>
