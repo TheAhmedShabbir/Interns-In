@@ -54,7 +54,7 @@ export default function UserAbout() {
   const [loading, setLoading] = useState(true);
 
   // Education Modal
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -63,7 +63,6 @@ export default function UserAbout() {
   const [UserEducation, setUserEducation] = useState([]);
   const [Degree, setDegree] = useState("");
   const [Institute, setInstitute] = useState("");
-  const [Status, setStatus] = useState("");
   const [Duration, setDuration] = useState("");
 
   // / Get User ID
@@ -93,7 +92,6 @@ export default function UserAbout() {
     await addDoc(EduCollection, {
       Degree_Name: Degree,
       Institute_name: Institute,
-      Status: Status,
       Duration: Duration,
       User_Email: user?.email,
     });
@@ -392,7 +390,276 @@ export default function UserAbout() {
               </Typography>
             </div>
           </div>
+          <h2 style={{ marginTop: "40px" }}>Education</h2>
+          <div
+            style={{
+              backgroundColor: "#fff",
+              width: "70%",
+              marginLeft: "auto",
+              marginRight: "auto",
+              borderRadius: "8px",
+              boxShadow: "0 0 10px #ccc",
+              display: "flex",
+              flexDirection: "column",
+              padding: "20px",
+            }}
+          >
+            <div>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button
+                  onClick={handleOpen}
+                  startIcon={<AddCircleOutlineIcon />}
+                >
+                  Add
+                </Button>
+              </div>
+              <div style={{ margin: "10px", marginBottom: "20px" }}>
+                {UserEducation.map((item, key) => {
+                  return (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                      key={key}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "start",
+                          marginLeft: "20px",
+                        }}
+                      >
+                        <h3>{item.Institute_name}</h3>
+                        <Typography
+                          style={{ marginTop: "-15px" }}
+                          fontSize="14px"
+                        >
+                          {item.Degree_Name}
+                        </Typography>
+                        <Typography>{item.Duration}</Typography>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Button size="small" onClick={() => updateEdu(key)}>
+                          <EditIcon />
+                        </Button>
+                        <Button
+                          size="small"
+                          onClick={() => {
+                            deleteEdu(key);
+                          }}
+                        >
+                          <DeleteIcon color="error" />
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <h2 style={{ marginTop: "40px" }}>Experience</h2>
+          <div
+            style={{
+              backgroundColor: "#fff",
+              width: "70%",
+              marginLeft: "auto",
+              marginRight: "auto",
+              borderRadius: "8px",
+              boxShadow: "0 0 10px #ccc",
+              display: "flex",
+              flexDirection: "column",
+              padding: "20px",
+            }}
+          >
+            <div>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button
+                  onClick={handleOpen1}
+                  startIcon={<AddCircleOutlineIcon />}
+                >
+                  Add
+                </Button>
+              </div>
+              <div style={{ margin: "10px", marginBottom: "20px" }}>
+                {UserExperience.map((item, key) => {
+                  return (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                      key={key}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "start",
+                          marginLeft: "20px",
+                        }}
+                      >
+                        <h3>{item.Company_Name}</h3>
+                        <Typography
+                          style={{ marginTop: "-15px" }}
+                          fontSize="14px"
+                        >
+                          {item.Position}
+                        </Typography>
+                        <Typography>{item.Duration}</Typography>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Button size="small" onClick={() => updateExp(key)}>
+                          <EditIcon />
+                        </Button>
+                        <Button
+                          size="small"
+                          onClick={() => {
+                            deleteExp(key);
+                          }}
+                        >
+                          <DeleteIcon color="error" />
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </div>
+
+        <Modal open={open1} onClose={handleClose1}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              boxShadow: 24,
+              p: 4,
+              borderRadius: "8px",
+            }}
+          >
+            <h2>Add Experience</h2>
+            <TextField
+              style={{ marginBottom: "10px" }}
+              fullWidth
+              label="Company Name"
+              onChange={(event) => {
+                setCompany(event.target.value);
+              }}
+            />
+            <TextField
+              style={{ marginBottom: "10px" }}
+              fullWidth
+              label="Position"
+              onChange={(event) => {
+                setPosition(event.target.value);
+              }}
+            />
+            <TextField
+              style={{ marginBottom: "10px" }}
+              fullWidth
+              label="Duration"
+              onChange={(event) => {
+                setDuration2(event.target.value);
+              }}
+            />
+            <TextField
+              style={{ marginBottom: "10px" }}
+              fullWidth
+              label="Certified"
+              onChange={(event) => {
+                setCertified(event.target.value);
+              }}
+            />
+
+            <Button onClick={postExp}>Add</Button>
+            <Button onClick={handleClose1}>Cancel</Button>
+          </Box>
+        </Modal>
+
+        <ExpEdit
+          id={editExperience.id}
+          key={editExperience.id}
+          open={open5}
+          close={handleClose5}
+          company={editExperience.Company_Name}
+          position={editExperience.Position}
+          duration={editExperience.Duration}
+          certified={editExperience.Certified}
+        />
+
+        <Modal open={open} onClose={handleClose}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              boxShadow: 24,
+              p: 4,
+              borderRadius: "8px",
+            }}
+          >
+            <h2>Add Education</h2>
+            <TextField
+              style={{ marginBottom: "10px" }}
+              fullWidth
+              label="Degree Title"
+              onChange={(event) => {
+                setDegree(event.target.value);
+              }}
+            />
+            <TextField
+              style={{ marginBottom: "10px" }}
+              fullWidth
+              label="Institute Name"
+              onChange={(event) => {
+                setInstitute(event.target.value);
+              }}
+            />
+            <TextField
+              style={{ marginBottom: "10px" }}
+              fullWidth
+              label="Duration"
+              onChange={(event) => {
+                setDuration(event.target.value);
+              }}
+            />
+
+            <Button onClick={() => postEducation(userProfile.id)}>Add</Button>
+            <Button onClick={handleClose}>Cancel</Button>
+          </Box>
+        </Modal>
+
+        <EduEdit
+          id={editEducation.id}
+          key={editEducation.id}
+          open={open4}
+          close={handleClose4}
+          degree={editEducation.Degree_Name}
+          Institute={editEducation.Institute_name}
+          duration={editEducation.Duration}
+        />
         <Modal open={open3} onClose={handleClose3}>
           <Box
             sx={{
@@ -430,294 +697,7 @@ export default function UserAbout() {
           main={editAbout.Main}
           about={editAbout.About}
         />
-        ;
       </div>
     );
   }
 }
-
-// <div
-//   style={{
-//     display: "flex",
-//     flexDirection: "column",
-//     alignItems: "center",
-//     marginTop: "10px",
-//   }}
-// >
-//   <div
-//     style={{
-//       // minHeight: "300px",
-//       width: "1200px",
-//       borderRadius: "10px",
-//       backgroundColor: "#fff",
-//       margin: "10px",
-//       padding: "15px",
-//       backgroundColor: "white",
-//       boxShadow: "0 0 10px #ccc",
-//     }}
-//   >
-//     <div
-//       style={{
-//         display: "flex",
-//         flexDirection: "row",
-//         alignContent: "flex-start",
-//         alignItems: "center",
-//         flexWrap: "wrap",
-//         justifyContent: "space-between",
-//         backgroundColor: "white",
-//       }}
-//     >
-//       <h2 style={{ margin: "10px", padding: "10px" }}>Education</h2>
-//       <div style={{ padding: "10px", margin: "10px" }}>
-//         <Button style={{ margin: "10px" }} onClick={handleOpen}>
-//           <AddCircleOutlineIcon />
-//         </Button>
-//       </div>
-//     </div>
-//     <div>
-//       <Modal open={open} onClose={handleClose}>
-//         <Box sx={style}>
-//           <h2>Add Education</h2>
-//           <TextField
-//             fullWidth
-//             label="Degree Title"
-//             onChange={(event) => {
-//               setDegree(event.target.value);
-//             }}
-//           />
-//           <TextField
-//             fullWidth
-//             label="Institute Name"
-//             onChange={(event) => {
-//               setInstitute(event.target.value);
-//             }}
-//           />
-//           <TextField
-//             fullWidth
-//             label="Duration"
-//             onChange={(event) => {
-//               setDuration(event.target.value);
-//             }}
-//           />
-//           <TextField
-//             fullWidth
-//             label="Status"
-//             onChange={(event) => {
-//               setStatus(event.target.value);
-//             }}
-//           />
-//           <Button onClick={handleClose}>Cancel</Button>
-//           <Button onClick={() => postEducation(userProfile[0].id)}>
-//             Add
-//           </Button>
-//         </Box>
-//       </Modal>
-//     </div>
-//     {/* Education Block */}
-//     {UserEducation &&
-//       UserEducation.map((item, key) => {
-//         return (
-//           <div
-//             style={{
-//               display: "flex",
-//               flexDirection: "row",
-//               border: "2px solid #548CCB",
-//               borderRadius: "15px",
-//             }}
-//           >
-//             <div
-//               style={{
-//                 display: "flex",
-//                 flex: "1.90",
-//                 flexDirection: "column",
-//                 justifyContent: "space-evenly",
-//                 alignItems: "start",
-//                 margin: "25px",
-//                 paddingLeft: "25px",
-//                 backgroundColor: "white",
-//               }}
-//               key={key}
-//             >
-//               <h3>Degree Name :{item.Degree_Name}</h3>
-//               <h3>Institution Name : {item.Institute_name}</h3>
-//               <h3>Status : {item.Status}</h3>
-//               <h3>Duration : {item.Duration}</h3>
-//             </div>
-//             <div
-//               style={{
-//                 display: "flex",
-//                 flex: "0.10",
-//                 flexDirection: "column",
-//                 margin: "25px",
-//                 paddingLeft: "25px",
-//                 backgroundColor: "white",
-//               }}
-//             >
-//               <Button onClick={() => updateEdu(key)}>
-//                 <EditIcon />
-//               </Button>
-//               <Button
-//                 onClick={() => {
-//                   deleteEdu(key);
-//                 }}
-//               >
-//                 <DeleteIcon />
-//               </Button>
-//             </div>
-//           </div>
-//         );
-//       })}
-//     <EduEdit
-//       id={editEducation.id}
-//       key={editEducation.id}
-//       open={open4}
-//       close={handleClose4}
-//       degree={editEducation.Degree_Name}
-//       Institute={editEducation.Institute_name}
-//       duration={editEducation.Duration}
-//       status={editEducation.Status}
-//     />
-//   </div>
-
-//   <div
-//     style={{
-//       // height: "300px",
-//       width: "1200px",
-//       borderRadius: "10px",
-//       backgroundColor: "#fff",
-//       margin: "10px",
-//       padding: "15px",
-//       backgroundColor: "white",
-//       boxShadow: "0 0 10px #ccc",
-//     }}
-//   >
-//     <div
-//       style={{
-//         display: "flex",
-//         flexDirection: "row",
-//         alignContent: "flex-start",
-//         alignItems: "center",
-//         flexWrap: "wrap",
-//         justifyContent: "space-between",
-//         backgroundColor: "white",
-//       }}
-//     >
-//       <h2 style={{ margin: "10px", padding: "10px" }}>Experience</h2>
-//       <div style={{ padding: "10px", margin: "10px" }}>
-//         <Button style={{ margin: "10px" }} onClick={handleOpen1}>
-//           <AddCircleOutlineIcon />
-//         </Button>
-//       </div>
-//     </div>
-//     <div>
-//       <Modal
-//         open={open1}
-//         onClose={handleClose1}
-//         // aria-labelledby="modal-modal-title"
-//         // aria-describedby="modal-modal-description"
-//       >
-//         <Box sx={style}>
-//           {/* <Form> */}
-//           <h2>Add Experience</h2>
-//           <TextField
-//             fullWidth
-//             label="Company Name"
-//             onChange={(event) => {
-//               setCompany(event.target.value);
-//             }}
-//           />
-//           <TextField
-//             fullWidth
-//             label="Position"
-//             onChange={(event) => {
-//               setPosition(event.target.value);
-//             }}
-//           />
-//           <TextField
-//             fullWidth
-//             label="Duration"
-//             onChange={(event) => {
-//               setDuration2(event.target.value);
-//             }}
-//           />
-//           <TextField
-//             fullWidth
-//             label="Certified"
-//             onChange={(event) => {
-//               setCertified(event.target.value);
-//             }}
-//           />
-
-//           <Button onClick={handleClose1}>Cancel</Button>
-//           <Button onClick={postExp}>Add</Button>
-//           {/* </Form> */}
-//         </Box>
-//       </Modal>
-//     </div>
-
-//     {/*User Eperience Block*/}
-//     {UserExperience &&
-//       UserExperience.map((item, key) => {
-//         return (
-//           <div
-//             style={{
-//               display: "flex",
-//               flexDirection: "row",
-//               border: "2px solid #548CCB",
-//               borderRadius: "15px",
-//             }}
-//           >
-//             <div
-//               style={{
-//                 display: "flex",
-//                 flex: "1.90",
-//                 flexDirection: "column",
-//                 justifyContent: "space-evenly",
-//                 alignItems: "start",
-//                 margin: "25px",
-//                 paddingLeft: "25px",
-
-//                 backgroundColor: "white",
-//               }}
-//               key={key}
-//             >
-//               <h3>Company Name :{item.Company_Name}</h3>
-//               <h3>Position Name : {item.Position}</h3>
-//               <h3>Duration : {item.Duration}</h3>
-//               <h3>Certified : {item.Certified}</h3>
-//             </div>
-//             <div
-//               style={{
-//                 display: "flex",
-//                 flex: "0.10",
-//                 flexDirection: "column",
-//                 // justifyContent : ''
-//                 // // alignItems : 'start',
-//                 margin: "25px",
-//                 paddingLeft: "25px",
-
-//                 backgroundColor: "white",
-//               }}
-//             >
-//               <Button onClick={() => updateExp(key)}>
-//                 <EditIcon />
-//               </Button>
-//               <Button onClick={() => deleteExp(key)}>
-//                 <DeleteIcon />
-//               </Button>
-//             </div>
-//           </div>
-//         );
-//       })}
-//     <ExpEdit
-//       id={editExperience.id}
-//       key={editExperience.id}
-//       open={open5}
-//       close={handleClose5}
-//       company={editExperience.Company_Name}
-//       position={editExperience.Position}
-//       duration={editExperience.Duration}
-//       certified={editExperience.Certified}
-//     />
-//   </div>
-// </div>

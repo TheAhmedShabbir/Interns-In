@@ -11,17 +11,16 @@ export default function ExpEdit({
   certified,
   open,
   close,
-  id
+  id,
 }) {
   const [newCompany, setNewCompany] = useState();
   const [newPosition, setNewPosition] = useState();
   const [newDuration, setNewDuration] = useState();
   const [newCertified, setNewCertified] = useState();
 
-
   const updateCompany = async (id, nCompany) => {
     if (nCompany == undefined) {
-        nCompany = company;
+      nCompany = company;
     }
     const EXPcollection = doc(db, "UserProfile", id);
     const nf = { Company_Name: nCompany };
@@ -30,7 +29,7 @@ export default function ExpEdit({
 
   const updatePosition = async (id, nPosition) => {
     if (nPosition == undefined) {
-        nPosition = position;
+      nPosition = position;
     }
     const EXPcollection = doc(db, "UserProfile", id);
     const nf = { Position_Name: nPosition };
@@ -48,13 +47,12 @@ export default function ExpEdit({
 
   const updateCertified = async (id, nCertified) => {
     if (nCertified == undefined) {
-        nCertified = certified;
+      nCertified = certified;
     }
     const EXPcollection = doc(db, "UserProfile", id);
     const nf = { Certified: nCertified };
     updateDoc(EXPcollection, nf);
   };
-
 
   const editExp = async () => {
     updateCompany(id, newCompany);
@@ -65,53 +63,54 @@ export default function ExpEdit({
 
   return (
     <div>
-
-
-<Modal
-                      open={open}
-                      onClose={close}
-                       >
-                         <Box sx={{ position: 'absolute',
-                                    top: '50%',
-                                    left: '50%',
-                                    transform: 'translate(-50%, -50%)',
-                                    width: 400,
-                                    bgcolor: 'background.paper',
-                                    border: '2px solid #548CCB',
-                                    boxShadow: 24,
-                                    p: 4,}}>
-                          {/* <Form> */}
-                            <h2>Add Education</h2>
-                            <TextField
-                            fullWidth 
-                            label = "Company Name"
-                            defaultValue={company}
-                            onChange={(e) => setNewCompany(e.target.value)}
-                            />
-                            <TextField
-                            fullWidth 
-                            label = "Position Name"
-                            defaultValue={position}
-                            onChange={(e) => setNewPosition(e.target.value)}
-                            />
-                            <TextField
-                            fullWidth 
-                            label = "Duration"
-                            defaultValue={duration}
-                            onChange={(e) => setNewDuration(e.target.value)}
-                            />
-                            <TextField
-                            fullWidth 
-                            label = "Certified"
-                            defaultValue={certified}
-                            onChange={(e) => setNewCertified(e.target.value)}
-                            />
-                            <Button onClick = {close}>Cancel</Button>
-                            <Button onClick={() => editExp()}>Add</Button>
-                          {/* </Form> */}
-                        </Box>
-                       </Modal>
-
+      <Modal open={open} onClose={close}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: "8px",
+          }}
+        >
+          {/* <Form> */}
+          <h2>Add Education</h2>
+          <TextField
+            style={{ marginBottom: "10px" }}
+            fullWidth
+            label="Company Name"
+            defaultValue={company}
+            onChange={(e) => setNewCompany(e.target.value)}
+          />
+          <TextField
+            style={{ marginBottom: "10px" }}
+            fullWidth
+            label="Position Name"
+            defaultValue={position}
+            onChange={(e) => setNewPosition(e.target.value)}
+          />
+          <TextField
+            style={{ marginBottom: "10px" }}
+            fullWidth
+            label="Duration"
+            defaultValue={duration}
+            onChange={(e) => setNewDuration(e.target.value)}
+          />
+          <TextField
+            style={{ marginBottom: "10px" }}
+            fullWidth
+            label="Certified"
+            defaultValue={certified}
+            onChange={(e) => setNewCertified(e.target.value)}
+          />
+          <Button onClick={close}>Cancel</Button>
+          <Button onClick={() => editExp()}>Add</Button>
+        </Box>
+      </Modal>
     </div>
   );
 }

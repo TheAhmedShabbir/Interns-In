@@ -7,7 +7,6 @@ import { db } from "../../firebase-config";
 export default function EduEdit({
   degree,
   Institute,
-  status,
   duration,
   open,
   close,
@@ -15,9 +14,8 @@ export default function EduEdit({
 }) {
   const [newDegree, setNewDegree] = useState();
   const [newInstitute, setNewInstitute] = useState();
-  const [newStatus, setNewStatus] = useState();
   const [newDuration, setNeDuration] = useState();
-  
+
   const updateDegree = async (id, nDegree) => {
     if (nDegree == undefined) {
       nDegree = degree;
@@ -45,20 +43,10 @@ export default function EduEdit({
     updateDoc(EDUcollection, nf);
   };
 
-  const updateStatus = async (id, nStatus) => {
-    if (nStatus == undefined) {
-      nStatus = status;
-    }
-    const EDUcollection = doc(db, "UserEducation", id);
-    const nf = { Status: nStatus };
-    updateDoc(EDUcollection, nf);
-  };
-
   const editEdu = async () => {
     updateDegree(id, newDegree);
     updateInstitute(id, newInstitute);
     updateDuration(id, newDuration);
-    updateStatus(id, newStatus);
   };
 
   return (
@@ -77,7 +65,6 @@ export default function EduEdit({
             transform: "translate(-50%, -50%)",
             width: 400,
             bgcolor: "background.paper",
-            border: "2px solid #548CCB",
             boxShadow: 24,
             p: 4,
           }}
@@ -85,29 +72,27 @@ export default function EduEdit({
           {/* <Form> */}
           <h2>Add Education</h2>
           <TextField
+            style={{ marginBottom: "10px" }}
             fullWidth
             label="Degree Name"
             defaultValue={degree}
             onChange={(e) => setNewDegree(e.target.value)}
           />
           <TextField
+            style={{ marginBottom: "10px" }}
             fullWidth
             label="Institute Name"
             defaultValue={Institute}
             onChange={(e) => setNewInstitute(e.target.value)}
           />
           <TextField
+            style={{ marginBottom: "10px" }}
             fullWidth
             label="Duration"
             defaultValue={duration}
             onChange={(e) => setNewDuration(e.target.value)}
           />
-          <TextField
-            fullWidth
-            label="Status"
-            defaultValue={status}
-            onChange={(e) => setNewStatus(e.target.value)}
-          />
+
           <Button onClick={close}>Cancel</Button>
           <Button onClick={() => editEdu()}>Add</Button>
           {/* </Form> */}
