@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import moment from 'moment';
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import Loader from "../Components/Common/Loader";
 
 
 export default function Forums() {
@@ -88,7 +89,7 @@ export default function Forums() {
   if (loading) {
     return (
       <div>
-        <CircularProgress
+        {/* <CircularProgress
           sx={{
             position: "absolute",
             left: "50%",
@@ -97,7 +98,8 @@ export default function Forums() {
             height: "35px",
             width: "35px",
           }}
-        />
+        /> */}
+        <Loader/>
       </div>
     );
   } else {

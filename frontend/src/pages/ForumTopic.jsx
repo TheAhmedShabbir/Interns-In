@@ -31,6 +31,8 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../src/firebase-config";
 import { getDownloadURL } from "firebase/storage";
+import Loader from "../Components/Common/Loader";
+
 
 export default function Forumtopic() {
   //Database variables
@@ -44,6 +46,9 @@ export default function Forumtopic() {
   const [user, setUser] = useState({});
   const [Posts, setPosts] = useState([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+
+
 
   // Get User/Company To render respective header
   const getUserInfo = async () => {
@@ -159,6 +164,7 @@ export default function Forumtopic() {
     //   })
     // console.log(sortedMessages);
     setPosts(userProf);
+    setLoading(false);
   };
   // Add reply Modal
 
@@ -180,7 +186,14 @@ export default function Forumtopic() {
     });
   }, [user, forumTopic?.id]);
 
+  if (loading) {
   return (
+    <div>
+      <Loader/>
+    </div>
+  );
+     } else {
+    return (
     <div style={{ backgroundColor: "#f3f2ef" }}>
       {UserInfo[0]?.Role == "Company" ? (
         <div>
@@ -661,4 +674,5 @@ export default function Forumtopic() {
       </div>
     </div>
   );
+}
 }
