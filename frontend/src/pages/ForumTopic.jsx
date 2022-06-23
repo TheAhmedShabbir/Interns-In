@@ -32,6 +32,9 @@ import { ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../src/firebase-config";
 import { getDownloadURL } from "firebase/storage";
 import Loader from "../Components/Common/Loader";
+import ScrollButton from "../Components/Common/ScrollUp";
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+
 
 
 export default function Forumtopic() {
@@ -47,6 +50,44 @@ export default function Forumtopic() {
   const [Posts, setPosts] = useState([]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+
+
+
+// Scroll Up button
+const [visible, setVisible] = useState(false)
+  
+  const toggleVisible = () => {
+    const scrolled = document.documentElement.scrollTop;
+    if (scrolled > 300){
+      setVisible(true)
+    } 
+    else if (scrolled <= 300){
+      setVisible(false)
+    }
+  };
+  
+  const scrollToTop = () =>{
+    window.scrollTo({
+      top: 0, 
+      behavior: 'smooth'
+      /* you can also use 'auto' behaviour
+         in place of 'smooth' */
+    });
+  };
+  
+  window.addEventListener('scroll', toggleVisible);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -371,7 +412,7 @@ export default function Forumtopic() {
             </Modal>
           </div>
         </div>
-
+        
         <div
           style={{
             display: "flex",
@@ -387,6 +428,26 @@ export default function Forumtopic() {
           <div style={{ color: "white" }}>
             <h2>Posts</h2>
           </div>
+         
+          <Button
+            onClick={scrollToTop} 
+            style={{display: visible ? 'inline' : 'none',
+             position : 'fixed',
+            left: '50%',
+            bottom: '10px',
+            height: '30px',
+            fontSize: '20px',
+            zIndex: 100,
+            cursor: 'pointer',
+            backgroundColor: '#4F18FB',
+            color : 'white',
+            boxShadow: '0px 0px 10px black'
+          }}>
+            <ArrowDropUpIcon fontSize = 'medium' />
+            
+          </Button>
+          
+          
           {Posts.map((item, key) => {
             return (
               <div
