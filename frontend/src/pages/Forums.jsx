@@ -210,6 +210,9 @@ export default function Forums() {
                   }}
                   key={key}
                 >
+                  <div style = {{display : 'flex', maxWidth : '150px', maxHeight : '30px' ,backgroundColor : '#4F18FB', borderTopRightRadius: '25px', borderBottomRightRadius : '25px',}}>
+                    <p style = {{fontSize : '10px', color : 'white', marginLeft : '5px'}}>Type :</p>
+                  </div>
                   <div style = {{display : 'flex', flexDirection: 'column', justifyContent : 'flex-start'}}>
                   <h2>{forum.TopicTitle}</h2>
                   <h5 style = {{color : 'GrayText'}}>Posted on : {forum.Time}</h5>
