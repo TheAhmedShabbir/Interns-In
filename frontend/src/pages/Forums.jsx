@@ -50,10 +50,11 @@ export default function Forums() {
   const getForums = async () => {
     const data = await getDocs(forumsCollection);
     setForums(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    const q = await query(posts, where("Forum_ID", "==", false?.id));
+    // console.log(forums?.id);
+    // const q = await query(posts, where("Forum_ID", "==", id));
+    // const p = q.length
     setLoading(false);
-    setPostsData(q);
-
+    // setPostsData(q);
   };
 
   const getUserEmail = async () => {
