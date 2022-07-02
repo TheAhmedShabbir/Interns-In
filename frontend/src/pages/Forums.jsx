@@ -12,7 +12,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import moment from 'moment';
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Loader from "../Components/Common/Loader";
-
+import FormControlLabel from "@mui/material/FormControlLabel";
+import { FormControl } from "@mui/material";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 
 export default function Forums() {
   const navigate = useNavigate();
@@ -23,7 +26,7 @@ export default function Forums() {
   const [forums, setForums] = useState([]);
   const [user, setUser] = useState({});
   const [UserInfo, setUserInfo] = useState([]);
-
+  const [ForumType, setForumType] = useState("");
   const forumsCollection = collection(db, "Forums");
   const forumTopicCollection = collection(db, "Forum Topic");
   const UserCollection = collection(db, "UserProfile");
@@ -34,6 +37,7 @@ export default function Forums() {
     await addDoc(forumsCollection, {
       TopicTitle: NewTopic,
       TopicDescription: NewDescription,
+      Type : ForumType,
       Post_Email: user.email,
       Time :  moment().format('MMMM Do YYYY, h:mm a'),
     });
@@ -176,10 +180,52 @@ export default function Forums() {
               <Button>Event</Button>
               <Button>Document</Button> */}
               </div>
-              <div>
+              <div style = {{display : 'flex', flexDirection : 'row' , justifyContent : 'space-around',width : '100%'}}>
+              <FormControl>
+                <RadioGroup
+                  name="nameRadio"
+                  value={ForumType}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flex : '8',
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  <FormControlLabel
+                    value={"Announcement"}
+                    control={<Radio required={true} />}
+                    label={"Announcement"}
+                    onChange={(event) => {
+                      setForumType(event.target.value);
+                    }}
+                    // sx={{ marginRight: "150px" }}
+                  />
+                   <FormControlLabel
+                    value={"News"}
+                    control={<Radio required={true} />}
+                    label={"News"}
+                    onChange={(event) => {
+                      setForumType(event.target.value);
+                    }}
+                    // sx={{ marginRight: "150px" }}
+                  />
+                  <FormControlLabel
+                    value={"Query"}
+                    control={<Radio required={true} />}
+                    label={"Query"}
+                    onChange={(event) => {
+                      setForumType(event.target.value);
+                    }}
+                    sx={{ marginRight: "350px" }}
+                  />
+                </RadioGroup>
+              </FormControl>
+              <div style = {{display : 'flex', flex : '2'}}>
                 <Button onClick={StartTopic} variant="contained" style = {{boxShadow : "0px 0px 5px black"}}>
                   Post
                 </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -211,9 +257,20 @@ export default function Forums() {
                   }}
                   key={key}
                 >
-                  <div style = {{display : 'flex', maxWidth : '150px', maxHeight : '30px' ,backgroundColor : '#4F18FB', borderTopRightRadius: '25px', borderBottomRightRadius : '25px',}}>
-                    <p style = {{fontSize : '10px', color : 'white', marginLeft : '5px'}}>Type :</p>
+                  { forum.Type == "Announcement"? (
+                    <div style = {{display : 'flex', maxWidth : '150px', maxHeight : '30px' ,backgroundColor : 'orange', borderTopRightRadius: '25px', borderBottomRightRadius : '25px',}}>
+                    <p style = {{fontSize : '10px', color : 'white', marginLeft : '5px'}}>Type : Announcement</p>
                   </div>
+                  ) : forum.Type == "News" ? (
+                    <div style = {{display : 'flex', maxWidth : '150px', maxHeight : '30px' ,backgroundColor : 'green', borderTopRightRadius: '25px', borderBottomRightRadius : '25px',}}>
+                    <p style = {{fontSize : '10px', color : 'white', marginLeft : '5px'}}>Type : News</p>
+                  </div>
+                  ) : (
+                    <div style = {{display : 'flex', maxWidth : '150px', maxHeight : '30px' ,backgroundColor : 'red', borderTopRightRadius: '25px', borderBottomRightRadius : '25px',}}>
+                    <p style = {{fontSize : '10px', color : 'white', marginLeft : '5px'}}>Type : Query</p>
+                  </div>
+                  )}
+                  
                   <div style = {{display : 'flex', flexDirection: 'column', justifyContent : 'flex-start'}}>
                   <h2>{forum.TopicTitle}</h2>
                   <h5 style = {{color : 'GrayText'}}>Posted on : {forum.Time}</h5>
