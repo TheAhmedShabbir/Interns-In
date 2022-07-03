@@ -9,7 +9,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import CompanyHeader from "../Components/Company/CompanyHeader";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
-import moment from 'moment';
+import moment from "moment";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Loader from "../Components/Common/Loader";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -37,9 +37,9 @@ export default function Forums() {
     await addDoc(forumsCollection, {
       TopicTitle: NewTopic,
       TopicDescription: NewDescription,
-      Type : ForumType,
+      Type: ForumType,
       Post_Email: user.email,
-      Time :  moment().format('MMMM Do YYYY, h:mm a'),
+      Time: moment().format("MMMM Do YYYY, h:mm a"),
     });
     await addDoc(forumTopicCollection, {
       Description: NewDescription,
@@ -104,7 +104,7 @@ export default function Forums() {
             width: "35px",
           }}
         /> */}
-        <Loader/>
+        <Loader />
       </div>
     );
   } else {
@@ -130,6 +130,7 @@ export default function Forums() {
             minHeight: "100vh",
           }}
         >
+          <div style = {{display : 'flex', flexDirection : 'row', justifyContent: 'space-evenly' , backgroundColor : '#fafafa', width : '100%'}}>
           <div
             style={{
               display: "flex",
@@ -180,54 +181,123 @@ export default function Forums() {
               <Button>Event</Button>
               <Button>Document</Button> */}
               </div>
-              <div style = {{display : 'flex', flexDirection : 'row' , justifyContent : 'space-around',width : '100%'}}>
-              <FormControl>
-                <RadioGroup
-                  name="nameRadio"
-                  value={ForumType}
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flex : '8',
-                    justifyContent: "flex-start",
-                  }}
-                >
-                  <FormControlLabel
-                    value={"Announcement"}
-                    control={<Radio required={true} />}
-                    label={"Announcement"}
-                    onChange={(event) => {
-                      setForumType(event.target.value);
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  width: "100%",
+                }}
+              >
+                <FormControl>
+                  <RadioGroup
+                    name="nameRadio"
+                    value={ForumType}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      flex: "8",
+                      justifyContent: "flex-start",
                     }}
-                    // sx={{ marginRight: "150px" }}
-                  />
-                   <FormControlLabel
-                    value={"News"}
-                    control={<Radio required={true} />}
-                    label={"News"}
-                    onChange={(event) => {
-                      setForumType(event.target.value);
-                    }}
-                    // sx={{ marginRight: "150px" }}
-                  />
-                  <FormControlLabel
-                    value={"Query"}
-                    control={<Radio required={true} />}
-                    label={"Query"}
-                    onChange={(event) => {
-                      setForumType(event.target.value);
-                    }}
-                    sx={{ marginRight: "350px" }}
-                  />
-                </RadioGroup>
-              </FormControl>
-              <div style = {{display : 'flex', flex : '2'}}>
-                <Button onClick={StartTopic} variant="contained" style = {{boxShadow : "0px 0px 5px black"}}>
-                  Post
-                </Button>
+                  >
+                    <FormControlLabel
+                      value={"Announcement"}
+                      control={<Radio required={true} />}
+                      label={"Announcement"}
+                      onChange={(event) => {
+                        setForumType(event.target.value);
+                      }}
+                      // sx={{ marginRight: "150px" }}
+                    />
+                    <FormControlLabel
+                      value={"News"}
+                      control={<Radio required={true} />}
+                      label={"News"}
+                      onChange={(event) => {
+                        setForumType(event.target.value);
+                      }}
+                      // sx={{ marginRight: "150px" }}
+                    />
+                    <FormControlLabel
+                      value={"Query"}
+                      control={<Radio required={true} />}
+                      label={"Query"}
+                      onChange={(event) => {
+                        setForumType(event.target.value);
+                      }}
+                      sx={{ marginRight: "350px" }}
+                    />
+                  </RadioGroup>
+                </FormControl>
+                <div style={{ display: "flex", flex: "2" }}>
+                  <Button
+                    onClick={StartTopic}
+                    variant="contained"
+                    style={{ boxShadow: "0px 0px 5px black" }}
+                  >
+                    Post
+                  </Button>
                 </div>
               </div>
             </div>
+          </div>
+          <div style={{
+          display : 'flex', 
+          flexDirection : 'column', 
+          alignItems: "center",
+              marginTop: "50px",
+              padding: "15px",
+              height : '250px',
+              // minWidth: "750px",
+              backgroundColor: "white",
+              borderRadius: "10px",
+              boxShadow: "0 0 10px black",
+          }}>
+                <h3>Show only</h3>
+                <div style = {{display : 'flex', flexDirection : 'column'}}>
+                <FormControl>
+                  <RadioGroup
+                    name="nameRadio"
+                    value={ForumType}
+                    // sx={{
+                    //   display: "flex",
+                    //   flexDirection: "row",
+                    //   flex: "8",
+                    //   justifyContent: "flex-start",
+                    // }}
+                  >
+                    <FormControlLabel
+                      value={"Announcement"}
+                      control={<Radio required={true} />}
+                      label={"Announcements"}
+                      // onChange={(event) => {
+                      //   setForumType(event.target.value);
+                      // }}
+                      // sx={{ color : 'white'}}
+                    />
+                    <FormControlLabel
+                      value={"News"}
+                      control={<Radio required={true} />}
+                      label={"News"}
+                      // onChange={(event) => {
+                      //   setForumType(event.target.value);
+                      // }}
+                      // sx={{ color : 'white'}}
+                    />
+                    <FormControlLabel
+                      value={"Query"}
+                      control={<Radio required={true} />}
+                      label={"Query"}
+                      // onChange={(event) => {
+                      //   setForumType(event.target.value);
+                      // }}
+                      // sx={{ color : 'white'}}
+                    />
+                  </RadioGroup>
+                </FormControl>
+                <Button>Clear Filters</Button>
+                </div>
+          </div>
           </div>
           <div
             style={{
@@ -236,8 +306,8 @@ export default function Forums() {
               justifyContent: "flex-start",
               flexWrap: "wrap",
               padding: "15px",
-              marginTop : '20px',
-              backgroundColor : '#2563eb',
+              marginTop: "20px",
+              backgroundColor: "#2563eb",
             }}
           >
             {forums.map((forum, key) => {
@@ -257,44 +327,106 @@ export default function Forums() {
                   }}
                   key={key}
                 >
-                  { forum.Type == "Announcement"? (
-                    <div style = {{display : 'flex', maxWidth : '150px', maxHeight : '30px' ,backgroundColor : 'orange', borderTopRightRadius: '25px', borderBottomRightRadius : '25px',}}>
-                    <p style = {{fontSize : '10px', color : 'white', marginLeft : '5px'}}>Type : Announcement</p>
-                  </div>
+                  {forum.Type == "Announcement" ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        maxWidth: "150px",
+                        maxHeight: "30px",
+                        backgroundColor: "orange",
+                        borderTopRightRadius: "25px",
+                        borderBottomRightRadius: "25px",
+                      }}
+                    >
+                      <p
+                        style={{
+                          fontSize: "10px",
+                          color: "white",
+                          marginLeft: "5px",
+                        }}
+                      >
+                        Type : Announcement
+                      </p>
+                    </div>
                   ) : forum.Type == "News" ? (
-                    <div style = {{display : 'flex', maxWidth : '150px', maxHeight : '30px' ,backgroundColor : 'green', borderTopRightRadius: '25px', borderBottomRightRadius : '25px',}}>
-                    <p style = {{fontSize : '10px', color : 'white', marginLeft : '5px'}}>Type : News</p>
-                  </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        maxWidth: "150px",
+                        maxHeight: "30px",
+                        backgroundColor: "green",
+                        borderTopRightRadius: "25px",
+                        borderBottomRightRadius: "25px",
+                      }}
+                    >
+                      <p
+                        style={{
+                          fontSize: "10px",
+                          color: "white",
+                          marginLeft: "5px",
+                        }}
+                      >
+                        Type : News
+                      </p>
+                    </div>
                   ) : (
-                    <div style = {{display : 'flex', maxWidth : '150px', maxHeight : '30px' ,backgroundColor : 'red', borderTopRightRadius: '25px', borderBottomRightRadius : '25px',}}>
-                    <p style = {{fontSize : '10px', color : 'white', marginLeft : '5px'}}>Type : Query</p>
-                  </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        maxWidth: "150px",
+                        maxHeight: "30px",
+                        backgroundColor: "red",
+                        borderTopRightRadius: "25px",
+                        borderBottomRightRadius: "25px",
+                      }}
+                    >
+                      <p
+                        style={{
+                          fontSize: "10px",
+                          color: "white",
+                          marginLeft: "5px",
+                        }}
+                      >
+                        Type : Query
+                      </p>
+                    </div>
                   )}
-                  
-                  <div style = {{display : 'flex', flexDirection: 'column', justifyContent : 'flex-start'}}>
-                  <h2>{forum.TopicTitle}</h2>
-                  <h5 style = {{color : 'GrayText'}}>Posted on : {forum.Time}</h5>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "flex-start",
+                    }}
+                  >
+                    <h2>{forum.TopicTitle}</h2>
+                    <h5 style={{ color: "GrayText" }}>
+                      Posted on : {forum.Time}
+                    </h5>
                   </div>
                   {postsData.map((post, key) => {
                     return (
-
-                    
-                  <div key = {key}>
-                  <Typography>Total posts: {post?.length}</Typography>
-                  </div>
-                  )
-                })}
+                      <div key={key}>
+                        <Typography>Total posts: {post?.length}</Typography>
+                      </div>
+                    );
+                  })}
                   {/* <Typography>Views: 2300</Typography> */}
                   <div>
-                  <Button
-                    href={`/ForumTopic/${forum?.id}`}
-                    style={{ margin: "15px", backgroundColor: "#2BAE66FF", color : 'white', boxShadow: "0 0 5px black" }}
-                    variant="contained"
-                  >
-                    <VisibilityIcon style = {{marginRight: '5px'}}/>
-                    View Discussion
-                  </Button>
-                </div>
+                    <Button
+                      href={`/ForumTopic/${forum?.id}`}
+                      style={{
+                        margin: "15px",
+                        backgroundColor: "#2BAE66FF",
+                        color: "white",
+                        boxShadow: "0 0 5px black",
+                      }}
+                      variant="contained"
+                    >
+                      <VisibilityIcon style={{ marginRight: "5px" }} />
+                      View Discussion
+                    </Button>
+                  </div>
                   <div>
                     {user?.email == forum.Post_Email ? (
                       <div></div>
