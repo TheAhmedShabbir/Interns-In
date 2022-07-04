@@ -61,6 +61,37 @@ export default function Forums() {
     // setPostsData(q);
   };
 
+
+
+  // const getComment = async () => {
+  //   const firstComments = query(
+  //     forumsCollection,
+  //     where("prod_id", "==", id),
+  //     orderBy("time", "desc")
+  //   );
+
+  //   await getDocs(firstComments)
+  //     .then((doc) => {
+  //       const commentData = doc.docs.map((com) => ({
+  //         ...com.data(),
+  //         id: com.id,
+  //       }));
+  //       setGetComments(commentData);        
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
+
+
+
+
+
+
+
+
+
   const getUserEmail = async () => {
     const data = await getDocs(forumsCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data() }));
