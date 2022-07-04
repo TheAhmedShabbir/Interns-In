@@ -10,6 +10,8 @@ import {
   addDoc,
   deleteDoc,
   Timestamp,
+  query,
+  orderBy
 } from "firebase/firestore";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -78,19 +80,6 @@ const [visible, setVisible] = useState(false)
   window.addEventListener('scroll', toggleVisible);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   // Get User/Company To render respective header
   const getUserInfo = async () => {
     const data = await getDocs(UserCollection);
@@ -140,14 +129,7 @@ const [visible, setVisible] = useState(false)
     );
     // }
   };
-  //Update User Profile Picture
-
-  // const updateProfilePic = async () => {
-  //   const updatedDoc = doc(db, "UserProfile", UserInfo[0]?.id);
-  //   await updateDoc(updatedDoc, {
-  //     Pfp: Url,
-  //   });
-  // };
+  
 
   const [reply, setReply] = useState("");
   // const rep = (p) => setReply(p);
@@ -162,6 +144,7 @@ const [visible, setVisible] = useState(false)
       PostImg: Url,
       Reply_ID: reply,
     });
+    getPosts();
   };
 
   // Update Post
@@ -171,7 +154,7 @@ const [visible, setVisible] = useState(false)
   const updatePost = async (id) => {
     setUpdatedPost(Posts[id]);
     handleOpen2();
-  };
+    };
 
   // Modal for update post
   const [open2, setOpen2] = React.useState(false);
@@ -182,6 +165,7 @@ const [visible, setVisible] = useState(false)
   const deletePost = async (id) => {
     const PostCollection = doc(db, "UserPosts", Posts[id].id);
     await deleteDoc(PostCollection);
+    getPosts();
   };
 
   // User Post Modal states
@@ -196,17 +180,20 @@ const [visible, setVisible] = useState(false)
     await getDoc(doc(db, `Forums/${id}`)).then((x) => {
       setForumTopic({ id: x.id, ...x.data() });
     });
-    const d = await getDocs(PostCollection);
-    const posts = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    const userProf = posts.filter((i) => i?.Forum_ID == forumTopic?.id);
-
-    // const sortedMessages = userProf.sort((a, b) => {
-    //  let
-    //   })
-    // console.log(sortedMessages);
-    setPosts(userProf);
     setLoading(false);
   };
+
+  const getPosts = async () => {
+    const data = query(PostCollection, orderBy("Time", "desc"));
+    const d = await getDocs(data);
+    const posts = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userProf = posts.filter((i) => i?.Forum_ID == forumTopic?.id);
+    setPosts(userProf);
+    setLoading(false);
+  }
+
+  
+
   // Add reply Modal
 
   // const changeVal = (p) => setReply(p);
@@ -221,6 +208,7 @@ const [visible, setVisible] = useState(false)
       if (currentUser) {
         getUserInfo();
         getForums();
+        getPosts();
       } else {
         navigate("/SignIn");
       }
