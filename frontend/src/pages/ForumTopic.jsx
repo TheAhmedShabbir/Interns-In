@@ -36,7 +36,7 @@ import { getDownloadURL } from "firebase/storage";
 import Loader from "../Components/Common/Loader";
 import ScrollButton from "../Components/Common/ScrollUp";
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-
+import ReportPost from '../Components/Common/ReportModal'
 
 
 export default function Forumtopic() {
@@ -200,6 +200,15 @@ const [visible, setVisible] = useState(false)
   const [open5, setOpen5] = React.useState(false);
   const handleOpen5 = () => setOpen5(true);
   const handleClose5 = () => setOpen5(false);
+
+  // Report content
+  const [ReportID, setReportID] = useState("");
+
+  const [ROpen, setROpen] = React.useState(false);
+  const handleROpen = () => setROpen(true);
+  const handleRClose = () => setROpen(false);
+
+
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -586,6 +595,8 @@ const [visible, setVisible] = useState(false)
                           cursor: "pointer",
                           marginRight: "5px",
                         }}
+                        onClick = {() => {handleROpen(), setReportID(item.id)}}
+                        // onClick = {() => {console.log(item.id)}}
                       >
                         <FlagIcon />
                       </Button>
@@ -615,6 +626,12 @@ const [visible, setVisible] = useState(false)
           setOpen={setOpen2}
           close={handleClose2}
           Post={updatedPost.post}
+        />
+        <ReportPost
+        id = {ReportID}
+        open = {ROpen}
+        setOpen = {setROpen}
+        close = {handleRClose}
         />
         <Modal open={open5} onClose={handleClose5}>
           <div

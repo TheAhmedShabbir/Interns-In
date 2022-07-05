@@ -20,6 +20,7 @@ import UserNotifications from "./pages/User/UserNotifications";
 import PostJob from "./pages/Company/PostJob";
 import SavedJobs from "./pages/User/SavedJobs";
 import AppliedJobs from "./pages/User/AppliedJobs";
+import Reports from "./pages/Admin/Reports"
 import "./App.css";
 import { AccountVerify } from "./pages/verify";
 import { AccountNotVerified } from "./pages/account-not-verified";
@@ -64,6 +65,14 @@ export default function App() {
             element={
               <AuthorizedRoute>
                 <AdminDashboard />
+              </AuthorizedRoute>
+            }
+          ></Route>
+          <Route
+            path="/Reports"
+            element={
+              <AuthorizedRoute>
+                <Reports/>
               </AuthorizedRoute>
             }
           ></Route>

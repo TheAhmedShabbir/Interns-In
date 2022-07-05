@@ -11,7 +11,7 @@ import GroupIcon from "@mui/icons-material/Group";
 import BusinessIcon from "@mui/icons-material/Business";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase-config";
-// import IconButton from '@mui/material/IconButton';
+import FlagIcon from "@mui/icons-material/Flag";
 // import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -70,6 +70,15 @@ export default function AdminHeader() {
             component="div"
             sx={{ flexGrow: 1 }}
           ></Typography>
+           <Button color="inherit">
+            <Link
+              to="/Reports"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              <FlagIcon/>
+              <Typography fontSize="small">Reports</Typography>
+            </Link>
+          </Button>
           <Button color="inherit">
             <Link
               to="/users"
