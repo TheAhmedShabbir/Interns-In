@@ -345,7 +345,7 @@ export default function UserHomepage() {
   // apply now snackbars
   const [warningOpen, setWarningOpen] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
-  const [applyOpen, setApplyOpen] = useState(false);
+  const [cvOpen, setCvOpen] = useState(false);
 
   const [saveOpen, setSaveOpen] = useState(false);
   const [alreadySaveOpen, setAlreadySaveOpen] = useState(false);
@@ -403,16 +403,16 @@ export default function UserHomepage() {
     setWarningOpen(false);
   };
 
-  const handleApplyClick = () => {
-    setApplyOpen(true);
+  const handleCvClick = () => {
+    setCvOpen(true);
   };
 
-  const handleApplyClose = (event, reason) => {
+  const handleCvClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
 
-    setApplyOpen(false);
+    setCvOpen(false);
   };
 
   const handleSuccessClick = () => {
@@ -472,12 +472,14 @@ export default function UserHomepage() {
     const applicantFilter = applicants.filter(
       (j) => j.applicantEmail == user?.email
     );
-    console.log(applicants);
+    console.log(userData);
 
     const jobDetails = jobs?.filter((j) => j.id == id);
 
     if (applicantFilter[0]?.applicantEmail == user?.email) {
       handleWarningClick();
+    } else if (userData[0].cv == "") {
+      handleCvClick();
     } else {
       const a = await addDoc(collection(db, `Job/${id}/applicants`), {
         applicantEmail: user?.email,
@@ -646,7 +648,7 @@ export default function UserHomepage() {
           style={{
             display: "flex",
             flexDirection: "row",
-            marginTop: "50px",
+            paddingTop: "100px",
             justifyContent: "center",
           }}
         >
@@ -1069,16 +1071,16 @@ export default function UserHomepage() {
             </Snackbar>
 
             <Snackbar
-              open={applyOpen}
+              open={cvOpen}
               autoHideDuration={2000}
-              onClose={handleApplyClose}
+              onClose={handleCvClose}
             >
               <Alert
-                onClose={handleApplyClose}
+                onClose={handleCvClose}
                 sx={{ width: "100%" }}
                 severity="warning"
               >
-                Please complete your Profile first
+                Please upload your Resume first.
               </Alert>
             </Snackbar>
 

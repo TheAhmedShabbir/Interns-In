@@ -118,7 +118,7 @@ export default function Employees() {
         <div
           style={{
             display: "flex",
-            marginTop: "30px",
+
             flexDirection: "column",
             minWidth: "900px",
             maxWidth: "1400px",
@@ -129,7 +129,7 @@ export default function Employees() {
             padding: "15px",
           }}
         >
-          <h1>Employees</h1>
+          <h1 style={{ marginTop: "80px" }}>Employees</h1>
           <div
             style={{
               display: "flex",
@@ -204,6 +204,9 @@ export default function Employees() {
                                 style={{ marginTop: "20px" }}
                                 size="small"
                                 variant="outlined"
+                                onClick={() =>
+                                  navigate(`/employee/${e?.applicantid}`)
+                                }
                               >
                                 View Profile
                               </Button>

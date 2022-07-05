@@ -103,7 +103,7 @@ export default function PostJob() {
         }}
       >
         <CompanyHeader />
-        <h1 style={{ padding: "10px", margin: "20px" }}>Post A New Job</h1>
+        <h1 style={{ padding: "10px", paddingTop: "100px" }}>Post A New Job</h1>
         <Box
           sx={{
             mt: 3,

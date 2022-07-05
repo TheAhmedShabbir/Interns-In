@@ -96,7 +96,7 @@ export default function AdminProfile() {
             return (
               <div
                 style={{
-                  marginTop: "15vh",
+                  paddingTop: "100px",
                 }}
                 key={key}
               >

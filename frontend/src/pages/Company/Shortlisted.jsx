@@ -180,7 +180,6 @@ export default function Shortlisted() {
         <div
           style={{
             display: "flex",
-            marginTop: "30px",
             flexDirection: "column",
             minWidth: "900px",
             maxWidth: "1400px",
@@ -188,11 +187,12 @@ export default function Shortlisted() {
             marginLeft: "auto",
             marginRight: "auto",
             borderRadius: "10px",
+            padding: "10px",
           }}
         >
-          <h1>Shortlisted</h1>
+          <h1 style={{ marginTop: "80px" }}>Shortlisted</h1>
           <Button
-            sx={{ marginLeft: "auto", marginTop: "-7vh" }}
+            sx={{ marginLeft: "auto", marginTop: "-7vh", marginRight: "10px" }}
             variant="outlined"
             startIcon={<AssignmentIcon />}
             onClick={() =>

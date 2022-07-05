@@ -31,6 +31,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { forwardRef } from "react";
 import "./index.css";
+
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -464,7 +465,7 @@ export default function CompanyHomePage() {
           style={{
             display: "flex",
             flexDirection: "row",
-            marginTop: "60px",
+            paddingTop: "110px",
             justifyContent: "center",
           }}
         >

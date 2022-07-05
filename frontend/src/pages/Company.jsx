@@ -23,7 +23,7 @@ const style = {
   p: 4,
 };
 
-export default function UserAbout() {
+export default function Company() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState([]);
   const [jobs, setJobs] = useState([]);
@@ -52,8 +52,6 @@ export default function UserAbout() {
     const jobFilter = job.filter((i) => i.companyId == url[1]);
 
     setJobs(jobFilter);
-
-    setLoading(false);
   };
 
   const getUser = async () => {
@@ -126,6 +124,7 @@ export default function UserAbout() {
         <div
           style={{
             minHeight: "100vh",
+            paddingTop: "80px",
           }}
         >
           <img

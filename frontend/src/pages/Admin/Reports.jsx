@@ -47,21 +47,18 @@ export default function ManageReports() {
     setPost(PostData);
   };
 
-  const DeleteReport = async (id)=> {
-      const RepCollection = doc(db, "Reports", Rep[id].id);
-      await deleteDoc(RepCollection);
-      getReports();
-  }
-  const DeletePost = async (Rid, id)=> {
+  const DeleteReport = async (id) => {
+    const RepCollection = doc(db, "Reports", Rep[id].id);
+    await deleteDoc(RepCollection);
+    getReports();
+  };
+  const DeletePost = async (Rid, id) => {
     const RepCollection = doc(db, "Reports", Rep[Rid].id);
     await deleteDoc(RepCollection);
     const PostCollection = doc(db, "UserPosts", Post[id].id);
     await deleteDoc(PostCollection);
-      getReports();
-  }
-
-
-
+    getReports();
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -71,7 +68,7 @@ export default function ManageReports() {
         getReports();
         getPosts();
       } else {
-        navigate("/" + localStorage.getItem("page"));
+        navigate("/signin");
       }
     });
   }, [user]);
@@ -85,7 +82,7 @@ export default function ManageReports() {
   } else {
     return (
       <div>
-        <Adminheader/>
+        <Adminheader />
         <div
           style={{
             display: "flex",
@@ -108,7 +105,7 @@ export default function ManageReports() {
                             display: "flex",
                             flexDirection: "column",
                             backgroundColor: "white",
-                            marginTop : '20px',
+                            marginTop: "20px",
                             // marginBottom: "15px",
                             padding: "10px",
                             borderRadius: "20px",
@@ -134,8 +131,30 @@ export default function ManageReports() {
                               </h5>
                             </div>
                             <div>
-                              <Button style = {{backgroundColor : 'red', color : 'white', marginRight : '5px'}} onClick = {() => {DeletePost(key,k)}}>Delete</Button>
-                              <Button style = {{backgroundColor : 'green', color : 'white', marginLeft : '5px'}} onClick = {() => {DeleteReport(key)}}>Ignore</Button>
+                              <Button
+                                style={{
+                                  backgroundColor: "red",
+                                  color: "white",
+                                  marginRight: "5px",
+                                }}
+                                onClick={() => {
+                                  DeletePost(key, k);
+                                }}
+                              >
+                                Delete
+                              </Button>
+                              <Button
+                                style={{
+                                  backgroundColor: "green",
+                                  color: "white",
+                                  marginLeft: "5px",
+                                }}
+                                onClick={() => {
+                                  DeleteReport(key);
+                                }}
+                              >
+                                Ignore
+                              </Button>
                             </div>
                           </div>
                           <div

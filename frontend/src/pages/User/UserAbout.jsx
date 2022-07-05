@@ -315,7 +315,7 @@ export default function UserAbout() {
     return (
       <div style={{ backgroundColor: "#fafafa" }}>
         <UserHeader />
-        <div style={{ minHeight: "100vh", marginTop: "50px" }}>
+        <div style={{ minHeight: "100vh", paddingTop: "80px" }}>
           <img
             style={{
               borderRadius: "110px",

@@ -15,12 +15,13 @@ import UserHomepage from "./pages/User/UserHomepage";
 import CompanyHomePage from "./pages/Company/CompanyHomePage";
 import Forums from "./pages/Forums";
 import ForumTopic from "./pages/ForumTopic";
-import Profile from "./pages/Profile";
+import Company from "./pages/Company";
+import User from "./pages/User";
 import UserNotifications from "./pages/User/UserNotifications";
 import PostJob from "./pages/Company/PostJob";
 import SavedJobs from "./pages/User/SavedJobs";
 import AppliedJobs from "./pages/User/AppliedJobs";
-import Reports from "./pages/Admin/Reports"
+import Reports from "./pages/Admin/Reports";
 import "./App.css";
 import { AccountVerify } from "./pages/verify";
 import { AccountNotVerified } from "./pages/account-not-verified";
@@ -72,7 +73,7 @@ export default function App() {
             path="/Reports"
             element={
               <AuthorizedRoute>
-                <Reports/>
+                <Reports />
               </AuthorizedRoute>
             }
           ></Route>
@@ -164,7 +165,15 @@ export default function App() {
             path="/:id"
             element={
               <AuthorizedRoute>
-                <Profile />
+                <Company />
+              </AuthorizedRoute>
+            }
+          ></Route>
+          <Route
+            path="/employee/:id"
+            element={
+              <AuthorizedRoute>
+                <User />
               </AuthorizedRoute>
             }
           ></Route>

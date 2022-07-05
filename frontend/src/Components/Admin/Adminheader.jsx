@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import WorkIcon from '@mui/icons-material/Work';
+import WorkIcon from "@mui/icons-material/Work";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import GroupIcon from "@mui/icons-material/Group";
@@ -33,6 +33,7 @@ export default function AdminHeader() {
           top: 0,
           left: 0,
           backgroundColor: "#2563eb",
+          position: "fixed",
         }}
       >
         <Toolbar>
@@ -70,12 +71,12 @@ export default function AdminHeader() {
             component="div"
             sx={{ flexGrow: 1 }}
           ></Typography>
-           <Button color="inherit">
+          <Button color="inherit">
             <Link
               to="/Reports"
               style={{ color: "white", textDecoration: "none" }}
             >
-              <FlagIcon/>
+              <FlagIcon />
               <Typography fontSize="small">Reports</Typography>
             </Link>
           </Button>

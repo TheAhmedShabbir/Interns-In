@@ -32,6 +32,8 @@ export default function SavedJobs() {
   const userCollection = collection(db, "UserProfile");
 
   const [successOpen, setSuccessOpen] = useState(false);
+  const [cvOpen, setCvOpen] = useState(false);
+  const [warningOpen, setWarningOpen] = useState(false);
 
   const handleSuccessClick = () => {
     setSuccessOpen(true);
@@ -43,6 +45,30 @@ export default function SavedJobs() {
     }
 
     setSuccessOpen(false);
+  };
+
+  const handleCvClick = () => {
+    setCvOpen(true);
+  };
+
+  const handleCvClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setCvOpen(false);
+  };
+
+  const handleWarningClick = () => {
+    setWarningOpen(true);
+  };
+
+  const handleWarningClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setWarningOpen(false);
   };
 
   const deleteSaveJob = async (id) => {
@@ -85,23 +111,60 @@ export default function SavedJobs() {
       setLoading(false);
     }
   };
-  //////////pending
-  const applyJob = async (k, id) => {
-    const data = await getDocs(jobCollection);
-    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    const j = profiles.filter((i) => i.id == id);
 
-    if (
-      j[0].Applicants?.filter((a) => a == user.email) &&
-      j[0].Applicants.length != 0
-    ) {
+  const applyJob = async (id) => {
+    const d = await getDocs(userCollection);
+    const profiles = d.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userData = profiles.filter((u) => u.Email == user?.email);
+
+    const applicantsReference = collection(db, `Job/${id}/applicants`);
+    const applicantsData = await getDocs(applicantsReference);
+    const applicants = applicantsData.docs?.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+
+    const applicantFilter = applicants.filter(
+      (j) => j.applicantEmail == user?.email
+    );
+    console.log(userData);
+
+    const jobDetails = jobs?.filter((j) => j.id == id);
+
+    if (applicantFilter[0]?.applicantEmail == user?.email) {
       handleWarningClick();
+    } else if (userData[0].cv == "") {
+      handleCvClick();
     } else {
-      const jobApply = doc(db, "Job", id);
-      const nf = { Applicants: jobs[k].Applicants.concat(user.email) };
-      console.log(nf);
+      const a = await addDoc(collection(db, `Job/${id}/applicants`), {
+        applicantEmail: user?.email,
+        firstname: userData[0]?.FirstName,
+        lastname: userData[0]?.LastName,
+        pfp: userData[0]?.Pfp,
+        resume: userData[0]?.cv,
+        bio: userData[0]?.bio,
+        address: userData[0]?.address,
+        about: userData[0]?.about,
+        city: userData[0]?.city,
+        province: userData[0]?.province,
+        applicantid: userData[0]?.id,
+      });
 
-      updateDoc(jobApply, nf);
+      await addDoc(
+        collection(db, `UserProfile/${userData[0]?.id}/appliedJobs`),
+        {
+          title: jobDetails[0].Title,
+          city: jobDetails[0].City,
+          description: jobDetails[0].Description,
+          mode: jobDetails[0].Mode,
+          salary: jobDetails[0].Salary,
+          type: jobDetails[0].Type,
+          company: jobDetails[0].company,
+          postedby: jobDetails[0].postedby,
+          jobid: id,
+        }
+      );
+
       handleSuccessClick();
     }
   };
@@ -141,7 +204,7 @@ export default function SavedJobs() {
         <div
           style={{
             display: "flex",
-            marginTop: "30px",
+
             flexDirection: "column",
             alignItems: "center",
             width: "900px",
@@ -152,7 +215,9 @@ export default function SavedJobs() {
             minHeight: "100vh",
           }}
         >
-          <h1 style={{ marginBottom: "50px" }}>Saved Jobs</h1>
+          <h1 style={{ marginBottom: "50px", marginTop: "100px" }}>
+            Saved Jobs
+          </h1>
           {savedJobs.map((job, key) => {
             return (
               // <div
@@ -258,7 +323,7 @@ export default function SavedJobs() {
             );
           })}
         </div>
-        {/* <Snackbar
+        <Snackbar
           open={successOpen}
           autoHideDuration={2000}
           onClose={handleSuccessClose}
@@ -270,7 +335,31 @@ export default function SavedJobs() {
           >
             Applied Successfully!
           </Alert>
-        </Snackbar> */}
+        </Snackbar>
+
+        <Snackbar open={cvOpen} autoHideDuration={2000} onClose={handleCvClose}>
+          <Alert
+            onClose={handleCvClose}
+            sx={{ width: "100%" }}
+            severity="warning"
+          >
+            Please upload your Resume first.
+          </Alert>
+        </Snackbar>
+
+        <Snackbar
+          open={warningOpen}
+          autoHideDuration={2000}
+          onClose={handleWarningClose}
+        >
+          <Alert
+            onClose={handleWarningClose}
+            sx={{ width: "100%" }}
+            severity="warning"
+          >
+            You have already applied to this Job
+          </Alert>
+        </Snackbar>
       </div>
     );
   }

@@ -107,6 +107,7 @@ export default function UserHeader() {
           top: 0,
           left: 0,
           backgroundColor: "#2563eb",
+          position: "fixed",
         }}
       >
         <Toolbar>

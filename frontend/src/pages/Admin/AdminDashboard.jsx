@@ -176,7 +176,7 @@ export default function AdminDashboard() {
             flexDirection: "row",
             // justifyContent: "space-evenly",
             padding: "10px",
-            marginTop: "50px",
+            paddingTop: "80px",
             justifyContent: "center",
             alignItems: "center",
             width: "100%",

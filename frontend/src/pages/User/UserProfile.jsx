@@ -139,7 +139,7 @@ export default function UserProfile() {
     return (
       <div style={{ backgroundColor: "#fafafa" }}>
         <UserHeader />
-        <div style={{ minHeight: "100vh" }}>
+        <div style={{ minHeight: "100vh", paddingTop: "70px" }}>
           {UserInfo &&
             UserInfo.map((item, key) => {
               return (
@@ -192,10 +192,11 @@ export default function UserProfile() {
                           <h2>Upload / Download files</h2>
                           <form onSubmit={formHandler}>
                             <input type="file" onChange={HandleUpload} />
-                            <Button type="submit">upload</Button>
-                            <Button onClick={updateProfilePic}>Save</Button>
+                            <Button type="submit" onClick={updateProfilePic}>
+                              upload
+                            </Button>
 
-                            <Button onClick={handleClose3}>Cancel</Button>
+                            <Button onClick={handleClose3}>close</Button>
 
                             <h3>uploaded{progress}%</h3>
                           </form>

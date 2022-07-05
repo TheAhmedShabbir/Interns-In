@@ -112,7 +112,7 @@ export default function SavedJobs() {
         <div
           style={{
             display: "flex",
-            marginTop: "30px",
+
             flexDirection: "column",
             alignItems: "center",
             width: "900px",
@@ -123,7 +123,9 @@ export default function SavedJobs() {
             padding: "15px",
           }}
         >
-          <h1 style={{ marginBottom: "50px" }}>Applied Jobs</h1>
+          <h1 style={{ marginBottom: "50px", marginTop: "100px" }}>
+            Applied Jobs
+          </h1>
           {jobsApplied.map((job, key) => {
             return (
               <div
@@ -177,20 +179,10 @@ export default function SavedJobs() {
                 <Button
                   style={{ margin: "10px" }}
                   variant="outlined"
-                  onClick={() => applyJob(job.id)}
                 >
                   View Details
                 </Button>
-                {/* <Button
-                  style={{
-                    margin: "10px",
-                  }}
-                  onClick={() => deleteSaveJob(job.jobid)}
-                  color="error"
-                  variant="outlined"
-                >
-                  Delete
-                </Button> */}
+                
               </div>
             );
           })}

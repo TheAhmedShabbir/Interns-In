@@ -62,7 +62,7 @@ export default function Notifications() {
         <div
           style={{
             display: "flex",
-            marginTop: "30px",
+
             flexDirection: "column",
             alignItems: "center",
             width: "900px",
@@ -73,7 +73,7 @@ export default function Notifications() {
             padding: "15px",
           }}
         >
-          <h1>Notifications</h1>
+          <h1 style={{ marginTop: "120px" }}>Notifications</h1>
           {jobs.map((job, key) => {
             return (
               <div
@@ -126,15 +126,8 @@ export default function Notifications() {
                       </Typography>
                     </div>
                   </div>
-                  <div style={{ marginTop: "-20px" }}>
-                    <Button
-                      style={{ margin: "10px" }}
-                      size="small"
-                      variant="outlined"
-                      color="success"
-                    >
-                      Apply now
-                    </Button>
+                  <div style={{ marginTop: "-30px" }}>
+                    
                     <Button
                       style={{ margin: "10px" }}
                       size="small"

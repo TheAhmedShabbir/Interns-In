@@ -150,7 +150,7 @@ export default function CompanyProfile() {
         }}
       >
         <CompanyHeader />
-        <div style={{ marginTop: "8vh" }}>
+        <div style={{ paddingTop: "70px" }}>
           {UserInfo &&
             UserInfo.map((item, key) => {
               return (
@@ -204,7 +204,7 @@ export default function CompanyProfile() {
                         flexWrap: "wrap",
                         "& > :not(style)": {
                           m: 1,
-                          width: "60vh",
+                          width: "75vh",
                           minHeight: "65vh",
                         },
                       }}

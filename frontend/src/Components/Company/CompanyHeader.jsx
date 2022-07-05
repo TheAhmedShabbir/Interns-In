@@ -99,6 +99,7 @@ export default function CompanyHeader() {
           top: 0,
           left: 0,
           backgroundColor: "#2563eb",
+          position: "fixed",
         }}
       >
         <Toolbar>

@@ -1,14 +1,20 @@
 import { Button, TextField, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { db } from "../../firebase-config";
-import { collection, getDocs,getDoc,doc, addDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  getDoc,
+  doc,
+  addDoc,
+  updateDoc,
+} from "firebase/firestore";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link, useParams } from "react-router-dom";
 import CompanyHeader from "../../Components/Company/CompanyHeader";
-
 
 const style = {
   position: "absolute",
@@ -31,21 +37,21 @@ export default function CompanyForumTopic() {
   const [Dscrption, setDscrption] = useState([]);
   const { id } = useParams();
 
-// Get Description
-const getDescription = async () => {
-  const data = await getDocs(forumsCollection);
-  const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-  const Fdata = await getDocs(forumTopicCollection);
-  const Fprofiles = Fdata.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-  const userProf = Fprofiles.filter((i) => i.Description == profiles.TopicDescription);
-  // const i = userProf[0].Description;
-  // setForumDesc(userProf);
-  // console.log(profiles);
-  // console.log(Fprofiles);
-  // console.log(userProf);
-};
-
-
+  // Get Description
+  const getDescription = async () => {
+    const data = await getDocs(forumsCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const Fdata = await getDocs(forumTopicCollection);
+    const Fprofiles = Fdata.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userProf = Fprofiles.filter(
+      (i) => i.Description == profiles.TopicDescription
+    );
+    // const i = userProf[0].Description;
+    // setForumDesc(userProf);
+    // console.log(profiles);
+    // console.log(Fprofiles);
+    // console.log(userProf);
+  };
 
   //Update Post
   const [updatedPost, setUpdatedPost] = useState([]);
@@ -79,8 +85,9 @@ const getDescription = async () => {
   useEffect(() => {
     // get forums topic
     const getForumDescription = async () => {
-
-      let x = await getDoc(doc(db, `Forums/${id}`)).then((res)=>{console.log(res)})
+      let x = await getDoc(doc(db, `Forums/${id}`)).then((res) => {
+        console.log(res);
+      });
       // console.log({
       //   id: x.id,
       //   ...x.data(),
@@ -89,24 +96,23 @@ const getDescription = async () => {
       console.log(forumTopic);
     };
 
-      // const data = await getDocs(forumsCollection);
-      // setForumTopic(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-      // console.log(forumTopic)
+    // const data = await getDocs(forumsCollection);
+    // setForumTopic(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    // console.log(forumTopic)
     // };?
 
     getForumDescription();
   }, []);
 
   useEffect(() => {
-    
     // const getUserPosts = async () => {
     //   const data = await getDocs(forumTopicCollection);
     //   setUserposts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     //   console.log(Userposts);
     // };
-    
+
     // getUserPosts();
-    
+
     getDescription();
   }, []);
 
@@ -130,7 +136,7 @@ const getDescription = async () => {
             borderRadius: "10px",
             border: "2px solid #548CCB",
             margin: "50px",
-            minHeight: "200px",
+            minHeight: "100vh",
           }}
         >
           {forumTopic?.map((item, key) => {
@@ -183,8 +189,8 @@ const getDescription = async () => {
                   </Modal>
                 </div>
               </div>
-             );
-          })} 
+            );
+          })}
         </div>
 
         <div

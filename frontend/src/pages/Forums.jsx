@@ -156,6 +156,7 @@ export default function Forums() {
             marginLeft: "auto",
             marginRight: "auto",
             minHeight: "100vh",
+            paddingTop: "80px",
           }}
         >
           <div
