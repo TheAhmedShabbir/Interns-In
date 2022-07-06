@@ -43,15 +43,6 @@ export default function User() {
 
   const [UserEducation, setUserEducation] = useState([]);
 
-  // / Get User ID
-  //   const getUser = async () => {
-  //     const data = await getDocs(UserInfoCollection);
-  //     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-  //     const userProf = profiles.filter((i) => i.Email == user?.email);
-  //     setUserProfile(userProf[0]);
-  //     setLoading(false);
-  //   };
-
   // get employee profile
   const getProfile = async () => {
     const data = await getDocs(userCollection);
@@ -181,7 +172,21 @@ export default function User() {
   } else {
     return (
       <div style={{ backgroundColor: "#fafafa" }}>
-        <CompanyHeader />
+        {userInfo?.Role == "User" && (
+          <div>
+            <UserHeader />
+          </div>
+        )}
+        {userInfo?.Role == "Company" && (
+          <div>
+            <CompanyHeader />
+          </div>
+        )}
+        {userInfo?.Role == "Admin" && (
+          <div>
+            <AdminHeader />
+          </div>
+        )}
         <div style={{ minHeight: "100vh", paddingTop: "80px" }}>
           <img
             style={{

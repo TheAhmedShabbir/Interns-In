@@ -6,10 +6,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { collection, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CompanyHeader from "../Components/Company/CompanyHeader";
+import AdminHeader from "../Components/Admin/Adminheader";
 
 const style = {
   position: "absolute",
@@ -43,13 +45,13 @@ export default function Company() {
   const jobCollection = collection(db, "Job");
   const employeesCollectionRef = collection(
     db,
-    `UserProfile/${url[1]}/employees`
+    `UserProfile/${url[2]}/employees`
   );
 
   const getJobs = async () => {
     const data = await getDocs(jobCollection);
     const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    const jobFilter = job.filter((i) => i.companyId == url[1]);
+    const jobFilter = job.filter((i) => i.companyId == url[2]);
 
     setJobs(jobFilter);
   };
@@ -59,6 +61,7 @@ export default function Company() {
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userProf = profiles.filter((i) => i.Email == user?.email);
     setUserInfo(userProf[0]);
+    console.log(userInfo);
   };
 
   const getProfile = async () => {
@@ -72,7 +75,7 @@ export default function Company() {
     const e = x.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     setEmployees(e);
 
-    const userProf = profiles.filter((i) => i.id == url[1]);
+    const userProf = profiles.filter((i) => i.id == url[2]);
     // console.log(userProf[0]);
 
     setProfile(userProf[0]);
@@ -111,13 +114,19 @@ export default function Company() {
   } else {
     return (
       <div style={{ backgroundColor: "#fafafa" }}>
-        {userInfo?.Role == "User" ? (
+        {userInfo?.Role == "User" && (
           <div>
             <UserHeader />
           </div>
-        ) : (
+        )}
+        {userInfo?.Role == "Company" && (
           <div>
             <CompanyHeader />
+          </div>
+        )}
+        {userInfo?.Role == "Admin" && (
+          <div>
+            <AdminHeader />
           </div>
         )}
 
@@ -201,6 +210,11 @@ export default function Company() {
             }}
           >
             {jobs.map((job, key) => {
+              if (jobs?.length == 0) {
+                <div>
+                  <h1>No jobs posted</h1>
+                </div>;
+              }
               return (
                 <div
                   style={{
@@ -231,7 +245,7 @@ export default function Company() {
                         marginRight: "30px",
                       }}
                     >
-                      {/* <LocationOnOutlinedIcon color="primary" /> */}
+                      <LocationOnOutlinedIcon color="primary" />
                       <h4>{job.City}</h4>
                     </div>
                   </div>

@@ -205,7 +205,7 @@ export default function Employees() {
                                 size="small"
                                 variant="outlined"
                                 onClick={() =>
-                                  navigate(`/employee/${e?.applicantid}`)
+                                  navigate(`/user/${e?.applicantid}`)
                                 }
                               >
                                 View Profile

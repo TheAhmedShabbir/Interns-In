@@ -15,6 +15,9 @@ import UserHomepage from "./pages/User/UserHomepage";
 import CompanyHomePage from "./pages/Company/CompanyHomePage";
 import Forums from "./pages/Forums";
 import ForumTopic from "./pages/ForumTopic";
+import AllUsers from "./pages/Admin/AllUsers";
+import AllCompanies from "./pages/Admin/AllCompanies";
+import AllJobs from "./pages/Admin/AllJobs";
 import Company from "./pages/Company";
 import User from "./pages/User";
 import UserNotifications from "./pages/User/UserNotifications";
@@ -162,7 +165,7 @@ export default function App() {
             }
           ></Route>
           <Route
-            path="/:id"
+            path="/company/:id"
             element={
               <AuthorizedRoute>
                 <Company />
@@ -170,7 +173,7 @@ export default function App() {
             }
           ></Route>
           <Route
-            path="/employee/:id"
+            path="/user/:id"
             element={
               <AuthorizedRoute>
                 <User />
@@ -189,10 +192,30 @@ export default function App() {
             path="/CompanyNotifications"
             element={<CompanyNotifications />}
           ></Route> */}
-          {/* <Route
-            path="/AdminNotifications"
-            element={<AdminNotifications />}
-          ></Route> */}
+          <Route
+            path="/Users"
+            element={
+              <AuthorizedRoute>
+                <AllUsers />
+              </AuthorizedRoute>
+            }
+          ></Route>
+          <Route
+            path="/Companies"
+            element={
+              <AuthorizedRoute>
+                <AllCompanies />
+              </AuthorizedRoute>
+            }
+          ></Route>
+          <Route
+            path="/Jobs"
+            element={
+              <AuthorizedRoute>
+                <AllJobs />
+              </AuthorizedRoute>
+            }
+          ></Route>
           <Route
             path="/savedJobs"
             element={

@@ -982,7 +982,7 @@ export default function UserHomepage() {
                             fontSize: "18px",
                             marginLeft: "20px",
                           }}
-                          to={`/${job?.companyId}`}
+                          to={`/company/${job?.companyId}`}
                         >
                           {job.postedby}
                         </Link>
