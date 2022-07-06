@@ -1,16 +1,15 @@
 import { Button, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import CompanyHeader from "../../Components/Company/CompanyHeader";
-import img from "../../assets/images/Userpfp.jpg";
 import Box from "@mui/material/Box";
 import { db, auth } from "../../firebase-config";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import Snackbar from "@mui/material/Snackbar";
+import { Link } from "react-router-dom";
 import MuiAlert from "@mui/material/Alert";
 import { forwardRef } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import AdminHeader from "../../Components/Admin/Adminheader";
 
 const Alert = forwardRef(function Alert(props, ref) {
@@ -20,9 +19,10 @@ const Alert = forwardRef(function Alert(props, ref) {
 export default function Employees() {
   const navigate = useNavigate();
 
-  const [employees, setEmployees] = useState([]);
   const [user, setUser] = useState({});
   const [userInfo, setUserInfo] = useState([]);
+  const [jobs, setJobs] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   const [warningOpen, setWarningOpen] = useState(false);
@@ -53,21 +53,7 @@ export default function Employees() {
   };
 
   const userCollection = collection(db, "UserProfile");
-  const employeesCollectionRef = collection(
-    db,
-    `UserProfile/${userInfo?.id}/employees`
-  );
-
-  const getEmployees = async () => {
-    const employeesData = await getDocs(employeesCollectionRef);
-    const employeesProfiles = employeesData.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-
-    setEmployees(employeesProfiles);
-    setLoading(false);
-  };
+  const jobCollection = collection(db, "Job");
 
   const getUserInfo = async () => {
     const data = await getDocs(userCollection);
@@ -79,13 +65,20 @@ export default function Employees() {
     setLoading(false);
   };
 
+  const getJobs = async () => {
+    const data = await getDocs(jobCollection);
+    const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+    setJobs(job);
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
 
       if (currentUser) {
         getUserInfo();
-        getEmployees();
+        getJobs();
       } else {
         navigate("/SignIn");
       }
@@ -134,88 +127,96 @@ export default function Employees() {
           <div
             style={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            {employees?.map((e, key) => {
-              if (employees?.length == 0) {
+            {jobs?.map((job, key) => {
+              if (jobs?.length == 0) {
                 <div></div>;
               } else {
                 return (
                   <div
                     style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      margin: "10px",
-                      flexWrap: "wrap",
+                      maxWidth: "700px",
+                      minWidth: "700px",
+                      backgroundColor: "white",
+                      padding: "20px",
+                      margin: "20px 0px 30px 0px",
+                      borderRadius: "8px",
+                      boxShadow: "0 0 10px #ccc",
                     }}
                     key={key}
                   >
-                    <div style={{ margin: "10px" }}>
-                      <div
+                    <div
+                      style={{
+                        display: "flex",
+
+                        marginTop: "10px",
+                      }}
+                    >
+                      <Link
                         style={{
-                          zIndex: 1,
-                          position: "relative",
+                          color: "#2563eb",
+                          textDecoration: "none",
+                          fontSize: "18px",
+                          marginLeft: "20px",
                         }}
+                        to={`/company/${job?.companyId}`}
                       >
-                        <img
-                          style={{
-                            borderRadius: "110px",
-                            boxShadow: "0 0 10px #ccc",
-                          }}
-                          width="140px"
-                          height="140px"
-                          src={e?.pfp}
-                        />
-                      </div>
+                        {job.postedby}
+                      </Link>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        marginTop: "-15px",
+                      }}
+                    >
+                      <h4 style={{ marginLeft: "22px" }}>
+                        {job.Title},{" "}
+                        <span style={{ color: "green" }}>{job.Salary}pkr</span>
+                      </h4>
+
                       <div
                         style={{
                           display: "flex",
-                          justifyContent: "center",
                           alignItems: "center",
-                          marginTop: "-80px",
                         }}
                       >
-                        <Box
-                          sx={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            "& > :not(style)": {
-                              m: 1,
-                              width: 300,
-                              minHeight: "30vh",
-                            },
-                          }}
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              borderRadius: "8px",
-                              backgroundColor: "#fff",
-                              boxShadow: "0 0 10px #ccc",
-                            }}
-                          >
-                            <div style={{ marginTop: "80px", padding: "10px" }}>
-                              <h3>
-                                <b>{e?.employeename + " " + e?.lastname}</b>
-                              </h3>
-                              <p>{e?.bio}</p>
-                              <Button
-                                style={{ marginTop: "20px" }}
-                                size="small"
-                                variant="outlined"
-                                onClick={() =>
-                                  navigate(`/employee/${e?.applicantid}`)
-                                }
-                              >
-                                View Profile
-                              </Button>
-                            </div>
-                          </div>
-                        </Box>
+                        <LocationOnOutlinedIcon color="primary" />
+                        <h4>{job.City}</h4>
                       </div>
                     </div>
+
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        marginLeft: "20px",
+                        fontSize: "small",
+                      }}
+                    >
+                      {job.Description}
+                    </Typography>
+                    <br></br>
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        marginLeft: "23px",
+                        fontSize: "small",
+                      }}
+                    >
+                      {job.Type + " Time"} {"— "}
+                      {job.Mode}
+                    </Typography>
+                    <Button
+                      style={{ margin: "10px" }}
+                      variant="contained"
+                      onClick={() => navigate(`/job/${job?.id}`)}
+                    >
+                      View Job
+                    </Button>
                   </div>
                 );
               }

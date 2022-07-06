@@ -20,6 +20,7 @@ import AllCompanies from "./pages/Admin/AllCompanies";
 import AllJobs from "./pages/Admin/AllJobs";
 import Company from "./pages/Company";
 import User from "./pages/User";
+import Job from "./pages/Job";
 import UserNotifications from "./pages/User/UserNotifications";
 import PostJob from "./pages/Company/PostJob";
 import SavedJobs from "./pages/User/SavedJobs";
@@ -177,6 +178,14 @@ export default function App() {
             element={
               <AuthorizedRoute>
                 <User />
+              </AuthorizedRoute>
+            }
+          ></Route>
+          <Route
+            path="/job/:id"
+            element={
+              <AuthorizedRoute>
+                <Job />
               </AuthorizedRoute>
             }
           ></Route>

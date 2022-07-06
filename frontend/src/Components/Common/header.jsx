@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import WorkIcon from "@mui/icons-material/Work";
 import { Link } from "react-router-dom";
 
-export default function Generalheader() {
+export default function GeneralHeader() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "#2563eb" }}>

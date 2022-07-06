@@ -177,7 +177,8 @@ export default function Employees() {
                             "& > :not(style)": {
                               m: 1,
                               width: 300,
-                              minHeight: "30vh",
+                              minHeight: "40vh",
+                              maxHeight: "40vh",
                             },
                           }}
                         >

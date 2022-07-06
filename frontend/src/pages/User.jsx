@@ -24,7 +24,8 @@ const style = {
 export default function User() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState([]);
-  const [userProfile, setUserProfile] = useState([]);
+  // const [userProfile, setUserProfile] = useState([]);
+  const [userInfo, setUserInfo] = useState([]);
 
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
@@ -50,6 +51,14 @@ export default function User() {
     const userProf = profile.filter((i) => i.id == url[2]);
     setProfile(userProf[0]);
     setLoading(false);
+  };
+
+  const getUser = async () => {
+    const data = await getDocs(userCollection);
+    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const userProf = profiles.filter((i) => i.Email == user?.email);
+    setUserInfo(userProf[0]);
+    console.log(userInfo);
   };
 
   // Get User Education From Firestore database
@@ -146,6 +155,7 @@ export default function User() {
     if (user) {
       // Function Calls
       getProfile();
+      getUser();
       getEducation();
       getExperience();
       getSkills();

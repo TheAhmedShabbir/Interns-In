@@ -25,29 +25,24 @@ const style = {
   p: 4,
 };
 
-export default function Company() {
+export default function Job() {
   const navigate = useNavigate();
-  const [profile, setProfile] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
-  const [employees, setEmployees] = useState(0);
   const url = window.location.pathname.split("/");
 
   const userCollection = collection(db, "UserProfile");
   const jobCollection = collection(db, "Job");
-  const employeesCollectionRef = collection(
-    db,
-    `UserProfile/${url[2]}/employees`
-  );
 
   const getJobs = async () => {
     const data = await getDocs(jobCollection);
-    const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    const jobFilter = job.filter((i) => i.companyId == url[2]);
+    const j = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    const jobFilter = j.filter((i) => i.id == url[2]);
 
     setJobs(jobFilter);
+    setLoading(false);
   };
 
   const getUser = async () => {
@@ -57,31 +52,12 @@ export default function Company() {
     setUserInfo(userProf[0]);
   };
 
-  const getProfile = async () => {
-    const data = await getDocs(userCollection);
-    const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-
-    const d = await getDocs(jobCollection);
-    const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-
-    const x = await getDocs(employeesCollectionRef);
-    const e = x.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    setEmployees(e);
-
-    const userProf = profiles.filter((i) => i.id == url[2]);
-    // console.log(userProf[0]);
-
-    setProfile(userProf[0]);
-    setLoading(false);
-  };
-
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
         // Function Calls
         getUser();
-        getProfile();
         getJobs();
       } else {
         navigate("/SignIn");
@@ -129,61 +105,6 @@ export default function Company() {
             paddingTop: "80px",
           }}
         >
-          <img
-            style={{
-              borderRadius: "110px",
-              boxShadow: "0 0 10px #ccc",
-              display: "flex",
-              marginLeft: "auto",
-              marginRight: "auto",
-              marginTop: "40px",
-              zIndex: 100,
-              position: "relative",
-            }}
-            width="150px"
-            height="150px"
-            src={profile?.Pfp}
-          ></img>
-          <div
-            style={{
-              backgroundColor: "#fff",
-              width: "70%",
-              marginLeft: "auto",
-              marginRight: "auto",
-              marginTop: "-70px",
-              borderRadius: "8px",
-              boxShadow: "0 0 10px #ccc",
-              height: "60vh",
-              display: "flex",
-              padding: "20px",
-            }}
-          >
-            <div
-              style={{
-                marginLeft: "auto",
-                marginRight: "auto",
-                marginTop: "60px",
-                display: "flex",
-                flexDirection: "column",
-                width: "70%",
-              }}
-            >
-              <h2>{profile?.CompanyName}</h2>
-              <Typography style={{ marginTop: "-15px", fontSize: "14px" }}>
-                {profile?.bio}
-              </Typography>
-              <Typography style={{ fontSize: "14px" }}>
-                {profile?.city + ", " + profile?.province}
-              </Typography>
-              <h3 style={{ color: "#2563eb" }}>
-                {employees.length + " Employee(s)"}
-              </h3>
-              <Typography style={{ fontSize: "15px" }}>
-                {profile?.about}
-              </Typography>
-            </div>
-          </div>
-
           <div
             style={{
               marginLeft: "auto",
