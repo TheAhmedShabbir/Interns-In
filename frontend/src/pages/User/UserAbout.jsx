@@ -19,6 +19,8 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import img from "../../assets/images/Userpfp.jpg";
+
 import { onAuthStateChanged, getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -318,21 +320,44 @@ export default function UserAbout() {
       <div style={{ backgroundColor: "#fafafa" }}>
         <UserHeader />
         <div style={{ minHeight: "100vh", paddingTop: "80px" }}>
-          <img
-            style={{
-              borderRadius: "110px",
-              boxShadow: "0 0 10px #ccc",
-              display: "flex",
-              marginLeft: "auto",
-              marginRight: "auto",
-              marginTop: "40px",
-              zIndex: 100,
-              position: "relative",
-            }}
-            width="150px"
-            height="150px"
-            src={userProfile?.Pfp}
-          ></img>
+          {userProfile?.Pfp ? (
+            <img
+              style={{
+                borderRadius: "110px",
+                boxShadow: "0 0 10px #ccc",
+                display: "flex",
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginTop: "40px",
+                zIndex: 100,
+                position: "relative",
+              }}
+              width="150px"
+              height="150px"
+              src={userProfile?.Pfp}
+            ></img>
+          ) : (
+            <div
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                zIndex: 1000,
+                position: "relative",
+              }}
+            >
+              <img
+                style={{
+                  borderRadius: "110px",
+                  backgroundColor: "white",
+                  boxShadow: "0 0 10px #ccc",
+                }}
+                width="160px"
+                height="160px"
+                src={img}
+              />
+            </div>
+          )}
+
           <div
             style={{
               backgroundColor: "#fff",
@@ -353,7 +378,7 @@ export default function UserAbout() {
               <Button
                 style={{ marginLeft: "auto", marginRight: "10px" }}
                 variant="outlined"
-                onClick={() => handleOpen3()}
+                onClick={handleOpen3}
               >
                 CV
               </Button>
@@ -686,34 +711,29 @@ export default function UserAbout() {
               {userProfile?.cv ? (
                 <div>
                   <Button>
-                <a
-                  style={{ textDecoration: "none", color: "#2563eb" }}
-                  href={userProfile?.cv}
-                  target = "_blank"
-                >
-                  View CV
-                </a>
-              </Button>
-              <h4>Update CV</h4>
-              <input type="file" onChange={HandleUpload} />
-              <Button type="submit">
-                upload
-              </Button>
-              <Button onClick={handleClose3}>Close</Button>
-              <h3>uploaded{progress}%</h3>
+                    <a
+                      style={{ textDecoration: "none", color: "#2563eb" }}
+                      href={userProfile?.cv}
+                      target="_blank"
+                    >
+                      View CV
+                    </a>
+                  </Button>
+                  <h4>Update CV</h4>
+                  <input type="file" onChange={HandleUpload} />
+                  <Button type="submit">upload</Button>
+                  <Button onClick={handleClose3}>Close</Button>
+                  <h3>uploaded{progress}%</h3>
                 </div>
               ) : (
                 <div>
                   <input type="file" onChange={HandleUpload} />
-              <Button type="submit">
-                upload
-              </Button>
-              <Button onClick = {updateCV}>Save</Button>
-              <Button onClick={handleClose3}>Close</Button>
-              <h3>uploaded{progress}%</h3>
+                  <Button type="submit">upload</Button>
+                  <Button onClick={updateCV}>Save</Button>
+                  <Button onClick={handleClose3}>Close</Button>
+                  <h3>uploaded{progress}%</h3>
                 </div>
               )}
-              
             </form>
           </Box>
         </Modal>

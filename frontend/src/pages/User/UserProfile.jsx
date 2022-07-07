@@ -18,7 +18,6 @@ import ProfEdit from "../../Components/User/EditProfile";
 import CircularProgress from "@mui/material/CircularProgress";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-
 export default function UserProfile() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
@@ -170,41 +169,82 @@ export default function UserProfile() {
                           }}
                           width="160px"
                           height="160px"
+                          src={img}
                         />
                       </div>
                     )}
 
                     {/* Upload Profile picture */}
                     <div>
-                    <Modal open={open3} onClose={handleClose3}>
-                      <Box sx={{position: "absolute",
-                                top: "50%",
-                                left: "50%",
-                                transform: "translate(-50%, -50%)",
-                                width: 400,
-                                bgcolor: "background.paper",
-                                boxShadow: 24,
-                                p: 4,
-                                borderRadius: "5px",}}>
-                        {/* <Form> */}
-                        <h2>Update Profile Picture</h2>
-                        
-                        <form onSubmit={formHandler}>
-                        <div style = {{display : 'flex', flexDirection : 'column'}}>
-                          <div style = {{display : 'flex', flexDirection : 'row'}}>
-                            
-                          <input type="file" onChange={HandleUpload} />
-                          <Button type="submit" style = {{color : 'orange'}}><CloudUploadIcon style = {{ marginRight : '2px'}}/>upload</Button>
-                          </div>
-                          </div>
-                          <h3>uploaded{progress}%</h3>
-                          <div style = {{display : 'flex', flexDirection : 'row'}}>
-                          <Button onClick={updateProfilePic} style = {{color : 'white', backgroundColor : 'green', marginRight : '5px'}}>Save</Button>
-                          <Button onClick={handleClose3} style = {{color : 'white', backgroundColor : 'red'}}>Close</Button>
-                          </div>
-                        </form>
-                      </Box>
-                    </Modal>
+                      <Modal open={open3} onClose={handleClose3}>
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            width: 400,
+                            bgcolor: "background.paper",
+                            boxShadow: 24,
+                            p: 4,
+                            borderRadius: "5px",
+                          }}
+                        >
+                          {/* <Form> */}
+                          <h2>Update Profile Picture</h2>
+
+                          <form onSubmit={formHandler}>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row",
+                                }}
+                              >
+                                <input type="file" onChange={HandleUpload} />
+                                <Button
+                                  type="submit"
+                                  style={{ color: "orange" }}
+                                >
+                                  <CloudUploadIcon
+                                    style={{ marginRight: "2px" }}
+                                  />
+                                  upload
+                                </Button>
+                              </div>
+                            </div>
+                            <h3>uploaded{progress}%</h3>
+                            <div
+                              style={{ display: "flex", flexDirection: "row" }}
+                            >
+                              <Button
+                                onClick={updateProfilePic}
+                                style={{
+                                  color: "white",
+                                  backgroundColor: "green",
+                                  marginRight: "5px",
+                                }}
+                              >
+                                Save
+                              </Button>
+                              <Button
+                                onClick={handleClose3}
+                                style={{
+                                  color: "white",
+                                  backgroundColor: "red",
+                                }}
+                              >
+                                Close
+                              </Button>
+                            </div>
+                          </form>
+                        </Box>
+                      </Modal>
 
                       <Button onClick={handleOpen3}>
                         <EditIcon />

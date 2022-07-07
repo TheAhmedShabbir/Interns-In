@@ -36,10 +36,7 @@ import {
   getDocs,
   deleteDoc,
 } from "firebase/firestore";
-import MessageIcon from '@mui/icons-material/Message';
-
-
-
+import MessageIcon from "@mui/icons-material/Message";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -710,9 +707,9 @@ export default function UserHomepage() {
                       borderRadius: "110px",
                       marginTop: "-75px",
                       backgroundColor: "white",
-                      border: "blue 2px solid",
                       boxShadow: "0 0 10px #ccc",
                     }}
+                    src={img}
                     width="150px"
                     height="150px"
                   />
@@ -756,11 +753,11 @@ export default function UserHomepage() {
                 boxShadow: "0 0 10px #ccc",
               }}
             >
-              <div style = {{display : 'flex', flexDirection : 'row'}}>
+              <div style={{ display: "flex", flexDirection: "row" }}>
                 <h4>Video Conference</h4>
-                <MessageIcon/>
-                </div>
-              
+                <MessageIcon />
+              </div>
+
               <div className="app">
                 {currentPage === "home" ? (
                   <Menu
