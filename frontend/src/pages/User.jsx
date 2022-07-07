@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { getDownloadURL } from "firebase/storage";
 import CompanyHeader from "../Components/Company/CompanyHeader";
+import AdminHeader from "../Components/Admin/Adminheader";
+import UserHeader from "../Components/User/Userheader";
 
 const style = {
   position: "absolute",
@@ -51,6 +53,7 @@ export default function User() {
     const userProf = profile.filter((i) => i.id == url[2]);
     setProfile(userProf[0]);
     setLoading(false);
+    console.log(userProf[0]);
   };
 
   const getUser = async () => {
@@ -58,14 +61,13 @@ export default function User() {
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     const userProf = profiles.filter((i) => i.Email == user?.email);
     setUserInfo(userProf[0]);
-    console.log(userInfo);
   };
 
   // Get User Education From Firestore database
   const getEducation = async () => {
     const data = await getDocs(EduCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    const userProf = profiles.filter((i) => i.User_Email == user?.email);
+    const userProf = profiles.filter((i) => i.User_Email == profile?.Email);
     setUserEducation(userProf);
     setLoading(false);
   };
@@ -82,7 +84,7 @@ export default function User() {
   const getExperience = async () => {
     const data = await getDocs(ExpCollection);
     const profiles = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    const userProf = profiles.filter((i) => i.User_Email == user?.email);
+    const userProf = profiles.filter((i) => i.User_Email == profile?.Email);
     setUserExperience(userProf);
     // console.log(UserEdxperience)
     setLoading(false);

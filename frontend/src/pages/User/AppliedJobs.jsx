@@ -176,13 +176,9 @@ export default function SavedJobs() {
                   {job.type + " Time"} {"— "}
                   {job.mode}
                 </Typography>
-                <Button
-                  style={{ margin: "10px" }}
-                  variant="outlined"
-                >
+                <Button style={{ margin: "10px" }} variant="outlined">
                   View Details
                 </Button>
-                
               </div>
             );
           })}

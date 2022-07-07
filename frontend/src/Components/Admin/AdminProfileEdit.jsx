@@ -36,15 +36,19 @@ export default function AdminProfEdit({ name, email, open, close, id }) {
       <Modal open={open} onClose={close}>
         <div
           style={{
-            dusplay: "flex",
-            flexDirection: "column",
             justifyContent: "center",
             margin: "auto",
-
             padding: "20px",
             backgroundColor: "#f5f5f5",
             maxWidth: "600px",
-            maxHeifht: "600px",
+            maxHeight: "600px",
+            minWidth: "500px",
+            minHeight: "200px",
+
+            borderRadius: "8px",
+            position: "absolute",
+            left: "31%",
+            top: "20%",
           }}
         >
           {/* <Form> */}
@@ -58,6 +62,7 @@ export default function AdminProfEdit({ name, email, open, close, id }) {
             }}
           >
             <TextField
+              sx={{ margin: "10px" }}
               fullWidth
               marginBottom="10px"
               label="Company Name"
@@ -71,7 +76,9 @@ export default function AdminProfEdit({ name, email, open, close, id }) {
               onChange={(e) => setNewEmail(e.target.value)}
             />
           </div>
-          <Button onClick={close}>Cancel</Button>
+          <Button sx={{ margin: "10px" }} onClick={close}>
+            Cancel
+          </Button>
           <Button onClick={() => editAdminProf()}>Update</Button>
           {/* </Form> */}
         </div>

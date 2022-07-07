@@ -64,10 +64,7 @@ export default function ProfEdit({
   return (
     <div>
       {console.log(first_name, second_name, email, password)}
-      <Modal
-        open={open}
-        onClose={close}
-      >
+      <Modal open={open} onClose={close}>
         <Box
           sx={{
             position: "absolute",
@@ -83,26 +80,32 @@ export default function ProfEdit({
         >
           {/* <Form> */}
           <h2>Edit User Information</h2>
-          <div style = {{display : 'flex', flexDirection: 'column', justifyContent: 'space-evenly'}}>
-          <TextField
-            fullWidth
-            label="First Name"
-            defaultValue={first_name}
-            onChange={(e) => setNewFirstName(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            label="Last Name"
-            defaultValue={second_name}
-            onChange={(e) => setNewScndName(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            label="Email"
-            defaultValue={email}
-            onChange={(e) => setNewEmail(e.target.value)}
-          />
-          {/* <TextField
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+            }}
+          >
+            <TextField
+              fullWidth
+              label="First Name"
+              defaultValue={first_name}
+              onChange={(e) => setNewFirstName(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              label="Last Name"
+              defaultValue={second_name}
+              onChange={(e) => setNewScndName(e.target.value)}
+            />
+            <TextField
+              fullWidth
+              label="Email"
+              defaultValue={email}
+              onChange={(e) => setNewEmail(e.target.value)}
+            />
+            {/* <TextField
             fullWidth
             label="Enter password to save changes"
             // defaultValue={}
