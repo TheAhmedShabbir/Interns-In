@@ -17,7 +17,7 @@ import { forwardRef } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import TestModal from "../../Components/Company/TestModal";
 import CallModal from "../../Components/Company/CallModal";
-import VideoCallIcon from '@mui/icons-material/VideoCall';
+import VideoCallIcon from "@mui/icons-material/VideoCall";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -74,9 +74,6 @@ export default function Shortlisted() {
 
   const [Company, setCompany] = useState("");
   const [U_ID, setU_ID] = useState("");
-
-
-
 
   const userCollection = collection(db, "UserProfile");
   const shortlistCollectionRef = collection(
@@ -205,7 +202,11 @@ export default function Shortlisted() {
         >
           <h1 style={{ marginTop: "80px" }}>Shortlisted</h1>
           <Button
-            sx={{ marginLeft: "auto", marginTop: "-7vh", marginRight: "10px" }}
+            sx={{
+              marginLeft: "auto",
+              marginTop: "-7vh",
+              marginRight: "10px",
+            }}
             variant="outlined"
             startIcon={<AssignmentIcon />}
             onClick={() =>
@@ -216,11 +217,19 @@ export default function Shortlisted() {
           >
             Make Online Test
           </Button>
-          <Button sx={{ marginLeft: "auto", marginTop: "2vh", marginRight: "10px"}}
-          variant="outlined"
-          startIcon={<VideoCallIcon />}
-          ><a href = "/Live" target = "_blank" style = {{textDecoration : 'none'}}>
-            Start online Call</a></Button>
+          <Button
+            sx={{
+              marginLeft: "auto",
+              marginRight: "10px",
+              height: "40px",
+              marginTop: "5px",
+            }}
+            variant="outlined"
+            startIcon={<VideoCallIcon />}
+            onClick={() => navigate("/Live")}
+          >
+            <p>Start online Call</p>
+          </Button>
           <div
             style={{
               display: "flex",
@@ -306,9 +315,13 @@ export default function Shortlisted() {
                                 size="small"
                                 variant="outlined"
                                 startIcon={<SendIcon />}
-                                onClick={() => {handleCOpen(), setCompany(userInfo?.id), setU_ID(a?.id)}}
+                                onClick={() => {
+                                  handleCOpen(),
+                                    setCompany(userInfo?.id),
+                                    setU_ID(a?.id);
+                                }}
                               >
-                                Call 
+                                Call
                               </Button>
                               <Button
                                 style={{ margin: "10px" }}
@@ -332,10 +345,10 @@ export default function Shortlisted() {
                       email={a?.applicantEmail}
                     ></TestModal>
                     <CallModal
-                    open = {Copen}
-                    close = {handleCClose}
-                    id = {U_ID}
-                    CmpID = {Company}
+                      open={Copen}
+                      close={handleCClose}
+                      id={U_ID}
+                      CmpID={Company}
                     />
                   </div>
                 );

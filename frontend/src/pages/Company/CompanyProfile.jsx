@@ -62,14 +62,16 @@ export default function CompanyProfile() {
     handleOpen();
   };
   // Modal
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   // Update Profile Picture
-  const [open2, setOpen2] = React.useState(false);
+  const [open2, setOpen2] = useState(false);
   const handleOpen2 = () => setOpen2(true);
+  const handleOpen3 = () => setOpen3(true);
   const handleClose2 = () => setOpen2(false);
+  const handleClose3 = () => setOpen3(false);
 
   const [Url, setUrl] = useState();
   const [progress, setProgress] = useState(0);
@@ -102,6 +104,8 @@ export default function CompanyProfile() {
       }
     );
   };
+
+  const [open3, setOpen3] = useState(false);
 
   //Update User Profile Picture
   const updateProfilePic = async () => {
@@ -162,38 +166,69 @@ export default function CompanyProfile() {
                 >
                   <div style={{ zIndex: 1, position: "relative" }}>
                     <img
-                      style={{ borderRadius: "110px" }}
+                      style={{
+                        borderRadius: "110px",
+                        backgroundColor: "white",
+                      }}
                       width="160px"
                       height="160px"
-                      src={item.Pfp}
+                      src={item?.Pfp}
                     />
                   </div>
                   <div>
-                  <Modal open={open3} onClose={handleClose3}>
-                      <Box sx={{position: "absolute",
-                                top: "50%",
-                                left: "50%",
-                                transform: "translate(-50%, -50%)",
-                                width: 400,
-                                bgcolor: "background.paper",
-                                boxShadow: 24,
-                                p: 4,
-                                borderRadius: "5px",}}>
+                    <Modal open={open3} onClose={handleClose3}>
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          width: 400,
+                          bgcolor: "background.paper",
+                          boxShadow: 24,
+                          p: 4,
+                          borderRadius: "5px",
+                        }}
+                      >
                         {/* <Form> */}
                         <h2>Update Profile Picture</h2>
-                        
+
                         <form onSubmit={formHandler}>
-                        <div style = {{display : 'flex', flexDirection : 'column'}}>
-                          <div style = {{display : 'flex', flexDirection : 'row'}}>
-                            
-                          <input type="file" onChange={HandleUpload} />
-                          <Button type="submit" style = {{color : 'orange'}}><CloudUploadIcon style = {{ marginRight : '2px'}}/>upload</Button>
-                          </div>
+                          <div
+                            style={{ display: "flex", flexDirection: "column" }}
+                          >
+                            <div
+                              style={{ display: "flex", flexDirection: "row" }}
+                            >
+                              <input type="file" onChange={HandleUpload} />
+                              <Button type="submit" style={{ color: "orange" }}>
+                                {/* <CloudUploadIcon
+                                  style={{ marginRight: "2px" }}
+                                /> */}
+                                upload
+                              </Button>
+                            </div>
                           </div>
                           <h3>uploaded{progress}%</h3>
-                          <div style = {{display : 'flex', flexDirection : 'row'}}>
-                          <Button onClick={updateProfilePic} style = {{color : 'white', backgroundColor : 'green', marginRight : '5px'}}>Save</Button>
-                          <Button onClick={handleClose3} style = {{color : 'white', backgroundColor : 'red'}}>Close</Button>
+                          <div
+                            style={{ display: "flex", flexDirection: "row" }}
+                          >
+                            <Button
+                              onClick={updateProfilePic}
+                              style={{
+                                color: "white",
+                                backgroundColor: "green",
+                                marginRight: "5px",
+                              }}
+                            >
+                              Save
+                            </Button>
+                            <Button
+                              onClick={handleClose3}
+                              style={{ color: "white", backgroundColor: "red" }}
+                            >
+                              Close
+                            </Button>
                           </div>
                         </form>
                       </Box>
@@ -276,9 +311,7 @@ export default function CompanyProfile() {
                       Edit
                     </Button> */}
                           </div>
-                          <Typography style={{ marginBottom: "15px" }}>
-                            {UserInfo?.Password}
-                          </Typography>
+                          <Typography>*******</Typography>
                         </div>
                         <div>
                           <div
@@ -313,9 +346,6 @@ export default function CompanyProfile() {
                             }}
                           >
                             <h2>Location</h2>
-                            {/* <Button size="small" variant="outlined">
-                      Edit
-                    </Button> */}
                           </div>
                           <Typography style={{ marginBottom: "15px" }}>
                             {item?.Location}

@@ -10,7 +10,7 @@ import { getDownloadURL } from "firebase/storage";
 import CompanyHeader from "../Components/Company/CompanyHeader";
 import AdminHeader from "../Components/Admin/Adminheader";
 import UserHeader from "../Components/User/Userheader";
-
+import img from "../assets/images/Userpfp.jpg";
 
 const style = {
   position: "absolute",
@@ -201,7 +201,40 @@ export default function User() {
           </div>
         )}
         <div style={{ minHeight: "100vh", paddingTop: "80px" }}>
-          <img
+          {profile?.Pfp ? (
+            <img
+              style={{
+                borderRadius: "110px",
+                boxShadow: "0 0 10px #ccc",
+                display: "flex",
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginTop: "40px",
+                zIndex: 100,
+                position: "relative",
+              }}
+              width="150px"
+              height="150px"
+              src={profile?.Pfp}
+            ></img>
+          ) : (
+            <img
+              style={{
+                borderRadius: "110px",
+                boxShadow: "0 0 10px #ccc",
+                display: "flex",
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginTop: "40px",
+                zIndex: 100,
+                position: "relative",
+              }}
+              width="150px"
+              height="150px"
+              src={img}
+            ></img>
+          )}
+          {/* <img
             style={{
               borderRadius: "110px",
               boxShadow: "0 0 10px #ccc",
@@ -215,7 +248,7 @@ export default function User() {
             width="150px"
             height="150px"
             src={profile?.Pfp}
-          ></img>
+          ></img> */}
           <div
             style={{
               backgroundColor: "#fff",
@@ -241,7 +274,7 @@ export default function User() {
                 <a
                   style={{ textDecoration: "none", color: "#2563eb" }}
                   href={profile?.cv}
-                  target = "_blank"
+                  target="_blank"
                 >
                   View CV
                 </a>

@@ -4,6 +4,7 @@ import { Button, Modal, TextField, Typography } from "@mui/material";
 import { updateDoc, doc, collection } from "firebase/firestore";
 import { db } from "../../firebase-config";
 
+
 export default function CmpProfEdit({
   companyname,
   email,
@@ -20,7 +21,7 @@ export default function CmpProfEdit({
 
   const updateCompanyname = async (id, nCName) => {
     if (nCName == undefined) {
-        nCName = companyname;
+      nCName = companyname;
     }
     const UserCollection = doc(db, "UserProfile", id);
     const nf = { CompanyName: nCName };
@@ -29,7 +30,7 @@ export default function CmpProfEdit({
 
   const updatelocation = async (id, nLocation) => {
     if (nLocation == undefined) {
-        nLocation = location;
+      nLocation = location;
     }
     const UserCollection = doc(db, "UserProfile", id);
     const nf = { Location: nLocation };
@@ -47,7 +48,7 @@ export default function CmpProfEdit({
 
   const updateAbout = async (id, nAbout) => {
     if (nPass == undefined) {
-        nAbout = about;
+      nAbout = about;
     }
     const UserCollection = doc(db, "UserProfile", id);
     const nf = { About: nAbout };
@@ -63,10 +64,7 @@ export default function CmpProfEdit({
 
   return (
     <div>
-      <Modal
-        open={open}
-        onClose={close}
-      >
+      <Modal open={open} onClose={close}>
         <Box
           sx={{
             position: "absolute",
@@ -87,27 +85,32 @@ export default function CmpProfEdit({
             label="Company Name"
             defaultValue={companyname}
             onChange={(e) => setNewCompanyname(e.target.value)}
+            sx={{ marginTop: "10px" }}
           />
           <TextField
             fullWidth
             label="Email"
             defaultValue={email}
             onChange={(e) => setNewEmail(e.target.value)}
+            sx={{ marginTop: "10px" }}
           />
           <TextField
             fullWidth
             label="Location"
             defaultValue={location}
             onChange={(e) => setNewLocation(e.target.value)}
+            sx={{ marginTop: "10px" }}
           />
           <TextField
             fullWidth
             label="About"
             defaultValue={about}
             onChange={(e) => setNewAbout(e.target.value)}
+            sx={{ marginTop: "10px" }}
           />
-          <Button onClick={close}>Cancel</Button>
+
           <Button onClick={() => editCmpProf()}>Update</Button>
+          <Button onClick={close}>close</Button>
           {/* </Form> */}
         </Box>
       </Modal>

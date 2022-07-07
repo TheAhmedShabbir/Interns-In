@@ -10,6 +10,7 @@ import MuiAlert from "@mui/material/Alert";
 import { forwardRef } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import AdminHeader from "../../Components/Admin/Adminheader";
+import img from "../../assets/images/Userpfp.jpg";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -150,15 +151,27 @@ export default function AllUsers() {
                           position: "relative",
                         }}
                       >
-                        <img
-                          style={{
-                            borderRadius: "110px",
-                            boxShadow: "0 0 10px #ccc",
-                          }}
-                          width="140px"
-                          height="140px"
-                          src={u?.Pfp}
-                        />
+                        {u?.Pfp ? (
+                          <img
+                            style={{
+                              borderRadius: "110px",
+                              boxShadow: "0 0 10px #ccc",
+                            }}
+                            width="140px"
+                            height="140px"
+                            src={u?.Pfp}
+                          />
+                        ) : (
+                          <img
+                            style={{
+                              borderRadius: "110px",
+                              boxShadow: "0 0 10px #ccc",
+                            }}
+                            width="140px"
+                            height="140px"
+                            src={img}
+                          />
+                        )}
                       </div>
                       <div
                         style={{
