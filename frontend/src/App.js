@@ -26,6 +26,7 @@ import PostJob from "./pages/Company/PostJob";
 import SavedJobs from "./pages/User/SavedJobs";
 import AppliedJobs from "./pages/User/AppliedJobs";
 import Reports from "./pages/Admin/Reports";
+import Live from "./pages/Company/Live";
 import "./App.css";
 import { AccountVerify } from "./pages/verify";
 import { AccountNotVerified } from "./pages/account-not-verified";
@@ -102,6 +103,14 @@ export default function App() {
             element={
               <AuthorizedRoute>
                 <CompanyProfile />
+              </AuthorizedRoute>
+            }
+          ></Route>
+          <Route
+            path="/Live"
+            element={
+              <AuthorizedRoute>
+                <Live />
               </AuthorizedRoute>
             }
           ></Route>

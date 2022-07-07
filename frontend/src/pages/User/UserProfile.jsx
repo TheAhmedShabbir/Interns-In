@@ -16,18 +16,8 @@ import { storage } from "../../firebase-config";
 import { getDownloadURL } from "firebase/storage";
 import ProfEdit from "../../Components/User/EditProfile";
 import CircularProgress from "@mui/material/CircularProgress";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: "5px",
-};
 
 export default function UserProfile() {
   const navigate = useNavigate();
@@ -69,17 +59,17 @@ export default function UserProfile() {
         });
       }
     );
-    // }
   };
 
   //Update User Profile Picture
-
   const updateProfilePic = async () => {
+    console.log(UserInfo);
     const updatedDoc = doc(db, "UserProfile", UserInfo[0]?.id);
     await updateDoc(updatedDoc, {
       Pfp: Url,
     });
   };
+
   //Update User Profile
   const updateProf = async (id) => {
     setEdit(UserInfo[id]);
@@ -186,22 +176,35 @@ export default function UserProfile() {
 
                     {/* Upload Profile picture */}
                     <div>
-                      <Modal open={open3} onClose={handleClose3}>
-                        <Box sx={style}>
-                          {/* <Form> */}
-                          <h2>Upload / Download files</h2>
-                          <form onSubmit={formHandler}>
-                            <input type="file" onChange={HandleUpload} />
-                            <Button type="submit" onClick={updateProfilePic}>
-                              upload
-                            </Button>
-
-                            <Button onClick={handleClose3}>close</Button>
-
-                            <h3>uploaded{progress}%</h3>
-                          </form>
-                        </Box>
-                      </Modal>
+                    <Modal open={open3} onClose={handleClose3}>
+                      <Box sx={{position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                                transform: "translate(-50%, -50%)",
+                                width: 400,
+                                bgcolor: "background.paper",
+                                boxShadow: 24,
+                                p: 4,
+                                borderRadius: "5px",}}>
+                        {/* <Form> */}
+                        <h2>Update Profile Picture</h2>
+                        
+                        <form onSubmit={formHandler}>
+                        <div style = {{display : 'flex', flexDirection : 'column'}}>
+                          <div style = {{display : 'flex', flexDirection : 'row'}}>
+                            
+                          <input type="file" onChange={HandleUpload} />
+                          <Button type="submit" style = {{color : 'orange'}}><CloudUploadIcon style = {{ marginRight : '2px'}}/>upload</Button>
+                          </div>
+                          </div>
+                          <h3>uploaded{progress}%</h3>
+                          <div style = {{display : 'flex', flexDirection : 'row'}}>
+                          <Button onClick={updateProfilePic} style = {{color : 'white', backgroundColor : 'green', marginRight : '5px'}}>Save</Button>
+                          <Button onClick={handleClose3} style = {{color : 'white', backgroundColor : 'red'}}>Close</Button>
+                          </div>
+                        </form>
+                      </Box>
+                    </Modal>
 
                       <Button onClick={handleOpen3}>
                         <EditIcon />

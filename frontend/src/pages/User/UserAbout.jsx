@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Button,
-  Checkbox,
+  Link,
   FormControl,
   TextField,
   Typography,
@@ -674,15 +674,39 @@ export default function UserAbout() {
               borderRadius: "8px",
             }}
           >
-            <h2>Upload / Download files</h2>
+            <h2>CV</h2>
             <form onSubmit={formHandler}>
+              {userProfile?.cv ? (
+                <div>
+                  <Button>
+                <a
+                  style={{ textDecoration: "none", color: "#2563eb" }}
+                  href={userProfile?.cv}
+                  target = "_blank"
+                >
+                  View CV
+                </a>
+              </Button>
+              <h4>Update CV</h4>
               <input type="file" onChange={HandleUpload} />
-              <Button type="submit" onClick={updateCV}>
+              <Button type="submit">
                 upload
               </Button>
-
               <Button onClick={handleClose3}>Close</Button>
               <h3>uploaded{progress}%</h3>
+                </div>
+              ) : (
+                <div>
+                  <input type="file" onChange={HandleUpload} />
+              <Button type="submit">
+                upload
+              </Button>
+              <Button onClick = {updateCV}>Save</Button>
+              <Button onClick={handleClose3}>Close</Button>
+              <h3>uploaded{progress}%</h3>
+                </div>
+              )}
+              
             </form>
           </Box>
         </Modal>

@@ -169,18 +169,32 @@ export default function CompanyProfile() {
                     />
                   </div>
                   <div>
-                    <Modal open={open2} onClose={handleClose2}>
-                      <Box sx={style}>
+                  <Modal open={open3} onClose={handleClose3}>
+                      <Box sx={{position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                                transform: "translate(-50%, -50%)",
+                                width: 400,
+                                bgcolor: "background.paper",
+                                boxShadow: 24,
+                                p: 4,
+                                borderRadius: "5px",}}>
                         {/* <Form> */}
                         <h2>Update Profile Picture</h2>
+                        
                         <form onSubmit={formHandler}>
+                        <div style = {{display : 'flex', flexDirection : 'column'}}>
+                          <div style = {{display : 'flex', flexDirection : 'row'}}>
+                            
                           <input type="file" onChange={HandleUpload} />
-                          <Button type="submit">upload</Button>
-                          <Button onClick={updateProfilePic}>Save</Button>
-
-                          <Button onClick={handleClose2}>Cancel</Button>
-
+                          <Button type="submit" style = {{color : 'orange'}}><CloudUploadIcon style = {{ marginRight : '2px'}}/>upload</Button>
+                          </div>
+                          </div>
                           <h3>uploaded{progress}%</h3>
+                          <div style = {{display : 'flex', flexDirection : 'row'}}>
+                          <Button onClick={updateProfilePic} style = {{color : 'white', backgroundColor : 'green', marginRight : '5px'}}>Save</Button>
+                          <Button onClick={handleClose3} style = {{color : 'white', backgroundColor : 'red'}}>Close</Button>
+                          </div>
                         </form>
                       </Box>
                     </Modal>

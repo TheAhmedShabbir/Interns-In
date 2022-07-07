@@ -97,9 +97,9 @@ export default function ReportPost({
                         // sx={{ marginRight: "350px" }}
                       />
                       <FormControlLabel
-                        value={"Fraud/Spam"}
+                        value={"Fraud/Spam/misleading"}
                         control={<Radio required={true} />}
-                        label={"Fraud/Spam"}
+                        label={"Fraud/Spam/Misleading"}
                         onChange={(event) => {
                             setReason(event.target.value);
                         }}

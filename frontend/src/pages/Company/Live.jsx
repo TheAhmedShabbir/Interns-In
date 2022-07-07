@@ -181,6 +181,7 @@ function Videos({ mode, callId, setPage }) {
         <Button
           variant="contained"
           type="button"
+          style = {{backgroundColor : 'red'}}
           onClick={hangUp}
           disabled={!webcamActive}
           className="hangup button"
@@ -191,13 +192,14 @@ function Videos({ mode, callId, setPage }) {
           <MoreVertIcon />
           <div
             className="popover"
-            style={{
-              backgroundColor: "blue",
-            }}
           >
             <Button
               variant="contained"
               type="button"
+              style={{
+                backgroundColor: "blue",
+                color : 'white'
+              }}
               onClick={() => {
                 navigator.clipboard.writeText(roomId);
                 console.log(roomId);
@@ -212,29 +214,29 @@ function Videos({ mode, callId, setPage }) {
 
       {!webcamActive && (
         <div className="modalContainer">
-          <div className="modal">
-            <h3>Turn on your camera and microphone and start the call</h3>
+          <div className="modal" style = {{display : 'flex', flexDirection : 'column'}}>
+            <h3>Your microphone and camera will automatically start</h3>
             <div
-              // className="container"
-              color="primary"
-              className="flex gap-4 mt-8"
+              style = {{display :'flex', flexDirection : 'row', justifyContent : 'space-evenly', margin : '10px'}}
+              // color="primary"
+              // className="flex gap-4 mt-8"
             >
               <Button
                 type="button"
-                fullWidth
+                variant="contained"
+                onClick={setupSources}
+                style = {{backgroundColor : 'green', color : 'white', boxShadow : '0px 0px 5px black'}}
+              >
+                Start
+              </Button>
+              <Button
+                type="button"
+                style = {{backgroundColor : 'red', color : 'white', boxShadow : '0px 0px 5px black'}}
                 variant="contained"
                 onClick={() => setPage("home")}
                 // className="secondary"
               >
                 Cancel
-              </Button>
-              <Button
-                type="button"
-                variant="contained"
-                onClick={setupSources}
-                fullWidth
-              >
-                Start
               </Button>
             </div>
           </div>
@@ -252,9 +254,9 @@ function Menu({ joinCode, setJoinCode, setPage }) {
         // className="home"
         style={{
           height: "100vh",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-          gap: "10vw",
+          display: "flex",
+          justifyContent: 'center',
+          // gap: "10vw",
           padding: "30vh 20vw",
         }}
       >
@@ -263,15 +265,19 @@ function Menu({ joinCode, setJoinCode, setPage }) {
           // className="create box"
           style={{
             padding: "40px 20px",
+            display : 'flex',
+            flexDirection : 'column',
+            width : '500px',
             backgroundColor: "#401F86",
+            borderRadius: '10px'
           }}
-        >
+        ><h4>Start Video Call</h4>
           <Button style={{ color: "white" }} onClick={() => setPage("create")}>
             Create Call
           </Button>
         </div>
 
-        <div
+        {/* <div
           className="answer flex flox-col items-center justify-center bg-gray-200 text-600 rounded-lg"
           // className="answer box"
           style={{
@@ -287,7 +293,7 @@ function Menu({ joinCode, setJoinCode, setPage }) {
           <Button style={{ color: "white" }} onClick={() => setPage("join")}>
             Answer
           </Button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, link } from "@mui/material";
 import { db, auth, storage } from "../firebase-config";
 import CircularProgress from "@mui/material/CircularProgress";
 import { collection, getDocs, addDoc } from "firebase/firestore";
@@ -10,6 +10,7 @@ import { getDownloadURL } from "firebase/storage";
 import CompanyHeader from "../Components/Company/CompanyHeader";
 import AdminHeader from "../Components/Admin/Adminheader";
 import UserHeader from "../Components/User/Userheader";
+
 
 const style = {
   position: "absolute",
@@ -237,7 +238,13 @@ export default function User() {
                 variant="outlined"
                 onClick={() => handleOpen3()}
               >
-                CV
+                <a
+                  style={{ textDecoration: "none", color: "#2563eb" }}
+                  href={profile?.cv}
+                  target = "_blank"
+                >
+                  View CV
+                </a>
               </Button>
             </div>
             <div
