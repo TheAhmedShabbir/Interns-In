@@ -308,7 +308,7 @@ export default function UserAbout() {
             position: "absolute",
             left: "50%",
             top: "40%",
-            zIndex: "1000",
+            // zIndex: "1000",
             height: "35px",
             width: "35px",
           }}
@@ -341,7 +341,7 @@ export default function UserAbout() {
               style={{
                 marginLeft: "auto",
                 marginRight: "auto",
-                zIndex: 1000,
+                // zIndex: 1000,
                 position: "relative",
               }}
             >
