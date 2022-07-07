@@ -169,12 +169,12 @@ export default function FormEdit({
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
                     name="row-radio-buttons-group"
+                    defaultValue={type}
                   >
                     <FormControlLabel
                       control={<Radio />}
                       label="Full Time"
-                      value="Full Time"
-                      // defaultValue={type}
+                      value="Full"
                       onChange={(event) => {
                         setNewJobType(event.target.value);
                       }}
@@ -183,8 +183,7 @@ export default function FormEdit({
                       sx={{ marginLeft: "80px" }}
                       control={<Radio />}
                       label="Part Time"
-                      value="Part Time"
-                      // defaultValue={type}
+                      value="Part"
                       onChange={(event) => {
                         setNewJobType(event.target.value);
                       }}
@@ -214,12 +213,12 @@ export default function FormEdit({
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
                     name="row-radio-buttons-group"
+                    defaultValue={mode}
                   >
                     <FormControlLabel
                       control={<Radio />}
                       label="Remote"
                       value="Remote"
-                      defaultValue={mode}
                       onChange={(event) => {
                         setNewMode(event.target.value);
                       }}
@@ -229,7 +228,6 @@ export default function FormEdit({
                       control={<Radio />}
                       label="On-site"
                       value="On-site"
-                      defaultValue={mode}
                       onChange={(event) => {
                         setNewMode(event.target.value);
                       }}
