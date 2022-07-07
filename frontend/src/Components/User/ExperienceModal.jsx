@@ -8,7 +8,6 @@ export default function ExpEdit({
   company,
   position,
   duration,
-  certified,
   open,
   close,
   id,
@@ -16,7 +15,6 @@ export default function ExpEdit({
   const [newCompany, setNewCompany] = useState();
   const [newPosition, setNewPosition] = useState();
   const [newDuration, setNewDuration] = useState();
-  const [newCertified, setNewCertified] = useState();
 
   const updateCompany = async (id, nCompany) => {
     if (nCompany == undefined) {
@@ -45,20 +43,10 @@ export default function ExpEdit({
     updateDoc(EXPcollection, nf);
   };
 
-  const updateCertified = async (id, nCertified) => {
-    if (nCertified == undefined) {
-      nCertified = certified;
-    }
-    const EXPcollection = doc(db, "UserProfile", id);
-    const nf = { Certified: nCertified };
-    updateDoc(EXPcollection, nf);
-  };
-
   const editExp = async () => {
     updateCompany(id, newCompany);
     updatePosition(id, newPosition);
     updateDuration(id, newDuration);
-    updateCertified(id, newCertified);
   };
 
   return (
@@ -100,13 +88,7 @@ export default function ExpEdit({
             defaultValue={duration}
             onChange={(e) => setNewDuration(e.target.value)}
           />
-          <TextField
-            style={{ marginBottom: "10px" }}
-            fullWidth
-            label="Certified"
-            defaultValue={certified}
-            onChange={(e) => setNewCertified(e.target.value)}
-          />
+
           <Button onClick={close}>Cancel</Button>
           <Button onClick={() => editExp()}>Add</Button>
         </Box>

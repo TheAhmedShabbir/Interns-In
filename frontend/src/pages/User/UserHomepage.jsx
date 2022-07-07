@@ -544,6 +544,7 @@ export default function UserHomepage() {
   const getCategoryFilter = async (name) => {
     const data = await getDocs(jobCollection);
     const job = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
     const categoryFilter = job.filter((c) => c.Title == name);
 
     setJobsShown(categoryFilter);
@@ -573,7 +574,9 @@ export default function UserHomepage() {
   const getCategories = async () => {
     const data = await getDocs(categoriesCollection);
     const categories = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    // const f = categories.filter((j) => j.name == categories.name);
     setCategory(categories);
+
     setLoading(false);
   };
 
@@ -1080,7 +1083,7 @@ export default function UserHomepage() {
                 sx={{ width: "100%" }}
                 severity="warning"
               >
-                Please upload your Resume first.
+                Please complete your Profile First.
               </Alert>
             </Snackbar>
 

@@ -26,12 +26,12 @@ const Alert = forwardRef(function Alert(props, ref) {
 export default function PostJob() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
-  const [startDate, setStartDate] = useState(null);
+  // const [startDate, setStartDate] = useState(null);
   const [jobTitle, setJobTitle] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [jobType, setJobType] = useState("");
   const [mode, setMode] = useState("");
-  const [salary, setSalary] = useState(5000);
+  const [salary, setSalary] = useState(25000);
   const [city, setCity] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [companyId, setCompanyId] = useState("");

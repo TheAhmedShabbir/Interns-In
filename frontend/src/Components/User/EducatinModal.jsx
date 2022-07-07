@@ -8,13 +8,15 @@ export default function EduEdit({
   degree,
   Institute,
   duration,
+  durationOne,
   open,
   close,
   id,
 }) {
   const [newDegree, setNewDegree] = useState();
   const [newInstitute, setNewInstitute] = useState();
-  const [newDuration, setNeDuration] = useState();
+  const [newDuration, setNewDuration] = useState();
+  const [newDurationOne, setNewDurationOne] = useState();
 
   const updateDegree = async (id, nDegree) => {
     if (nDegree == undefined) {
@@ -43,10 +45,20 @@ export default function EduEdit({
     updateDoc(EDUcollection, nf);
   };
 
+  const updateDurationOne = async (id, mDuration) => {
+    if (mDuration == undefined) {
+      mDuration = duration;
+    }
+    const EDUcollection = doc(db, "UserEducation", id);
+    const nf = { DurationOne: mDuration };
+    updateDoc(EDUcollection, nf);
+  };
+
   const editEdu = async () => {
     updateDegree(id, newDegree);
     updateInstitute(id, newInstitute);
     updateDuration(id, newDuration);
+    updateDurationOne(id, newDurationOne);
   };
 
   return (
@@ -85,15 +97,25 @@ export default function EduEdit({
             defaultValue={Institute}
             onChange={(e) => setNewInstitute(e.target.value)}
           />
-          <TextField
-            style={{ marginBottom: "10px" }}
-            fullWidth
-            label="Duration"
-            defaultValue={duration}
-            onChange={(e) => setNewDuration(e.target.value)}
-          />
+          <div>
+            <h3>Duration</h3>
+            <TextField
+              style={{ marginBottom: "10px" }}
+              fullWidth
+              defaultValue={duration}
+              onChange={(e) => setNewDuration(e.target.value)}
+              type="date"
+            />
+            <TextField
+              style={{ marginBottom: "10px" }}
+              fullWidth
+              defaultValue={durationOne}
+              onChange={(e) => setNewDurationOne(e.target.value)}
+              type="date"
+            />
+          </div>
 
-          <Button onClick={close}>Cancel</Button>
+          <Button onClick={close}>Close</Button>
           <Button onClick={() => editEdu()}>Add</Button>
           {/* </Form> */}
         </Box>

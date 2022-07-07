@@ -24,7 +24,7 @@ export default function Notifications() {
       // get jobs
       const getJobs = async () => {
         const data = await getDocs(jobCollection);
-        setJobs(data.docs.map((doc) => ({ ...doc.data() })));
+        setJobs(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         setLoading(false);
       };
 
@@ -127,11 +127,11 @@ export default function Notifications() {
                     </div>
                   </div>
                   <div style={{ marginTop: "-30px" }}>
-                    
                     <Button
                       style={{ margin: "10px" }}
                       size="small"
                       variant="outlined"
+                      onClick={() => navigate(`/job/${job?.id}`)}
                     >
                       View Details
                     </Button>
