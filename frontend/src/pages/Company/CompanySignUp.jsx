@@ -161,23 +161,6 @@ export default function CompanySignUp() {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <TextValidator
-                    value={confirmPassword}
-                    onChange={(event) => setConfirmPassword(event.target.value)}
-                    fullWidth
-                    id="confirm-password"
-                    label="Confirm Password"
-                    type="password"
-                    variant="outlined"
-                    validators={["isPasswordMatch", "required"]}
-                    errorMessages={[
-                      "Password does not match",
-                      "This field is required",
-                    ]}
-                  />
-                  <div style={{ color: "red", textAlign: "left" }}>{error}</div>
-                </Grid>
               </Grid>
               <Button
                 fullWidth
