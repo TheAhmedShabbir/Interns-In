@@ -107,17 +107,6 @@ export default function Job() {
         >
           <div
             style={{
-              marginLeft: "auto",
-              marginRight: "auto",
-              marginTop: "30px",
-              marginBottom: "20px",
-            }}
-          >
-            <h2>Jobs</h2>
-          </div>
-
-          <div
-            style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",

@@ -238,7 +238,7 @@ export default function Forumtopic() {
               justifyContent: "space-evenly",
               flexDirection: "column",
               backgroundColor: "white",
-              boxShadow: "0px 0px 10px black",
+              boxShadow: "0 0 10px #ccc",
               margin: "50px",
               paddingBottom: "10px",
               borderRadius: "8px",
@@ -259,6 +259,7 @@ export default function Forumtopic() {
                   paddingLeft: "20px",
                   backgroundColor: "#2563eb",
                   color: "white",
+                  borderRadius: "8px",
                 }}
               >
                 <h2>{forumTopic?.TopicTitle}</h2>
@@ -277,8 +278,9 @@ export default function Forumtopic() {
                   style={{
                     color: "white",
                     backgroundColor: "#2563eb",
-                    boxShadow: "0px 0px 5px black",
+                    boxShadow: "0 0 10px #ccc",
                   }}
+                  // color="primary"
                   onClick={handleOpen}
                 >
                   Add Post
@@ -406,14 +408,14 @@ export default function Forumtopic() {
               display: "flex",
               flexDirection: "column",
               minHeight: "200px",
-              backgroundColor: "#2563eb",
+              // backgroundColor: "#2563eb",
 
               margin: "50px",
               // border: "2px solid #548CCB",
               borderRadius: "10px",
             }}
           >
-            <div style={{ color: "white" }}>
+            <div>
               <h2>Posts</h2>
             </div>
 

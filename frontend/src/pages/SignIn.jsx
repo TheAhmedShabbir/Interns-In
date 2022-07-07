@@ -168,7 +168,7 @@ export default function SignIn() {
             </ValidatorForm>
             <Grid container>
               <Grid item sx={{ marginRight: 9 }}>
-                <Link href="#" variant="body2">
+                <Link href="/forgetpassword" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>

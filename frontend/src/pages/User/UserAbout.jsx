@@ -64,6 +64,7 @@ export default function UserAbout() {
   const [Degree, setDegree] = useState("");
   const [Institute, setInstitute] = useState("");
   const [Duration, setDuration] = useState("");
+  const [DurationOne, setDurationOne] = useState("");
 
   // / Get User ID
   const getUser = async () => {
@@ -93,6 +94,7 @@ export default function UserAbout() {
       Degree_Name: Degree,
       Institute_name: Institute,
       Duration: Duration,
+      Duratiion: DurationOne,
       User_Email: user?.email,
     });
   };
@@ -439,7 +441,9 @@ export default function UserAbout() {
                         >
                           {item.Degree_Name}
                         </Typography>
-                        <Typography>{item.Duration}</Typography>
+                        <Typography>
+                          {item.Duration + " - " + item.DurationOne}
+                        </Typography>
                       </div>
                       <div
                         style={{
@@ -581,14 +585,6 @@ export default function UserAbout() {
                 setDuration2(event.target.value);
               }}
             />
-            <TextField
-              style={{ marginBottom: "10px" }}
-              fullWidth
-              label="Certified"
-              onChange={(event) => {
-                setCertified(event.target.value);
-              }}
-            />
 
             <Button onClick={postExp}>Add</Button>
             <Button onClick={handleClose1}>Cancel</Button>
@@ -603,7 +599,6 @@ export default function UserAbout() {
           company={editExperience.Company_Name}
           position={editExperience.Position}
           duration={editExperience.Duration}
-          certified={editExperience.Certified}
         />
 
         <Modal open={open} onClose={handleClose}>
@@ -637,14 +632,25 @@ export default function UserAbout() {
                 setInstitute(event.target.value);
               }}
             />
-            <TextField
-              style={{ marginBottom: "10px" }}
-              fullWidth
-              label="Duration"
-              onChange={(event) => {
-                setDuration(event.target.value);
-              }}
-            />
+            <div>
+              <h3>Duration</h3>
+              <TextField
+                style={{ marginBottom: "10px" }}
+                fullWidth
+                onChange={(event) => {
+                  setDuration(event.target.value);
+                }}
+                type="date"
+              />
+              <TextField
+                style={{ marginBottom: "10px" }}
+                fullWidth
+                onChange={(event) => {
+                  setDurationOne(event.target.value);
+                }}
+                type="date"
+              />
+            </div>
 
             <Button onClick={() => postEducation(userProfile.id)}>Add</Button>
             <Button onClick={handleClose}>Cancel</Button>
@@ -659,6 +665,7 @@ export default function UserAbout() {
           degree={editEducation.Degree_Name}
           Institute={editEducation.Institute_name}
           duration={editEducation.Duration}
+          durationOne={editEducation.DurationOne}
         />
         <Modal open={open3} onClose={handleClose3}>
           <Box

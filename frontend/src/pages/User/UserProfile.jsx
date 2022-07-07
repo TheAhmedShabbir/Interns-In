@@ -76,11 +76,11 @@ export default function UserProfile() {
     handleOpen2();
   };
   // Profile pic modal -----------------------------------------------------------------------------------------------------------------------
-  const [open3, setOpen3] = React.useState(false);
+  const [open3, setOpen3] = useState(false);
   const handleOpen3 = () => setOpen3(true);
   const handleClose3 = () => setOpen3(false);
   // Update Modal------------------------------------------------------------------------------------------------------------------------------
-  const [open2, setOpen2] = React.useState(false);
+  const [open2, setOpen2] = useState(false);
   const handleOpen2 = () => setOpen2(true);
   const handleClose2 = () => setOpen2(false);
 
@@ -136,7 +136,7 @@ export default function UserProfile() {
                 <div key={key}>
                   <div
                     style={{
-                      marginTop: "10vh",
+                      marginTop: "40px",
                     }}
                   >
                     {item?.Pfp ? (
@@ -254,7 +254,7 @@ export default function UserProfile() {
                               paddingRight: "70px",
                             }}
                           >
-                            <h2>Username</h2>
+                            <h2>Name</h2>
                             <Button
                               size="small"
                               onClick={() => updateProf(key)}

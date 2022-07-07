@@ -681,11 +681,10 @@ export default function CompanyHomePage() {
                         fontSize: "small",
                       }}
                     >
-                      {job.Type} {"— "}
+                      {job.Type + " Time"} {"— "}
                       {job.Mode}
                     </Typography>
                     <div>
-                      <h2 style={{ color: "green" }}> {job.Salary} pkr</h2>
                       <Button
                         style={{ margin: "10px" }}
                         variant="contained"

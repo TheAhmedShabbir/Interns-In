@@ -26,12 +26,13 @@ const Alert = forwardRef(function Alert(props, ref) {
 export default function PostJob() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
-  const [startDate, setStartDate] = useState(null);
+  // const [startDate, setStartDate] = useState(null);
   const [jobTitle, setJobTitle] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [jobType, setJobType] = useState("");
   const [mode, setMode] = useState("");
-  const [salary, setSalary] = useState(5000);
+  const [modeOne, setModeOne] = useState("");
+  const [salary, setSalary] = useState(25000);
   const [city, setCity] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [companyId, setCompanyId] = useState("");
@@ -117,7 +118,6 @@ export default function PostJob() {
             >
               <Grid item>
                 <TextValidator
-                  required
                   autoComplete="given-name"
                   name="companyname"
                   validators={["required"]}
@@ -134,7 +134,6 @@ export default function PostJob() {
               </Grid>
               <Grid item>
                 <TextValidator
-                  required
                   validators={["required"]}
                   errorMessages={["This field is required"]}
                   label="Job Description"
@@ -229,8 +228,7 @@ export default function PostJob() {
               <h4>Set Location</h4>
               <Grid item xs={12}>
                 <TextValidator
-                  required
-                  label="City Name"
+                  label="City"
                   errorMessages={["This field is required"]}
                   value={city}
                   onChange={(event) => {

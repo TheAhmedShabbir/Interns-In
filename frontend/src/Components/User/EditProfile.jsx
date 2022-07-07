@@ -15,8 +15,8 @@ export default function ProfEdit({
 }) {
   const [newFirstName, setNewFirstName] = useState();
   const [newScndName, setNewScndName] = useState();
-  const [newEmail, setNewEmail] = useState();
-  const [newPassword, setNewPassword] = useState();
+  // const [newEmail, setNewEmail] = useState();
+  // const [newPassword, setNewPassword] = useState();
 
   const updateFName = async (id, nFName) => {
     if (nFName == undefined) {
@@ -36,29 +36,29 @@ export default function ProfEdit({
     updateDoc(UserCollection, nf);
   };
 
-  const updateEmail = async (id, nEmail) => {
-    if (nEmail == undefined) {
-      nEmail = email;
-    }
-    const UserCollection = doc(db, "UserProfile", id);
-    const nf = { Email: nEmail };
-    updateDoc(UserCollection, nf);
-  };
+  // const updateEmail = async (id, nEmail) => {
+  //   if (nEmail == undefined) {
+  //     nEmail = email;
+  //   }
+  //   const UserCollection = doc(db, "UserProfile", id);
+  //   const nf = { Email: nEmail };
+  //   updateDoc(UserCollection, nf);
+  // };
 
-  const updatePassword = async (id, nPass) => {
-    if (nPass == undefined) {
-      nPass = password;
-    }
-    const UserCollection = doc(db, "UserProfile", id);
-    const nf = { Password: nPass };
-    updateDoc(UserCollection, nf);
-  };
+  // const updatePassword = async (id, nPass) => {
+  //   if (nPass == undefined) {
+  //     nPass = password;
+  //   }
+  //   const UserCollection = doc(db, "UserProfile", id);
+  //   const nf = { Password: nPass };
+  //   updateDoc(UserCollection, nf);
+  // };
 
   const editProf = async () => {
     updateFName(id, newFirstName);
     updateSName(id, newScndName);
-    updateEmail(id, newEmail);
-    updatePassword(id, newPassword);
+    // updateEmail(id, newEmail);
+    // updatePassword(id, newPassword);
   };
 
   return (
@@ -68,14 +68,14 @@ export default function ProfEdit({
         <Box
           sx={{
             position: "absolute",
-            top: "80%",
+            top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: 400,
             bgcolor: "background.paper",
-            border: "2px solid #548CCB",
             boxShadow: 24,
             p: 4,
+            borderRadius: "8px",
           }}
         >
           {/* <Form> */}
@@ -92,19 +92,22 @@ export default function ProfEdit({
               label="First Name"
               defaultValue={first_name}
               onChange={(e) => setNewFirstName(e.target.value)}
+              sx={{ marginTop: "10px" }}
             />
             <TextField
               fullWidth
               label="Last Name"
               defaultValue={second_name}
               onChange={(e) => setNewScndName(e.target.value)}
+              sx={{ marginTop: "10px" }}
             />
-            <TextField
+            {/* <TextField
               fullWidth
               label="Email"
               defaultValue={email}
               onChange={(e) => setNewEmail(e.target.value)}
-            />
+              sx={{ marginTop: "10px" }}
+            /> */}
             {/* <TextField
             fullWidth
             label="Enter password to save changes"
@@ -118,8 +121,13 @@ export default function ProfEdit({
             onChange={(e) => setNewPassword(e.target.value)}
           /> */}
           </div>
-          <Button onClick={close}>Cancel</Button>
-          <Button onClick={() => editProf()}>Update</Button>
+
+          <Button sx={{ marginTop: "10px" }} onClick={() => editProf()}>
+            Update
+          </Button>
+          <Button sx={{ marginTop: "10px" }} onClick={close}>
+            Close
+          </Button>
           {/* </Form> */}
         </Box>
       </Modal>

@@ -178,7 +178,7 @@ export default function Forums() {
                 minWidth: "750px",
                 backgroundColor: "white",
                 borderRadius: "10px",
-                boxShadow: "0 0 10px black",
+                boxShadow: "0 0 10px #ccc",
               }}
             >
               <h3>Start a new Topic</h3>
@@ -283,13 +283,14 @@ export default function Forums() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                marginTop: "50px",
+                justifyContent: "center",
+                marginTop: "35px",
                 padding: "15px",
-                height: "300px",
-                // minWidth: "750px",
+                height: "400px",
+                width: "300px",
                 backgroundColor: "white",
                 borderRadius: "10px",
-                boxShadow: "0 0 10px black",
+                boxShadow: "0 0 10px #ccc",
               }}
             >
               <h3>Show only</h3>
@@ -385,7 +386,7 @@ export default function Forums() {
                     width: "300px",
                     borderRadius: "10px",
                     margin: "8px",
-                    boxShadow: "0 0 10px black",
+                    boxShadow: "0 0 10px #ccc",
                   }}
                   key={key}
                 >
@@ -479,7 +480,7 @@ export default function Forums() {
                       href={`/ForumTopic/${forum?.id}`}
                       style={{
                         margin: "15px",
-                        backgroundColor: "#333D79FF",
+
                         color: "white",
                         // boxShadow: "0 0 5px black",
                       }}

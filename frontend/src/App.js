@@ -6,6 +6,7 @@ import CompanySignUp from "./pages/Company/CompanySignUp";
 import Shortlisted from "./pages/Company/Shortlisted";
 import AdminProfile from "./pages/Admin/AdminProfile";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
+import ForgetPassword from "./pages/ForgetPassword";
 import UserAbout from "./pages/User/UserAbout";
 import UserProfile from "./pages/User/UserProfile";
 import CompanyProfile from "./pages/Company/CompanyProfile";
@@ -166,6 +167,7 @@ export default function App() {
               </AuthorizedRoute>
             }
           ></Route>
+          <Route exact path="/forgetpassword" element={<ForgetPassword />} />
           <Route
             path="/ForumTopic/:id"
             element={
