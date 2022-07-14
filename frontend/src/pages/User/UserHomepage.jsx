@@ -24,6 +24,7 @@ import MuiAlert from "@mui/material/Alert";
 import { forwardRef } from "react";
 import SavedJobs from "./SavedJobs";
 import VideocamIcon from "@mui/icons-material/Videocam";
+import CallCodeModal from "./CallCode.Modal";
 import "../Company/index.css";
 import {
   collection,
@@ -124,6 +125,8 @@ function Videos({ mode, callId, setPage }) {
           addDoc(offerCandidates, event.candidate.toJSON());
         }
       };
+
+  
 
       const offerDescription = await pc.createOffer();
       await pc.setLocalDescription(offerDescription);
@@ -355,6 +358,10 @@ export default function UserHomepage() {
   //VideoCall
   const [currentPage, setCurrentPage] = useState("home");
   const [joinCode, setJoinCode] = useState("");
+
+  const [Mopen, setMOpen] = React.useState(false);
+  const handleMOpen = () => setMOpen(true);
+  const handleMClose = () => setMOpen(false);
 
   const handleSearchResult = () => {
     setSearchResult(true);
@@ -753,9 +760,11 @@ export default function UserHomepage() {
                 boxShadow: "0 0 10px #ccc",
               }}
             >
-              <div style={{ display: "flex", flexDirection: "row" }}>
+              <div style={{ display: "flex", flexDirection: "row", justifyContent : 'space-between' }}>
                 <h4>Video Conference</h4>
+                <Button style = {{color : 'white'}} onClick = {handleMOpen}>
                 <MessageIcon />
+                </Button>
               </div>
 
               <div className="app">
@@ -1064,6 +1073,9 @@ export default function UserHomepage() {
                   );
                 })}
             </div>
+            <CallCodeModal
+            open = {Mopen}
+            />
             <Snackbar
               open={warningOpen}
               autoHideDuration={2000}

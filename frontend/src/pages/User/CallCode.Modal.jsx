@@ -13,13 +13,11 @@ import { forwardRef } from "react";
 import moment from "moment";
 
 
-export default function CallCodeModal({ open, close, User_ID }) {
+export default function CallCodeModal({ open, close }) {
 
   const CallCollection = collection(db, "CallCodes");
-  // const [U_ID, setU_ID] = useState("")
-  // () => {
-  //   setU_ID(User_ID)
-  // }
+  const [userinfo, setUserInfo] = useState({});
+  const [userCode, setCode] = useState([]);
 
   const getCodes = async () => {
     const data = query(CallCollection,where("ID", "==" ,U_ID), orderBy("Time", "desc"));
@@ -37,6 +35,18 @@ export default function CallCodeModal({ open, close, User_ID }) {
     // setForums(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+
+      if (user) {
+        getCodes();
+      }
+    });
+  }, [user]);
+
+  
   return (
     <div>
       {/* {console.log(email)} */}
@@ -53,38 +63,17 @@ export default function CallCodeModal({ open, close, User_ID }) {
             p: 4,
             width: "80vh",
           }}
-        >
+        >{userCode?.map((i,key)=> {
           <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <TextField
-              fullWidth
-              style={{ margin: "10px" }}
-              label="Call Code"
-                onChange={(e) => setCode(e.target.value)}
-            ></TextField>
-            <div>
-              <Button
-                sx={{ marginTop: "30px" }}
-                color="success"
-                variant="contained"
-                onClick={AddData}
-              >
-                send
-              </Button>
-              <Button
-                sx={{ marginTop: "30px", marginLeft: "20px" }}
-                variant="outlined"
-                onClick={close}
-              >
-                close
-              </Button>
-            </div>
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}key = {key}
+        ><p>{userCode?.CallCode}</p>
+          
           </div>
+        })}         
         </Box>
       </Modal>
     </div>
